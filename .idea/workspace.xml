@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="43ffcc16-78e0-4927-b91b-995bf051fae2" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_test.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Army/ArmyMaster.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Defense/DefenseMaster.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Defense/Sentry.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Defense/Sentry_BP.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Projectiles/Projectile_BP.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Meshes/Meshes/Buildings_Offense/Sentry/Tower1_Base.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Meshes/Meshes/Buildings_Offense/Sentry/Tower1_Gun.uasset" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/Entity_Struct.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Config/DefaultEngine.ini" afterPath="$PROJECT_DIR$/TD2020/Config/DefaultEngine.ini" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_file.py" afterPath="$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_file.py" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Characters/0_Base.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Characters/0_Base.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Characters/Conscript.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Characters/Conscript.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Characters/NPC_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Characters/NPC_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Decorators/D_IsAtLocation.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Decorators/D_IsAtLocation.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/NPC_AI_Controller_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/NPC_AI_Controller_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Services/S_AIState.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Services/S_AIState.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Services/S_JobTypeCheck.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Services/S_JobTypeCheck.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Tasks/T_AssignEmployeeJob.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Tasks/T_AssignEmployeeJob.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Tasks/T_EnterExitBuilding.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Tasks/T_EnterExitBuilding.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Tasks/T_MoveToLocation.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/AI/Tasks/T_MoveToLocation.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/BuildingMaster_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/BuildingMaster_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Commercial/CommercialMaster_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Commercial/CommercialMaster_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Commercial/ConstructionOffice_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Commercial/ConstructionOffice_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Construction/ConstructionManager_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Construction/ConstructionManager_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Construction/ConstructionProxy_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Construction/ConstructionProxy_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/GhostBuilding_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/GhostBuilding_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Industrial/IndustrialMaster_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Industrial/IndustrialMaster_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Industrial/MiningShack_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Industrial/MiningShack_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Residential/ApartmentSmall_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Residential/ApartmentSmall_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Residential/ResidentialMaster_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Residential/ResidentialMaster_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Residential/Shack_BP.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Buildings/Residential/Shack_BP.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/GM_LobbyGM.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/GM_LobbyGM.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/GS_MyGS.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/GS_MyGS.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/PC_GameplayPC.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/PC_GameplayPC.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/PC_LobbyPC.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/PC_LobbyPC.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/SG_MySaveGame.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Logics/SG_MySaveGame.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/MCTS/MCTS.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/MCTS/MCTS.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Resources/Resource_Granite.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Resources/Resource_Granite.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Units/Commanders/Pawn_AlienCommander.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Units/Commanders/Pawn_AlienCommander.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Units/Commanders/Pawn_HumanCommander.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Units/Commanders/Pawn_HumanCommander.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Units/Commanders/Pawn_MasterCommander.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Blueprints/Units/Commanders/Pawn_MasterCommander.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Maps/TD2020_StaticMeshes.umap" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Maps/TD2020_StaticMeshes.umap" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Maps/TDTestMap.umap" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Maps/TDTestMap.umap" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Maps/TDTestMap_BuiltData.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Maps/TDTestMap_BuiltData.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/Building_STRUCT_02.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/Building_STRUCT_02.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/Construction_Struct_02.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/Construction_Struct_02.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/NPCProfile_Struct_02.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/NPCProfile_Struct_02.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/PlayerInfo.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/PlayerInfo.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/Resources_Struct_02.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Other/Structs/Resources_Struct_02.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_Building.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_Building.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_HealthBar.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_HealthBar.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_NPC.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_NPC.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_Proxy.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_Proxy.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_Selection.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/HUDs/WB_Selection.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/ConnectedPlayer.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/ConnectedPlayer.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/GameSettings.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/GameSettings.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/LobbyMenu.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/LobbyMenu.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/PlayerButton.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/Lobby/PlayerButton.uasset" />
+      <change beforePath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/MainMenu/WB_Main_PlayerOptions.uasset" afterPath="$PROJECT_DIR$/TD2020/Content/TD2020/Widgets/MainMenu/WB_Main_PlayerOptions.uasset" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="MCTS_file.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_file.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="619">
+              <caret line="146" column="38" lean-forward="false" selection-start-line="146" selection-start-column="38" selection-end-line="146" selection-end-column="38" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MCTS_test.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="663">
+              <caret line="126" column="104" lean-forward="true" selection-start-line="126" selection-start-column="104" selection-end-line="126" selection-end-column="104" />
+              <folding>
+                <element signature="e#22#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>unreal_engine</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/TD2020" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_file.py" />
+        <option value="$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_test.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="855" />
+    <option name="y" value="153" />
+    <option name="width" value="1400" />
+    <option name="height" value="980" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Content" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Content" type="462c0819:PsiDirectoryNode" />
+              <item name="Scripts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Intermediate" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Intermediate" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Intermediate" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+              <item name="Win64" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Intermediate" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+              <item name="Win64" type="462c0819:PsiDirectoryNode" />
+              <item name="UE4Editor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Intermediate" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+              <item name="Win64" type="462c0819:PsiDirectoryNode" />
+              <item name="UE4Editor" type="462c0819:PsiDirectoryNode" />
+              <item name="Inc" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Intermediate" type="462c0819:PsiDirectoryNode" />
+              <item name="Build" type="462c0819:PsiDirectoryNode" />
+              <item name="Win64" type="462c0819:PsiDirectoryNode" />
+              <item name="UE4Editor" type="462c0819:PsiDirectoryNode" />
+              <item name="Inc" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="10_12_2017 23-31 - current project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="10_12_2017 23-31 - current project" type="462c0819:PsiDirectoryNode" />
+              <item name="TD2020" type="462c0819:PsiDirectoryNode" />
+              <item name="Plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="UnrealEnginePython" type="462c0819:PsiDirectoryNode" />
+              <item name="Source" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43ffcc16-78e0-4927-b91b-995bf051fae2" name="Default" comment="" />
+      <created>1513625868814</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1513625868814</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="2576" height="1426" extended-state="6" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977912" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="146" column="38" lean-forward="false" selection-start-line="146" selection-start-column="38" selection-end-line="146" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TD2020/Content/Scripts/MCTS_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="126" column="104" lean-forward="true" selection-start-line="126" selection-start-column="104" selection-end-line="126" selection-end-column="104" />
+          <folding>
+            <element signature="e#22#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
