@@ -1,6 +1,7 @@
 // No copyright - copy as you please
 
 #pragma once
+#include "Engine.h"
 #include "MySkySphere.generated.h"
 
 class USceneComponent;
@@ -10,7 +11,7 @@ class UMaterialInstanceDynamic;
 class ADirectionalLight;
 class UCurveLinearColor;
 class UMaterial;
-
+class AActor;
 UCLASS()
 class TD2020_API AMySkySphere : public AActor
 {
@@ -107,6 +108,8 @@ public:
 
 	// Sets default values for this actor's properties
 	AMySkySphere();
+
+	AMySkySphere(const FObjectInitializer & ObjectInitializer);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -15,9 +15,9 @@
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
-AMySkySphere::AMySkySphere()
+AMySkySphere::AMySkySphere(const FObjectInitializer& ObjectInitializer)
 {
-
+	
 	// Our root component will be a scene
 	Scene = CreateDefaultSubobject<USceneComponent>(TEXT("Base"));
 	RootComponent = Scene;
@@ -52,6 +52,8 @@ AMySkySphere::AMySkySphere()
 	ZenithColorCurve = ZenithColorCurve_Helper.Object;
 	CloudColorCurve = CloudColorCurve_Helper.Object;
 	Valid = false;
+
+	
 }
 
 
@@ -74,6 +76,7 @@ void AMySkySphere::Tick(float DeltaTime)
 
 void AMySkySphere::OnConstruction(const FTransform& Transform) {
 
+	
 	//Updating bool in details panel causes construction script to run again
 	RefreshMaterial = false;
 
@@ -88,7 +91,7 @@ void AMySkySphere::OnConstruction(const FTransform& Transform) {
 		SunHeight = UKismetMathLibrary::MapRangeUnclamped(DirectionalLightActor->GetActorRotation().Pitch, 0.0f, -18.0f, 0.0f, 1.0f);
 	}
 	else {
-		SkyMaterialInstance->SetVectorParameterValue("Light direction", FLinearColor(UKismetMathLibrary::Conv_RotatorToVector(UKismetMathLibrary::MakeRotator(0.0f, UKismetMathLibrary::MapRangeUnclamped(SunHeight, -1.0f, 1.0f, 90.0f, -90.0f), DirectionalLightActor->GetActorRotation().Yaw))));
+		//SkyMaterialInstance->SetVectorParameterValue("Light direction", FLinearColor(UKismetMathLibrary::Conv_RotatorToVector(UKismetMathLibrary::MakeRotator(0.0f, UKismetMathLibrary::MapRangeUnclamped(SunHeight, -1.0f, 1.0f, 90.0f, -90.0f), DirectionalLightActor->GetActorRotation().Yaw))));
 		SkyMaterialInstance->SetVectorParameterValue("Sun color", UKismetMathLibrary::LinearColorLerp(FLinearColor(1.0f, 0.221f, 0.04f, 1.0f), FLinearColor(1.0f, 0.9f, 0.744f, 1.0f), UKismetMathLibrary::FClamp(SunHeight + 0.2f, 0.0f, 1.0f)));
 	}
 
@@ -115,6 +118,7 @@ void AMySkySphere::OnConstruction(const FTransform& Transform) {
 
 	// Check if everything is ok
 	Valid = Validate();
+	
 }
 
 bool AMySkySphere::Validate()

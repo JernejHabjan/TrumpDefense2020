@@ -1,6 +1,7 @@
 // No copyright - copy as you please
 
 #pragma once
+#include "Engine.h"
 #include "DayNightCycle.generated.h"
 
 class ADirectionalLight;

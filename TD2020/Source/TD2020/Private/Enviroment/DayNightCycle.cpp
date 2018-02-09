@@ -10,7 +10,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/DirectionalLight.h"
-#include "Engine.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/Material.h"
@@ -251,14 +250,14 @@ void ADayNightCycle::Tick(float DeltaTime)
 	// SETTING TIME UNIT
 	
 	// TODO-------------------------------------------------------------------------------------------------- TODO SET TIME UNIT FROM GAME STATE REFERENCE
-	/*
-	if (GameStateRef == nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "INVALID DAY GameStateRef - EXITING...");
-		return;
-	}
+	
+	//if (GameStateRef == nullptr) {
+	//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "INVALID DAY GameStateRef - EXITING...");
+	//	return;
+	//}
 	//Set through output
-	GameStateRef->GetCurrentTimeUnit(TimeUnit);
-	*/
+	//GameStateRef->GetCurrentTimeUnit(TimeUnit);
+	
 
 
 	SunDrive += DeltaTime / TimeUnit;
