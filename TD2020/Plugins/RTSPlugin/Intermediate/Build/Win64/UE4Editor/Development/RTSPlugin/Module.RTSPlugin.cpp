@@ -19,7 +19,6 @@
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSGameState.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSGatherData.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSGathererComponent.cpp"
-#include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSHealthComponent.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSHUD.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSMinimapVolume.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSMinimapWidget.cpp"

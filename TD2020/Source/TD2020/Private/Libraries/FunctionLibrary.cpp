@@ -9,7 +9,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetArrayLibrary.h"
-#include "Kismet/BlueprintFunctionLibrary.h"
+#include "Components/StaticMeshComponent.h"
 #include "Kismet/KismetStringLibrary.h"
 #include "Components/BoxComponent.h"
 #include "Engine/World.h"
@@ -166,7 +166,7 @@ void UFunctionLibrary::SetBuildingEntrance(USceneComponent * Entrance, const USt
 {
 	//Variables
 	//distance from how far up front entrance is going to be - dont make it too close to building for NPC to enter
-	float EntranceDistance = 150.0f;
+	float EntranceDistance = 0.0f;
 
 	FVector Min, Max;
 	Mesh->GetLocalBounds(Min, Max);

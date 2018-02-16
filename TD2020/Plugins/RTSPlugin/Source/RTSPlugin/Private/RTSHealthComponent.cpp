@@ -1,6 +1,8 @@
 #include "RTSPluginPCH.h"
 #include "RTSHealthComponent.h"
-
+#include "RTSGameMode.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -24,11 +26,13 @@ float URTSHealthComponent::TakeDamage(float Damage, struct FDamageEvent const& D
 	CurrentHealth -= Damage;
 	float NewHealth = CurrentHealth;
 
+	/*
 	UE_LOG(LogRTS, Log, TEXT("Actor %s has taken %f damage from %s, reducing health to %f."),
 		*GetOwner()->GetName(),
 		Damage,
 		*DamageCauser->GetName(),
 		CurrentHealth);
+	*/
 
 	// Notify listeners.
 	OnHealthChanged.Broadcast(OldHealth, NewHealth, DamageCauser);

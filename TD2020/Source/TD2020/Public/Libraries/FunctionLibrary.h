@@ -2,7 +2,8 @@
 
 #pragma once
 
-
+#include "CoreMinimal.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "FunctionLibrary.generated.h"
 
 class ACameraPawnController;
