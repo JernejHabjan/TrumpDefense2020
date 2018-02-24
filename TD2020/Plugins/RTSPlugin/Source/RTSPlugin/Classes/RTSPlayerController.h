@@ -3,7 +3,7 @@
 #include "RTSPluginPCH.h"
 
 #include "GameFramework/PlayerController.h"
-
+#include "RTSResourceType.h"
 #include "RTSPlayerController.generated.h"
 
 
@@ -14,7 +14,7 @@ class ARTSCameraBoundsVolume;
 class URTSPlayerAdvantageComponent;
 class URTSPlayerResourcesComponent;
 class ARTSPlayerState;
-class URTSResourceType;
+
 class ARTSTeamInfo;
 class ARTSVisionInfo;
 

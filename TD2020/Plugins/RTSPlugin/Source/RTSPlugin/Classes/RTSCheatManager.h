@@ -3,11 +3,10 @@
 #include "RTSPluginPCH.h"
 
 #include "GameFramework/CheatManager.h"
-
+#include "RTSResourceType.h"
 #include "RTSCheatManager.generated.h"
 
 
-class URTSResourceType;
 
 
 UCLASS(Blueprintable, Within = PlayerController)

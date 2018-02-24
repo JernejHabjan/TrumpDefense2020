@@ -1,11 +1,10 @@
 #pragma once
 
 #include "RTSPluginPCH.h"
-
+#include "RTSResourceType.h"
 #include "RTSGatherData.generated.h"
 
 
-class URTSResourceType;
 
 
 USTRUCT(BlueprintType)

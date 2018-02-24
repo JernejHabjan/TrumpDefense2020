@@ -1547,7 +1547,7 @@ void ARTSPlayerController::NotifyOnMinimapClicked(const FPointerEvent& InMouseEv
 void ARTSPlayerController::PlayerTick(float DeltaTime)
 {
     Super::PlayerTick(DeltaTime);
-
+	/*
     APawn* PlayerPawn = GetPawn();
 
     if (!PlayerPawn)
@@ -1646,4 +1646,5 @@ void ARTSPlayerController::PlayerTick(float DeltaTime)
 
 	// Verify selection.
 	SelectedActors.RemoveAll([=](AActor* SelectedActor) { return SelectedActor->bHidden; });
+	*/
 }

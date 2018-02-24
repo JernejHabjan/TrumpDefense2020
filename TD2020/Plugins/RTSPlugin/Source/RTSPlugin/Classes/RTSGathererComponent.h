@@ -5,12 +5,12 @@
 #include "Components/ActorComponent.h"
 
 #include "RTSGatherData.h"
-
+#include "RTSResourceType.h"
 #include "RTSGathererComponent.generated.h"
 
 
 class AActor;
-class URTSResourceType;
+
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRTSGathererComponentResourcesGatheredSignature, AActor*, ResourceSource, const FRTSGatherData&, GatherData, float, GatheredAmount);

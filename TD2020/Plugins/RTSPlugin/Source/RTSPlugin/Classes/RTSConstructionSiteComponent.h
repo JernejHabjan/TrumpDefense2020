@@ -6,11 +6,11 @@
 
 #include "RTSConstructionState.h"
 #include "RTSProductionCostType.h"
-
+#include "RTSResourceType.h"
 #include "RTSConstructionSiteComponent.generated.h"
 
 
-class URTSResourceType;
+
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRTSConstructionSiteComponentConstructionStartedSignature, float, TotalConstructionTime);

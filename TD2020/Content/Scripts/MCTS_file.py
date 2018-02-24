@@ -137,32 +137,13 @@ def BACKUP(node, reward):
         node = node.parent
     return
 
-
-ue.log('Hello i am a Python module')
-ue.log('Begin Play on MCTS class')
-lvl = 5
-sims = 5000
-current_node = Node(State())
-for l in range(lvl):
-    current_node = UCTSEARCH(sims / (l + 1), current_node)
-    print("level %d" % l)
-    print("Num Children: %d" % len(current_node.children))
-    for i, c in enumerate(current_node.children):
-        print(i, c)
-    print("Best Child: %s" % current_node.state)
-
-    print("--------------------------------")
-    ue.log(("Best Child: %s" % current_node.state))
-
-
 class MCTS11:
 
     # this is called on game start
     def begin_play(self):
         ue.log('Begin Play on MCTS class')
-
-    # this is called at every 'tick'    
-    def tick(self, delta_time):
+        
+    def blaMethod(self):
         lvl = 1
         sims = 5000
         current_node = Node(State())
@@ -173,6 +154,11 @@ class MCTS11:
             for i, c in enumerate(current_node.children):
                 print(i, c)
             print("Best Child: %s" % current_node.state)
-
+        
             print("--------------------------------")
             ue.log(("Best Child: %s" % current_node.state))
+            # this is called at every 'tick'    
+            self.uobject.bla = 1
+            print(self.uobject.bla)
+    def tick(self, delta_time):
+	   

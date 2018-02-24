@@ -13,7 +13,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define RTSPLUGIN_RTSCheatManager_generated_h
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_RPC_WRAPPERS \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execVictory) \
 	{ \
@@ -48,7 +48,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	}
 
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execVictory) \
 	{ \
@@ -83,7 +83,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	}
 
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_INCLASS_NO_PURE_DECLS \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesURTSCheatManager(); \
 	friend RTSPLUGIN_API class UClass* Z_Construct_UClass_URTSCheatManager(); \
@@ -93,7 +93,7 @@ public: \
 	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};
 
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_INCLASS \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_INCLASS \
 private: \
 	static void StaticRegisterNativesURTSCheatManager(); \
 	friend RTSPLUGIN_API class UClass* Z_Construct_UClass_URTSCheatManager(); \
@@ -103,7 +103,7 @@ public: \
 	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};
 
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_STANDARD_CONSTRUCTORS \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API URTSCheatManager(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(URTSCheatManager) \
@@ -116,7 +116,7 @@ private: \
 public:
 
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_ENHANCED_CONSTRUCTORS \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API URTSCheatManager(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { }; \
 private: \
@@ -129,26 +129,26 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(URTSCheatManager); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(URTSCheatManager)
 
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_PRIVATE_PROPERTY_OFFSET
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_13_PROLOG
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_GENERATED_BODY_LEGACY \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_PRIVATE_PROPERTY_OFFSET
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_12_PROLOG
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_PRIVATE_PROPERTY_OFFSET \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_RPC_WRAPPERS \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_INCLASS \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_STANDARD_CONSTRUCTORS \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_PRIVATE_PROPERTY_OFFSET \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_RPC_WRAPPERS \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_INCLASS \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_GENERATED_BODY \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_PRIVATE_PROPERTY_OFFSET \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_INCLASS_NO_PURE_DECLS \
-	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_16_ENHANCED_CONSTRUCTORS \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_PRIVATE_PROPERTY_OFFSET \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_INCLASS_NO_PURE_DECLS \
+	TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSCheatManager_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

@@ -13,7 +13,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define RTSPLUGIN_RTSGatherData_generated_h
 
-#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSGatherData_h_14_GENERATED_BODY \
+#define TD2020_Plugins_RTSPlugin_Source_RTSPlugin_Classes_RTSGatherData_h_13_GENERATED_BODY \
 	friend RTSPLUGIN_API class UScriptStruct* Z_Construct_UScriptStruct_FRTSGatherData(); \
 	static class UScriptStruct* StaticStruct();
 

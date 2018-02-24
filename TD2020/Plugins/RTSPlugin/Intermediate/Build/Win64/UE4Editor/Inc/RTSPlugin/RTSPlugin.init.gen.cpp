@@ -84,8 +84,8 @@ void EmptyLinkFunctionForGeneratedCodeRTSPlugin_init() {}
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/RTSPlugin",
 				PKG_CompiledIn | 0x00000000,
-				0x57B46A3B,
-				0x5D333AB5,
+				0x1719CA26,
+				0x70FB66A1,
 				SingletonFuncArray, ARRAY_COUNT(SingletonFuncArray),
 				METADATA_PARAMS(nullptr, 0)
 			};
