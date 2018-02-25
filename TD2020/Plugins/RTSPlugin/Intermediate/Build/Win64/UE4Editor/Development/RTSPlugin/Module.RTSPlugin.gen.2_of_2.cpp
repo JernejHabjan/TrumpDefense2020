@@ -2,6 +2,7 @@
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Intermediate\Build\Win64\UE4Editor\Inc\RTSPlugin\RTSPlayerResourcesComponent.gen.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Intermediate\Build\Win64\UE4Editor\Inc\RTSPlugin\RTSPlayerStart.gen.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Intermediate\Build\Win64\UE4Editor\Inc\RTSPlugin\RTSPlayerState.gen.cpp"
+#include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Intermediate\Build\Win64\UE4Editor\Inc\RTSPlugin\RTSPlugin.init.gen.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Intermediate\Build\Win64\UE4Editor\Inc\RTSPlugin\RTSPortraitComponent.gen.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Intermediate\Build\Win64\UE4Editor\Inc\RTSPlugin\RTSProductionComponent.gen.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Intermediate\Build\Win64\UE4Editor\Inc\RTSPlugin\RTSProductionCostComponent.gen.cpp"

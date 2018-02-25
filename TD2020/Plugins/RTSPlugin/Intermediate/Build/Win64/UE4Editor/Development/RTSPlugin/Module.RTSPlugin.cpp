@@ -27,6 +27,7 @@
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSOwnerComponent.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSPlayerAdvantageComponent.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSPlayerAIController.cpp"
+#include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSPlayerController.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSPlayerResourcesComponent.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSPlayerState.cpp"
 #include "C:\Users\jerne\Desktop\TrumpDefense2020\TD2020\Plugins\RTSPlugin\Source\RTSPlugin\Private\RTSPlugin.cpp"
