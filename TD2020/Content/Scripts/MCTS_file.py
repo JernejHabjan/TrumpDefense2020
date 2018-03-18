@@ -152,7 +152,7 @@ class MCTS12:
 
 	def d1(self):
 		lvl = 1
-		sims = 10000
+		sims = 5000
 		current_node = Node(State())
 		for l in range(lvl):
 			current_node = UCTSEARCH(sims / (l + 1), current_node)

@@ -220,5 +220,8 @@
 			"Name": "AudioCapture",
 			"Enabled": false
 		}
+	],
+	"TargetPlatforms": [
+		"WindowsNoEditor"
 	]
 }

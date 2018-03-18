@@ -1,0 +1,122 @@
+object channečl - MapBoundary - da ne gre kamera izven
+
+
+v player statu računamo score in kar se bo prikazalo nakoncu matcha
+
+master commander - camera
+	- unchecked DoCollisionTest
+	
+	
+map boundary ne dela - 1h 16
+
+
+AI ne dela na dedicated serverju
+
+lag za camera movement na dedicated serverju?
+fix pan for min and max
+
+
+/////////////////////////////// BUILDING PLACEMENT
+
+3:0:0 DO ONCE ?
+i have it in construction proxy (atleast that function)
+
+
+gold calculating - counter:
+   3h 22min
+   
+4h10 min - WIDGETS 
+USTOV PR 4h20
+e
+
+todo -v mygamestate imam addbuildingto game - to je treba dat server- client
+
+
+
+spawn buildings - da ma usak svoj nexus ? ampak to v svojmu spacu?
+	---- DODA SE BUILDING V SVOJ GAME STATE
+	
+	
+	
+V GAME MODE BP NARED SPAWN BUILDING PA SPAWN PROXY EVENTA IN TAM HANDLI USE
+
+
+
+
+camera lerp to building doesnt work on dedicated server... TODO
+
+
+
+5_20 --------- unit creation video - START OD SELECTION BOXA --- pred tem dela shift pa click da addaš v grupo etc
+
+
+Prvih pet minut v creating units razloži zka more bit replicated local commander v 0_base
+
+4h currently
+
+5h 16 currently
+5h 16 ---- gre še enkrat čez LMBHit - lah js počekiram če mi nav delal za enemy unitse
+
+8:06 - todo double right mouse click - tle sm ostov pr WB Conscrtipt buttonu
+
+
+################# UNIT COMBAT #####################
+
+
+1h 48
+
+V master infantry mam variable moveList za sword --- ker pa še nimam animacij za sword pa za bow sta not krena animationa
+
+
+
+
+1h 55 - začne čist predelvat master unit etc...
+
+3h 33 - starts explaining BT quite nicely
+
+
+4h 11min 21 --- zdj bo naredu moveto samo z behavior treejem
+
+6h in---
+
+pawn noise emitter - za sense 
+
+6h 15 - nč se mi ne switchajo locationi - done
+
+
+6h 37 - začne eqs
+
+
+7 h 25 min currently at--- loopa un eqs !!!!!!!
+
+
+atm 8:54:21
+
+9:52 maybe problem
+
+
+10:21:30 - starts team fight
+
+11-35 - začne it čez collision boxe po parentih (mogoče že prej kšno minuto mogoče poznej)
+
+ostal sem pri 12-21 ---- dela bump move - prestavu ga je v behavior tree - naredu sm task za premaknt sam ne dela neki prov---- TODO --- pa še predelat morm un tadrug EQS query kj v drevesu ker un tud loopa
+
+
+
+14:00:00 - pred tem dela par minut - ene 5 dela physicse za shoot down up slope - WORKS NOW
+
+
+DONE unit combat
+
+
+################## fixing building placement ##############
+
+ https://www.youtube.com/watch?v=fOtbsPpjKwM
+  
+  
+done
+
+################# online lobby ###################  
+  
+
+7 min 30 - do tle ok - tle pol player info widget nardi
