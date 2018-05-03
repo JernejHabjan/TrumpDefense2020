@@ -19,3 +19,21 @@ Features:
 - Attacking
 - Unit control (control groups)
 - Support for online play
+
+#Content
+
+
+#Install Guide
+##install visual studio
+- instal "Windows 8.1 sdk"
+
+##install python 3.5 -- make sure its 64 bit if using 64 bit windows
+- installi ga v:
+- C:\Program Files\Python35 folder
+- ta folder naštimi tud v enviromental variables pod path
+
+##install unreal engine
+- install vaRest plugin for engine
+- install katan charts plugin for engine
+
+
