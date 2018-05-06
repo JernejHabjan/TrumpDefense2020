@@ -20,7 +20,7 @@ public class UnrealEnginePython : ModuleRules
     private string[] windowsKnownPaths =
     {
         "C:/Program Files/Python36",
-        "C:/Program Files/Python35",
+        //"C:/Program Files/Python35",
         "C:/Python27",
         "C:/IntelPython35"
     };

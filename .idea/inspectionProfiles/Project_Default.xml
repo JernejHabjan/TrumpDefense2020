@@ -8,5 +8,15 @@
         </list>
       </option>
     </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="games.TD2020.AbstractionBackup.MyActor.unit_production_component" />
+          <option value="games.TD2020.AbstractionBackup.GeneralActor.manage_hp" />
+          <option value="games.TD2020.AbstractionBackup.GeneralActor.*" />
+          <option value="games.TD2020.AbstractionBackup.MyActor.*" />
+        </list>
+      </option>
+    </inspection_tool>
   </profile>
 </component>
