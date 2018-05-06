@@ -1,0 +1,262 @@
+[
+	{
+		"Name": "NPC",
+		"ObjectName": "NPC",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Units/Icons_Units_NPC.Icons_Units_NPC'",
+		"Vision": 500,
+		"Health": 20,
+		"Description": "Unit that can build, gather, but cannot attack",
+		"ProductionTime": 1,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 20
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/AI/Characters/NPC_BP.NPC_BP_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 0,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 0,
+		"Shortcut": "Q",
+		"TechRequirements": [
+			"TownHall"
+		],
+		"Value": 50
+	},
+	{
+		"Name": "MeleInfantry",
+		"ObjectName": "MeleInfantry",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Units/Icons_Units_Swordsman.Icons_Units_Swordsman'",
+		"Vision": 700,
+		"Health": 50,
+		"Description": "Close range unit, that has high health",
+		"ProductionTime": 2,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 50
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/AI/Characters/MeleInfantry.MeleInfantry_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 0,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 0,
+		"Shortcut": "Q",
+		"TechRequirements": [
+			"Barracks"
+		],
+		"Value": 30
+	},
+	{
+		"Name": "RifleInfantry",
+		"ObjectName": "RifleInfantry",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Units/Icons_Units_Rifleman.Icons_Units_Rifleman'",
+		"Vision": 800,
+		"Health": 35,
+		"Description": "Long range unit with moderate attack speed",
+		"ProductionTime": 2,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 60
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/AI/Characters/RifleInfantry.RifleInfantry_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 0,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 0,
+		"Shortcut": "W",
+		"TechRequirements": [
+			"Barracks"
+		],
+		"Value": 30
+	},
+	{
+		"Name": "BowInfantry",
+		"ObjectName": "Default name",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Units/Icon_Units_Bowman.Icon_Units_Bowman'",
+		"Vision": 900,
+		"Health": 30,
+		"Description": "Ranged unit that inflicts moderate damage with high attack speed",
+		"ProductionTime": 2,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 60
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/AI/Characters/BowInfantry.BowInfantry_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 0,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 0,
+		"Shortcut": "E",
+		"TechRequirements": [
+			"Barracks"
+		],
+		"Value": 30
+	},
+	{
+		"Name": "TownHall",
+		"ObjectName": "TownHall",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Buildings/Icon_Building_TownHall.Icon_Building_TownHall'",
+		"Vision": 1000,
+		"Health": 400,
+		"Description": "Here you can create builders, house people, build buildings and return resources to",
+		"ProductionTime": 10,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 500
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Buildings/AllBuildings/TownHall.TownHall_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 10,
+		"MaxResidents": 10,
+		"MaxBuildAmount": 10,
+		"Shortcut": "Q",
+		"TechRequirements": [],
+		"Value": 500
+	},
+	{
+		"Name": "Shack",
+		"ObjectName": "Shack",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Buildings/Icon_Building_Shack.Icon_Building_Shack'",
+		"Vision": 500,
+		"Health": 100,
+		"Description": "Small building that houses few people",
+		"ProductionTime": 2,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 50
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Buildings/AllBuildings/Shack_BL.Shack_BL_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 0,
+		"MaxResidents": 2,
+		"MaxBuildAmount": 0,
+		"Shortcut": "P",
+		"TechRequirements": [],
+		"Value": 50
+	},
+	{
+		"Name": "ConstructionOffice",
+		"ObjectName": "ConstructionOffice",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Buildings/Icon_Building_ConstructionOffice.Icon_Building_ConstructionOffice'",
+		"Vision": 500,
+		"Health": 200,
+		"Description": "This is building that construction workers need to build",
+		"ProductionTime": 3,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 75
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Buildings/AllBuildings/ConstructionOffice_BP.ConstructionOffice_BP_C'",
+		"OccupationType": "Construction",
+		"MaxEmployees": 10,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 0,
+		"Shortcut": "E",
+		"TechRequirements": [
+			"TownHall"
+		],
+		"Value": 200
+	},
+	{
+		"Name": "MiningShack",
+		"ObjectName": "MiningShack",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Buildings/Icon_Building_Mine.Icon_Building_Mine'",
+		"Vision": 500,
+		"Health": 150,
+		"Description": "In here can workers return resources",
+		"ProductionTime": 2,
+		"RefundFactor": 1,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 100
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Buildings/AllBuildings/MiningShack_BP.MiningShack_BP_C'",
+		"OccupationType": "Miner",
+		"MaxEmployees": 10,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 0,
+		"Shortcut": "A",
+		"TechRequirements": [
+			"ConstructionOffice"
+		],
+		"Value": 150
+	},
+	{
+		"Name": "Apartment",
+		"ObjectName": "Apartment",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Buildings/Icon_Building_Apartment.Icon_Building_Apartment'",
+		"Vision": 500,
+		"Health": 100,
+		"Description": "Building that houses many people",
+		"ProductionTime": 2,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 70
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Buildings/AllBuildings/ApartmentSmall_BP.ApartmentSmall_BP_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 0,
+		"MaxResidents": 10,
+		"MaxBuildAmount": 0,
+		"Shortcut": "S",
+		"TechRequirements": [
+			"ConstructionOffice"
+		],
+		"Value": 80
+	},
+	{
+		"Name": "Barracks",
+		"ObjectName": "Barracks",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Buildings/Icon_Building_Barracks.Icon_Building_Barracks'",
+		"Vision": 500,
+		"Health": 150,
+		"Description": "Building that produces attacking ground units",
+		"ProductionTime": 5,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 120
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Buildings/AllBuildings/HumanBarracks.HumanBarracks_C'",
+		"OccupationType": "Soldier",
+		"MaxEmployees": 0,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 10,
+		"Shortcut": "D",
+		"TechRequirements": [
+			"ConstructionOffice"
+		],
+		"Value": 400
+	},
+	{
+		"Name": "Sentry",
+		"ObjectName": "Sentry",
+		"Portrait": "Texture2D'/Game/TD2020/Textures/Thumbnails/Sentries/Icons_Sentries_Tower.Icons_Sentries_Tower'",
+		"Vision": 500,
+		"Health": 200,
+		"Description": "Static defense with high damage and health",
+		"ProductionTime": 2,
+		"RefundFactor": 0.5,
+		"ProductionCost":
+		{
+			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 100
+		},
+		"ActorType": "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Buildings/AllBuildings/Sentry_BP.Sentry_BP_C'",
+		"OccupationType": "Unemployment",
+		"MaxEmployees": 0,
+		"MaxResidents": 0,
+		"MaxBuildAmount": 0,
+		"Shortcut": "Y",
+		"TechRequirements": [
+			"Barracks"
+		],
+		"Value": 100
+	}
+]
