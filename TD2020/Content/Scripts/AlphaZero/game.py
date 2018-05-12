@@ -22,6 +22,7 @@ class Game:
     def step(self, action):
         next_state, value, done = self.gameState.take_action(action)
         self.gameState = next_state
+        # switch player from 1 to -1
         self.currentPlayer = -self.currentPlayer
         info = None
         return next_state, value, done, info
@@ -166,9 +167,11 @@ class GameState:
         return state_id
 
     def _check_for_end_game(self):
+        # timeout
         if np.count_nonzero(self.board) == 42:
             return 1
 
+        # if eliminated
         for x, y, z, a in self.winners:
             if self.board[x] + self.board[y] + self.board[z] + self.board[a] == 4 * -self.playerTurn:
                 return 1

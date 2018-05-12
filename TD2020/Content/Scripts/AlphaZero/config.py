@@ -1,5 +1,4 @@
 
-
 # SELF PLAY
 EPISODES = 25
 MCTS_SIMS = 50
