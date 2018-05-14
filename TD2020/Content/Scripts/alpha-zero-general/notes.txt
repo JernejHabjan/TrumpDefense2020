@@ -1,0 +1,15 @@
+get action size:
+	player.actors * num_all_actions ---- TOJ CORRECT
+get valid moves 
+	-- vrneš vector movov
+	player.actors * num_all_actions * is_valid_action(actor,action,board)
+	
+get next state - VRNE KOPIJO BOARDA -- ga ne modifya org ampak izvede move na novmu
+
+
+
+def getCanonicalForm(self, board, player):
+??
+
+def getSymmetries(self, board, pi):
+??
