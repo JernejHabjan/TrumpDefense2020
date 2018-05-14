@@ -1,5 +1,5 @@
 Definirat morm 2* ai oz 2* virtual game state kot jim recejo v microrts k storayo za usakga playerja posebi njihove enote etc... 
-Tko bom lah ai prikazu nq 1 zaslonu n ue4 brez spawnajna en kup gamemodov in gameinstancov in pizdarij...
+Tko bom lah ai prikazu nq 1 zaslonu n ue4 brez spawnajna en kup gamemodov in gameinstancov in ostalih stvari...
 
 
 grid levo gor desno dol, mine - to je njegova predstavitev akcij... denyov je moje BT, ampak js šekr misnem da so superior.
@@ -52,33 +52,25 @@ aka ena kombinacija bi bla like:
 	...
 	
 
-	
+
 	
 funkcijoza usmerjat v sami simulaciji
 stop simulacijo po npr 100 potezah
 
 
 
+alpha zero pa da bi implementiru v py pa še nevronske mreže pa reinforcement learning zravn.
+
+
+
+Naloge:	
+	REKU JE NAJ MU PREVEDEM FILE KE JE NAZAČETK SLIKA HAL
+	TALE:
+						A Survey of Real-Time Strategy Game AI Research and
+					Competition in StarCraft
+					Santiago Ontañon, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux,
+					David Churchill, Mike Preuss
+					To
+	, JS MU BOM ŠE UNGA KJ GOOD KJ NA DESKTOPU
+	TALE :			 Combinatorial Multi-armed Bandits for Real-Time Strategy Games
 	
-
-	
-REKU JE NAJ MU PREVEDEM FILE KE JE NAZAČETK SLIKA HAL
-TALE:
-					A Survey of Real-Time Strategy Game AI Research and
-				Competition in StarCraft
-				Santiago Ontañon, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux,
-				David Churchill, Mike Preuss
-				To
-, JS MU BOM ŠE UNGA KJ GOOD KJ NA DESKTOPU
-TALE :			 Combinatorial Multi-armed Bandits for Real-Time Strategy Games
-	
-
-
-
-tip mi je začev kazat alpha zero pa da bi implementiru v py pa še nevronske mreže pa reinforcement learning zravn.
-pa še neki dT... dunno
-
-
-
-
-

@@ -36,12 +36,9 @@ rm -rf ./TD2020/Plugins/RTSPlugin/tutorials/
 rm -rf ./TD2020/Plugins/RTSPlugin/intermediate/
 rm -rf ./TD2020/Plugins/RTSPlugin/screenshots/
 
-rm -rf ./venv/
-
 find . -name "*.log" -exec rm {} \;
 find . -name "*.sln" -exec rm {} \;
 find . -name "*nul" -exec rm {} \;
-find . -name ".gitignore" -exec rm {} \;
 find . -name "*.VC.db" -exec rm {} \;
 find . -name "*.opensdf" -exec rm {} \;
 find . -name "*.opendb" -exec rm {} \;

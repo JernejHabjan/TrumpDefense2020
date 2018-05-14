@@ -1,16 +1,22 @@
 from Coach import Coach
 from td2020.TD2020Game import TD2020Game as Game
-from td2020.pytorch.NNet import NNetWrapper as nn
+from td2020.keras.NNet import NNetWrapper as nn
 from utils import *
 
+# install packages:
+
+# conda install tensorflow
+# conda install keras
+
+
 args = dotdict({
-    'numIters': 1000,
+    'numIters': 100,
     'numEps': 100,
     'tempThreshold': 15,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
     'numMCTSSims': 25,
-    'arenaCompare': 40,
+    'arenaCompare': 30,
     'cpuct': 1,
 
     'checkpoint': './temp/',
