@@ -1,3 +1,3 @@
-from games.TD2020.src.Game import Game
+from td2020.src.Game import Game
 
-game = Game(["Team 1", "Team 2"], 10000, visuals=False, fps=300, exit_after_end=True)
+game = Game(timeout_ticks=200, visuals=True, fps=5, exit_after_end=False)

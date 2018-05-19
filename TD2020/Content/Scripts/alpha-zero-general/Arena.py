@@ -35,6 +35,7 @@ class Arena():
         """
         players = [self.player2, None, self.player1]
         curPlayer = 1
+
         board = self.game.getInitBoard()
         it = 0
         while self.game.getGameEnded(board, curPlayer)==0:
@@ -44,13 +45,21 @@ class Arena():
                 print("Turn ", str(it), "Player ", str(curPlayer))
                 self.display(board)
             action = players[curPlayer+1](self.game.getCanonicalForm(board, curPlayer))
+            # executes function or method that player represents
+            # human player -> <bound method HumanOthelloPlayer.play of <othello.OthelloPlayers.HumanOthelloPlayer object at ...>>
+            # nnet player -> <function <lambda> at ....>
 
+
+
+            TEMP = players[curPlayer+1]
             valids = self.game.getValidMoves(self.game.getCanonicalForm(board, curPlayer),1)
 
             if valids[action]==0:
                 print(action)
+
                 assert valids[action] >0
             board, curPlayer = self.game.getNextState(board, curPlayer, action)
+            print("RECIEVED NEXT STATE")
         if verbose:
             assert(self.display)
             print("Game over: Turn ", str(it), "Result ", str(self.game.getGameEnded(board, 1)))

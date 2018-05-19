@@ -1,116 +1,136 @@
 from __future__ import print_function
+
+import random
 import sys
-import numpy as np
+
+from numpy import size
+
 from Game import Game
-from .TD2020Logic import Board
+from td2020.src.ActionManager import ActionManager
+from td2020.src.Grid import Grid
+from td2020.src.Player import Player
 
 sys.path.append('..')
 
-
+# noinspection PyTypeChecker
+NUM_ALL_ACTIONS = size(ActionManager(None, None).actions)
 class TD2020Game(Game):
-    def __init__(self, n):
-        self.n = n
+    """
+        This class specifies the base Game class. To define your own game, subclass
+        this class and implement the functions below. This works when the game is
+        two-player, adversarial and turn-based.
+
+        Use 1 for player1 and -1 for player2.
+
+        See othello/OthelloGame.py for an example implementation.
+        """
+
+    def __init__(self):
+        super().__init__()
+        self._base_board = Grid(num=64)
 
     def getInitBoard(self):
-        # return initial board (numpy board)
-        b = Board(self.n)
-        return np.array(b.pieces)
+        """
+        Returns:
+            startBoard: a representation of the board (ideally this is the form that will be the input to your neural network)
+        """
+
+        return self._base_board.tiles
 
     def getBoardSize(self):
-        # (a,b) tuple
-        return self.n, self.n
+        """
+        Returns:
+            (x,y): a tuple of board dimensions
+        """
+        return 8, 8
 
-    def getActionSize(self):
-        # return number of actions
-        return self.n * self.n + 1
+    def getActionSize(self) -> int:
+        """
+        Returns:
+            actionSize: number of all possible actions
+        """
+        player:Player = None # TODO - THIS MUST BE CURRENT PLAYER
+        return size(player.actors) * NUM_ALL_ACTIONS
+
+
+
 
     def getNextState(self, board, player, action):
-        # if player takes action on board, return next (board,player)
-        # action must be a valid move
-        if action == self.n * self.n:
-            return board, -player
-        b = Board(self.n)
-        b.pieces = np.copy(board)
-        move = (int(action / self.n), action % self.n)
-        b.execute_move(move, player)
-        return b.pieces, -player
+        """
+        Input:
+            board: current board
+            player: current player (1 or -1)
+            action: action taken by current player
+
+        Returns:
+            nextBoard: board after applying action
+            nextPlayer: player who plays in the next turn (should be -player)
+        """
+
+
 
     def getValidMoves(self, board, player):
-        # return a fixed size binary vector
-        valids = [0] * self.getActionSize()
-        b = Board(self.n)
-        b.pieces = np.copy(board)
-        legalMoves = b.get_legal_moves(player)
-        if len(legalMoves) == 0:
-            valids[-1] = 1
-            return np.array(valids)
-        for x, y in legalMoves:
-            valids[self.n * x + y] = 1
-        return np.array(valids)
+        """
+        Input:
+            board: current board
+            player: current player
+
+        Returns:
+            validMoves: a binary vector of length self.getActionSize(), 1 for
+                        moves that are valid from the current board and player,
+                        0 for invalid moves
+        """
+        pass
 
     def getGameEnded(self, board, player):
-        # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
-        # player = 1
-        b = Board(self.n)
-        b.pieces = np.copy(board)
-        if b.has_legal_moves(player):
-            return 0
-        if b.has_legal_moves(-player):
-            return 0
-        if b.count_diff(player) > 0:
-            return 1
-        return -1
+        """
+        Input:
+            board: current board
+            player: current player (1 or -1)
+
+        Returns:
+            r: 0 if game has not ended. 1 if player won, -1 if player lost,
+               small non-zero value for draw.
+
+        """
+        pass
 
     def getCanonicalForm(self, board, player):
-        # return state if player==1, else return -state if player==-1
-        return player * board
+        """
+        Input:
+            board: current board
+            player: current player (1 or -1)
+
+        Returns:
+            canonicalBoard: returns canonical form of board. The canonical form
+                            should be independent of player. For e.g. in chess,
+                            the canonical form can be chosen to be from the pov
+                            of white. When the player is white, we can return
+                            board as is. When the player is black, we can invert
+                            the colors and return the board.
+        """
+        pass
 
     def getSymmetries(self, board, pi):
-        # mirror, rotational
-        assert (len(pi) == self.n ** 2 + 1)  # 1 for pass
-        pi_board = np.reshape(pi[:-1], (self.n, self.n))
-        l = []
+        """
+        Input:
+            board: current board
+            pi: policy vector of size self.getActionSize()
 
-        for i in range(1, 5):
-            for j in [True, False]:
-                newB = np.rot90(board, i)
-                newPi = np.rot90(pi_board, i)
-                if j:
-                    newB = np.fliplr(newB)
-                    newPi = np.fliplr(newPi)
-                l += [(newB, list(newPi.ravel()) + [pi[-1]])]
-        return l
+        Returns:
+            symmForms: a list of [(board,pi)] where each tuple is a symmetrical
+                       form of the board and the corresponding pi vector. This
+                       is used when training the neural network from examples.
+        """
+        pass
 
     def stringRepresentation(self, board):
-        # 8x8 numpy array (canonical board)
-        return board.tostring()
+        """
+        Input:
+            board: current board
 
-    def getScore(self, board, player):
-        b = Board(self.n)
-        b.pieces = np.copy(board)
-        return b.count_diff(player)
-
-
-def display(board):
-    n = board.shape[0]
-
-    for y in range(n):
-        print(y, "|", end="")
-    print("")
-    print(" -----------------------")
-    for y in range(n):
-        print(y, "|", end="")  # print the row #
-        for x in range(n):
-            piece = board[y][x]  # get the piece to print
-            if piece == -1:
-                print("B ", end="")
-            elif piece == 1:
-                print("W ", end="")
-            else:
-                if x == n:
-                    print("-", end="")
-                else:
-                    print("- ", end="")
-        print("|")
-
-    print("   -----------------------")
+        Returns:
+            boardString: a quick conversion of board to a string format.
+                         Required by MCTS for hashing.
+        """
+        pass

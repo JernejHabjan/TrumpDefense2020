@@ -1,37 +1,41 @@
-import random
+import copy
 import pygame
-from collections import defaultdict
-from numpy import linspace, size
+from numpy import size
 
-from games.TD2020.src.Graphics import init_visuals, update_graphics
+from td2020.src.Graphics import init_visuals, update_graphics
 
 
 class Game:
     # team names can include also multiple instances of team names- if there are two players with same team name,
     # both are appended to same team
-    def __init__(self, team_names: list, timeout_ticks: int, visuals=True, world_size: int = 64, fps=1,
-                 exit_after_end=True):
-
-        from games.TD2020.src.Grid import Grid
-        self.world = Grid(world_size)
+    def __init__(self, timeout_ticks: int = 1000, visuals=False, world_width=8, world_height=8, fps=1, exit_after_end=True):
         self.timeout_ticks = timeout_ticks
-        self.players = defaultdict(list)
-        self.iteration: int = 0  # game iteration
+        self.current_player = 1  # set start to white player
+        # create initial world
+        from td2020.src.Grid import Grid
+
+        self.world_width = world_width
+        self.world_height = world_height
+        self.world: Grid = Grid(world_width, world_width)
+
         # init
-
         # world objects are bound only to world grid, but player objects have tile location stored in player
-        self.spawn_world(world_size)
-        self.spawn_players(world_size, team_names)
+        self.spawn_world(world_width, world_height)
+        self.world.spawn_players()
 
-        game_display, clock = init_visuals(world_size, visuals)
-        self.start_tick(self.world, game_display, clock, visuals, fps, exit_after_end)
+        # init visuals if variable 'visuals' is true
+        game_display, clock = init_visuals(world_width, world_height, visuals)
+
+        # start game tick
+        self.iteration: int = 0  # game iteration
+        self.start_tick(game_display, clock, visuals, fps, exit_after_end)
 
         # here end game occurred so check scoring who won
-        for team in self.players.values():
-            for player in team:
-                for actor in player.actors:
-                    print(type(actor).__name__)
-                print(player.team_name + " got score of " + str(player.calculate_score()))
+        for player_name, player in self.world.players.items():
+
+            for actor in player.actors:
+                print(type(actor).__name__)
+            print(str(player_name) + " got score of " + str(player.calculate_score()))
         print("game finished in " + str(self.iteration) + " turns.")
 
     @staticmethod
@@ -58,68 +62,59 @@ class Game:
                 print("clicked pos " + str(pos))
         return True
 
-    def spawn_world(self, world_size: int):
-        from games.TD2020.src.Actors import Granite
+    def spawn_world(self, world_width: int, world_height: int, ):
+        from td2020.src.Actors import Granite
         # spawn granite
-        self.world.tiles[int(world_size / 2)].actors.append(Granite(self.world.tiles[int(world_size / 2)]))
-
-    def spawn_players(self, world_size: int, team_names: list):
-        from games.TD2020.src.Player import Player
-
-        spawn_padding: int = 4
-        spawn_locations: list = linspace(spawn_padding, world_size - spawn_padding, size(team_names))
-        for i, team_name in enumerate(team_names):
-            spawn_location = int(spawn_locations[i])
-
-            print("added player from " + team_name + " on spawn " + str(spawn_location))
-            self.players[team_name].append(Player(self, team_name, self.world.tiles[spawn_location]))
+        granite = Granite(int(world_width / 2), int(world_height / 2))
+        self.world[int(world_width / 2)][int(world_height / 2)].actors.append(granite)
 
     def manage_game_logic(self):
-
-        from games.TD2020.src.Action import Action
-
         if self.timeout() or self.end_condition():
             return False
 
-        # run tick on all actors
-        for team in self.players.values():
+        # create copy of old world and execute actions on new one
+        from td2020.src.Grid import Grid
+        import random
 
-            for player in team:
-                print(" ______________ TEAM " + player.team_name + "_______________")
-                for actor in player.actors:
+        new_world: Grid = copy.deepcopy(self.world)
+        player = new_world.players[self.current_player]
+        print(" ______________ TEAM " + str(player.name) + "_______________")
+        for actor in player.actors:
+            action = random.choice(actor.actions)  # FOR NOW RANDOM
 
-                    actor.update()
+            actor.update(new_world, action)
 
-                    # get enemy
-                    enemy = None
-                    for enemy_team in self.players.values():
-
-                        for enemy_player in enemy_team:
-                            if enemy_player != player:
-                                if enemy_player.actors:
-                                    enemy = random.choice(enemy_player.actors)
-
-                    # end get enemy
-
-                    if enemy:
-                        action = Action(actor, enemy)
-
-                        # choose random action
-                        action.execute_action(random.choice(action.actions))
-
-                    else:
-                        print("Endgame - no enemy actors")
-                        return False
+        self.world, self.current_player = new_world, -player.name
 
         return True
 
-    def start_tick(self, world, game_display, clock, visuals=True, fps=1, exit_after_end=True):
+    def manage_game_logic_COPY(self):  # TODO - THIS ONE USES GET NEXT STATE FUNCTION!!!!!
+        if self.timeout() or self.end_condition():
+            return False
 
+        # create copy of old world and execute actions on new one
+        from td2020.src.Grid import Grid
+        new_world: Grid = copy.deepcopy(self.world)
+
+        player = new_world.players[self.current_player]
+
+        from td2020.src.ActionManager import ActionManager
+        import random
+
+        action = random.choice(ActionManager(None, []).actions)  # FOR NOW RANDOM
+
+        self.world, self.current_player = self.getNextState(self.world, self.current_player, action)
+
+        return True
+
+    def start_tick(self, game_display, clock, visuals=True, fps=1, exit_after_end=True):
         crashed = False
         while not crashed:
 
             # game logic
-            if not self.manage_game_logic():
+            end_game = self.manage_game_logic()
+
+            if not end_game:
                 crashed = True
 
             if visuals:
@@ -127,19 +122,19 @@ class Game:
                 if not self.manage_input():
                     crashed = True
                 # graphics
-                update_graphics(world, game_display, clock, fps)
+                update_graphics(self.world, game_display, clock, fps)
         if exit_after_end:
             pygame.quit()
 
     def end_condition(self):
-        for team_name, players in self.players.items():
-            for player in players:
-                print("Player of team " + team_name + " has " + str(size(player.actors)) + " actors.")
-                if not len(player.actors):
-                    print("Player of team " + team_name + " lost")
-                    print("---> GAME END <---")
-                    return True
-        return False
+        winner = None
+        for player_name, player in self.world.players.items():
+            if not len(player.actors):
+                print("Player of team " + player_name + " lost")
+                print("---> GAME END <---")
+                winner = -player_name
+                break
+        return winner
 
     def timeout(self):
         if self.iteration > self.timeout_ticks:
@@ -148,3 +143,100 @@ class Game:
         # update iteration
         self.iteration += 1
         return False
+
+    # ##################################################################################
+    # ##################################################################################
+    # ##################################################################################
+
+    def stringRepresentation(self, board):
+        display_str = ["".join(["-----"] * board.width)]
+
+        for i in range(board.width):
+
+            for j in range(board.height):
+
+                tile = board[i][j]
+                if size(tile.actors) > 1:
+                    display_str.append(".**.")
+                elif size(tile.actors) == 1:
+                    display_str.append(tile.actors[0].short_name)
+                else:
+                    display_str.append("    ")
+                display_str.append("|")
+
+            # print("".join(row_str))
+            display_str.append("\n")
+            if i < board.height:
+                #    print( "".join(["-----"]*board.width))
+
+                display_str.append("".join(["-----"] * board.width) + "\n")
+        print("".join(display_str))
+
+    def getNextState(self, board, player, action):
+        # create copy of old world and execute actions on new one
+        from td2020.src.Grid import Grid
+
+        new_world: Grid = copy.deepcopy(board)
+        player = new_world.players[player]
+        print(" ______________ TEAM " + str(player.name) + "_______________")
+        for actor in player.actors:
+            actor.update(new_world, action)
+        return new_world, -player.name
+
+    def getBoardSize(self):
+        return self.world.height, self.world.width
+
+    def getInitBoard(self):
+        import numpy as np
+        from td2020.src.Grid import Grid
+        world = Grid(self.world_width, self.world_width)
+        return np.array(world.tiles)  # Todo - is this correct -because these are objects not nubers as may be required in neural network or other functions in this project
+
+    def getActionSize(self):
+        # return number of actions
+        return size(self.getValidMoves(self.world, self.world.players[self.current_player]))
+
+    def getValidMoves(self, board, player):
+        valid_moves = []
+
+        for actor in player.actors:
+            valid_moves.append(2)  # TODO ----- FOR NOW APPENDING 2 MOVES --- THIS IS WRONG -- im lazy atm... prestej kok potez lahko nardi posamezn od teh actorjev
+        return valid_moves
+
+    def getGameEnded(self, board, player):
+        # 0 if game has not ended. 1 if player won, -1 if player lost, small non-zero value for draw.
+        winner = self.end_condition()
+        if winner:
+            return winner
+        if self.timeout():
+            return 1e-4
+        return 0
+
+    def getCanonicalForm(self, board, player):
+        """
+        Input:
+            board: current board
+            player: current player (1 or -1)
+
+        Returns:
+            canonicalBoard: returns canonical form of board. The canonical form
+                            should be independent of player. For e.g. in chess,
+                            the canonical form can be chosen to be from the pov
+                            of white. When the player is white, we can return
+                            board as is. When the player is black, we can invert
+                            the colors and return the board.
+        """
+        pass
+
+    def getSymmetries(self, board, pi):
+        """
+        Input:
+            board: current board
+            pi: policy vector of size self.getActionSize()
+
+        Returns:
+            symmForms: a list of [(board,pi)] where each tuple is a symmetrical
+                       form of the board and the corresponding pi vector. This
+                       is used when training the neural network from examples.
+        """
+        pass

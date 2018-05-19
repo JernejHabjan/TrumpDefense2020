@@ -1,9 +1,8 @@
 import Arena
 from MCTS import MCTS
-from gobang.GobangGame import GobangGame, display
-from gobang.GobangGame import *
-from gobang.GobangPlayers import RandomPlayer, GreedyGobangPlayer, HumanGobangPlayer
-from gobang.tensorflow.NNet import NNetWrapper as NNet
+from othello.OthelloGame import OthelloGame, display
+from othello.OthelloPlayers import RandomPlayer, GreedyOthelloPlayer, HumanOthelloPlayer
+from othello.pytorch.NNet import NNetWrapper as NNet
 
 import numpy as np
 from utils import *
@@ -13,12 +12,12 @@ use this script to play any two agents against each other, or play manually with
 any agent.
 """
 
-g = GobangGame(6)
+g = OthelloGame(6)
 
 # all players
 rp = RandomPlayer(g).play
-gp = GreedyGobangPlayer(g).play
-hp = HumanGobangPlayer(g).play
+gp = GreedyOthelloPlayer(g).play
+hp = HumanOthelloPlayer(g).play
 
 # nnet players
 n1 = NNet(g)
@@ -26,6 +25,7 @@ n1.load_checkpoint('./pretrained_models/othello/pytorch/','6x100x25_best.pth.tar
 args1 = dotdict({'numMCTSSims': 50, 'cpuct':1.0})
 mcts1 = MCTS(g, n1, args1)
 n1p = lambda x: np.argmax(mcts1.getActionProb(x, temp=0))
+
 
 
 #n2 = NNet(g)

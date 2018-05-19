@@ -1,71 +1,61 @@
-import pandas as pd
-
+# import pandas as pd
+# from td2020.src.FunctionLibrary import retrieve_json
 from numpy import size
-
-from games.TD2020.src.FunctionLibrary import retrieve_json
+from td2020.src.Grid import Grid
 
 
 class AttackComponent:
-    def __init__(self, name: str):
-        from games.TD2020.src.FunctionLibrary import retrieve_json
+    def __init__(self,damage: int, range: int):
+        # from td2020.src.FunctionLibrary import retrieve_json
         import pandas as pd
 
         # attack parameters
-        self.td_attack: pd.DataFrame = retrieve_json('td_attack', name)
-        self.cooldown = self.td_attack["Cooldown"].values[0]
-        self.damage = self.td_attack["Damage.Class'/Script/Engine.DamageType'"].values[0]
-        self.range = self.td_attack["Range"].values[0]
-        self.acquisition_radius = self.td_attack["AcquisitionRadius"].values[0]
-        self.critical_damage = self.td_attack["CriticalDamage.Class'/Script/Engine.DamageType'"].values[0]
+        self.damage = damage
+        self.range = range
 
 
 class UnitProductionComponent:
-    from games.TD2020.src.Actors import BuildingMaster
+    from td2020.src.Actors import BuildingMaster
 
     def __init__(self, parent: BuildingMaster, unit_types: list):
-        self.parent = parent
+        from td2020.src.Actors import BuildingMaster
+        self.parent: BuildingMaster = parent
         self.unit_types = unit_types
         self.current_production_time: int = 0  # production time of current unit
         self.producing_units: list = []
 
     # produces unit by index from array
-    def construct_unit(self, name):
-        from games.TD2020.src.Actors import MyActor, NPC, RifleInfantry
+    def construct_unit(self, name, world: Grid):  # TODO - SPAWN NEW CHARACTER IN APPROPRIATE WORLD
+        from td2020.src.Actors import MyActor, NPC, RifleInfantry
 
         print("started constructing unit " + name)
-        character_temp: MyActor = eval(name)(self.parent.player, name, self.parent.team_name,
-                                             self.parent.tile)
+        character_temp: MyActor = eval(name)(self.parent.player, self.parent.x, self.parent.y)
 
         # get production cost of this actor
-        td_my_actor: pd.DataFrame = retrieve_json('td_myactor', name)
-        production_cost = td_my_actor["ProductionCost.BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'"].values[0]
-        if self.parent.player.money >= production_cost:
+        if world.players[self.parent.player].money >= character_temp.production_cost:
             # pay
-            self.parent.player.money -= production_cost
+            world.players[self.parent.player].money -= character_temp.production_cost
             self.producing_units.append(character_temp)
         else:
             print("not enough money to start creating unit")
             del character_temp
 
-    def update(self):
+    def update(self, world: Grid):
         # print("running unit production component update")
         if size(self.producing_units) <= 0:
             return
 
-        if self.current_production_time >= self.producing_units[0].production_time:
+        actor =  self.producing_units[0]
+        if actor.current_production_time >= actor.production_time:
 
             # print("finished updating unit production")
             # spawn character and reset timer
             character = self.producing_units.pop()
-            # spawn character - by adding it to player
-            self.parent.player.actors.append(character)
-            # add to world tile
-            self.parent.player.world_ref.world.tiles[self.parent.tile.location].actors.append(character)
-
+            character.spawn(world)
         else:
             # print("continuing constructing unit " + str(type(self.producing_units[0])) + " with construction time " + str( self.current_production_time) + " of " + str(self.producing_units[0].production_time))
 
-            self.current_production_time += 1
+            actor.current_production_time += 1
 
 
 class ResourcesDepositComponent:

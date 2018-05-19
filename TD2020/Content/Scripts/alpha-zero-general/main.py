@@ -27,6 +27,7 @@ args = dotdict({
 })
 
 if __name__=="__main__":
+    """
     g = Game(6)
     nnet = nn(g)
 
@@ -38,3 +39,8 @@ if __name__=="__main__":
         print("Load trainExamples from file")
         c.loadTrainExamples()
     c.learn()
+    """
+
+
+
+    g = Game(6)

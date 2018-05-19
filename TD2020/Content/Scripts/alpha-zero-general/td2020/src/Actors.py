@@ -1,145 +1,186 @@
-import pandas as pd
-from numpy import size
-
-
 class GeneralActor:
     color = dict
     short_name = str
 
-    def __init__(self, name: str, tile):
-        from games.TD2020.src.Grid import Tile
-        self.name = name
-        self.tile: Tile = tile
+    def __init__(self, x: int, y: int):
+        self.x: int = x
+        self.y: int = y
+
 
 class MyActor(GeneralActor):
-    def __init__(self, player, name: str, team_name: str, tile):
-        from games.TD2020.src import Player
-        from games.TD2020.src.FunctionLibrary import retrieve_json
+    def __init__(self, player: int, x: int, y: int):
+        super().__init__(x, y)
 
-        super().__init__(name, tile)
-        self.player: Player = player
-        self.team_name = team_name
-        # read td_myactor
+        self.player: int = player
 
-        self.td_my_actor: pd.DataFrame = retrieve_json('td_myactor', name)
-        self.max_health = self.td_my_actor["MaxHealth"].values[0]
-        self.vision: int = self.td_my_actor["Vision"].values[0]
-        self.production_time: int = self.td_my_actor["ProductionTime"].values[0]
-
-        # self.production_cost = self.td_my_actor[ "ProductionCost.BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'"].values[0]
-
-        self.tech_requirements = self.td_my_actor["TechRequirements"].values[0]
-        self.value = self.td_my_actor["Value"].values[0]
-        self.short_name = self.td_my_actor["ShortName"].values[0]
-        self.color = {"R": self.td_my_actor["Color.R"].values[0], "G": self.td_my_actor["Color.G"].values[0],"B": self.td_my_actor["Color.B"].values[0]}
-
-        # variables
+        # variables - used as reference but they are just temp
+        self.max_health = 1
+        self.health = 1
+        self.production_time: int = 0
+        self.production_cost = 0
+        self.value = 0
+        self.short_name = "None"
+        self.color = {"R": 255, "G": 0, "B": 0}
         self.current_production_time: int = 0  # amount that this building / character has been produced
-        self.health = self.max_health * 0.1  # 10%
 
+        self.current_action = ""
+        self.actions = ["idle"]
 
+        from td2020.src.ActionManager import ActionManager
+        self.action_manager = ActionManager(self, self.actions)
 
-
-
-    def update(self):
-        pass
+    def update(self, world, action: str):
+        self.action_manager.execute_action(action, world)
 
     def __del__(self):
         pass
         # print("Actor destroyed")
 
+    def spawn(self, world):
+        # spawn character - by adding it to player
+        world.players[self.player].actors.append(self)
+        # add to world tile
+        world[self.x][self.y].actors.append(self)
+
 
 class BuildingMaster(MyActor):
 
-    def __init__(self, player, name: str, team_name: str, tile):
-        super().__init__(player, name, team_name, tile)
+    def __init__(self, player: int, x: int, y: int):
         # config variables
 
-        self.max_employees: int = self.td_my_actor["MaxEmployees"].values[0]
-        self.max_residents: int = self.td_my_actor["MaxResidents"].values[0]
-        self.max_build_amount: int = self.td_my_actor["MaxBuildAmount"].values[0]
-
-        # add self to world tile
-        self.player.world_ref.world.tiles[tile.location].actors.append(self)
+        super().__init__(player, x, y)
 
 
 class TownHall(BuildingMaster):
     unit_types = ["NPC"]
 
-    def __init__(self, player, name: str, team_name: str, tile):
-        from games.TD2020.src.Components import UnitProductionComponent
+    def __init__(self, player: int, x: int, y: int):
+        super().__init__(player, x, y)
 
-        super().__init__(player, name, team_name, tile)
+        from td2020.src.Components import UnitProductionComponent
         self.unit_production_component = UnitProductionComponent(self, self.unit_types)
 
-    def update(self):
-        self.unit_production_component.update()
+        self.max_health = 400
+        self.production_time: int = 10
+        self.production_cost = 500
+        self.value = 500
+        self.short_name = "Hall"
+        self.color = {"R": 235, "G": 255, "B": 0}
+        self.health = self.max_health * 0.1  # 10%
+        self.actions.extend(["npc"])
+
+    def update(self, world, action: str):
+        MyActor.update(self, world, action)
+        self.unit_production_component.update(world)
 
 
 class Barracks(BuildingMaster):
     unit_types = ["RifleInfantry"]
 
-    def __init__(self, player, name: str, team_name: str, tile):
-        from games.TD2020.src.Components import UnitProductionComponent
+    def __init__(self, player: int, x: int, y: int):
+        super().__init__(player, x, y)
+        from td2020.src.Components import UnitProductionComponent
 
-        super().__init__(player, name, team_name, tile)
         self.unit_production_component = UnitProductionComponent(self, self.unit_types)
 
-    def update(self):
-        self.unit_production_component.update()
+        self.max_health = 150
+        self.production_time: int = 5
+        self.production_cost = 120
+        self.value = 400
+        self.short_name = "Barr"
+        self.color = {"R": 255, "G": 156, "B": 255}
+        self.health = self.max_health * 0.1  # 10%
+        self.actions.extend(["rifle_infantry"])
+
+    def update(self, world, action: str):
+        MyActor.update(self, world, action)
+        self.unit_production_component.update(world)
 
 
 class MiningShack(BuildingMaster):
-    def __init__(self, player, name: str, team_name: str, tile):
-        super().__init__(player, name, team_name, tile)
-        from games.TD2020.src.Components import ResourcesDepositComponent
+    def __init__(self, player: int, x: int, y: int):
+        super().__init__(player, x, y)
+        from td2020.src.Components import ResourcesDepositComponent
         self.resources_deposit_component = ResourcesDepositComponent()
+        self.max_health = 150
+        self.production_time: int = 2
+        self.production_cost = 100
+        self.value = 150
+        self.short_name = "Mine"
+        self.color = {"R": 203, "G": 186, "B": 103}
+        self.health = self.max_health * 0.1  # 10%
 
 
 class Sentry(BuildingMaster):
-    def __init__(self, player, name: str, team_name: str, tile):
-        from games.TD2020.src.Components import AttackComponent
-        super().__init__(player, name, team_name, tile)
-        self.attack_component = AttackComponent(self.name)
+    def __init__(self, player: int, x: int, y: int):
+        super().__init__(player, x, y)
+        from td2020.src.Components import AttackComponent
+
+        self.attack_component = AttackComponent(10, 2)
+        self.max_health = 200
+        self.production_time: int = 2
+        self.production_cost = 100
+        self.value = 100
+        self.short_name = "Sent"
+        self.color = {"R": 0, "G": 196, "B": 255}
+        self.health = self.max_health * 0.1  # 10%
+        self.actions.extend(["choose_enemy", "attack"])
 
 
 class Character(MyActor):
     is_busy = False
 
-    def __init__(self, player, name: str, team_name: str, tile):
-        super().__init__(player, name, team_name, tile)
+    def __init__(self, player: int, x: int, y: int):
         # set health to max after spawn
-        self.health = self.max_health
+        super().__init__(player, x, y)
 
 
 class NPC(Character):
     gather_amount = 0  # currently holding resources
     max_gather_amount = 20  # max of how much can hold resources
 
-    def __init__(self, player, name: str, team_name: str, tile):
-        super().__init__(player, name, team_name, tile)
+    def __init__(self, player: int, x: int, y: int):
+        super().__init__(player, x, y)
+        self.max_health = 20
+        self.production_time: int = 1
+        self.production_cost = 20
+        self.value = 50
+        self.short_name = "NPC "
+        self.color = {"R": 0, "G": 165, "B": 208}
+
+        self.health = self.max_health
+        self.current_production_time = self.production_time
+        self.actions.extend(["up", "down", "right", "left", "mine_resources", "return_resources", "town_hall", "barracks", "sentry", "mining_shack", "continue_building"])
 
 
 class RifleInfantry(Character):
-    def __init__(self, player, name: str, team_name: str, tile):
-        from games.TD2020.src.Components import AttackComponent
-        super().__init__(player, name, team_name, tile)
-        self.attack_component = AttackComponent(self.name)
+    def __init__(self, player: int, x: int, y: int):
+        super().__init__(player, x, y)
+        self.max_health = 35
+        self.production_time: int = 2
+        self.production_cost = 60
+        self.value = 30
+        self.short_name = "Rif "
+        self.color = {"R": 152, "G": 0, "B": 136}
+        self.health = self.max_health
+        self.current_production_time = self.production_time
+
+        from td2020.src.Components import AttackComponent
+        self.attack_component = AttackComponent(10, 2)
+
+        self.actions.extend(["up", "down", "right", "left", "choose_enemy", "attack"])
 
 
 class ResourcesMaster(GeneralActor):
-    def __init__(self, name: str, location, amount: int = 2000):
-        from games.TD2020.src.FunctionLibrary import retrieve_json
-
-        super().__init__(name, location)
+    def __init__(self, x: int, y: int, amount: int = 2000):
+        super().__init__(x, y)
         self.amount = amount
-        self.td_resource: pd.DataFrame = retrieve_json('td_resource', self.name)
-        self.gather_amount: int = self.td_resource["Capacity"].values[0]
 
 
 class Granite(ResourcesMaster):
 
-    def __init__(self, location):
-        super().__init__("Granite", location, amount=2000)
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y)
         self.short_name = "Gran"
         self.color = {"R": 230, "G": 0, "B": 50}
+        self.gather_amount: int = 20

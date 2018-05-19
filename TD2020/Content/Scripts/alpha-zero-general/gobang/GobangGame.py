@@ -1,13 +1,16 @@
 from __future__ import print_function
 import sys
-sys.path.append('..')
+
 from Game import Game
 from .GobangLogic import Board
 import numpy as np
 
+sys.path.append('..')
+
 
 class GobangGame(Game):
     def __init__(self, n=15, nir=5):
+        super().__init__()
         self.n = n
         self.n_in_row = nir
 
@@ -18,7 +21,7 @@ class GobangGame(Game):
 
     def getBoardSize(self):
         # (a,b) tuple
-        return (self.n, self.n)
+        return self.n, self.n
 
     def getActionSize(self):
         # return number of actions
@@ -28,12 +31,12 @@ class GobangGame(Game):
         # if player takes action on board, return next (board,player)
         # action must be a valid move
         if action == self.n * self.n:
-            return (board, -player)
+            return board, -player
         b = Board(self.n)
         b.pieces = np.copy(board)
         move = (int(action / self.n), action % self.n)
         b.execute_move(move, player)
-        return (b.pieces, -player)
+        return b.pieces, -player
 
     # modified
     def getValidMoves(self, board, player):
@@ -82,7 +85,7 @@ class GobangGame(Game):
     # modified
     def getSymmetries(self, board, pi):
         # mirror, rotational
-        assert(len(pi) == self.n**2 + 1)  # 1 for pass
+        assert (len(pi) == self.n ** 2 + 1)  # 1 for pass
         pi_board = np.reshape(pi[:-1], (self.n, self.n))
         l = []
 
@@ -109,9 +112,9 @@ def display(board):
     print("")
     print(" -----------------------")
     for y in range(n):
-        print(y, "|", end="")    # print the row #
+        print(y, "|", end="")  # print the row #
         for x in range(n):
-            piece = board[y][x]    # get the piece to print
+            piece = board[y][x]  # get the piece to print
             if piece == -1:
                 print("b ", end="")
             elif piece == 1:
