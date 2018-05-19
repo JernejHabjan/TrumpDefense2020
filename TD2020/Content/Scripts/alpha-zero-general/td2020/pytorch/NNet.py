@@ -3,19 +3,17 @@ import sys
 import time
 
 import numpy as np
-
-sys.path.append('../../')
-from utils import *
-from pytorch_classification.utils import Bar, AverageMeter
-from NeuralNet import NeuralNet
-
 import torch
 import torch.optim as optim
 from torch.autograd import Variable
 
-from .OthelloNNet import OthelloNNet as onnet
+from NeuralNet import NeuralNet
+from pytorch_classification.utils import Bar, AverageMeter
+from utils import *
+from .OthelloNNet import OthelloNNet as ONNet
 
-args = dotdict({
+sys.path.append('../../')
+args = DotDict({
     'lr': 0.001,
     'dropout': 0.3,
     'epochs': 10,
@@ -27,7 +25,8 @@ args = dotdict({
 
 class NNetWrapper(NeuralNet):
     def __init__(self, game):
-        self.nnet = onnet(game, args)
+        super().__init__(game)
+        self.nnet = ONNet(game, args)
         self.board_x, self.board_y = game.getBoardSize()
         self.action_size = game.getActionSize()
 

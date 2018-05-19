@@ -1,0 +1,15 @@
+canonical board:
+	for othello:
+		[[ 0  0  0  0  0  0]
+		 [ 0  0  0  0  0  0]
+		 [ 0  0 -1  1  0  0]
+		 [ 0  0  1 -1  0  0]
+		 [ 0  0  0  0  0  0]
+		 [ 0  0  0  0  0  0]]
+		
+		width * height
+		
+	for td2020:
+		
+		width * height * num_actors_on_tile * num_all_actions
+		

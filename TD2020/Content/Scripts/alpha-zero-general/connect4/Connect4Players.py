@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class RandomPlayer():
+class RandomPlayer:
     def __init__(self, game):
         self.game = game
 
@@ -13,7 +13,7 @@ class RandomPlayer():
         return a
 
 
-class HumanConnect4Player():
+class HumanConnect4Player:
     def __init__(self, game):
         self.game = game
 
@@ -23,13 +23,16 @@ class HumanConnect4Player():
 
         while True:
             move = int(input())
-            if valid_moves[move]: break
-            else: print('Invalid move')
+            if valid_moves[move]:
+                break
+            else:
+                print('Invalid move')
         return move
 
 
-class OneStepLookaheadConnect4Player():
+class OneStepLookaheadConnect4Player:
     """Simple player who always takes a win if presented, or blocks a loss if obvious, otherwise is random."""
+
     def __init__(self, game, verbose=True):
         self.game = game
         self.player_num = 1
@@ -59,6 +62,6 @@ class OneStepLookaheadConnect4Player():
             ret_move = np.random.choice(list(fallback_move_set))
             if self.verbose: print('Playing random action %s from %s' % (ret_move, fallback_move_set))
         else:
-            raise Exception('No valid moves remaining: %s' % game.stringRepresentation(board))
+            raise Exception('No valid moves remaining')
 
         return ret_move

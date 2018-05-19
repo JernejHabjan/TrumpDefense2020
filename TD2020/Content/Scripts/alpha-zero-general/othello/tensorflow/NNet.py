@@ -1,19 +1,15 @@
 import os
-import shutil
-import time
-import random
-import numpy as np
-import math
 import sys
-sys.path.append('../../')
-from utils import *
-from pytorch_classification.utils import Bar, AverageMeter
-from NeuralNet import NeuralNet
-
+import time
+import numpy as np
 import tensorflow as tf
-from .OthelloNNet import OthelloNNet as onnet
+from NeuralNet import NeuralNet
+from pytorch_classification.utils import Bar, AverageMeter
+from utils import *
+from .OthelloNNet import OthelloNNet as ONNet
 
-args = dotdict({
+sys.path.append('../../')
+args = DotDict({
     'lr': 0.001,
     'dropout': 0.3,
     'epochs': 10,
@@ -21,9 +17,11 @@ args = dotdict({
     'num_channels': 512,
 })
 
+
 class NNetWrapper(NeuralNet):
     def __init__(self, game):
-        self.nnet = onnet(game, args)
+        super().__init__(game)
+        self.nnet = ONNet(game, args)
         self.board_x, self.board_y = game.getBoardSize()
         self.action_size = game.getActionSize()
 
@@ -39,18 +37,18 @@ class NNetWrapper(NeuralNet):
         """
 
         for epoch in range(args.epochs):
-            print('EPOCH ::: ' + str(epoch+1))
+            print('EPOCH ::: ' + str(epoch + 1))
             data_time = AverageMeter()
             batch_time = AverageMeter()
             pi_losses = AverageMeter()
             v_losses = AverageMeter()
             end = time.time()
 
-            bar = Bar('Training Net', max=int(len(examples)/args.batch_size))
+            bar = Bar('Training Net', max=int(len(examples) / args.batch_size))
             batch_idx = 0
 
             # self.sess.run(tf.local_variables_initializer())
-            while batch_idx < int(len(examples)/args.batch_size):
+            while batch_idx < int(len(examples) / args.batch_size):
                 sample_ids = np.random.randint(len(examples), size=args.batch_size)
                 boards, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
 
@@ -72,26 +70,25 @@ class NNetWrapper(NeuralNet):
                 batch_idx += 1
 
                 # plot progress
-                bar.suffix  = '({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | Loss_pi: {lpi:.4f} | Loss_v: {lv:.3f}'.format(
-                            batch=batch_idx,
-                            size=int(len(examples)/args.batch_size),
-                            data=data_time.avg,
-                            bt=batch_time.avg,
-                            total=bar.elapsed_td,
-                            eta=bar.eta_td,
-                            lpi=pi_losses.avg,
-                            lv=v_losses.avg,
-                            )
+                bar.suffix = '({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | Loss_pi: {lpi:.4f} | Loss_v: {lv:.3f}'.format(
+                    batch=batch_idx,
+                    size=int(len(examples) / args.batch_size),
+                    data=data_time.avg,
+                    bt=batch_time.avg,
+                    total=bar.elapsed_td,
+                    eta=bar.eta_td,
+                    lpi=pi_losses.avg,
+                    lv=v_losses.avg,
+                )
                 bar.next()
             bar.finish()
-
 
     def predict(self, board):
         """
         board: np array with board
         """
         # timing
-        start = time.time()
+        # start = time.time()
 
         # preparing input
         board = board[np.newaxis, :, :]
@@ -99,7 +96,7 @@ class NNetWrapper(NeuralNet):
         # run
         prob, v = self.sess.run([self.nnet.prob, self.nnet.v], feed_dict={self.nnet.input_boards: board, self.nnet.dropout: 0, self.nnet.isTraining: False})
 
-        #print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
+        # print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
         return prob[0], v[0]
 
     def save_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):
@@ -109,15 +106,15 @@ class NNetWrapper(NeuralNet):
             os.mkdir(folder)
         else:
             print("Checkpoint Directory exists! ")
-        if self.saver == None:            
+        if self.saver is None:
             self.saver = tf.train.Saver(self.nnet.graph.get_collection('variables'))
         with self.nnet.graph.as_default():
             self.saver.save(self.sess, filepath)
 
     def load_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):
         filepath = os.path.join(folder, filename)
-        if not os.path.exists(filepath+'.meta'):
-            raise("No model in path {}".format(filepath))
+        if not os.path.exists(filepath + '.meta'):
+            raise ("No model in path {}".format(filepath))
         with self.nnet.graph.as_default():
             self.saver = tf.train.Saver()
             self.saver.restore(self.sess, filepath)

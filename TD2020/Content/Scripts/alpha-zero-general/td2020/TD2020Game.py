@@ -6,6 +6,7 @@ import sys
 from numpy import size
 
 from Game import Game
+
 from td2020.src.ActionManager import ActionManager
 from td2020.src.Grid import Grid
 from td2020.src.Player import Player
@@ -14,6 +15,8 @@ sys.path.append('..')
 
 # noinspection PyTypeChecker
 NUM_ALL_ACTIONS = size(ActionManager(None, None).actions)
+
+
 class TD2020Game(Game):
     """
         This class specifies the base Game class. To define your own game, subclass
@@ -25,9 +28,10 @@ class TD2020Game(Game):
         See othello/OthelloGame.py for an example implementation.
         """
 
-    def __init__(self):
+    def __init__(self, width=8, height=8):
         super().__init__()
-        self._base_board = Grid(num=64)
+
+        self.width, self.height = width,height
 
     def getInitBoard(self):
         """
@@ -35,7 +39,18 @@ class TD2020Game(Game):
             startBoard: a representation of the board (ideally this is the form that will be the input to your neural network)
         """
 
-        return self._base_board.tiles
+        world: Grid = Grid(self.width, self.height)
+
+        # init
+        # world objects are bound only to world grid, but player objects have tile location stored in player
+        from td2020.src.Actors import Granite
+        # spawn granite
+        granite = Granite(int(self.width / 2), int(self.height / 2))
+        world[int(self.width / 2)][int(self.height / 2)].actors.append(granite)
+        # spawn players in world with their initial pieces
+        world.spawn_players()
+
+        return world
 
     def getBoardSize(self):
         """
@@ -49,11 +64,8 @@ class TD2020Game(Game):
         Returns:
             actionSize: number of all possible actions
         """
-        player:Player = None # TODO - THIS MUST BE CURRENT PLAYER
+        player: Player = None  # TODO - THIS MUST BE CURRENT PLAYER
         return size(player.actors) * NUM_ALL_ACTIONS
-
-
-
 
     def getNextState(self, board, player, action):
         """
@@ -66,8 +78,6 @@ class TD2020Game(Game):
             nextBoard: board after applying action
             nextPlayer: player who plays in the next turn (should be -player)
         """
-
-
 
     def getValidMoves(self, board, player):
         """
@@ -134,3 +144,29 @@ class TD2020Game(Game):
                          Required by MCTS for hashing.
         """
         pass
+
+
+def display(board):
+    # todo - make prefix of which team the piece is on board. If pieces of both teams are on same tile, make special suffix
+    display_str = ["".join(["-----"] * board.width)]
+
+    for i in range(board.width):
+
+        for j in range(board.height):
+
+            tile = board[i][j]
+            if size(tile.actors) > 1:
+                display_str.append(".**.")
+            elif size(tile.actors) == 1:
+                display_str.append(tile.actors[0].short_name)
+            else:
+                display_str.append("    ")
+            display_str.append("|")
+
+        # print("".join(row_str))
+        display_str.append("\n")
+        if i < board.height:
+            #    print( "".join(["-----"]*board.width))
+
+            display_str.append("".join(["-----"] * board.width) + "\n")
+    print("".join(display_str))

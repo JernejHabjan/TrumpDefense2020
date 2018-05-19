@@ -1,10 +1,10 @@
 import sys
 
-sys.path.append('..')
-
-from keras.models import *
 from keras.layers import *
+from keras.models import *
 from keras.optimizers import *
+
+sys.path.append('..')
 
 
 class OthelloNNet():

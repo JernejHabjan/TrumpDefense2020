@@ -149,28 +149,11 @@ class Game:
     # ##################################################################################
 
     def stringRepresentation(self, board):
-        display_str = ["".join(["-----"] * board.width)]
+        print("todo")  # todo
 
-        for i in range(board.width):
+        # b'\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 
-            for j in range(board.height):
-
-                tile = board[i][j]
-                if size(tile.actors) > 1:
-                    display_str.append(".**.")
-                elif size(tile.actors) == 1:
-                    display_str.append(tile.actors[0].short_name)
-                else:
-                    display_str.append("    ")
-                display_str.append("|")
-
-            # print("".join(row_str))
-            display_str.append("\n")
-            if i < board.height:
-                #    print( "".join(["-----"]*board.width))
-
-                display_str.append("".join(["-----"] * board.width) + "\n")
-        print("".join(display_str))
+        pass
 
     def getNextState(self, board, player, action):
         # create copy of old world and execute actions on new one

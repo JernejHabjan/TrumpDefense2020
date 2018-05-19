@@ -27,6 +27,7 @@ class Grid:
         # spawn after they are created, so buildings can add themselves to this world for this player
         self.players[-1].initial_spawn()
         self.players[1].initial_spawn()
+
     # add [][] indexer syntax to the Board
     def __getitem__(self, index):
         return self.tiles[index]

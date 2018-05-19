@@ -1,9 +1,9 @@
 import sys
 import numpy as np
-
-sys.path.append('..')
 from Game import Game
 from .Connect4Logic import Board
+
+sys.path.append('..')
 
 
 class Connect4Game(Game):
@@ -31,7 +31,7 @@ class Connect4Game(Game):
         return b.np_pieces, -player
 
     def getValidMoves(self, board, player):
-        "Any zero value in top row in a valid move"
+        """Any zero value in top row in a valid move"""
         return self._base_board.with_np_pieces(np_pieces=board).get_valid_moves()
 
     def getGameEnded(self, board, player):

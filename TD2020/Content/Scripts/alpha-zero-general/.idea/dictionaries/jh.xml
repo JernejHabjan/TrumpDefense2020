@@ -1,21 +1,65 @@
 <component name="ProjectDictionaryState">
   <dictionary name="jh">
     <words>
+      <w>argmax</w>
+      <w>bkcharts</w>
+      <w>conv</w>
+      <w>cpuct</w>
+      <w>crossentropy</w>
+      <w>cuda</w>
+      <w>cudnn</w>
       <w>cyberbit</w>
+      <w>datasets</w>
+      <w>evgeny</w>
+      <w>filepath</w>
+      <w>funct</w>
       <w>globokega</w>
+      <w>gobang</w>
       <w>habjan</w>
       <w>igre</w>
+      <w>ineracting</w>
+      <w>iters</w>
       <w>jernej</w>
       <w>kantan</w>
+      <w>keras</w>
+      <w>kream</w>
+      <w>maxeps</w>
+      <w>maxlen</w>
+      <w>mcts</w>
       <w>minimap</w>
       <w>myactor</w>
+      <w>newmove</w>
+      <w>newmoves</w>
+      <w>nmcts</w>
+      <w>nnet</w>
+      <w>noninfringement</w>
+      <w>nwins</w>
+      <w>onnet</w>
+      <w>optim</w>
+      <w>overfitting</w>
+      <w>pmcts</w>
+      <w>pnet</w>
+      <w>pretrained</w>
+      <w>probs</w>
+      <w>pwins</w>
+      <w>pytest</w>
+      <w>pytorch</w>
       <w>racecar</w>
       <w>realno</w>
+      <w>relu</w>
+      <w>renormalize</w>
+      <w>softmax</w>
       <w>spodbujevalnega</w>
       <w>strateške</w>
+      <w>surag</w>
+      <w>tanh</w>
+      <w>tensorflow</w>
+      <w>tyurin</w>
       <w>uporabo</w>
       <w>učenja</w>
       <w>učenje</w>
+      <w>valids</w>
+      <w>winstate</w>
       <w>časovne</w>
     </words>
   </dictionary>

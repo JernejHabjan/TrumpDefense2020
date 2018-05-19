@@ -1,15 +1,14 @@
 from Coach import Coach
-from td2020.TD2020Game import TD2020Game as Game
-from td2020.keras.NNet import NNetWrapper as nn
+from othello.OthelloGame import OthelloGame as Game
+from othello.keras.NNet import NNetWrapper as NNet
 from utils import *
 
 # install packages:
-
 # conda install tensorflow
 # conda install keras
 
 
-args = dotdict({
+args = DotDict({
     'numIters': 100,
     'numEps': 100,
     'tempThreshold': 15,
@@ -21,15 +20,14 @@ args = dotdict({
 
     'checkpoint': './temp/',
     'load_model': False,
-    'load_folder_file': ('/dev/models/8x100x50','best.pth.tar'),
+    'load_folder_file': ('/dev/models/8x100x50', 'best.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
-
 })
 
-if __name__=="__main__":
-    """
+if __name__ == "__main__":
+
     g = Game(6)
-    nnet = nn(g)
+    nnet = NNet(g)
 
     if args.load_model:
         nnet.load_checkpoint(args.load_folder_file[0], args.load_folder_file[1])
@@ -39,8 +37,3 @@ if __name__=="__main__":
         print("Load trainExamples from file")
         c.loadTrainExamples()
     c.learn()
-    """
-
-
-
-    g = Game(6)

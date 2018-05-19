@@ -1,13 +1,15 @@
 from __future__ import print_function
 import sys
-sys.path.append('..')
+import numpy as np
 from Game import Game
 from .OthelloLogic import Board
-import numpy as np
+
+sys.path.append('..')
 
 
 class OthelloGame(Game):
     def __init__(self, n):
+        super().__init__()
         self.n = n
 
     def getInitBoard(self):
@@ -21,30 +23,30 @@ class OthelloGame(Game):
 
     def getActionSize(self):
         # return number of actions
-        return self.n*self.n + 1
+        return self.n * self.n + 1
 
     def getNextState(self, board, player, action):
         # if player takes action on board, return next (board,player)
         # action must be a valid move
-        if action == self.n*self.n:
-            return (board, -player)
+        if action == self.n * self.n:
+            return board, -player
         b = Board(self.n)
         b.pieces = np.copy(board)
-        move = (int(action/self.n), action%self.n)
+        move = (int(action / self.n), action % self.n)
         b.execute_move(move, player)
-        return (b.pieces, -player)
+        return b.pieces, -player
 
     def getValidMoves(self, board, player):
         # return a fixed size binary vector
-        valids = [0]*self.getActionSize()
+        valids = [0] * self.getActionSize()
         b = Board(self.n)
         b.pieces = np.copy(board)
-        legalMoves =  b.get_legal_moves(player)
-        if len(legalMoves)==0:
-            valids[-1]=1
+        legalMoves = b.get_legal_moves(player)
+        if len(legalMoves) == 0:
+            valids[-1] = 1
             return np.array(valids)
         for x, y in legalMoves:
-            valids[self.n*x+y]=1
+            valids[self.n * x + y] = 1
         return np.array(valids)
 
     def getGameEnded(self, board, player):
@@ -62,22 +64,22 @@ class OthelloGame(Game):
 
     def getCanonicalForm(self, board, player):
         # return state if player==1, else return -state if player==-1
-        return player*board
+        return player * board
 
     def getSymmetries(self, board, pi):
         # mirror, rotational
-        assert(len(pi) == self.n**2+1)  # 1 for pass
+        assert (len(pi) == self.n ** 2 + 1)  # 1 for pass
         pi_board = np.reshape(pi[:-1], (self.n, self.n))
         l = []
 
         for i in range(1, 5):
             for j in [True, False]:
-                newB = np.rot90(board, i)
-                newPi = np.rot90(pi_board, i)
+                new_b = np.rot90(board, i)
+                new_pi = np.rot90(pi_board, i)
                 if j:
-                    newB = np.fliplr(newB)
-                    newPi = np.fliplr(newPi)
-                l += [(newB, list(newPi.ravel()) + [pi[-1]])]
+                    new_b = np.fliplr(new_b)
+                    new_pi = np.fliplr(new_pi)
+                l += [(new_b, list(new_pi.ravel()) + [pi[-1]])]
         return l
 
     def stringRepresentation(self, board):
@@ -89,24 +91,27 @@ class OthelloGame(Game):
         b.pieces = np.copy(board)
         return b.countDiff(player)
 
+
 def display(board):
     n = board.shape[0]
 
     for y in range(n):
-        print (y,"|",end="")
+        print(y, "|", end="")
     print("")
     print(" -----------------------")
     for y in range(n):
-        print(y, "|",end="")    # print the row #
+        print(y, "|", end="")  # print the row #
         for x in range(n):
-            piece = board[y][x]    # get the piece to print
-            if piece == -1: print("B ",end="")
-            elif piece == 1: print("W ",end="")
+            piece = board[y][x]  # get the piece to print
+            if piece == -1:
+                print("B ", end="")
+            elif piece == 1:
+                print("W ", end="")
             else:
-                if x==n:
-                    print("-",end="")
+                if x == n:
+                    print("-", end="")
                 else:
-                    print("- ",end="")
+                    print("- ", end="")
         print("|")
 
     print("   -----------------------")
