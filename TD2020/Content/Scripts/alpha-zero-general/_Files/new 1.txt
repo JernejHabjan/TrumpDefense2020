@@ -1,0 +1,50 @@
+valid moves:
+	arr = [grid.width][grid.height][actors_in_that_tile???][actions_of_that_actor_that_are_valid]
+	for x in range grid.width:
+		for y in range grid.heignt:
+			for actor in grid[x][y].actors:
+				for action in actor.actions:
+					arr[x][y][actor] += is_valid(action)
+TO JE TUD ACTION SIZE!!!!! AMPAK KKO VEDT FIKSNO ŠT ACTORJEV PA ACTIONSU ZA TA ACTOR					
+					
+
+
+					
+valids = self.game.getValidMoves(self.game.getCanonicalForm(board, cur_player), 1)
+# check if action is valid
+if valids[action] == 0:
+
+
+
+valids bi mogu bit tle pol 1d array !!!!!!!
+action bi pa sestavlu x,y, actor, akcija
+
+aka:
+action = x,y, actor, akcija
+valids[action]
+
+
+
+in pol to nanese na ta function call:
+	 for a in range(self.game.getActionSize()):
+            # if action in valid moves for this state
+            if valids[a]:
+			
+	aka:
+		getActionSize je ubistvu :
+			actionSize = 0
+			for x in range width:
+				for y in range height:
+					 for actor in grid[x][y]
+						actionSize+=actor.actions
+						
+GetNextState:
+	more sprejet array CIFRRRRR IN NE OBJECTU... pa spremeni array cifr INNNNNNNNNNN array objectu ki jih handlam v ozadju
+	
+
+	
+SUMMMARY:
+	VSE FUNKCIJE MORJO NAREST ARRAY S CIFRAM....
+	
+	V OZADJU PA MANAGAJO REAL OBJECT ARRAY
+		- recimo k nardim getValidMoves -> pogledam v real array vse actorje k so tam in pogledam če se majo fajn :D

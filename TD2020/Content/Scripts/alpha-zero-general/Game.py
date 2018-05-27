@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Game:
     """
     This class specifies the base Game class. To define your own game, subclass
@@ -34,7 +37,7 @@ class Game:
         """
         pass
 
-    def getNextState(self, board, player, action):
+    def getNextState(self, board, player: int, action: int):
         """
         Input:
             board: current board
@@ -47,7 +50,7 @@ class Game:
         """
         pass
 
-    def getValidMoves(self, board, player):
+    def getValidMoves(self, board, player: int):
         """
         Input:
             board: current board
@@ -60,7 +63,7 @@ class Game:
         """
         pass
 
-    def getGameEnded(self, board, player):
+    def getGameEnded(self, board, player: int):
         """
         Input:
             board: current board
@@ -69,11 +72,10 @@ class Game:
         Returns:
             r: 0 if game has not ended. 1 if player won, -1 if player lost,
                small non-zero value for draw.
-               
         """
         pass
 
-    def getCanonicalForm(self, board, player):
+    def getCanonicalForm(self, board, player: int) -> np.ndarray:
         """
         Input:
             board: current board
@@ -89,7 +91,7 @@ class Game:
         """
         pass
 
-    def getSymmetries(self, board, pi):
+    def getSymmetries(self, canonical_board: np.ndarray, pi: np.array) -> np.ndarray:
         """
         Input:
             board: current board
@@ -99,6 +101,7 @@ class Game:
             symmForms: a list of [(board,pi)] where each tuple is a symmetrical
                        form of the board and the corresponding pi vector. This
                        is used when training the neural network from examples.
+
         example:
             [(array([[ 0,  0,  0,  0,  0,  0],
                      [ 0,  0,  0,  0,  0,  0],
@@ -160,7 +163,7 @@ class Game:
 
         pass
 
-    def stringRepresentation(self, board):
+    def stringRepresentation(self, canonical_board: np.ndarray) -> bytes:
         """
         Input:
             board: current board

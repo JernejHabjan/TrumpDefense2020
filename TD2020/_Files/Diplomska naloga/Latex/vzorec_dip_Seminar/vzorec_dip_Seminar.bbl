@@ -1,0 +1,73 @@
+\begin{thebibliography}{10}
+
+\bibitem{andersen2012kinect}
+Michael~Riis Andersen, Thomas Jensen, Pavel Lisouski, Anders~Krogh Mortensen,
+  Mikkel~Kragh Hansen, Torben Gregersen, and Peter Ahrendt.
+\newblock Kinect depth sensor evaluation for computer vision applications.
+\newblock Technical report, Department of Engineering, Aarhus University, 2012.
+
+\bibitem{diploma}
+Andreja Balon.
+\newblock Vizualizacija.
+\newblock Diplomska naloga, Fakulteta za elektrotehniko in
+  ra\v{c}unalni\v{s}tvo, Univerza v Ljubljani, 1990.
+
+\bibitem{knuth}
+Donald knuth.
+\newblock Dosegljivo: \url{https://sl.wikipedia.org/wiki/Donald_Knuth}.
+\newblock [Dostopano: 1. 10. 2016].
+
+\bibitem{knuth1983simple}
+Donald~E Knuth and Peter~B Bendix.
+\newblock Simple word problems in universal algebras.
+\newblock In Jörg~H. Siekmann and Graham Wrightson, editors, {\em Automation
+  of Reasoning: Classical papers on computational logic 1957--1966}, pages
+  342--376. Springer, 1983.
+
+\bibitem{lamport}
+Leslie Lamport.
+\newblock {\em LaTEX: A Document Preparation System}.
+\newblock Addison-Wesley, 1986.
+
+\bibitem{nenajkrajsi}
+Tobias Oetiker, Hubert Partl, Irene Hyna, and Elisabeth Schlegl.
+\newblock Ne najkraj\v{s}i uvod v {\LaTeX 2$\epsilon$}.
+\newblock Dosegljivo:
+  \url{http://www-lp.fmf.uni-lj.si/plestenjak/vaje/latex/lshort.pdf}, 2006.
+\newblock [Dostopano: 1. 10. 2016].
+
+\bibitem{bib}
+Oren Patashnik.
+\newblock {BibTeXing}.
+\newblock Dosegljivo: \url{http://bibtexml.sourceforge.net/btxdoc.pdf}, 1988.
+\newblock [Dostopano 5. 6. 2016].
+
+\bibitem{pdfa}
+{PDF/A}.
+\newblock Dosegljivo: \url{http://en.wikipedia.org/wiki/PDF/A}, 2005.
+\newblock [Dostopano: 5. 6. 2016].
+
+\bibitem{poglavje_springer}
+Peter Peer and Borut Batagelj.
+\newblock Art---a perfect testbed for computer vision related research.
+\newblock In {\em Recent Advances in Multimedia Signal Processing and
+  Communications}, pages 611--629. Springer, 2009.
+
+\bibitem{leonardo}
+Franc Solina.
+\newblock 15 seconds of fame.
+\newblock {\em Leonardo}, 37(2):105--110, 2004.
+
+\bibitem{video}
+Franc Solina.
+\newblock Light fountain---an interactive art installation.
+\newblock Dosegljivo: \url{https://youtu.be/CS6x-QwJywg}, 2015.
+\newblock [Dostopano: 9. 10. 2015].
+
+\bibitem{slovarcek}
+Matjaž~Gams (ured.).
+\newblock {DIS} slovarček, slovar računalniških izrazov, verzija 2.1.70.
+\newblock Dosegljivo: \url{http://dis-slovarcek.ijs.si}.
+\newblock [Dostopano: 1. 10. 2016].
+
+\end{thebibliography}

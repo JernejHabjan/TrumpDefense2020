@@ -10,11 +10,13 @@
       <w>cudnn</w>
       <w>cyberbit</w>
       <w>datasets</w>
+      <w>epch</w>
       <w>evgeny</w>
       <w>filepath</w>
       <w>funct</w>
       <w>globokega</w>
       <w>gobang</w>
+      <w>graphviz</w>
       <w>habjan</w>
       <w>igre</w>
       <w>ineracting</w>
@@ -42,6 +44,7 @@
       <w>pretrained</w>
       <w>probs</w>
       <w>pwins</w>
+      <w>pydot</w>
       <w>pytest</w>
       <w>pytorch</w>
       <w>racecar</w>
@@ -53,7 +56,9 @@
       <w>strateške</w>
       <w>surag</w>
       <w>tanh</w>
+      <w>tensorboard</w>
       <w>tensorflow</w>
+      <w>tictactoe</w>
       <w>tyurin</w>
       <w>uporabo</w>
       <w>učenja</w>

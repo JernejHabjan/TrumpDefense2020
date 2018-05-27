@@ -1,11 +1,13 @@
 from Coach import Coach
-from othello.OthelloGame import OthelloGame as Game
-from othello.keras.NNet import NNetWrapper as NNet
+from games.tictactoe.TicTacToeGame import TicTacToeGame as Game
+from games.tictactoe.keras.NNet import NNetWrapper as NNet
 from utils import *
 
 # install packages:
 # conda install tensorflow
 # conda install keras
+# conda install -c anaconda graphviz
+# conda install pydot
 
 
 args = DotDict({
@@ -21,6 +23,22 @@ args = DotDict({
     'checkpoint': './temp/',
     'load_model': False,
     'load_folder_file': ('/dev/models/8x100x50', 'best.pth.tar'),
+    'numItersForTrainExamplesHistory': 20,
+})
+
+args = DotDict({
+    'numIters': 2,
+    'numEps': 2,
+    'tempThreshold': 15,
+    'updateThreshold': 0.6,
+    'maxlenOfQueue': 200000,
+    'numMCTSSims': 2,
+    'arenaCompare': 2,
+    'cpuct': 1,
+
+    'checkpoint': './temp/',
+    'load_model': False,
+    'load_folder_file': ('./pretrained_models/othello/keras/', '6x6 checkpoint_145.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
 })
 

@@ -12,4 +12,16 @@ canonical board:
 	for td2020:
 		
 		width * height * num_actors_on_tile * num_all_actions
-		
+
+
+
+valid moves:
+    arr = [grid.width][grid.height][actors_in_that_tile???][actions_of_that_actor_that_are_valid????]
+    for x in range grid.width:
+        for y in range grid.heignt:
+            for actor in grid[x][y].actors:
+                for action in actor.actions:
+                    arr[x][y][actor] += is_valid(action)
+symmetries
+    """Board is left/right board symmetric"""
+        return [(board, pi), (board[:, ::-1], pi)] --- TKO JE PR CONNECT 4
