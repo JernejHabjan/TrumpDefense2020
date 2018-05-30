@@ -3,7 +3,7 @@
 
 #include "RTSPlayerController.h"
 #include "RTSTeamInfo.h"
-
+#include "Net/UnrealNetwork.h"
 
 bool ARTSPlayerState::IsSameTeamAs(ARTSPlayerState* Other)
 {

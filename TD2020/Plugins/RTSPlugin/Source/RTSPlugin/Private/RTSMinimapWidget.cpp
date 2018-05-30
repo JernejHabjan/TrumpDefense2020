@@ -11,7 +11,9 @@
 #include "RTSPlayerState.h"
 #include "RTSVisionInfo.h"
 #include "RTSVisionState.h"
+
 #include "RTSVisionVolume.h"
+#include "EngineUtils.h"
 
 
 URTSMinimapWidget::URTSMinimapWidget(const FObjectInitializer& ObjectInitializer)
@@ -253,6 +255,7 @@ void URTSMinimapWidget::DrawViewFrustum(FPaintContext& InContext) const
 	{
 		return;
 	}
+
 
 	int32 ViewportWidth;
 	int32 ViewportHeight;

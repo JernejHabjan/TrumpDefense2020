@@ -13,7 +13,7 @@
 #include "RTSPlayerAdvantageComponent.h"
 #include "RTSPlayerResourcesComponent.h"
 #include "RTSUtilities.h"
-
+#include "Net/UnrealNetwork.h"
 
 URTSProductionComponent::URTSProductionComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

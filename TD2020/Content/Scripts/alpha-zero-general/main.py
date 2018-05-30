@@ -1,6 +1,6 @@
 from Coach import Coach
-from games.tictactoe.TicTacToeGame import TicTacToeGame as Game
-from games.tictactoe.keras.NNet import NNetWrapper as NNet
+from games.othello.OthelloGame import OthelloGame as Game
+from games.othello.keras.NNet import NNetWrapper as NNet
 from utils import *
 
 # install packages:

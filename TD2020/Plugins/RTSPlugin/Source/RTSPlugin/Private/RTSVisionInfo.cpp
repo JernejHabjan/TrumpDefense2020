@@ -9,7 +9,7 @@
 #include "RTSTeamInfo.h"
 #include "RTSVisionComponent.h"
 #include "RTSVisionVolume.h"
-
+#include "Net/UnrealNetwork.h"
 
 ARTSVisionInfo::ARTSVisionInfo()
 {

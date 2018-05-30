@@ -8,7 +8,7 @@
 #include "RTSPlayerAdvantageComponent.h"
 #include "RTSPlayerResourcesComponent.h"
 #include "RTSResourceType.h"
-
+#include "Net/UnrealNetwork.h"
 
 URTSConstructionSiteComponent::URTSConstructionSiteComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

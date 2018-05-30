@@ -3,7 +3,9 @@
 
 #include "RTSPlayerState.h"
 #include "RTSTeamInfo.h"
-
+#include "Net/UnrealNetwork.h"
+#include "RTSOwnerComponent.h"
+#include "GameFramework/Controller.h"
 
 URTSOwnerComponent::URTSOwnerComponent(const FObjectInitializer& ObjectInitializer)
 {

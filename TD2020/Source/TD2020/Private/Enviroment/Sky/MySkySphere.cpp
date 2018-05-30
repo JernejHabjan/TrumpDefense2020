@@ -131,7 +131,8 @@ bool AMySkySphere::Validate()
 		SkyMaterialInstance->IsValidLowLevel() &&
 		HorizonColorCurve->IsValidLowLevel() &&
 		ZenithColorCurve->IsValidLowLevel() &&
-		CloudColorCurve->IsValidLowLevel()
+		CloudColorCurve->IsValidLowLevel() &&
+		DirectionalLightActor ->IsValidLowLevel()
 		);
 }
 

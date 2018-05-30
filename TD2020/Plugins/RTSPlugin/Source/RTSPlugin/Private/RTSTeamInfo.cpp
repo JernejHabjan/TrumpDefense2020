@@ -3,7 +3,8 @@
 
 #include "RTSGameState.h"
 #include "RTSPlayerState.h"
-
+#include "Net/UnrealNetwork.h"
+#include "Engine/World.h"
 
 ARTSTeamInfo::ARTSTeamInfo()
 {

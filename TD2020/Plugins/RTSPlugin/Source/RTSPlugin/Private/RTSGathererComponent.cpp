@@ -8,8 +8,9 @@
 #include "RTSResourceSourceComponent.h"
 #include "RTSResourceDrainComponent.h"
 #include "RTSUtilities.h"
-
-
+#include "Net/UnrealNetwork.h"
+#include "EngineUtils.h"
+#include "RTSOwnerComponent.h"
 URTSGathererComponent::URTSGathererComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {

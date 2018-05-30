@@ -1,6 +1,6 @@
 #include "RTSPluginPCH.h"
 #include "RTSVisionComponent.h"
-
+#include "Net/UnrealNetwork.h"
 
 URTSVisionComponent::URTSVisionComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

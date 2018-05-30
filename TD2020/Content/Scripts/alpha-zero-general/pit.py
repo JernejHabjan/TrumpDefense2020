@@ -1,8 +1,8 @@
 import Arena
 from MCTS import MCTS
-from games.tictactoe.TicTacToeGame import TicTacToeGame, display
-from games.tictactoe.TicTacToePlayers import RandomPlayer, HumanTicTacToePlayer  # ,GreedyTicTacToePlay
-from games.tictactoe.keras.NNet import NNetWrapper as NNet
+from games.othello.OthelloGame import OthelloGame, display
+from games.othello.OthelloPlayers import RandomPlayer, HumanOthelloPlayer  # ,GreedyTicTacToePlay
+from games.othello.keras.NNet import NNetWrapper as NNet
 
 import numpy as np
 from utils import *
@@ -12,16 +12,16 @@ use this script to play any two agents against each other, or play manually with
 any agent.
 """
 
-g = TicTacToeGame(6)
+g = OthelloGame(6)
 
 # all players
 rp = RandomPlayer(g).play
 # gp = GreedyOthelloPlayer(g).play
-hp = HumanTicTacToePlayer(g).play
+hp = HumanOthelloPlayer(g).play
 
 # nnet players
 n1 = NNet(g)
-n1.load_checkpoint('./pretrained_models/tictactoe/keras/', 'best-25eps-25sim-10epch.pth.tar')
+n1.load_checkpoint('./pretrained_models/othello/keras/', '6x6 checkpoint_145.pth.tar')
 args1 = DotDict({'numMCTSSims': 50, 'cpuct': 1.0})
 mcts1 = MCTS(g, n1, args1)
 

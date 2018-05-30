@@ -15,7 +15,8 @@ Based on the board for the game of Othello by Eric P. Nichols.
 """
 
 
-class Board1:
+# from bkcharts.attributes import color
+class Board:
     # list of all 8 directions on the board, as (x,y) offsets
     __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
 
@@ -32,10 +33,10 @@ class Board1:
     def __getitem__(self, index):
         return self.pieces[index]
 
-    def get_legal_moves1(self, color):
+    def get_legal_moves(self, color):
         """Returns all the legal moves for the given color.
         (1 for white, -1 for black)
-        @param color not used and came from previous version.
+        @param color not used and came from previous version.        
         """
         moves = set()  # stores the legal moves.
 
@@ -47,15 +48,15 @@ class Board1:
                     moves.add(newmove)
         return list(moves)
 
-    def has_legal_moves1(self):
+    def has_legal_moves(self):
         for y in range(self.n):
             for x in range(self.n):
                 if self[x][y] == 0:
                     return True
         return False
 
-    def is_win1(self, color):
-        """Check whether the given player has collected a triplet in any direction;
+    def is_win(self, color):
+        """Check whether the given player has collected a triplet in any direction; 
         @param color (1=white,-1=black)
         """
         win = self.n
@@ -91,8 +92,8 @@ class Board1:
 
         return False
 
-    def execute_move1(self, move, color):
-        """Perform the given move on the board;
+    def execute_move(self, move, color):
+        """Perform the given move on the board; 
         color gives the color pf the piece to play (1=white,-1=black)
         """
 
@@ -101,25 +102,3 @@ class Board1:
         # Add the piece to the empty square.
         assert self[x][y] == 0
         self[x][y] = color
-
-
-
-class Board:
-    def __init__(self, n=3):
-        self.num_board = Board1(n)
-
-    def __getitem__(self, index):
-        return self.num_board.pieces[index]
-
-    def get_legal_moves(self, color):
-        return self.num_board.get_legal_moves1(color)
-
-    def has_legal_moves(self):
-        return self.num_board.has_legal_moves1()
-
-    def is_win(self, color):
-        return self.num_board.is_win1(color)
-
-    def execute_move(self, move, color):
-        self.num_board.execute_move1(move,color)
-

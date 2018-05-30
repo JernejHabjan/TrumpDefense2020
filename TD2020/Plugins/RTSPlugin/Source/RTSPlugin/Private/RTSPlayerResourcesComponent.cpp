@@ -4,7 +4,7 @@
 #include "GameFramework/Actor.h"
 
 #include "RTSResourceType.h"
-
+#include "Net/UnrealNetwork.h"
 
 URTSPlayerResourcesComponent::URTSPlayerResourcesComponent(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
