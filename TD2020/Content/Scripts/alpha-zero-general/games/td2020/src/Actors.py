@@ -26,7 +26,7 @@ class MyActor(GeneralActor):
         self.current_action = ""
         self.actions = ["idle"]
 
-        from td2020.src.ActionManager import ActionManager
+        from games.td2020.src.ActionManager import ActionManager
         self.action_manager = ActionManager(self, self.actions)
 
     def update(self, world, action: str):
@@ -57,7 +57,7 @@ class TownHall(BuildingMaster):
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
 
-        from td2020.src.Components import UnitProductionComponent
+        from games.td2020.src.Components import UnitProductionComponent
         self.unit_production_component = UnitProductionComponent(self, self.unit_types)
 
         self.max_health = 400
@@ -79,7 +79,7 @@ class Barracks(BuildingMaster):
 
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
-        from td2020.src.Components import UnitProductionComponent
+        from games.td2020.src.Components import UnitProductionComponent
 
         self.unit_production_component = UnitProductionComponent(self, self.unit_types)
 
@@ -100,7 +100,7 @@ class Barracks(BuildingMaster):
 class MiningShack(BuildingMaster):
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
-        from td2020.src.Components import ResourcesDepositComponent
+        from games.td2020.src.Components import ResourcesDepositComponent
         self.resources_deposit_component = ResourcesDepositComponent()
         self.max_health = 150
         self.production_time: int = 2
@@ -114,7 +114,7 @@ class MiningShack(BuildingMaster):
 class Sentry(BuildingMaster):
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
-        from td2020.src.Components import AttackComponent
+        from games.td2020.src.Components import AttackComponent
 
         self.attack_component = AttackComponent(10, 2)
         self.max_health = 200
@@ -165,7 +165,7 @@ class RifleInfantry(Character):
         self.health = self.max_health
         self.current_production_time = self.production_time
 
-        from td2020.src.Components import AttackComponent
+        from games.td2020.src.Components import AttackComponent
         self.attack_component = AttackComponent(10, 2)
 
         self.actions.extend(["up", "down", "right", "left", "choose_enemy", "attack"])

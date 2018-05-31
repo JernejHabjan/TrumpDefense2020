@@ -20,7 +20,7 @@ class Grid:
     def spawn_players(self):
         # spawn players
 
-        from td2020.src.Player import Player
+        from games.td2020.src.Player import Player
         self.players[-1] = Player(-1, self, 0, 0)
         self.players[1] = Player(1, self, self.width - 1, self.height - 1)
 

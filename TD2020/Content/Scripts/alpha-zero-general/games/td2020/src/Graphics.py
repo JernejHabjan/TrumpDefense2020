@@ -32,7 +32,7 @@ def init_visuals(world_width: int, world_height: int, visuals=True):
 
 
 def update_graphics(world, game_display, clock, fps: int = 1):
-    from td2020.src.Actors import GeneralActor
+    from games.td2020.src.Actors import GeneralActor
     # clear display
     global num_actors
     game_display.fill((255, 255, 255))
@@ -73,7 +73,7 @@ def update_graphics(world, game_display, clock, fps: int = 1):
 
                 actor_color = (actor.color["R"], actor.color["G"], actor.color["B"])
 
-                from td2020.src.Actors import MyActor
+                from games.td2020.src.Actors import MyActor
                 if isinstance(actor, MyActor):
                     production_percent = float(actor.current_production_time) / float(actor.production_time)  # value between 0 and 1
                     if production_percent != 1:

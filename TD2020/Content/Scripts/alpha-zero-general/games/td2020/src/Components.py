@@ -1,7 +1,7 @@
 # import pandas as pd
 # from td2020.src.FunctionLibrary import retrieve_json
 from numpy import size
-from td2020.src.Grid import Grid
+from games.td2020.src.Grid import Grid
 
 
 class AttackComponent:
@@ -15,10 +15,10 @@ class AttackComponent:
 
 
 class UnitProductionComponent:
-    from td2020.src.Actors import BuildingMaster
+    from games.td2020.src.Actors import BuildingMaster
 
     def __init__(self, parent: BuildingMaster, unit_types: list):
-        from td2020.src.Actors import BuildingMaster
+        from games.td2020.src.Actors import BuildingMaster
         self.parent: BuildingMaster = parent
         self.unit_types = unit_types
         self.current_production_time: int = 0  # production time of current unit
@@ -26,7 +26,7 @@ class UnitProductionComponent:
 
     # produces unit by index from array
     def construct_unit(self, name, world: Grid):  # TODO - SPAWN NEW CHARACTER IN APPROPRIATE WORLD
-        from td2020.src.Actors import MyActor, NPC, RifleInfantry
+        from games.td2020.src.Actors import MyActor, NPC, RifleInfantry
 
         print("started constructing unit " + name)
         character_temp: MyActor = eval(name)(self.parent.player, self.parent.x, self.parent.y)

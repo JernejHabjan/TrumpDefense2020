@@ -1,8 +1,8 @@
 class Player:
-    from td2020.src import Grid
+    from games.td2020.src import Grid
 
     def __init__(self, name: int, world: Grid, start_x: int, start_y: int):
-        from td2020.src import Grid
+        from games.td2020.src import Grid
         self.world: Grid = world
         self.name: int = name
         self.start_x: int = start_x
@@ -13,7 +13,7 @@ class Player:
         self.actors = []
 
     def initial_spawn(self):
-        from td2020.src.Actors import TownHall, RifleInfantry, MiningShack, NPC
+        from games.td2020.src.Actors import TownHall, RifleInfantry, MiningShack, NPC
 
         print("initial spawn")
         # spawn initial buildings and characters

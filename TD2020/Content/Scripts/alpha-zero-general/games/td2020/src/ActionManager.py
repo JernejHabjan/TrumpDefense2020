@@ -1,14 +1,14 @@
 import pandas as pd
 from numpy import size
 
-from td2020.src.FunctionLibrary import friendly  # , retrieve_json, same_tile
-from td2020.src.Grid import Grid
+from games.td2020.src.FunctionLibrary import friendly  # , retrieve_json, same_tile
+from games.td2020.src.Grid import Grid
 
 
 class ActionManager:
 
     def __init__(self, actor,actions):
-        from td2020.src.Actors import MyActor
+        from games.td2020.src.Actors import MyActor
 
         self.actions = actions
         self.actor: MyActor = actor
@@ -127,22 +127,22 @@ class ActionManager:
     # ACTIONS
 
     def up(self, world: Grid):
-        from td2020.src.Actors import Character
+        from games.td2020.src.Actors import Character
         if issubclass(type(self.actor), Character):
             self.execute_move(self.actor.x, self.actor.y - 1, world)
 
     def down(self, world: Grid):
-        from td2020.src.Actors import Character
+        from games.td2020.src.Actors import Character
         if issubclass(type(self.actor), Character):
             self.execute_move(self.actor.x, self.actor.y + 1, world)
 
     def right(self, world: Grid):
-        from td2020.src.Actors import Character
+        from games.td2020.src.Actors import Character
         if issubclass(type(self.actor), Character):
             self.execute_move(self.actor.x + 1, self.actor.y, world)
 
     def left(self, world: Grid):
-        from td2020.src.Actors import Character
+        from games.td2020.src.Actors import Character
         if issubclass(type(self.actor), Character):
             self.execute_move(self.actor.x - 1, self.actor.y, world)
 
@@ -150,7 +150,7 @@ class ActionManager:
         pass
 
     def mine_resources(self, world: Grid):
-        from td2020.src.Actors import ResourcesMaster
+        from games.td2020.src.Actors import ResourcesMaster
         # find if there are any resources on this location
         resource = None
         for actor in world[self.actor.x][self.actor.y].actors:
@@ -163,7 +163,7 @@ class ActionManager:
             return
 
         print("there are resources")
-        from td2020.src.Actors import NPC
+        from games.td2020.src.Actors import NPC
         if isinstance(self.actor, NPC) and self.actor.gather_amount < self.actor.max_gather_amount:
             print("successfully mined resources")
             resource.amount -= resource.gather_amount
@@ -179,7 +179,7 @@ class ActionManager:
         # no mines found on this location - return
         if not mine:
             return
-        from td2020.src.Actors import NPC
+        from games.td2020.src.Actors import NPC
         if isinstance(self.actor, NPC) and friendly(mine, self.actor):
             print("resources returned")
 
@@ -190,7 +190,7 @@ class ActionManager:
             print("new money amount " + str(world.players[self.actor.player].money))
 
     def spawn_here(self, name: str, world: Grid):  # spawns construction proxy
-        from td2020.src.Actors import BuildingMaster, Barracks, TownHall, Sentry, MiningShack
+        from games.td2020.src.Actors import BuildingMaster, Barracks, TownHall, Sentry, MiningShack
 
         # check if here no buildings exist yet
         building_exists_on_tile = any(isinstance(actor, BuildingMaster) for actor in world[self.actor.x][self.actor.y].actors)
@@ -220,7 +220,7 @@ class ActionManager:
         # get building to construct on this tile
         building = None
         for actor in world[self.actor.x][self.actor.y].actors:
-            from td2020.src.Actors import BuildingMaster
+            from games.td2020.src.Actors import BuildingMaster
             if isinstance(actor, BuildingMaster):
                 # we found building on this tile
                 if actor.current_production_time < actor.production_time:

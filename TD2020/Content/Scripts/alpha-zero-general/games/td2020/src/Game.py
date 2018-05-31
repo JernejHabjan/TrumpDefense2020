@@ -2,7 +2,7 @@ import copy
 import pygame
 from numpy import size
 
-from td2020.src.Graphics import init_visuals, update_graphics
+from games.td2020.src.Graphics import init_visuals, update_graphics
 
 
 class Game:
@@ -12,7 +12,7 @@ class Game:
         self.timeout_ticks = timeout_ticks
         self.current_player = 1  # set start to white player
         # create initial world
-        from td2020.src.Grid import Grid
+        from games.td2020.src.Grid import Grid
 
         self.world_width = world_width
         self.world_height = world_height
@@ -63,7 +63,7 @@ class Game:
         return True
 
     def spawn_world(self, world_width: int, world_height: int, ):
-        from td2020.src.Actors import Granite
+        from games.td2020.src.Actors import Granite
         # spawn granite
         granite = Granite(int(world_width / 2), int(world_height / 2))
         self.world[int(world_width / 2)][int(world_height / 2)].actors.append(granite)
@@ -73,7 +73,7 @@ class Game:
             return False
 
         # create copy of old world and execute actions on new one
-        from td2020.src.Grid import Grid
+        from games.td2020.src.Grid import Grid
         import random
 
         new_world: Grid = copy.deepcopy(self.world)
@@ -93,12 +93,12 @@ class Game:
             return False
 
         # create copy of old world and execute actions on new one
-        from td2020.src.Grid import Grid
+        from games.td2020.src.Grid import Grid
         new_world: Grid = copy.deepcopy(self.world)
 
         player = new_world.players[self.current_player]
 
-        from td2020.src.ActionManager import ActionManager
+        from games.td2020.src.ActionManager import ActionManager
         import random
 
         action = random.choice(ActionManager(None, []).actions)  # FOR NOW RANDOM
@@ -157,7 +157,7 @@ class Game:
 
     def getNextState(self, board, player, action):
         # create copy of old world and execute actions on new one
-        from td2020.src.Grid import Grid
+        from games.td2020.src.Grid import Grid
 
         new_world: Grid = copy.deepcopy(board)
         player = new_world.players[player]
@@ -171,7 +171,7 @@ class Game:
 
     def getInitBoard(self):
         import numpy as np
-        from td2020.src.Grid import Grid
+        from games.td2020.src.Grid import Grid
         world = Grid(self.world_width, self.world_width)
         return np.array(world.tiles)  # Todo - is this correct -because these are objects not nubers as may be required in neural network or other functions in this project
 

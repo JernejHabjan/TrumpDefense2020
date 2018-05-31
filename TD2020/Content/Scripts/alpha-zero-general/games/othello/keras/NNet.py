@@ -27,7 +27,8 @@ class NNetWrapper(NeuralNet):
         self.board_x, self.board_y = game.getBoardSize()
         self.action_size = game.getActionSize()
 
-        self.tensorboard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0, write_graph=True, write_images=True)
+        self.tensorboard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0,
+                                       write_graph=True, write_images=True)
         # plot_model(self.nnet.model, to_file='_Files\\models\\' + type(self.nnet).__name__ + '_model_plot.png', show_shapes=True, show_layer_names=True)
 
     def train(self, examples):
@@ -39,7 +40,8 @@ class NNetWrapper(NeuralNet):
         target_pis = np.asarray(target_pis)
         target_vs = np.asarray(target_vs)
 
-        self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
+        self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs,
+                            callbacks=[self.tensorboard])
 
     def predict(self, board):
         """
@@ -64,6 +66,14 @@ class NNetWrapper(NeuralNet):
 
         # run
         pi, v = self.nnet.model.predict(board)
+
+        """
+        (p, v) =  fθ(s). The vector of move probabilities p represents the probability of selecting each move 
+        a (including pass), pa =  Pr(a| s). The value v is a scalar evaluation, 
+        estimating the probability of the current player winning from position s. 
+        This neural network combines the roles of both policy network and value network into a single architecture.
+      
+        """
 
         # pi
         """

@@ -1,0 +1,120 @@
+Kabinet R3.69
+
+1. Predstavitev igre TD2020
+	Menu - 2 AI nasprotnika ki igrata s pomočjo algoritma drug proti drugemu
+	Singleplayer - Igranje s pomočjo recommendation sistema proti nasprotiku, ki igra s pomočjo algoritma
+	Multiplayer - recommendation sistemi za oba igralca
+	Settings - Nastavitev težavnosti AI (easy, medium, hard) in advanced settings, kjer lahko kontroliramo npr NumMCTSSims, C parameter etc.
+	Plugin UE4 Python za linkanje igre z algoritmom
+	
+	Poudarek pri diplomski tudi na to UE4 igro, ker je v njo vloženo veliko časa
+2. Predstavitev igre v PyGame
+		Actions:
+			["idle", "up", "down", "right", "left",
+			"mine_resources", "return_resources", 
+			"attack", "choose_enemy",
+			"npc", "rifle_infantry",
+			"town_hall", "barracks", "sentry", "mining_shack", "continue_building"]
+
+3. Predstavitev algoritma Alpha zero
+	3.1 Algoritem na githubu
+		https://github.com/suragnair/alpha-zero-general
+	3.1 Predstavitev algoritma v pycharmu
+		
+		Pravil za scoring ni potrebno določiti, ampak določitev timeouta je potrebno?
+		Urejanje objektnega grida, in posredovanje numeric verzije NNet algoritmu
+		
+	3.2
+		Keras, Tensorflow in pytorch
+	3.3 NNet:
+		
+		
+		
+class OthelloNNet:
+def __init__(self, game, args):
+# game params
+self.board_x, self.board_y = game.getBoardSize()
+self.action_size = game.getActionSize()
+self.args = args
+
+# Neural Net
+self.input_boards = Input(shape=(self.board_x, self.board_y))  # s: batch_size x board_x x board_y
+
+x_image = Reshape((self.board_x, self.board_y, 1))(self.input_boards)  # batch_size  x board_x x board_y x 1
+h_conv1 = Activation('relu')(BatchNormalization(axis=3)(Conv2D(args.num_channels, 3, padding='same')(x_image)))  # batch_size  x board_x x board_y x num_channels
+h_conv2 = Activation('relu')(BatchNormalization(axis=3)(Conv2D(args.num_channels, 3, padding='same')(h_conv1)))  # batch_size  x board_x x board_y x num_channels
+h_conv3 = Activation('relu')(BatchNormalization(axis=3)(Conv2D(args.num_channels, 3, padding='valid')(h_conv2)))  # batch_size  x (board_x-2) x (board_y-2) x num_channels
+h_conv4 = Activation('relu')(BatchNormalization(axis=3)(Conv2D(args.num_channels, 3, padding='valid')(h_conv3)))  # batch_size  x (board_x-4) x (board_y-4) x num_channels
+h_conv4_flat = Flatten()(h_conv4)
+s_fc1 = Dropout(args.dropout)(Activation('relu')(BatchNormalization(axis=1)(Dense(1024)(h_conv4_flat))))  # batch_size x 1024
+s_fc2 = Dropout(args.dropout)(Activation('relu')(BatchNormalization(axis=1)(Dense(512)(s_fc1))))  # batch_size x 1024
+self.pi = Dense(self.action_size, activation='softmax', name='pi')(s_fc2)  # batch_size x self.action_size
+self.v = Dense(1, activation='tanh', name='v')(s_fc2)  # batch_size x 1
+
+self.model = Model(inputs=self.input_boards, outputs=[self.pi, self.v])
+self.model.compile(loss=['categorical_crossentropy', 'mean_squared_error'], optimizer=Adam(args.lr))
+
+
+Vrne ubistvu dva outputa - self.pi in self.v
+To je v članku mastering game of go without human knowledge
+https://www.nature.com/articles/nature24270.epdf?author_access_token=VJXbVjaSHxFoctQQ4p2k4tRgN0jAjWel9jnR3ZoTv0PVW4gB86EEpGqTRDtpIz-2rmo8-KG06gqVobU5NSCFeHILHcVFUeMsbvwS-lxjqQGg98faovwjxeTUgZAUMnRQ
+
+(p, v) =  fθ(s). The vector of move probabilities p represents the probability of selecting each move 
+a (including pass), pa =  Pr(a| s). The value v is a scalar evaluation, 
+estimating the probability of the current player winning from position s. 
+This neural network combines the roles of both policy network and value network into a single architecture.
+
+		
+4. Vprašanja
+	Input v nevronsko mrežo:
+		sequence of integers / floats?
+		numpy array? numpy ndarray?
+	Kako definirati akcijo?
+		valid moves:
+			arr = [grid.width][grid.height][actors_in_that_tile???][actions_of_that_actor_that_are_valid]
+			for x in range grid.width:
+				for y in range grid.heignt:
+					for actor in grid[x][y].actors:
+						for action in actor.actions:
+							arr[x][y][actor] += is_valid(action)
+		actionSize = grid.width * grid.height * actors_on_each_tile * num_all_actions				
+	Kako definirati več actorjev na posameznem grid Tilu:
+		Gobang:
+			figure +1 in -1
+			[[ 0  0 -1 -1 -1  0]
+			 [-1  0  0 -1  1  0]
+			 [-1 -1  1  1  1  0]
+			 [ 0 -1 -1  1  1  1]
+			 [ 1  0 -1 -1 -1  0]
+			 [ 0  0  0  0  0  0]]
+	
+		Ali to pomeni, da bi moral razširiti NNet model - več nivojev?
+		Maksimalno število osebkov na grid Tile - NPR 10
+		Tako je fiksen action size, saj lahko dam 10 npr praznih celic na koordinati x,y in popoln actions array
+	Encoding osebkov (ČE SE NEDA MULTIDIMENSIONAL ARRAY)- dictionary 1,2,3,4,5,6... za osebke
+		ali kombinaija številk, kjer prve 2 predstavlata osebek, drugi dve akcijo... etc
+		[
+		  [ [-5 -3] [0]     [-1]    ]
+		  [ [0]     [0]     [+4 +1] ]
+		  [ [0]     [+1 +4] [+4 +3] ]
+		]
+	
+	Posodobitev algoritma na izvrševanje ukazov za vse njegove osebke v enem ciklu
+		problemi - performance?
+	Overfit?
+	Generalization - random spawn points and minerals and obstacles on the way?????
+	
+	Dimenzije NNet - zakaj 1024 ali 512....
+	
+	Evaluating against base model?
+	
+	
+	Optional - Parametri NNEt:
+		args = DotDict({
+			'lr': 0.001,
+			'dropout': 0.3,
+			'epochs': 10,
+			'batch_size': 64,
+			'cuda': False,
+			'num_channels': 512,
+		})
