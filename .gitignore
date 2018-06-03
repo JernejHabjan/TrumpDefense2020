@@ -52,3 +52,4 @@ TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/6x10
 TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/6x6_153checkpoints_best.pth.tar
 TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/8x8_100checkpoints_best.pth.tar
 TD2020/Content/Scripts/alpha-zero-general/pretrained_models/tictactoe/keras/best-25eps-25sim-10epch.pth.tar
+*.DESKTOP-V81M6C5

@@ -189,7 +189,6 @@ class MCTS:
         next_s, next_player = self.game.getNextState(canonical_board, 1, a)
         # get only canonical form that is used for recursive call of MCTS
         next_s = self.game.getCanonicalForm(next_s, next_player)
-
         # calls recursively this search function again and returns terminal or leaf state in variable "v"
         v = self.search(next_s)
 

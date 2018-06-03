@@ -1,0 +1,21 @@
+Mastering Chess and Shogi by Self-Play with a
+General Reinforcement Learning Algorithm
+
+https://arxiv.org/pdf/1712.01815.pdf
+
+Go is well suited to the neural network architecture used in AlphaGo because the rules of
+the game are translationally invariant (matching the weight sharing structure of convolutional
+networks), are defined in terms of liberties corresponding to the adjacencies between points
+on the board (matching the local structure of convolutional networks), and are rotationally and
+reflectionally symmetric (allowing for data augmentation and ensembling). Furthermore, the
+action space is simple (a stone may be placed at each possible location), and the game outcomes
+are restricted to binary wins or losses, both of which may help neural network training.
+Chess and shogi are, arguably, less innately suited to AlphaGo’s neural network architectures.
+The rules are position-dependent (e.g. pawns may move two steps forward from the
+second rank and promote on the eighth rank) and asymmetric (e.g. pawns only move forward,
+and castling is different on kingside and queenside). The rules include long-range interactions
+(e.g. the queen may traverse the board in one move, or checkmate the king from the far side
+of the board). The action space for chess includes all legal destinations for all of the players’
+pieces on the board; shogi also allows captured pieces to be placed back on the board. Both
+chess and shogi may result in draws in addition to wins and losses; indeed it is believed that the
+optimal solution to chess is a draw (17, 20, 30).

@@ -100,7 +100,17 @@ https://developer.nvidia.com/rdp/cudnn-download
 -extract file, add it in corresponding folder in 
 >C:\Program Files\NVIDIA GPU Computing Toolkit\Cuda\v9.0\
 
+### Graphviz and pydot:
+```
+conda install graphviz
+conda install pydot
+```
+Download Graphviz executable from [Here](https://graphviz.gitlab.io/_pages/Download/Download_windows.html)
 
+Add path to environmental variables and !important! restart Pycharm
+```
+C:\Program Files (x86)\Graphviz2.38\bin
+```
 
 #Sources:
 Plugins used: 

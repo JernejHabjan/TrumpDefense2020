@@ -21,6 +21,19 @@
           <option value="pytorch_classification.utils.*" />
           <option value="td2020.src.Actors.MyActor.unit_production_component" />
           <option value="td2020.src.Actors.MyActor.attack_component" />
+          <option value="games.td2020.src.Actors.MyActor.unit_production_component" />
+          <option value="games.td2020.src.Actors.MyActor.attack_component" />
+          <option value="games.td2020.src.Actors.MyActor.current_production_time" />
+          <option value="games.td2020.src.Actors.MyActor.production_time" />
+          <option value="games.td2020.src.Actors.MyActor.health" />
+          <option value="games.td2020.src.Actors.BuildingMaster.current_production_time" />
+          <option value="games.td2020.src.Actors.BuildingMaster.production_time" />
+          <option value="games.td2020.src.Actors.ResourcesMaster.gather_amount" />
+          <option value="games.td2020.src.Actors.MyActor.production_cost" />
+          <option value="games.td2020.src.Actors.MyActor.gather_amount" />
+          <option value="games.td2020.src.Actors.MyActor.short_name" />
+          <option value="games.td2020.src.Actors.MyActor.current_action" />
+          <option value="games.td2020.src.Actors.GeneralActor.color" />
         </list>
       </option>
     </inspection_tool>

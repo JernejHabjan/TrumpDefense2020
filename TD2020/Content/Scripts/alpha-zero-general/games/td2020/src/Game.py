@@ -28,7 +28,7 @@ class Game:
 
         # start game tick
         self.iteration: int = 0  # game iteration
-        self.start_tick(game_display, clock, visuals, fps, exit_after_end)
+        self._start_tick(game_display, clock, visuals, fps, exit_after_end)
 
         # here end game occurred so check scoring who won
         for player_name, player in self.world.players.items():
@@ -39,7 +39,7 @@ class Game:
         print("game finished in " + str(self.iteration) + " turns.")
 
     @staticmethod
-    def manage_input():
+    def _manage_input():
         for event in pygame.event.get():
             # print(event)
             if event.type == pygame.QUIT:
@@ -69,27 +69,8 @@ class Game:
         self.world[int(world_width / 2)][int(world_height / 2)].actors.append(granite)
 
     def manage_game_logic(self):
-        if self.timeout() or self.end_condition():
-            return False
 
-        # create copy of old world and execute actions on new one
-        from games.td2020.src.Grid import Grid
-        import random
-
-        new_world: Grid = copy.deepcopy(self.world)
-        player = new_world.players[self.current_player]
-        print(" ______________ TEAM " + str(player.name) + "_______________")
-        for actor in player.actors:
-            action = random.choice(actor.actions)  # FOR NOW RANDOM
-
-            actor.update(new_world, action)
-
-        self.world, self.current_player = new_world, -player.name
-
-        return True
-
-    def manage_game_logic_COPY(self):  # TODO - THIS ONE USES GET NEXT STATE FUNCTION!!!!!
-        if self.timeout() or self.end_condition():
+        if self._timeout() or self.end_condition():
             return False
 
         # create copy of old world and execute actions on new one
@@ -98,16 +79,15 @@ class Game:
 
         player = new_world.players[self.current_player]
 
-        from games.td2020.src.ActionManager import ActionManager
         import random
+        for _ in range(len(player.actors)):  # #todo - choose random action as many times as current player has actors
+            action = random.choice(list(self.world.ALL_ACTIONS.keys()))  # TODO - FOR NOW RANDOM
 
-        action = random.choice(ActionManager(None, []).actions)  # FOR NOW RANDOM
-
-        self.world, self.current_player = self.getNextState(self.world, self.current_player, action)
+            self.world, self.current_player = self.getNextState(self.world, self.current_player, action)
 
         return True
 
-    def start_tick(self, game_display, clock, visuals=True, fps=1, exit_after_end=True):
+    def _start_tick(self, game_display, clock, visuals=True, fps=1, exit_after_end=True):
         crashed = False
         while not crashed:
 
@@ -119,7 +99,7 @@ class Game:
 
             if visuals:
                 # input
-                if not self.manage_input():
+                if not self._manage_input():
                     crashed = True
                 # graphics
                 update_graphics(self.world, game_display, clock, fps)
@@ -136,7 +116,7 @@ class Game:
                 break
         return winner
 
-    def timeout(self):
+    def _timeout(self):
         if self.iteration > self.timeout_ticks:
             print("---> TIMEOUT <---")
             return True
@@ -148,12 +128,6 @@ class Game:
     # ##################################################################################
     # ##################################################################################
 
-    def stringRepresentation(self, board):
-        print("todo")  # todo
-
-        # b'\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-
-        pass
 
     def getNextState(self, board, player, action):
         # create copy of old world and execute actions on new one
@@ -162,6 +136,8 @@ class Game:
         new_world: Grid = copy.deepcopy(board)
         player = new_world.players[player]
         print(" ______________ TEAM " + str(player.name) + "_______________")
+
+        # todo - here i am looping through all my actors and applying that single action to all of them(same action to npc, town hall...) - This is wrong, so i have to parse action - like coordinates, actor index and action
         for actor in player.actors:
             actor.update(new_world, action)
         return new_world, -player.name
@@ -177,7 +153,8 @@ class Game:
 
     def getActionSize(self):
         # return number of actions
-        return size(self.getValidMoves(self.world, self.world.players[self.current_player]))
+        # same output length as getValidMoves
+        return self.world.width * self.world.height * self.world.MAX_ACTORS_ON_TILE * len(self.world.ALL_ACTIONS)
 
     def getValidMoves(self, board, player):
         valid_moves = []
@@ -191,7 +168,7 @@ class Game:
         winner = self.end_condition()
         if winner:
             return winner
-        if self.timeout():
+        if self._timeout():
             return 1e-4
         return 0
 

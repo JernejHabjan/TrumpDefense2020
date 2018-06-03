@@ -32,13 +32,11 @@ class UnitProductionComponent:
         character_temp: MyActor = eval(name)(self.parent.player, self.parent.x, self.parent.y)
 
         # get production cost of this actor
-        if world.players[self.parent.player].money >= character_temp.production_cost:
-            # pay
-            world.players[self.parent.player].money -= character_temp.production_cost
-            self.producing_units.append(character_temp)
-        else:
-            print("not enough money to start creating unit")
-            del character_temp
+
+        # pay
+        world.players[self.parent.player].money -= character_temp.production_cost
+        self.producing_units.append(character_temp)
+
 
     def update(self, world: Grid):
         # print("running unit production component update")

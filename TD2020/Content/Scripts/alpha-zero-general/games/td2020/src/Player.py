@@ -15,13 +15,13 @@ class Player:
     def initial_spawn(self):
         from games.td2020.src.Actors import TownHall, RifleInfantry, MiningShack, NPC
 
-        print("initial spawn")
+        # print("initial spawn")
         # spawn initial buildings and characters
         town_hall = TownHall(self.name, self.start_x, self.start_y)
-        rifle_infantry = RifleInfantry(self.name, self.start_x, self.start_y)
+        # rifle_infantry = RifleInfantry(self.name, self.start_x, self.start_y)
 
         town_hall.health = town_hall.max_health
-        # town_hall.current_production_time = town_hall.production_time
+        town_hall.current_production_time = town_hall.production_time
 
 
         mining_shack = MiningShack(self.name, self.start_x, self.start_y)
