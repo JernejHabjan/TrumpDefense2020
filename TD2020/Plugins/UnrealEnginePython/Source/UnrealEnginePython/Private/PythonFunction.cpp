@@ -1,6 +1,6 @@
-#include "UnrealEnginePythonPrivatePCH.h"
-#include "PythonFunction.h"
 
+#include "PythonFunction.h"
+#include "UEPyModule.h"
 
 
 void UPythonFunction::SetPyCallable(PyObject *callable)
@@ -10,7 +10,11 @@ void UPythonFunction::SetPyCallable(PyObject *callable)
 }
 
 
+#if ENGINE_MINOR_VERSION > 18
+void UPythonFunction::CallPythonCallable(UObject *Context, FFrame& Stack, RESULT_DECL)
+#else
 void UPythonFunction::CallPythonCallable(FFrame& Stack, RESULT_DECL)
+#endif
 {
 
 	FScopePythonGIL gil;
@@ -32,7 +36,7 @@ void UPythonFunction::CallPythonCallable(FFrame& Stack, RESULT_DECL)
 	PyObject *py_args = PyTuple_New(argn);
 
 	if (Stack.Object && !is_static) {
-		PyObject *py_obj = (PyObject *)ue_get_python_wrapper(Stack.Object);
+		PyObject *py_obj = (PyObject *)ue_get_python_uobject(Stack.Object);
 		if (!py_obj) {
 			unreal_engine_py_log_error();
 			on_error = true;
@@ -52,7 +56,7 @@ void UPythonFunction::CallPythonCallable(FFrame& Stack, RESULT_DECL)
 			if (prop->PropertyFlags & CPF_ReturnParm)
 				continue;
 			if (!on_error) {
-				PyObject *arg = ue_py_convert_property(prop, (uint8 *)Stack.Locals);
+				PyObject *arg = ue_py_convert_property(prop, (uint8 *)Stack.Locals, 0);
 				if (!arg) {
 					unreal_engine_py_log_error();
 					on_error = true;
@@ -72,7 +76,7 @@ void UPythonFunction::CallPythonCallable(FFrame& Stack, RESULT_DECL)
 			if (prop->PropertyFlags & CPF_ReturnParm)
 				continue;
 			if (!on_error) {
-				PyObject *arg = ue_py_convert_property(prop, frame);
+				PyObject *arg = ue_py_convert_property(prop, frame, 0);
 				if (!arg) {
 					unreal_engine_py_log_error();
 					on_error = true;
@@ -104,7 +108,7 @@ void UPythonFunction::CallPythonCallable(FFrame& Stack, RESULT_DECL)
 #if defined(UEPY_MEMORY_DEBUG)
 		UE_LOG(LogPython, Warning, TEXT("FOUND RETURN VALUE"));
 #endif
-		if (ue_py_convert_pyobject(ret, return_property, frame)) {
+		if (ue_py_convert_pyobject(ret, return_property, frame, 0)) {
 			// copy value to stack result value
 			FMemory::Memcpy(RESULT_PARAM, frame + function->ReturnValueOffset, return_property->ArrayDim * return_property->ElementSize);
 		}
@@ -118,7 +122,8 @@ void UPythonFunction::CallPythonCallable(FFrame& Stack, RESULT_DECL)
 UPythonFunction::~UPythonFunction()
 {
 	Py_XDECREF(py_callable);
+	FUnrealEnginePythonHouseKeeper::Get()->UnregisterPyUObject(this);
 #if defined(UEPY_MEMORY_DEBUG)
-	UE_LOG(LogPython, Warning, TEXT("PythonFunction callable XDECREF'ed"));
+	UE_LOG(LogPython, Warning, TEXT("PythonFunction callable %p XDECREF'ed"), this);
 #endif
 }

@@ -1,6 +1,8 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+
 
 #include "UEPyFCharacterEvent.h"
+
+#include "UEPyFModifierKeysState.h"
 
 static PyObject *py_ue_fcharacter_event_get_character(ue_PyFCharacterEvent *self, PyObject * args)
 {
@@ -53,10 +55,42 @@ static PyTypeObject ue_PyFCharacterEventType = {
 	ue_PyFCharacterEvent_methods,             /* tp_methods */
 };
 
+static int ue_py_fcharacter_event_init(ue_PyFCharacterEvent *self, PyObject *args, PyObject *kwargs)
+{
+	char *key;
+	PyObject *py_repeat = nullptr;
+	PyObject *py_modifier = nullptr;
+	if (!PyArg_ParseTuple(args, "sO|O", &key, &py_repeat, &py_modifier))
+	{
+		return -1;
+	}
+
+	FModifierKeysState modifier;
+	if (py_modifier)
+	{
+		ue_PyFModifierKeysState *f_modifier = py_ue_is_fmodifier_keys_state(py_modifier);
+		if (!f_modifier)
+		{
+			PyErr_SetString(PyExc_Exception, "argument is not a FModifierKeysState");
+			return -1;
+		}
+		modifier = f_modifier->modifier;
+	}
+
+
+	FCharacterEvent Event(*UTF8_TO_TCHAR(key), modifier, 0, (py_repeat && PyObject_IsTrue(py_repeat)));
+
+	new(&self->character_event) FCharacterEvent(Event);
+	new(&self->f_input.input) FInputEvent(Event);
+
+	return 0;
+}
+
 void ue_python_init_fcharacter_event(PyObject *ue_module)
 {
 
 	ue_PyFCharacterEventType.tp_base = &ue_PyFInputEventType;
+	ue_PyFCharacterEventType.tp_init = (initproc)ue_py_fcharacter_event_init;
 
 	if (PyType_Ready(&ue_PyFCharacterEventType) < 0)
 		return;
@@ -71,4 +105,11 @@ PyObject *py_ue_new_fcharacter_event(FCharacterEvent key_event)
 	new(&ret->character_event) FCharacterEvent(key_event);
 	new(&ret->f_input.input) FInputEvent(key_event);
 	return (PyObject *)ret;
+}
+
+ue_PyFCharacterEvent *py_ue_is_fcharacter_event(PyObject *obj)
+{
+	if (!PyObject_IsInstance(obj, (PyObject *)&ue_PyFCharacterEventType))
+		return nullptr;
+	return (ue_PyFCharacterEvent *)obj;
 }

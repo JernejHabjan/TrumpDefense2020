@@ -11,11 +11,15 @@ TD2020/Saved/AutoScreenshot.png
 /TD2020/saved/StagedBuilds/
 /TD2020/saved/Crashes/
 /TD2020/saved/Cooked/
+/TD2020/saved/EditorCooked/
 /TD2020/saved/Config/CrashReportClient/
+/TD2020/saved/Temp/
+/TD2020/saved/SaveGames/
+/TD2020/saved/HardwareSurvey/
 
 /TD2020/Content/Developers/
 /TD2020/Content/Collections/
-
+/TD2020/Publish/
 /TD2020/build/
 /TD2020/intermediate/
 /TD2020/binaries/
@@ -34,8 +38,17 @@ TD2020/Saved/AutoScreenshot.png
 /TD2020/Plugins/RTSPlugin/intermediate/
 /TD2020/Plugins/RTSPlugin/screenshots/
 
+/TD2020/Plugins/AdvancedSessions/binaries/
+/TD2020/Plugins/AdvancedSessions/tutorials/
+/TD2020/Plugins/AdvancedSessions/intermediate/
+/TD2020/Plugins/AdvancedSessions/screenshots/
 
+/TD2020/Plugins/AdvancedSteamSessions/binaries/
+/TD2020/Plugins/AdvancedSteamSessions/tutorials/
+/TD2020/Plugins/AdvancedSteamSessions/intermediate/
+/TD2020/Plugins/AdvancedSteamSessions/screenshots/
 
+*_BuiltData.uasset
 *.log
 *.sln
 *nul
@@ -53,3 +66,4 @@ TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/6x6_
 TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/8x8_100checkpoints_best.pth.tar
 TD2020/Content/Scripts/alpha-zero-general/pretrained_models/tictactoe/keras/best-25eps-25sim-10epch.pth.tar
 *.DESKTOP-V81M6C5
+

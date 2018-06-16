@@ -1,9 +1,8 @@
 #pragma once
 
-#include "UnrealEnginePython.h"
+#include "UEPyModule.h"
 
 #include "Runtime/Core/Public/HAL/IConsoleManager.h"
-#include "UEPyIConsoleManager.generated.h"
 
 typedef struct
 {
@@ -11,10 +10,8 @@ typedef struct
 		/* Type-specific fields go here. */
 } ue_PyIConsoleManager;
 
-UCLASS()
-class UPythonConsoleDelegate : public UPythonDelegate
+class FPythonSmartConsoleDelegate : public FPythonSmartDelegate
 {
-	GENERATED_BODY()
 
 public:
 	void OnConsoleCommand(const TArray < FString > &InArgs);

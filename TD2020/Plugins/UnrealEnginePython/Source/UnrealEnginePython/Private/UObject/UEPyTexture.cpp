@@ -1,7 +1,9 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+#include "UEPyTexture.h"
 
 #include "Runtime/Engine/Public/ImageUtils.h"
 #include "Runtime/Engine/Classes/Engine/Texture.h"
+#include "Engine/TextureRenderTarget2D.h"
+#include "Engine/Texture2D.h"
 
 PyObject *py_ue_texture_update_resource(ue_PyUObject *self, PyObject * args)
 {
@@ -110,6 +112,7 @@ PyObject *py_ue_render_target_get_data(ue_PyUObject *self, PyObject * args)
 	if (!tex)
 		return PyErr_Format(PyExc_Exception, "object is not a TextureRenderTarget");
 
+
 	FTextureRenderTarget2DResource *resource = (FTextureRenderTarget2DResource *)tex->Resource;
 	if (!resource)
 	{
@@ -117,12 +120,19 @@ PyObject *py_ue_render_target_get_data(ue_PyUObject *self, PyObject * args)
 	}
 
 	TArray<FColor> pixels;
+
+	if (!resource->IsSupportedFormat(tex->GetFormat()))
+	{
+		return PyErr_Format(PyExc_Exception, "unsupported format for render texture");
+	}
+
+
 	if (!resource->ReadPixels(pixels))
 	{
 		return PyErr_Format(PyExc_Exception, "unable to read pixels");
 	}
 
-	return PyByteArray_FromStringAndSize((const char *)pixels.GetData(), (Py_ssize_t)(tex->GetSurfaceWidth() * 4 * tex->GetSurfaceHeight()));
+	return PyByteArray_FromStringAndSize((const char *)pixels.GetData(), (Py_ssize_t)(pixels.GetTypeSize() * pixels.Num()));
 }
 
 PyObject *py_ue_render_target_get_data_to_buffer(ue_PyUObject *self, PyObject * args)
@@ -260,11 +270,7 @@ PyObject *py_unreal_engine_create_checkerboard_texture(PyObject * self, PyObject
 
 	UTexture2D *texture = FImageUtils::CreateCheckerboardTexture(color_one->color, color_two->color, checker_size);
 
-	ue_PyUObject *ret = ue_get_python_wrapper(texture);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(texture);
 }
 
 PyObject *py_unreal_engine_create_transient_texture(PyObject * self, PyObject * args)
@@ -284,11 +290,7 @@ PyObject *py_unreal_engine_create_transient_texture(PyObject * self, PyObject * 
 
 	texture->UpdateResource();
 
-	ue_PyUObject *ret = ue_get_python_wrapper(texture);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(texture);
 }
 
 PyObject *py_unreal_engine_create_transient_texture_render_target2d(PyObject * self, PyObject * args)
@@ -308,11 +310,7 @@ PyObject *py_unreal_engine_create_transient_texture_render_target2d(PyObject * s
 
 	texture->InitCustomFormat(width, height, (EPixelFormat)format, py_linear && PyObject_IsTrue(py_linear));
 
-	ue_PyUObject *ret = ue_get_python_wrapper(texture);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(texture);
 }
 
 #if WITH_EDITOR
@@ -358,11 +356,7 @@ PyObject *py_unreal_engine_create_texture(PyObject * self, PyObject * args)
 	if (!texture)
 		return PyErr_Format(PyExc_Exception, "unable to create texture");
 
-	ue_PyUObject *ret = ue_get_python_wrapper(texture);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(texture);
 }
 #endif
 

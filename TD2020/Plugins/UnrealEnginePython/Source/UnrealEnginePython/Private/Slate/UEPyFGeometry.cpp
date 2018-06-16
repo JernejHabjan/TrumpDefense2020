@@ -1,10 +1,18 @@
-#include "UnrealEnginePythonPrivatePCH.h"
-
 #include "UEPyFGeometry.h"
 
 static PyObject *py_ue_fgeometry_get_local_size(ue_PyFGeometry *self, PyObject * args)
 {
 	FVector2D size = self->geometry.GetLocalSize();
+	return Py_BuildValue("(ff)", size.X, size.Y);
+}
+
+static PyObject *py_ue_fgeometry_get_absolute_position(ue_PyFGeometry *self, PyObject * args)
+{
+#if ENGINE_MINOR_VERSION < 17
+	FVector2D size = self->geometry.AbsolutePosition;
+#else
+	FVector2D size = self->geometry.GetAbsolutePosition();
+#endif
 	return Py_BuildValue("(ff)", size.X, size.Y);
 }
 
@@ -20,6 +28,7 @@ static PyObject *py_ue_fgeometry_absolute_to_local(ue_PyFGeometry *self, PyObjec
 
 static PyMethodDef ue_PyFGeometry_methods[] = {
 	{ "get_local_size", (PyCFunction)py_ue_fgeometry_get_local_size, METH_VARARGS, "" },
+	{ "get_absolute_position", (PyCFunction)py_ue_fgeometry_get_absolute_position, METH_VARARGS, "" },
 	{ "absolute_to_local", (PyCFunction)py_ue_fgeometry_absolute_to_local, METH_VARARGS, "" },
 	{ NULL }  /* Sentinel */
 };

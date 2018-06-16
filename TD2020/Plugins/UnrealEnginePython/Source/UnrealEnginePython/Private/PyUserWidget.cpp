@@ -1,21 +1,35 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "PyUserWidget.h"
+#include "PyNativeWidgetHost.h"
 
 #include "PythonDelegate.h"
 
 #include "Slate/UEPyFGeometry.h"
 #include "Slate/UEPyFPaintContext.h"
 
+#include "Widgets/Layout/SBox.h"
+#include "UMGStyle.h"
+#include "Runtime/UMG/Public/Blueprint/WidgetTree.h"
+#include "Slate/UEPyFKeyEvent.h"
+#include "Slate/UEPyFPointerEvent.h"
+
 void UPyUserWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+    WidgetTree->ForEachWidget([&](UWidget* Widget) {
+        if (Widget->IsA<UPyNativeWidgetHost>())
+        {
+            PyNativeWidgetHost = Cast<UPyNativeWidgetHost>(Widget);
+        }
+    });
 
 	if (PythonModule.IsEmpty())
 		return;
 
 	FScopePythonGIL gil;
 
-	py_uobject = ue_get_python_wrapper(this);
+	py_uobject = ue_get_python_uobject(this);
 	if (!py_uobject) {
 		unreal_engine_py_log_error();
 		return;
@@ -62,7 +76,7 @@ void UPyUserWidget::NativeConstruct()
 
 	if (PythonPaintForceDisabled)
 		bCanEverPaint = false;
-
+    
 	if (!PyObject_HasAttrString(py_user_widget_instance, (char *)"construct"))
 		return;
 
@@ -215,6 +229,33 @@ FReply UPyUserWidget::NativeOnKeyDown(const FGeometry & InGeometry, const FKeyEv
 	return FReply::Unhandled();
 }
 
+#if WITH_EDITOR
+
+const FText UPyUserWidget::GetPaletteCategory()
+{
+    return NSLOCTEXT("Python", "Python", "Python");
+}
+#endif
+
+void UPyUserWidget::SetSlateWidget(TSharedRef<SWidget> InContent)
+{
+    if (PyNativeWidgetHost.IsValid())
+    {
+        PyNativeWidgetHost->SetContent(InContent);
+    }
+}
+
+
+void UPyUserWidget::ReleaseSlateResources(bool bReleaseChildren)
+{
+    Super::ReleaseSlateResources(bReleaseChildren);
+}
+
+TSharedRef<SWidget> UPyUserWidget::RebuildWidget()
+{
+    return Super::RebuildWidget();
+}
+
 FReply UPyUserWidget::NativeOnMouseWheel(const FGeometry & InGeometry, const FPointerEvent & InMouseEvent)
 {
 	Super::NativeOnMouseWheel(InGeometry, InMouseEvent);
@@ -308,23 +349,46 @@ void UPyUserWidget::NativePaint(FPaintContext & InContext) const
 	Py_DECREF(ret);
 }
 
+UPyUserWidget::UPyUserWidget(const FObjectInitializer& ObjectInitializer)
+    : Super(ObjectInitializer)
+{}
+
 UPyUserWidget::~UPyUserWidget()
 {
 	FScopePythonGIL gil;
 
-	ue_pydelegates_cleanup(py_uobject);
-
-#if defined(UEPY_MEMORY_DEBUG)
-	if (py_user_widget_instance && py_user_widget_instance->ob_refcnt != 1) {
-		UE_LOG(LogPython, Error, TEXT("Inconsistent Python UUserWidget wrapper refcnt = %d"), py_user_widget_instance->ob_refcnt);
-}
-#endif
 	Py_XDECREF(py_user_widget_instance);
 
 #if defined(UEPY_MEMORY_DEBUG)
-	UE_LOG(LogPython, Warning, TEXT("Python UUserWidget %p (mapped to %p) wrapper XDECREF'ed"), this, py_uobject ? py_uobject->ue_object : nullptr);
+	UE_LOG(LogPython, Warning, TEXT("Python UUserWidget %p (mapped to %p) wrapper XDECREF'ed"), this, py_uobject ? py_uobject->py_proxy : nullptr);
 #endif
 
 	// this could trigger the distruction of the python/uobject mapper
 	Py_XDECREF(py_uobject);
+	FUnrealEnginePythonHouseKeeper::Get()->UnregisterPyUObject(this);
+}
+
+void UPyUserWidget::CallPythonUserWidgetMethod(FString method_name, FString args)
+{
+	if (!py_user_widget_instance)
+		return;
+
+	FScopePythonGIL gil;
+
+	PyObject *ret = nullptr;
+	if (args.IsEmpty())
+	{
+		ret = PyObject_CallMethod(py_user_widget_instance, TCHAR_TO_UTF8(*method_name), NULL);
+	}
+	else
+	{
+		ret = PyObject_CallMethod(py_user_widget_instance, TCHAR_TO_UTF8(*method_name), (char *)"s", TCHAR_TO_UTF8(*args));
+	}
+
+	if (!ret)
+	{
+		unreal_engine_py_log_error();
+		return;
+	}
+	Py_DECREF(ret);
 }

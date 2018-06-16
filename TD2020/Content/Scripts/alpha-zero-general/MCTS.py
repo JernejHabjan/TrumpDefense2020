@@ -88,10 +88,15 @@ class MCTS:
         s = self.game.stringRepresentation(canonical_board)
 
         # if not yet in dictionary ES, which stores game.getGameEnded ended for board s
-        if s not in self.Es:
-            # add player who won to that state in dictionary Es
-            self.Es[s] = self.game.getGameEnded(canonical_board, 1)
-            # check if game has finished in this node
+        # if s not in self.Es: # TODO --------------- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ COMMENTED THESE 4 LINES - if actor chooses idle - state remains the same and timeout condition is not checked again
+        #     # add player who won to that state in dictionary Es
+        #     self.Es[s] = self.game.getGameEnded(canonical_board, 1)
+        #     # check if game has finished in this node
+
+        ## TODO ------------------ @@ @@@@@@@@@@@@@@@@@@@@@@@@@@@ my code
+        self.Es[s] = self.game.getGameEnded(canonical_board, 1)
+        ## TODO --------------------------------------------------------------- ASIGNING EVERYTIME NEW VALUE!!!! IS THIS BAD - but timeout has to be checked
+
         # check for terminal condition - end state
         if self.Es[s] != 0:
             # terminal node - return this state back
@@ -171,6 +176,8 @@ class MCTS:
         # pick the action with the highest upper confidence bound
         # loop through all actions
         for a in range(self.game.getActionSize()):
+            # print("action size of size ", self.game.getActionSize())
+            # print("printing action of getActionSize in search mcts", a)
             # if action in valid moves for this state
             if valids[a]:
                 if (s, a) in self.Qsa:
@@ -182,6 +189,10 @@ class MCTS:
                 if u > cur_best:
                     cur_best = u
                     best_act = a
+        else:
+
+            print("no valid actions")
+            print(valids)
 
         # now we got best action
         a = best_act

@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "UnrealEnginePython.h"
 #include "PythonDelegate.generated.h"
 
 UCLASS()
@@ -18,21 +18,15 @@ public:
 	void PyInputHandler();
 	void PyInputAxisHandler(float value);
 
-	bool Tick(float DeltaTime);
-
-#if WITH_EDITOR
-	void PyFOnAssetPostImport(UFactory *factory, UObject *u_object);
-#endif
-
 protected:
-	UFunction *signature;
+	UFunction * signature;
 	bool signature_set;
 
 	UFUNCTION()
-	void PyFakeCallable();
+		void PyFakeCallable();
 
 	PyObject *py_callable;
 
-	
+
 };
 

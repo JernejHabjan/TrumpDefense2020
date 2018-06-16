@@ -1,12 +1,10 @@
 
-#include "UnrealEnginePythonPrivatePCH.h"
-
 #include "UEPySScrollBox.h"
 
 
-#define sw_scroll_box StaticCastSharedRef<SScrollBox>(self->s_compound_widget.s_widget.s_widget)
-
-static PyObject *py_ue_sscroll_box_add_slot(ue_PySScrollBox *self, PyObject * args, PyObject *kwargs) {
+static PyObject *py_ue_sscroll_box_add_slot(ue_PySScrollBox *self, PyObject * args, PyObject *kwargs)
+{
+	ue_py_slate_cast(SScrollBox);
 	PyObject *py_content;
 	int h_align = 0;
 	int v_align = 0;
@@ -19,33 +17,29 @@ static PyObject *py_ue_sscroll_box_add_slot(ue_PySScrollBox *self, PyObject * ar
 	if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O|ii:add_slot", kwlist,
 		&py_content,
 		&h_align,
-		&v_align)) {
-		return NULL;
+		&v_align))
+	{
+		return nullptr;
 	}
 
-	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
-	if (!py_swidget) {
-		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
+	TSharedPtr<SWidget> Content = py_ue_is_swidget<SWidget>(py_content);
+	if (!Content.IsValid())
+	{
+		return nullptr;
 	}
 
-	Py_INCREF(py_swidget);
-	self->s_compound_widget.s_widget.py_swidget_slots.Add(py_swidget);
-
-	SScrollBox::FSlot &fslot = sw_scroll_box->AddSlot();
-	fslot.AttachWidget(py_swidget->s_widget->AsShared());
+	SScrollBox::FSlot &fslot = py_SScrollBox->AddSlot();
+	fslot.AttachWidget(Content.ToSharedRef());
 	fslot.HAlign((EHorizontalAlignment)h_align);
 	fslot.VAlign((EVerticalAlignment)v_align);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_sscroll_box_clear_children(ue_PySScrollBox *self, PyObject * args) {
-	for (ue_PySWidget *child : self->s_compound_widget.s_widget.py_swidget_slots) {
-		Py_DECREF(child);
-	}
-	self->s_compound_widget.s_widget.py_swidget_slots.Empty();
-	sw_scroll_box->ClearChildren();
+static PyObject *py_ue_sscroll_box_clear_children(ue_PySScrollBox *self, PyObject * args)
+{
+	ue_py_slate_cast(SScrollBox);
+	py_SScrollBox->ClearChildren();
 
 	Py_RETURN_NONE;
 }
@@ -60,7 +54,7 @@ static PyMethodDef ue_PySScrollBox_methods[] = {
 PyTypeObject ue_PySScrollBoxType = {
 	PyVarObject_HEAD_INIT(NULL, 0)
 	"unreal_engine.SScrollBox", /* tp_name */
-	sizeof(ue_PySNumericEntryBox), /* tp_basicsize */
+	sizeof(ue_PySScrollBox), /* tp_basicsize */
 	0,                         /* tp_itemsize */
 	0,       /* tp_dealloc */
 	0,                         /* tp_print */
@@ -88,7 +82,8 @@ PyTypeObject ue_PySScrollBoxType = {
 	ue_PySScrollBox_methods,             /* tp_methods */
 };
 
-static int ue_py_sscroll_box_init(ue_PySScrollBox *self, PyObject *args, PyObject *kwargs) {
+static int ue_py_sscroll_box_init(ue_PySScrollBox *self, PyObject *args, PyObject *kwargs)
+{
 
 	ue_py_slate_setup_farguments(SScrollBox);
 
@@ -100,12 +95,13 @@ static int ue_py_sscroll_box_init(ue_PySScrollBox *self, PyObject *args, PyObjec
 	ue_py_slate_farguments_optional_fvector2d("scroll_bar_thickness", ScrollBarThickness);
 	ue_py_slate_farguments_optional_struct_ptr("style", Style, FScrollBoxStyle);
 
-	ue_py_snew(SScrollBox, s_compound_widget.s_widget);
+	ue_py_snew(SScrollBox);
 
 	return 0;
 }
 
-void ue_python_init_sscroll_box(PyObject *ue_module) {
+void ue_python_init_sscroll_box(PyObject *ue_module)
+{
 
 	ue_PySScrollBoxType.tp_init = (initproc)ue_py_sscroll_box_init;
 	ue_PySScrollBoxType.tp_call = (ternaryfunc)py_ue_sscroll_box_add_slot;

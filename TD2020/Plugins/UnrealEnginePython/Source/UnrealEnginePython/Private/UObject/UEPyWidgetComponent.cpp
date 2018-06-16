@@ -1,7 +1,9 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+#include "UEPyWidgetComponent.h"
 
 
 #include "Runtime/UMG/Public/Components/WidgetComponent.h"
+#include "PyUserWidget.h"
+#include "Slate/UEPySWidget.h"
 
 
 PyObject *py_ue_set_slate_widget(ue_PyUObject * self, PyObject * args)
@@ -17,14 +19,16 @@ PyObject *py_ue_set_slate_widget(ue_PyUObject * self, PyObject * args)
 	}
 
 	UWidgetComponent *widget_component = ue_py_check_type<UWidgetComponent>(self);
-	if (!widget_component)
-		return PyErr_Format(PyExc_Exception, "uobject is not a UWidgetComponent");
+	UPyUserWidget *py_user_widget = ue_py_check_type<UPyUserWidget>(self);
+	if (!widget_component && !py_user_widget)
+		return PyErr_Format(PyExc_Exception, "uobject is not a UWidgetComponent or UPyUserWidget");
 
-	ue_PySWidget *s_widget = py_ue_is_swidget(py_widget);
-	if (!s_widget)
-		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
+	TSharedPtr<SWidget> Widget = py_ue_is_swidget<SWidget>(py_widget);
+	if (!Widget.IsValid())
+		return nullptr;
 
-	widget_component->SetSlateWidget(s_widget->s_widget);
+	if (widget_component) { widget_component->SetSlateWidget(Widget); }
+	else { py_user_widget->SetSlateWidget(Widget.ToSharedRef()); }
 
 	Py_RETURN_NONE;
 }

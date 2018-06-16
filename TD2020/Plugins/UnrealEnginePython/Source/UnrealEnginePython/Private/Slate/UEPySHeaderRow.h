@@ -1,7 +1,5 @@
 #pragma once
 
-#include "UnrealEnginePython.h"
-
 #include "UEPySBorder.h"
 
 #include "Runtime/Slate/Public/Widgets/Views/SHeaderRow.h"
@@ -14,3 +12,5 @@ typedef struct {
 } ue_PySHeaderRow;
 
 void ue_python_init_sheader_row(PyObject *);
+
+ue_PySHeaderRow *py_ue_is_sheader_row(PyObject *);

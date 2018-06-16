@@ -1,13 +1,16 @@
+// Copyright 20Tab S.r.l.
+
 #pragma once
 
-#include "UnrealEnginePython.h"
+#include "UEPyModule.h"
 
-typedef struct {
+typedef struct
+{
 	PyObject_HEAD
-	/* Type-specific fields go here. */
-	FDelegateHandle dhandle;
-	UPythonDelegate *py_delegate;
+		/* Type-specific fields go here. */
+		FDelegateHandle dhandle;
 	bool garbaged;
+	TSharedPtr<FPythonSmartDelegate> delegate_ptr;
 } ue_PyFDelegateHandle;
 
 PyObject *py_unreal_engine_add_ticker(PyObject *, PyObject *);

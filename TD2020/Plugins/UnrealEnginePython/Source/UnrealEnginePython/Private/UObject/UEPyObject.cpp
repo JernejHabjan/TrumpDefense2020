@@ -1,12 +1,17 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+#include "UEPyObject.h"
 
 #include "PythonDelegate.h"
 #include "PythonFunction.h"
+#include "Components/ActorComponent.h"
+#include "Engine/UserDefinedEnum.h"
 
 #if WITH_EDITOR
 #include "Runtime/AssetRegistry/Public/AssetRegistryModule.h"
 #include "ObjectTools.h"
 #include "UnrealEd.h"
+#include "Runtime/Core/Public/HAL/FeedbackContextAnsi.h"
+
+#include "Wrappers/UEPyFObjectThumbnail.h"
 #endif
 
 PyObject *py_ue_get_class(ue_PyUObject * self, PyObject * args)
@@ -14,11 +19,7 @@ PyObject *py_ue_get_class(ue_PyUObject * self, PyObject * args)
 
 	ue_py_check(self);
 
-	ue_PyUObject *ret = ue_get_python_wrapper(self->ue_object->GetClass());
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(self->ue_object->GetClass());
 }
 
 PyObject *py_ue_class_generated_by(ue_PyUObject * self, PyObject * args)
@@ -34,11 +35,7 @@ PyObject *py_ue_class_generated_by(ue_PyUObject * self, PyObject * args)
 	if (!u_object)
 		Py_RETURN_NONE;
 
-	ue_PyUObject *ret = ue_get_python_wrapper(u_object);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(u_object);
 }
 
 PyObject *py_ue_class_get_flags(ue_PyUObject * self, PyObject * args)
@@ -72,6 +69,30 @@ PyObject *py_ue_class_set_flags(ue_PyUObject * self, PyObject * args)
 
 	Py_RETURN_NONE;
 }
+
+PyObject *py_ue_get_obj_flags(ue_PyUObject * self, PyObject * args)
+{
+	ue_py_check(self);
+
+	return PyLong_FromUnsignedLongLong((uint64)self->ue_object->GetFlags());
+}
+
+PyObject *py_ue_set_obj_flags(ue_PyUObject * self, PyObject * args)
+{
+
+	ue_py_check(self);
+
+	uint64 flags;
+	if (!PyArg_ParseTuple(args, "K:set_obj_flags", &flags))
+	{
+		return nullptr;
+	}
+
+	self->ue_object->SetFlags((EObjectFlags)flags);
+
+	Py_RETURN_NONE;
+}
+
 
 #if WITH_EDITOR
 PyObject *py_ue_class_set_config_name(ue_PyUObject * self, PyObject * args)
@@ -156,11 +177,7 @@ PyObject *py_ue_get_super_class(ue_PyUObject * self, PyObject * args)
 		u_class = self->ue_object->GetClass();
 	}
 
-	ue_PyUObject *ret = ue_get_python_wrapper(u_class->GetSuperClass());
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(u_class->GetSuperClass());
 }
 
 PyObject *py_ue_get_outer(ue_PyUObject *self, PyObject * args)
@@ -172,11 +189,7 @@ PyObject *py_ue_get_outer(ue_PyUObject *self, PyObject * args)
 	if (!outer)
 		Py_RETURN_NONE;
 
-	ue_PyUObject *ret = ue_get_python_wrapper(outer);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(outer);
 }
 
 PyObject *py_ue_get_outermost(ue_PyUObject *self, PyObject * args)
@@ -188,11 +201,7 @@ PyObject *py_ue_get_outermost(ue_PyUObject *self, PyObject * args)
 	if (!outermost)
 		Py_RETURN_NONE;
 
-	ue_PyUObject *ret = ue_get_python_wrapper(outermost);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(outermost);
 }
 
 PyObject *py_ue_conditional_begin_destroy(ue_PyUObject *self, PyObject * args)
@@ -271,57 +280,101 @@ PyObject *py_ue_is_child_of(ue_PyUObject * self, PyObject * args)
 
 	if (child->IsChildOf(parent))
 	{
-		Py_INCREF(Py_True);
-		return Py_True;
+		Py_RETURN_TRUE;
 	}
 
-	Py_INCREF(Py_False);
-	return Py_False;
+	Py_RETURN_FALSE;
 }
 
 PyObject *py_ue_post_edit_change(ue_PyUObject *self, PyObject * args)
 {
 	ue_py_check(self);
 
-	if (!self->ue_object)
-	{
-		return PyErr_Format(PyExc_Exception, "uobject is not valid");
-	}
 #if WITH_EDITOR
 	self->ue_object->PostEditChange();
 #endif
-	Py_INCREF(Py_None);
-	return Py_None;
+	Py_RETURN_NONE;
+}
+
+PyObject *py_ue_post_edit_change_property(ue_PyUObject *self, PyObject * args)
+{
+	ue_py_check(self);
+
+	char *prop_name = nullptr;
+	int change_type = 0;
+
+	if (!PyArg_ParseTuple(args, "si:post_edit_change_property", &prop_name, &change_type))
+	{
+		return nullptr;
+	}
+
+
+	UStruct *u_struct = nullptr;
+
+	if (self->ue_object->IsA<UStruct>())
+	{
+		u_struct = (UStruct *)self->ue_object;
+	}
+	else
+	{
+		u_struct = (UStruct *)self->ue_object->GetClass();
+	}
+
+	UProperty *prop = u_struct->FindPropertyByName(FName(UTF8_TO_TCHAR(prop_name)));
+	if (!prop)
+		return PyErr_Format(PyExc_Exception, "unable to find property %s", prop_name);
+
+#if WITH_EDITOR
+	FPropertyChangedEvent changed(prop, change_type);
+	self->ue_object->PostEditChangeProperty(changed);
+#endif
+	Py_RETURN_NONE;
 }
 
 PyObject *py_ue_modify(ue_PyUObject *self, PyObject * args)
 {
 	ue_py_check(self);
 
-	if (!self->ue_object)
-	{
-		return PyErr_Format(PyExc_Exception, "uobject is not valid");
-	}
 #if WITH_EDITOR
 	self->ue_object->Modify();
 #endif
-	Py_INCREF(Py_None);
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 PyObject *py_ue_pre_edit_change(ue_PyUObject *self, PyObject * args)
 {
 	ue_py_check(self);
 
-	if (!self->ue_object)
+	UProperty *prop = nullptr;
+	char *prop_name = nullptr;
+
+	if (!PyArg_ParseTuple(args, "|s:pre_edit_change", &prop_name))
 	{
-		return PyErr_Format(PyExc_Exception, "uobject is not valid");
+		return nullptr;
 	}
+
+	if (prop_name)
+	{
+		UStruct *u_struct = nullptr;
+
+		if (self->ue_object->IsA<UStruct>())
+		{
+			u_struct = (UStruct *)self->ue_object;
+		}
+		else
+		{
+			u_struct = (UStruct *)self->ue_object->GetClass();
+		}
+
+		prop = u_struct->FindPropertyByName(FName(UTF8_TO_TCHAR(prop_name)));
+		if (!prop)
+			return PyErr_Format(PyExc_Exception, "unable to find property %s", prop_name);
+	}
+
 #if WITH_EDITOR
-	self->ue_object->PreEditChange(nullptr);
+	self->ue_object->PreEditChange(prop);
 #endif
-	Py_INCREF(Py_None);
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 
@@ -353,8 +406,7 @@ PyObject *py_ue_set_metadata(ue_PyUObject * self, PyObject * args)
 		return PyErr_Format(PyExc_TypeError, "the object does not support MetaData");
 	}
 
-	Py_INCREF(Py_None);
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 PyObject *py_ue_get_metadata(ue_PyUObject * self, PyObject * args)
@@ -470,12 +522,7 @@ PyObject *py_ue_find_function(ue_PyUObject * self, PyObject * args)
 		return Py_None;
 	}
 
-	ue_PyUObject *ret = ue_get_python_wrapper((UObject *)function);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
-
+	Py_RETURN_UOBJECT((UObject *)function);
 }
 
 #if ENGINE_MINOR_VERSION >= 15
@@ -561,6 +608,11 @@ PyObject *py_ue_get_display_name(ue_PyUObject *self, PyObject * args)
 	ue_py_check(self);
 
 #if WITH_EDITOR
+	if (UClass *uclass = ue_py_check_type<UClass>(self))
+	{
+		return PyUnicode_FromString(TCHAR_TO_UTF8(*uclass->GetDisplayNameText().ToString()));
+	}
+
 	if (AActor *actor = ue_py_check_type<AActor>(self))
 	{
 		return PyUnicode_FromString(TCHAR_TO_UTF8(*actor->GetActorLabel()));
@@ -610,7 +662,8 @@ PyObject *py_ue_set_property(ue_PyUObject *self, PyObject * args)
 
 	char *property_name;
 	PyObject *property_value;
-	if (!PyArg_ParseTuple(args, "sO:set_property", &property_name, &property_value))
+	int index = 0;
+	if (!PyArg_ParseTuple(args, "sO|i:set_property", &property_name, &property_value, &index))
 	{
 		return NULL;
 	}
@@ -631,7 +684,7 @@ PyObject *py_ue_set_property(ue_PyUObject *self, PyObject * args)
 		return PyErr_Format(PyExc_Exception, "unable to find property %s", property_name);
 
 
-	if (!ue_py_convert_pyobject(property_value, u_property, (uint8 *)self->ue_object))
+	if (!ue_py_convert_pyobject(property_value, u_property, (uint8 *)self->ue_object, index))
 	{
 		return PyErr_Format(PyExc_Exception, "unable to set property %s", property_name);
 	}
@@ -909,7 +962,8 @@ PyObject *py_ue_get_property(ue_PyUObject *self, PyObject * args)
 	ue_py_check(self);
 
 	char *property_name;
-	if (!PyArg_ParseTuple(args, "s:get_property", &property_name))
+	int index = 0;
+	if (!PyArg_ParseTuple(args, "s|i:get_property", &property_name, &index))
 	{
 		return NULL;
 	}
@@ -929,7 +983,36 @@ PyObject *py_ue_get_property(ue_PyUObject *self, PyObject * args)
 	if (!u_property)
 		return PyErr_Format(PyExc_Exception, "unable to find property %s", property_name);
 
-	return ue_py_convert_property(u_property, (uint8 *)self->ue_object);
+	return ue_py_convert_property(u_property, (uint8 *)self->ue_object, index);
+}
+
+PyObject *py_ue_get_property_array_dim(ue_PyUObject *self, PyObject * args)
+{
+
+	ue_py_check(self);
+
+	char *property_name;
+	if (!PyArg_ParseTuple(args, "s:get_property_array_dim", &property_name))
+	{
+		return NULL;
+	}
+
+	UStruct *u_struct = nullptr;
+
+	if (self->ue_object->IsA<UClass>())
+	{
+		u_struct = (UStruct *)self->ue_object;
+	}
+	else
+	{
+		u_struct = (UStruct *)self->ue_object->GetClass();
+	}
+
+	UProperty *u_property = u_struct->FindPropertyByName(FName(UTF8_TO_TCHAR(property_name)));
+	if (!u_property)
+		return PyErr_Format(PyExc_Exception, "unable to find property %s", property_name);
+
+	return PyLong_FromLongLong(u_property->ArrayDim);
 }
 
 #if WITH_EDITOR
@@ -1018,11 +1101,7 @@ PyObject *py_ue_get_uproperty(ue_PyUObject *self, PyObject * args)
 	if (!u_property)
 		return PyErr_Format(PyExc_Exception, "unable to find property %s", property_name);
 
-	ue_PyUObject *ret = ue_get_python_wrapper(u_property);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(u_property);
 
 }
 
@@ -1080,11 +1159,8 @@ PyObject *py_ue_get_property_class(ue_PyUObject *self, PyObject * args)
 	if (!u_property)
 		return PyErr_Format(PyExc_Exception, "unable to find property %s", property_name);
 
-	ue_PyUObject *ret = ue_get_python_wrapper(u_property->GetClass());
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(u_property->GetClass());
+
 }
 
 PyObject *py_ue_is_rooted(ue_PyUObject *self, PyObject * args)
@@ -1154,6 +1230,38 @@ PyObject *py_ue_bind_event(ue_PyUObject * self, PyObject * args)
 	}
 
 	return ue_bind_pyevent(self, FString(event_name), py_callable, true);
+}
+
+PyObject *py_ue_delegate_bind_ufunction(ue_PyUObject * self, PyObject * args)
+{
+	ue_py_check(self);
+
+	char *delegate_name;
+	PyObject *py_obj;
+	char *fname;
+
+	if (!PyArg_ParseTuple(args, "sOs:delegate_bind_ufunction", &delegate_name, &py_obj, &fname))
+		return nullptr;
+
+	UProperty *u_property = self->ue_object->GetClass()->FindPropertyByName(FName(delegate_name));
+	if (!u_property)
+		return PyErr_Format(PyExc_Exception, "unable to find property %s", delegate_name);
+
+	UDelegateProperty *Prop = Cast<UDelegateProperty>(u_property);
+	if (!Prop)
+		return PyErr_Format(PyExc_Exception, "property is not a UDelegateProperty");
+
+	UObject *Object = ue_py_check_type<UObject>(py_obj);
+	if (!Object)
+		return PyErr_Format(PyExc_Exception, "argument is not a UObject");
+
+	FScriptDelegate script_delegate;
+	script_delegate.BindUFunction(Object, FName(fname));
+
+	// re-assign multicast delegate
+	Prop->SetPropertyValue_InContainer(self->ue_object, script_delegate);
+
+	Py_RETURN_NONE;
 }
 
 #if PY_MAJOR_VERSION >= 3
@@ -1523,11 +1631,7 @@ PyObject *py_ue_add_property(ue_PyUObject * self, PyObject * args)
 
 	// TODO add default value
 
-	ue_PyUObject *ret = ue_get_python_wrapper(u_property);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(u_property);
 }
 
 PyObject *py_ue_as_dict(ue_PyUObject * self, PyObject * args)
@@ -1556,7 +1660,7 @@ PyObject *py_ue_as_dict(ue_PyUObject * self, PyObject * args)
 	TFieldIterator<UProperty> SArgs(u_struct);
 	for (; SArgs; ++SArgs)
 	{
-		PyObject *struct_value = ue_py_convert_property(*SArgs, (uint8 *)u_object);
+		PyObject *struct_value = ue_py_convert_property(*SArgs, (uint8 *)u_object, 0);
 		if (!struct_value)
 		{
 			Py_DECREF(py_struct_dict);
@@ -1579,11 +1683,7 @@ PyObject *py_ue_get_cdo(ue_PyUObject * self, PyObject * args)
 
 	UClass *u_class = (UClass *)self->ue_object;
 
-	ue_PyUObject *ret = ue_get_python_wrapper(u_class->GetDefaultObject());
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(u_class->GetDefaultObject());
 }
 
 
@@ -1619,7 +1719,7 @@ PyObject *py_ue_save_package(ue_PyUObject * self, PyObject * args)
 		package = (UPackage *)outer;
 		has_package = true;
 	}
-	else if (u_object->IsA<UPackage>() && u_object != GetTransientPackage())
+	else if (u_object && u_object->IsA<UPackage>() && u_object != GetTransientPackage())
 	{
 		package = (UPackage *)u_object;
 		has_package = true;
@@ -1681,17 +1781,44 @@ PyObject *py_ue_save_package(ue_PyUObject * self, PyObject * args)
 		UE_LOG(LogPython, Warning, TEXT("no file mapped to UPackage %s, setting its FileName to %s"), *package->GetPathName(), *package->FileName.ToString());
 	}
 
+	// NOTE: FileName may not be a fully qualified filepath
+	if (FPackageName::IsValidLongPackageName(package->FileName.ToString()))
+	{
+		package->FileName = *FPackageName::LongPackageNameToFilename(package->GetPathName(), FPackageName::GetAssetPackageExtension());
+	}
+
 	if (UPackage::SavePackage(package, u_object, RF_Public | RF_Standalone, *package->FileName.ToString()))
 	{
 		FAssetRegistryModule::AssetCreated(u_object);
-		ue_PyUObject *ret = ue_get_python_wrapper(u_object);
-		if (!ret)
-			return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-		Py_INCREF(ret);
-		return (PyObject *)ret;
+		Py_RETURN_UOBJECT(u_object);
 	}
 
 	return PyErr_Format(PyExc_Exception, "unable to save package");
+}
+
+PyObject *py_ue_import_custom_properties(ue_PyUObject * self, PyObject * args)
+{
+	ue_py_check(self);
+
+	char *t3d;
+
+	if (!PyArg_ParseTuple(args, "s:import_custom_properties", &t3d))
+	{
+		return nullptr;
+	}
+
+	FFeedbackContextAnsi context;
+	self->ue_object->ImportCustomProperties(UTF8_TO_TCHAR(t3d), &context);
+
+	TArray<FString> errors;
+	context.GetErrors(errors);
+
+	if (errors.Num() > 0)
+	{
+		return PyErr_Format(PyExc_Exception, "%s", TCHAR_TO_UTF8(*errors[0]));
+	}
+
+	Py_RETURN_NONE;
 }
 
 PyObject *py_ue_asset_can_reimport(ue_PyUObject * self, PyObject * args)
@@ -1770,12 +1897,50 @@ PyObject *py_ue_duplicate(ue_PyUObject * self, PyObject * args)
 	if (!new_asset)
 		return PyErr_Format(PyExc_Exception, "unable to duplicate object");
 
-	ue_PyUObject *ret = ue_get_python_wrapper(new_asset);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
-
+	Py_RETURN_UOBJECT(new_asset);
 }
 #endif
 
+
+PyObject *py_ue_to_bytes(ue_PyUObject * self, PyObject * args)
+{
+
+	ue_py_check(self);
+
+	TArray<uint8> Bytes;
+
+	FObjectWriter(self->ue_object, Bytes);
+
+	return PyBytes_FromStringAndSize((const char *)Bytes.GetData(), Bytes.Num());
+}
+
+PyObject *py_ue_to_bytearray(ue_PyUObject * self, PyObject * args)
+{
+
+	ue_py_check(self);
+
+	TArray<uint8> Bytes;
+
+	FObjectWriter(self->ue_object, Bytes);
+
+	return PyByteArray_FromStringAndSize((const char *)Bytes.GetData(), Bytes.Num());
+}
+
+PyObject *py_ue_from_bytes(ue_PyUObject * self, PyObject * args)
+{
+
+	Py_buffer py_buf;
+
+	if (!PyArg_ParseTuple(args, "z*:from_bytes", &py_buf))
+		return nullptr;
+
+	ue_py_check(self);
+
+	TArray<uint8> Bytes;
+	Bytes.AddUninitialized(py_buf.len);
+	FMemory::Memcpy(Bytes.GetData(), py_buf.buf, py_buf.len);
+
+	FObjectReader(self->ue_object, Bytes);
+
+	Py_RETURN_NONE;
+}

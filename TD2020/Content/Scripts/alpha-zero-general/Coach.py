@@ -55,6 +55,7 @@ class Coach:
         episode_step = 0
 
         while True:
+
             episode_step += 1
             # get canonical board - ugly board
             canonical_board = self.game.getCanonicalForm(board, self.curPlayer)

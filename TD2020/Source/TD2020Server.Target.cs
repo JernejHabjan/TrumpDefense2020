@@ -3,14 +3,14 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-[SupportedPlatforms(UnrealPlatformClass.Server)]
+//[SupportedPlatforms(UnrealPlatformClass.Server)]
 public class TD2020ServerTarget : TargetRules
 {
     public TD2020ServerTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Server;
-		BuildEnvironment = TargetBuildEnvironment.Shared;
-        bOutputToEngineBinaries = true;
+		//BuildEnvironment = TargetBuildEnvironment.Shared;
+        //bOutputToEngineBinaries = true;
 		ExtraModuleNames.Add("TD2020");
 	}
 
@@ -18,11 +18,11 @@ public class TD2020ServerTarget : TargetRules
 	// TargetRules interface.
 	//
 
-	public override void SetupGlobalEnvironment(
-        TargetInfo Target,
-        ref LinkEnvironmentConfiguration OutLinkEnvironmentConfiguration,
-        ref CPPEnvironmentConfiguration OutCPPEnvironmentConfiguration
-        )
-    {
-    }
+	//public override void SetupGlobalEnvironment(
+    //    TargetInfo Target,
+    //    ref LinkEnvironmentConfiguration OutLinkEnvironmentConfiguration,
+    //    ref CPPEnvironmentConfiguration OutCPPEnvironmentConfiguration
+    //    )
+    //{
+    //}
 }

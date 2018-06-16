@@ -1,30 +1,23 @@
 
-#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySBox.h"
 
-
-#define sw_box StaticCastSharedRef<SBox>(self->s_panel.s_widget.s_widget)
-
-static PyObject *py_ue_sbox_set_content(ue_PySBox *self, PyObject * args) {
+static PyObject *py_ue_sbox_set_content(ue_PySBox *self, PyObject * args)
+{
+	ue_py_slate_cast(SBox);
 	PyObject *py_content;
-	if (!PyArg_ParseTuple(args, "O:set_content", &py_content)) {
+	if (!PyArg_ParseTuple(args, "O:set_content", &py_content))
+	{
 		return NULL;
 	}
 
-	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
-	if (!py_swidget) {
-		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
-	}
+	TSharedPtr<SWidget> child = py_ue_is_swidget<SWidget>(py_content);
+	if (!child.IsValid())
+		return nullptr;
 
-	Py_XDECREF(self->s_panel.s_widget.py_swidget_content);
-	Py_INCREF(py_swidget);
-	self->s_panel.s_widget.py_swidget_content = py_swidget;
+	py_SBox->SetContent(child.ToSharedRef());
 
-	sw_box->SetContent(py_swidget->s_widget->AsShared());
-
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
 static PyMethodDef ue_PySBox_methods[] = {
@@ -63,7 +56,8 @@ PyTypeObject ue_PySBoxType = {
 	ue_PySBox_methods,             /* tp_methods */
 };
 
-static int ue_py_sbox_init(ue_PySBox *self, PyObject *args, PyObject *kwargs) {
+static int ue_py_sbox_init(ue_PySBox *self, PyObject *args, PyObject *kwargs)
+{
 
 	ue_py_slate_setup_farguments(SBox);
 
@@ -78,13 +72,14 @@ static int ue_py_sbox_init(ue_PySBox *self, PyObject *args, PyObject *kwargs) {
 	ue_py_slate_farguments_optional_foptional_size("max_desired_width", MaxDesiredWidth);
 	ue_py_slate_farguments_optional_foptional_size("min_desired_height", MinDesiredHeight);
 	ue_py_slate_farguments_optional_foptional_size("min_desired_width", MinDesiredWidth);
-	
-	ue_py_snew(SBox, s_panel.s_widget);
+
+	ue_py_snew(SBox);
 
 	return 0;
 }
 
-void ue_python_init_sbox(PyObject *ue_module) {
+void ue_python_init_sbox(PyObject *ue_module)
+{
 
 	ue_PySBoxType.tp_init = (initproc)ue_py_sbox_init;
 	ue_PySBoxType.tp_call = (ternaryfunc)py_ue_sbox_set_content;

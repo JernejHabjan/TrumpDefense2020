@@ -1,18 +1,15 @@
 import copy
 import pygame
-from numpy import size
-
 from games.td2020.src.Graphics import init_visuals, update_graphics
 
 
 class Game:
-    # team names can include also multiple instances of team names- if there are two players with same team name,
-    # both are appended to same team
+
     def __init__(self, timeout_ticks: int = 1000, visuals=False, world_width=8, world_height=8, fps=1, exit_after_end=True):
-        self.timeout_ticks = timeout_ticks
+
         self.current_player = 1  # set start to white player
         # create initial world
-        from games.td2020.src.Grid import Grid
+        from games.td2020.OthelloLogic import Board as Grid
 
         self.world_width = world_width
         self.world_height = world_height
@@ -22,12 +19,13 @@ class Game:
         # world objects are bound only to world grid, but player objects have tile location stored in player
         self.spawn_world(world_width, world_height)
         self.world.spawn_players()
+        self.world.timeout_ticks = timeout_ticks
 
         # init visuals if variable 'visuals' is true
         game_display, clock = init_visuals(world_width, world_height, visuals)
 
         # start game tick
-        self.iteration: int = 0  # game iteration
+
         self._start_tick(game_display, clock, visuals, fps, exit_after_end)
 
         # here end game occurred so check scoring who won
@@ -36,7 +34,7 @@ class Game:
             for actor in player.actors:
                 print(type(actor).__name__)
             print(str(player_name) + " got score of " + str(player.calculate_score()))
-        print("game finished in " + str(self.iteration) + " turns.")
+        print("game finished in " + str(self.world.iteration) + " turns.")
 
     @staticmethod
     def _manage_input():
@@ -69,21 +67,36 @@ class Game:
         self.world[int(world_width / 2)][int(world_height / 2)].actors.append(granite)
 
     def manage_game_logic(self):
-
-        if self._timeout() or self.end_condition():
+        # manages logic for single player - chooses actions for all players actors and executes them, updating world and assigning player to opposite player
+        # iterates through world and if friendly actor is found there, update it - this may result in updating single actor multiple times, if actor is moved on tile that hasn't been iterated through
+        if self.world.timeout() or self.end_condition(self.world):
             return False
 
-        # create copy of old world and execute actions on new one
-        from games.td2020.src.Grid import Grid
-        new_world: Grid = copy.deepcopy(self.world)
-
-        player = new_world.players[self.current_player]
+        print(" ______________ TEAM " + str(self.current_player) + "_______________")
 
         import random
-        for _ in range(len(player.actors)):  # #todo - choose random action as many times as current player has actors
-            action = random.choice(list(self.world.ALL_ACTIONS.keys()))  # TODO - FOR NOW RANDOM
+        from games.td2020.src.Actors import MyActor
 
-            self.world, self.current_player = self.getNextState(self.world, self.current_player, action)
+        for x in range(self.world_width):
+            for y in range(self.world_height):
+
+                for actor_index in range(self.world.MAX_ACTORS_ON_TILE):
+
+                    if actor_index < len(self.world[x][y].actors):
+                        actor = self.world[x][y].actors[actor_index]
+                        if issubclass(type(actor), MyActor) and actor.player == self.current_player:
+                            # now this is our actor - we can execute action for this actor
+
+                            action_int = self.world.ALL_ACTIONS[random.choice(actor.actions)]  # TODO - random for now
+
+                            # prefix number 1, to prevent from trimming numbers
+                            action = int("1" + str(actor.x) + str(actor.y) + str(actor_index) + str(action_int))
+                            print(str(action))
+                            # do not change current player here in for loop for this player
+                            self.world, _ = self.getNextState(self.world, self.current_player, action)
+
+        # change current player after finishing logic for this player
+        self.current_player = -self.current_player
 
         return True
 
@@ -106,9 +119,10 @@ class Game:
         if exit_after_end:
             pygame.quit()
 
-    def end_condition(self):
+    @staticmethod
+    def end_condition(world):
         winner = None
-        for player_name, player in self.world.players.items():
+        for player_name, player in world.players.items():
             if not len(player.actors):
                 print("Player of team " + player_name + " lost")
                 print("---> GAME END <---")
@@ -116,87 +130,27 @@ class Game:
                 break
         return winner
 
-    def _timeout(self):
-        if self.iteration > self.timeout_ticks:
-            print("---> TIMEOUT <---")
-            return True
-        # update iteration
-        self.iteration += 1
-        return False
-
     # ##################################################################################
     # ##################################################################################
     # ##################################################################################
 
-
-    def getNextState(self, board, player, action):
+    @staticmethod
+    def getNextState(board, player: int, action: int):
         # create copy of old world and execute actions on new one
         from games.td2020.src.Grid import Grid
 
         new_world: Grid = copy.deepcopy(board)
         player = new_world.players[player]
-        print(" ______________ TEAM " + str(player.name) + "_______________")
 
-        # todo - here i am looping through all my actors and applying that single action to all of them(same action to npc, town hall...) - This is wrong, so i have to parse action - like coordinates, actor index and action
-        for actor in player.actors:
-            actor.update(new_world, action)
+        # beware that first value is random prefix (number 1) to prevent from trimming leading 0 when x position is 0
+        action_arr = [int(digit) for digit in str(action)]
+        x = int(action_arr[1])
+        y = int(action_arr[2])
+        actor_index = int(action_arr[3])
+
+        action_str = board.ALL_ACTIONS_INT[int(str(action_arr[4]) + str(action_arr[5]))]
+
+        actor = new_world[x][y].actors[actor_index]
+        actor.update(new_world, action_str)
+
         return new_world, -player.name
-
-    def getBoardSize(self):
-        return self.world.height, self.world.width
-
-    def getInitBoard(self):
-        import numpy as np
-        from games.td2020.src.Grid import Grid
-        world = Grid(self.world_width, self.world_width)
-        return np.array(world.tiles)  # Todo - is this correct -because these are objects not nubers as may be required in neural network or other functions in this project
-
-    def getActionSize(self):
-        # return number of actions
-        # same output length as getValidMoves
-        return self.world.width * self.world.height * self.world.MAX_ACTORS_ON_TILE * len(self.world.ALL_ACTIONS)
-
-    def getValidMoves(self, board, player):
-        valid_moves = []
-
-        for actor in player.actors:
-            valid_moves.append(2)  # TODO ----- FOR NOW APPENDING 2 MOVES --- THIS IS WRONG -- im lazy atm... prestej kok potez lahko nardi posamezn od teh actorjev
-        return valid_moves
-
-    def getGameEnded(self, board, player):
-        # 0 if game has not ended. 1 if player won, -1 if player lost, small non-zero value for draw.
-        winner = self.end_condition()
-        if winner:
-            return winner
-        if self._timeout():
-            return 1e-4
-        return 0
-
-    def getCanonicalForm(self, board, player):
-        """
-        Input:
-            board: current board
-            player: current player (1 or -1)
-
-        Returns:
-            canonicalBoard: returns canonical form of board. The canonical form
-                            should be independent of player. For e.g. in chess,
-                            the canonical form can be chosen to be from the pov
-                            of white. When the player is white, we can return
-                            board as is. When the player is black, we can invert
-                            the colors and return the board.
-        """
-        pass
-
-    def getSymmetries(self, board, pi):
-        """
-        Input:
-            board: current board
-            pi: policy vector of size self.getActionSize()
-
-        Returns:
-            symmForms: a list of [(board,pi)] where each tuple is a symmetrical
-                       form of the board and the corresponding pi vector. This
-                       is used when training the neural network from examples.
-        """
-        pass

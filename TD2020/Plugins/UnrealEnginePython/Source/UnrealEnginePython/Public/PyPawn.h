@@ -2,13 +2,13 @@
 
 
 #include "GameFramework/Pawn.h"
-
+#include "UnrealEnginePython.h"
 #include "PyPawn.generated.h"
 
 
 
 UCLASS(BlueprintType, Blueprintable)
-class APyPawn : public APawn
+class UNREALENGINEPYTHON_API APyPawn : public APawn
 {
 	GENERATED_BODY()
 

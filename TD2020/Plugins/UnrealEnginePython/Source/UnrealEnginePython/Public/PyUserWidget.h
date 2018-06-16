@@ -1,18 +1,18 @@
 #pragma once
 
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
-
+#include "UnrealEnginePython.h"
 #include "PyUserWidget.generated.h"
 
 
 
 UCLASS(BlueprintType, Blueprintable)
-class UPyUserWidget : public UUserWidget
+class UNREALENGINEPYTHON_API UPyUserWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-
+	UPyUserWidget(const FObjectInitializer& ObjectInitializer);
 	~UPyUserWidget();
 
 	virtual void NativeConstruct() override;
@@ -33,19 +33,37 @@ public:
 	virtual FReply NativeOnKeyDown(const FGeometry & InGeometry, const FKeyEvent & InKeyEvent) override;
 
 	UPROPERTY(EditAnywhere, Category = "Python", BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-	FString PythonModule;
+		FString PythonModule;
 
 	UPROPERTY(EditAnywhere, Category = "Python", BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-	FString PythonClass;
+		FString PythonClass;
 
 	UPROPERTY(EditAnywhere, Category = "Python", BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-	bool PythonTickForceDisabled;
+		bool PythonTickForceDisabled;
 
 	UPROPERTY(EditAnywhere, Category = "Python", BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-	bool PythonPaintForceDisabled;
+		bool PythonPaintForceDisabled;
+
+	UFUNCTION(BlueprintCallable, Category = "Python")
+		void CallPythonUserWidgetMethod(FString method_name, FString args);
+
+	UPROPERTY(EditAnywhere, Category = "Python", BlueprintReadWrite)
+		TWeakObjectPtr<class UPyNativeWidgetHost> PyNativeWidgetHost;
+
+#if WITH_EDITOR
+	virtual const FText GetPaletteCategory() override;
+#endif
+
+	void SetSlateWidget(TSharedRef<SWidget> InContent);
+	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
+
+protected:
+	// UWidget interface
+	virtual TSharedRef<SWidget> RebuildWidget() override;
+	// End of UWidget interface
 
 private:
-	PyObject *py_user_widget_instance;
+	PyObject * py_user_widget_instance;
 	// mapped uobject, required for debug and advanced reflection
 	ue_PyUObject *py_uobject;
 };

@@ -1,7 +1,6 @@
+#include "UEPyFbxImporter.h"
 
 #if ENGINE_MINOR_VERSION > 12
-#include "UnrealEnginePythonPrivatePCH.h"
-
 #if WITH_EDITOR
 
 #include "UEPyFbx.h"

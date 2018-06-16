@@ -5,6 +5,7 @@
       <option name="ignoredErrors">
         <list>
           <option value="E262" />
+          <option value="E741" />
         </list>
       </option>
     </inspection_tool>
@@ -34,6 +35,7 @@
           <option value="games.td2020.src.Actors.MyActor.short_name" />
           <option value="games.td2020.src.Actors.MyActor.current_action" />
           <option value="games.td2020.src.Actors.GeneralActor.color" />
+          <option value="games.td2020.src.Actors.MyActor.*" />
         </list>
       </option>
     </inspection_tool>

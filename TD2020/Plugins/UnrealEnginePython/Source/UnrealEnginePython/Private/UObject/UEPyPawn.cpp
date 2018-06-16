@@ -1,5 +1,7 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+#include "UEPyPawn.h"
 
+#include "GameFramework/Pawn.h"
+#include "GameFramework/Controller.h"
 
 PyObject *py_ue_pawn_get_controller(ue_PyUObject * self, PyObject * args)
 {
@@ -13,11 +15,7 @@ PyObject *py_ue_pawn_get_controller(ue_PyUObject * self, PyObject * args)
 
 	APawn *pawn = (APawn *)self->ue_object;
 
-	ue_PyUObject *ret = ue_get_python_wrapper(pawn->GetController());
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(pawn->GetController());
 }
 
 

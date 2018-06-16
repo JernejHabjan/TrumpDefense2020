@@ -1,6 +1,10 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+#include "UEPyWorld.h"
 
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
+#include "Runtime/Foliage/Public/FoliageType.h"
+#include "Runtime/Foliage/Public/InstancedFoliageActor.h"
+#include "EngineUtils.h"
+#include "Kismet/GameplayStatics.h"
 
 PyObject *py_ue_world_exec(ue_PyUObject *self, PyObject * args)
 {
@@ -109,7 +113,7 @@ PyObject *py_ue_all_objects(ue_PyUObject * self, PyObject * args)
 		UObject *u_obj = *Itr;
 		if (u_obj->GetWorld() != world)
 			continue;
-		ue_PyUObject *py_obj = ue_get_python_wrapper(u_obj);
+		ue_PyUObject *py_obj = ue_get_python_uobject(u_obj);
 		if (!py_obj)
 			continue;
 		PyList_Append(ret, (PyObject *)py_obj);
@@ -131,7 +135,7 @@ PyObject *py_ue_all_actors(ue_PyUObject * self, PyObject * args)
 	for (TActorIterator<AActor> Itr(world); Itr; ++Itr)
 	{
 		UObject *u_obj = *Itr;
-		ue_PyUObject *py_obj = ue_get_python_wrapper(u_obj);
+		ue_PyUObject *py_obj = ue_get_python_uobject(u_obj);
 		if (!py_obj)
 			continue;
 		PyList_Append(ret, (PyObject *)py_obj);
@@ -162,11 +166,7 @@ PyObject *py_ue_find_object(ue_PyUObject *self, PyObject * args)
 	if (!u_object)
 		return PyErr_Format(PyExc_Exception, "unable to find object %s", name);
 
-	ue_PyUObject *ret = ue_get_python_wrapper(u_object);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(u_object);
 }
 
 PyObject *py_ue_get_world(ue_PyUObject *self, PyObject * args)
@@ -178,12 +178,7 @@ PyObject *py_ue_get_world(ue_PyUObject *self, PyObject * args)
 	if (!world)
 		return PyErr_Format(PyExc_Exception, "unable to retrieve UWorld from uobject");
 
-	ue_PyUObject *ret = ue_get_python_wrapper(world);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
-
+	Py_RETURN_UOBJECT(world);
 }
 
 PyObject *py_ue_get_game_viewport(ue_PyUObject *self, PyObject * args)
@@ -201,6 +196,9 @@ PyObject *py_ue_get_game_viewport(ue_PyUObject *self, PyObject * args)
 
 	Py_RETURN_UOBJECT(viewport_client);
 }
+
+
+
 
 PyObject *py_ue_has_world(ue_PyUObject *self, PyObject * args)
 {
@@ -269,7 +267,7 @@ PyObject *py_ue_get_levels(ue_PyUObject * self, PyObject * args)
 
 	for (ULevel *level : world->GetLevels())
 	{
-		ue_PyUObject *py_obj = ue_get_python_wrapper(level);
+		ue_PyUObject *py_obj = ue_get_python_uobject(level);
 		if (!py_obj)
 			continue;
 		PyList_Append(ret, (PyObject *)py_obj);
@@ -291,11 +289,7 @@ PyObject *py_ue_get_current_level(ue_PyUObject *self, PyObject * args)
 	if (!level)
 		Py_RETURN_NONE;
 
-	ue_PyUObject *ret = ue_get_python_wrapper(level);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(level);
 }
 
 PyObject *py_ue_set_current_level(ue_PyUObject *self, PyObject * args)
@@ -321,4 +315,62 @@ PyObject *py_ue_set_current_level(ue_PyUObject *self, PyObject * args)
 
 	Py_RETURN_FALSE;
 }
+
+PyObject *py_ue_get_instanced_foliage_actor_for_current_level(ue_PyUObject *self, PyObject * args)
+{
+	ue_py_check(self);
+
+	UWorld *world = ue_get_uworld(self);
+	if (!world)
+		return PyErr_Format(PyExc_Exception, "unable to retrieve UWorld from uobject");
+
+	Py_RETURN_UOBJECT(AInstancedFoliageActor::GetInstancedFoliageActorForCurrentLevel(world, true));
+}
+
+#if WITH_EDITOR
+PyObject *py_ue_add_foliage_asset(ue_PyUObject *self, PyObject * args)
+{
+
+	ue_py_check(self);
+
+	PyObject *py_uobject;
+
+	if (!PyArg_ParseTuple(args, "O:add_foliage_asset", &py_uobject))
+	{
+		return nullptr;
+	}
+
+	UWorld *world = ue_get_uworld(self);
+	if (!world)
+		return PyErr_Format(PyExc_Exception, "unable to retrieve UWorld from uobject");
+
+	UObject *u_object = ue_py_check_type<UObject>(py_uobject);
+	if (!u_object)
+		return PyErr_Format(PyExc_Exception, "argument is not a UObject");
+
+	UFoliageType *foliage_type = nullptr;
+
+	AInstancedFoliageActor *ifa = AInstancedFoliageActor::GetInstancedFoliageActorForCurrentLevel(world, true);
+	if (u_object->IsA<UStaticMesh>())
+	{
+		foliage_type = ifa->GetLocalFoliageTypeForMesh((UStaticMesh *)u_object);
+		if (!foliage_type)
+		{
+			ifa->AddMesh((UStaticMesh *)u_object, &foliage_type);
+		}
+	}
+	else if (u_object->IsA<UFoliageType>())
+	{
+		foliage_type = (UFoliageType *)u_object;
+		ifa->AddFoliageType(foliage_type);
+
+	}
+
+	if (!foliage_type)
+		return PyErr_Format(PyExc_Exception, "unable to add foliage asset");
+
+	Py_RETURN_UOBJECT(foliage_type);
+
+}
+#endif
 

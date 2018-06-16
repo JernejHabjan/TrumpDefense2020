@@ -34,11 +34,13 @@ class HumanOthelloPlayer:
                 print('Invalid')
 
             # TODO - td2020 version:
-            # a = input('enter x, y, actor_index, action_int seperated by space')
-            # if valid[a]:
-            #     break
-            # else:
-            #     print('Invalid')
+            # a = ("1 " + input('enter x, y, actor_index, action_int seperated by space in format >a b c de')).split(" ")
+            # a = a[1] + a[2] + a[3] + a[4]
+
+            if valid[a]:
+                break
+            else:
+                print('Invalid')
 
         return a
 

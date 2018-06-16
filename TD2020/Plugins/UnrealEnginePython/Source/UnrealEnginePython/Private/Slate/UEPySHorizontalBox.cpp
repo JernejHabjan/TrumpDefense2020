@@ -1,92 +1,34 @@
 
-#include "UnrealEnginePythonPrivatePCH.h"
-
 #include "UEPySHorizontalBox.h"
-
-
-#define sw_horizontal_box StaticCastSharedRef<SHorizontalBox>(self->s_box_panel.s_panel.s_widget.s_widget)
 
 
 static PyObject *py_ue_shorizontal_box_add_slot(ue_PySHorizontalBox *self, PyObject * args, PyObject *kwargs)
 {
-	PyObject *py_content;
-	int h_align = 0;
-	float max_width = 0;
-	PyObject *padding = nullptr;
-	int v_align = 0;
-	float fill_width = 0;
-	PyObject *py_auto_width = nullptr;
+	ue_py_slate_cast(SHorizontalBox);
 
-	char *kwlist[] = { (char *)"widget",
-		(char *)"h_align",
-		(char *)"max_width",
-		(char *)"padding",
-		(char *)"v_align",
-		(char *)"fill_width",
-		(char *)"auto_width",
-		nullptr };
+	int32 retCode = [&]() {
+		ue_py_slate_setup_hack_slot_args(SHorizontalBox, py_SHorizontalBox);
+		ue_py_slate_farguments_float("fill_width", FillWidth);
+		ue_py_slate_farguments_float("max_width", MaxWidth);
+		ue_py_slate_farguments_optional_enum("h_align", HAlign, EHorizontalAlignment);
+		ue_py_slate_farguments_optional_enum("v_align", VAlign, EVerticalAlignment);
+		ue_py_slate_farguments_call("auto_width", AutoWidth);
+		ue_py_slate_farguments_padding("padding", Padding);
+		return 0;
+	}();
 
-	if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O|ifOifO:add_slot", kwlist,
-		&py_content,
-		&h_align,
-		&max_width,
-		&padding,
-		&v_align,
-		&fill_width,
-		&py_auto_width))
+	if (retCode != 0)
 	{
-		return NULL;
+		return PyErr_Format(PyExc_Exception, "could not add horizontal slot");
 	}
 
-	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
-	if (!py_swidget)
-	{
-		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
-	}
-
-	Py_INCREF(py_swidget);
-	self->s_box_panel.s_panel.s_widget.py_swidget_slots.Add(py_swidget);
-
-	SHorizontalBox::FSlot &fslot = sw_horizontal_box->AddSlot();
-	fslot.AttachWidget(py_swidget->s_widget->AsShared());
-	fslot.HAlign((EHorizontalAlignment)h_align);
-	if (max_width != 0)
-		fslot.MaxWidth(max_width);
-	if (fill_width)
-		fslot.FillWidth(fill_width);
-	if (padding)
-	{
-		if (PyTuple_Check(padding))
-		{
-			FMargin margin;
-			if (!PyArg_ParseTuple(padding, "f|fff", &margin.Left, &margin.Top, &margin.Right, &margin.Bottom))
-			{
-				return PyErr_Format(PyExc_Exception, "invalid padding value");
-			}
-			fslot.Padding(margin);
-		}
-		else if (PyNumber_Check(padding))
-		{
-			PyObject *py_float = PyNumber_Float(padding);
-			fslot.Padding(PyFloat_AsDouble(py_float));
-			Py_DECREF(py_float);
-		}
-		else
-		{
-			return PyErr_Format(PyExc_Exception, "invalid padding value");
-		}
-	}
-	fslot.VAlign((EVerticalAlignment)v_align);
-	if (py_auto_width && PyObject_IsTrue(py_auto_width))
-		fslot.AutoWidth();
-
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
 static PyObject *py_ue_shorizontal_box_num_slots(ue_PySHorizontalBox *self, PyObject * args)
 {
-	return PyLong_FromLong(sw_horizontal_box->NumSlots());
+	ue_py_slate_cast(SHorizontalBox);
+	return PyLong_FromLong(py_SHorizontalBox->NumSlots());
 }
 
 static PyMethodDef ue_PySHorizontalBox_methods[] = {
@@ -96,49 +38,41 @@ static PyMethodDef ue_PySHorizontalBox_methods[] = {
 	{ NULL }  /* Sentinel */
 };
 
-PyTypeObject ue_PySHorizontalBoxType = {
-	PyVarObject_HEAD_INIT(NULL, 0)
-	"unreal_engine.SHorizontalBox", /* tp_name */
-	sizeof(ue_PySHorizontalBox), /* tp_basicsize */
-	0,                         /* tp_itemsize */
-	0,       /* tp_dealloc */
-	0,                         /* tp_print */
-	0,                         /* tp_getattr */
-	0,                         /* tp_setattr */
-	0,                         /* tp_reserved */
-	0,                         /* tp_repr */
-	0,                         /* tp_as_number */
-	0,                         /* tp_as_sequence */
-	0,                         /* tp_as_mapping */
-	0,                         /* tp_hash  */
-	0,                         /* tp_call */
-	0,                         /* tp_str */
-	0,                         /* tp_getattro */
-	0,                         /* tp_setattro */
-	0,                         /* tp_as_buffer */
-	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,        /* tp_flags */
-	"Unreal Engine SHorizontalBox",           /* tp_doc */
-	0,                         /* tp_traverse */
-	0,                         /* tp_clear */
-	0,                         /* tp_richcompare */
-	0,                         /* tp_weaklistoffset */
-	0,                         /* tp_iter */
-	0,                         /* tp_iternext */
-	ue_PySHorizontalBox_methods,             /* tp_methods */
-};
+DECLARE_UE_PY_SLATE_WIDGET(SHorizontalBox);
 
 static int ue_py_shorizontal_box_init(ue_PySHorizontalBox *self, PyObject *args, PyObject *kwargs)
 {
-	ue_py_snew_simple(SHorizontalBox, s_box_panel.s_panel.s_widget);
+	ue_py_snew_simple(SHorizontalBox);
 	return 0;
 }
 
+PyNumberMethods ue_PySHorizontalBox_number_methods;
+
+static PyObject *ue_py_shorizontal_box_add(ue_PySHorizontalBox *self, PyObject *value)
+{
+	ue_py_slate_cast(SHorizontalBox);
+
+	TSharedPtr<SWidget> Child = py_ue_is_swidget<SWidget>(value);
+	if (!Child.IsValid())
+	{
+		return nullptr;
+	}
+
+	SHorizontalBox::FSlot &fslot = py_SHorizontalBox->AddSlot();
+	fslot.AttachWidget(Child.ToSharedRef());
+
+	Py_RETURN_SLATE_SELF;
+}
 
 void ue_python_init_shorizontal_box(PyObject *ue_module)
 {
 
 	ue_PySHorizontalBoxType.tp_init = (initproc)ue_py_shorizontal_box_init;
 	ue_PySHorizontalBoxType.tp_call = (ternaryfunc)py_ue_shorizontal_box_add_slot;
+
+	memset(&ue_PySHorizontalBox_number_methods, 0, sizeof(PyNumberMethods));
+	ue_PySHorizontalBoxType.tp_as_number = &ue_PySHorizontalBox_number_methods;
+	ue_PySHorizontalBox_number_methods.nb_add = (binaryfunc)ue_py_shorizontal_box_add;
 
 	ue_PySHorizontalBoxType.tp_base = &ue_PySBoxPanelType;
 

@@ -1,13 +1,9 @@
 #pragma once
 
-#include "UnrealEnginePython.h"
-
 #include "UEPySCompoundWidget.h"
-#include "UEPyFGeometry.h"
-#include "UEPyFPaintContext.h"
-#include "UEPyFCharacterEvent.h"
-#include "UEPyFKeyEvent.h"
-#include "UEPyFPointerEvent.h"
+
+#include "Runtime/UMG/Public/Blueprint/UserWidget.h"
+
 
 extern PyTypeObject ue_PySPythonWidgetType;
 
@@ -37,7 +33,7 @@ public:
 			return FReply::Unhandled();
 
 		PyObject *py_callable_on_key_char = PyObject_GetAttrString(self, (char *)"on_key_char");
-		if (!PyCallable_Check(py_callable_on_key_char))
+		if (!PyCalllable_Check_Extended(py_callable_on_key_char))
 		{
 			UE_LOG(LogPython, Error, TEXT("on_key_char is not a callable"));
 			return FReply::Unhandled();
@@ -67,7 +63,7 @@ public:
 			return FReply::Unhandled();
 
 		PyObject *py_callable_on_key_down = PyObject_GetAttrString(self, (char *)"on_key_down");
-		if (!PyCallable_Check(py_callable_on_key_down))
+		if (!PyCalllable_Check_Extended(py_callable_on_key_down))
 		{
 			UE_LOG(LogPython, Error, TEXT("on_key_down is not a callable"));
 			return FReply::Unhandled();
@@ -97,7 +93,7 @@ public:
 			return FReply::Unhandled();
 
 		PyObject *py_callable_on_mouse_move = PyObject_GetAttrString(self, (char *)"on_mouse_move");
-		if (!PyCallable_Check(py_callable_on_mouse_move))
+		if (!PyCalllable_Check_Extended(py_callable_on_mouse_move))
 		{
 			UE_LOG(LogPython, Error, TEXT("on_mouse_move is not a callable"));
 			return FReply::Unhandled();
@@ -127,7 +123,7 @@ public:
 			return FReply::Unhandled();
 
 		PyObject *py_callable_on_mouse_wheel = PyObject_GetAttrString(self, (char *)"on_mouse_wheel");
-		if (!PyCallable_Check(py_callable_on_mouse_wheel))
+		if (!PyCalllable_Check_Extended(py_callable_on_mouse_wheel))
 		{
 			UE_LOG(LogPython, Error, TEXT("on_mouse_wheel is not a callable"));
 			return FReply::Unhandled();
@@ -157,7 +153,7 @@ public:
 			return FReply::Unhandled();
 
 		PyObject *py_callable_on_mouse_button_down = PyObject_GetAttrString(self, (char *)"on_mouse_button_down");
-		if (!PyCallable_Check(py_callable_on_mouse_button_down))
+		if (!PyCalllable_Check_Extended(py_callable_on_mouse_button_down))
 		{
 			UE_LOG(LogPython, Error, TEXT("on_mouse_button_down is not a callable"));
 			return FReply::Unhandled();
@@ -187,7 +183,7 @@ public:
 			return FReply::Unhandled();
 
 		PyObject *py_callable_on_mouse_button_up = PyObject_GetAttrString(self, (char *)"on_mouse_button_up");
-		if (!PyCallable_Check(py_callable_on_mouse_button_up))
+		if (!PyCalllable_Check_Extended(py_callable_on_mouse_button_up))
 		{
 			UE_LOG(LogPython, Error, TEXT("on_mouse_button_up is not a callable"));
 			return FReply::Unhandled();
@@ -218,17 +214,18 @@ public:
 		const FWidgetStyle & InWidgetStyle,
 		bool bParentEnabled) const override
 	{
+		int32 MaxLayer = SCompoundWidget::OnPaint(Args, AllottedGeometry, MyClippingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
 
 		FScopePythonGIL gil;
 
 		if (!PyObject_HasAttrString(self, (char *)"paint"))
-			return LayerId + 1;
+			return MaxLayer;
 
 		PyObject *py_callable_paint = PyObject_GetAttrString(self, (char *)"paint");
-		if (!PyCallable_Check(py_callable_paint))
+		if (!PyCalllable_Check_Extended(py_callable_paint))
 		{
 			UE_LOG(LogPython, Error, TEXT("paint is not a callable"));
-			return LayerId + 1;
+			return MaxLayer;
 		}
 
 		FPaintContext context(AllottedGeometry, MyClippingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
@@ -237,12 +234,12 @@ public:
 		if (!ret)
 		{
 			unreal_engine_py_log_error();
-			return LayerId + 1;
+			return MaxLayer;
 		}
 
 		Py_DECREF(ret);
 
-		return LayerId + 1;
+		return MaxLayer + 1;
 
 	}
 
@@ -256,7 +253,7 @@ public:
 			return;
 
 		PyObject *py_callable_tick = PyObject_GetAttrString(self, (char *)"tick");
-		if (!PyCallable_Check(py_callable_tick))
+		if (!PyCalllable_Check_Extended(py_callable_tick))
 		{
 			UE_LOG(LogPython, Error, TEXT("tick is not a callable"));
 			return;
@@ -274,6 +271,8 @@ public:
 
 	void SetPyObject(PyObject *py_obj)
 	{
+		Py_XDECREF(self);
+		Py_INCREF(py_obj);
 		self = py_obj;
 	}
 
@@ -289,8 +288,21 @@ public:
 		}
 	}
 
+	void SetContent(TSharedRef<SWidget> InContent)
+	{
+		ChildSlot
+			[
+				InContent
+			];
+	}
+
+	void ClearContent()
+	{
+		ChildSlot.DetachWidget();
+	}
+
 protected:
-	PyObject *self;
+	PyObject * self;
 
 	TWeakPtr<FActiveTimerHandle> ActiveTimerHandle;
 

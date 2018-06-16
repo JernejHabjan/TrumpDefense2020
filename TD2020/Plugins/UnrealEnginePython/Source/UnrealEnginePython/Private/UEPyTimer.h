@@ -2,14 +2,16 @@
 
 
 
-#include "UnrealEnginePython.h"
+#include "UEPyModule.h"
+#include "Engine/EngineTypes.h"
 
-typedef struct {
+typedef struct
+{
 	PyObject_HEAD
-	/* Type-specific fields go here. */
-	FTimerHandle thandle;
-	PyObject *py_callable;
-	UWorld *world;
+		/* Type-specific fields go here. */
+		FTimerHandle thandle;
+	TWeakObjectPtr<UWorld> world;
+	TSharedPtr<FPythonSmartDelegate> delegate_ptr;
 } ue_PyFTimerHandle;
 
 PyObject *py_ue_set_timer(ue_PyUObject *, PyObject *);

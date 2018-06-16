@@ -10,217 +10,131 @@ Board data:
 Squares are stored and manipulated as (x,y) tuples.
 x is the column, y is the row.
 """
-from games.td2020.src.Grid import Grid
-from games.td2020.src.Actors import Granite
 
+from games.td2020.src.Actors import Granite, MyActor
+import numpy as np
 
-class BoardNumeric:
-    # list of all 8 directions on the board, as (x,y) offsets
-    __directions = [(1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1)]
-
-    def __init__(self, n):
-        """Set up initial board configuration."""
-
-        self.n = n
-        # Create the empty board array.
-        self.pieces = [None] * self.n
-        for i in range(self.n):
-            self.pieces[i] = [0] * self.n
-
-        # Set up the initial 4 pieces.
-        self.pieces[int(self.n / 2) - 1][int(self.n / 2)] = 1
-        self.pieces[int(self.n / 2)][int(self.n / 2) - 1] = 1
-        self.pieces[int(self.n / 2) - 1][int(self.n / 2) - 1] = -1
-        self.pieces[int(self.n / 2)][int(self.n / 2)] = -1
-
-    # add [][] indexer syntax to the Board
-    def __getitem__(self, index):
-        return self.pieces[index]
-
-    def countDiff(self, color):
-        """Counts the # pieces of the given color
-        (1 for white, -1 for black, 0 for empty spaces)"""
-        count = 0
-        for y in range(self.n):
-            for x in range(self.n):
-                if self[x][y] == color:
-                    count += 1
-                if self[x][y] == -color:
-                    count -= 1
-        return count
-
-    def get_legal_moves_numeric(self, color):
-        """Returns all the legal moves for the given color.
-        (1 for white, -1 for black
-        """
-        moves = set()  # stores the legal moves.
-
-        # Get all the squares with pieces of the given color.
-        for y in range(self.n):
-            for x in range(self.n):
-                if self[x][y] == color:
-                    newmoves = self._get_moves_for_square((x, y))
-                    moves.update(newmoves)
-        return list(moves)
-
-    def has_legal_moves_numeric(self, color):
-        for y in range(self.n):
-            for x in range(self.n):
-                if self[x][y] == color:
-                    newmoves = self._get_moves_for_square((x, y))
-                    if len(newmoves) > 0:
-                        return True
-        return False
-
-    def _get_moves_for_square(self, square):
-        """Returns all the legal moves that use the given square as a base.
-        That is, if the given square is (3,4) and it contains a black piece,
-        and (3,5) and (3,6) contain white pieces, and (3,7) is empty, one
-        of the returned moves is (3,7) because everything from there to (3,4)
-        is flipped.
-        """
-        (x, y) = square
-
-        # determine the color of the piece.
-        color = self[x][y]
-
-        # skip empty source squares.
-        if color == 0:
-            return None
-
-        # search all possible directions.
-        moves = []
-        for direction in self.__directions:
-            move = self._discover_move(square, direction)
-            if move:
-                # print(square,move,direction)
-                moves.append(move)
-
-        # return the generated move list
-        return moves
-
-    def execute_move_numeric(self, move, color):
-        """Perform the given move on the board; flips pieces as necessary.
-        color gives the color pf the piece to play (1=white,-1=black)
-        """
-
-        # Much like move generation, start at the new piece's square and
-        # follow it on all 8 directions to look for a piece allowing flipping.
-
-        # Add the piece to the empty square.
-        # print(move)
-        flips = [flip for direction in self.__directions
-                 for flip in self._get_flips(move, direction, color)]
-        assert len(list(flips)) > 0
-        for x, y in flips:
-            # print(self[x][y],color)
-            self[x][y] = color
-
-    def _discover_move(self, origin, direction):
-        """ Returns the endpoint for a legal move, starting at the given origin,
-        moving by the given increment."""
-        x, y = origin
-        color = self[x][y]
-        flips = []
-
-        for x, y in BoardNumeric._increment_move(origin, direction, self.n):
-            if self[x][y] == 0:
-                if flips:
-                    # print("Found", x,y)
-                    return x, y
-                else:
-                    return None
-            elif self[x][y] == color:
-                return None
-            elif self[x][y] == -color:
-                # print("Flip",x,y)
-                flips.append((x, y))
-
-    def _get_flips(self, origin, direction, color):
-        """ Gets the list of flips for a vertex and direction to use with the
-        execute_move function """
-        # initialize variables
-        flips = [origin]
-
-        for x, y in BoardNumeric._increment_move(origin, direction, self.n):
-            # print(x,y)
-            if self[x][y] == 0:
-                return []
-            if self[x][y] == -color:
-                flips.append((x, y))
-            elif self[x][y] == color and len(flips) > 0:
-                # print(flips)
-                return flips
-
-        return []
-
-    @staticmethod
-    def _increment_move(move, direction, n):
-        # print(move)
-        """ Generator expression for incrementing moves """
-        move = list(map(sum, zip(move, direction)))
-        # move = (move[0]+direction[0], move[1]+direction[1])
-        while all(map(lambda x: 0 <= x < n, move)):
-            # while 0<=move[0] and move[0]<n and 0<=move[1] and move[1]<n:
-            yield move
-            move = list(map(sum, zip(move, direction)))
-            # move = (move[0]+direction[0],move[1]+direction[1])
-
-    def display(self):
-        # display_obj(board)
-
-        n = self.n
-
-        for y in range(n):
-            print(y, "|", end="")
-        print("")
-        print(" -----------------------")
-        for y in range(n):
-            print(y, "|", end="")  # print the row #
-            for x in range(n):
-                piece = self[y][x]  # get the piece to print
-                if piece == -1:
-                    print("B ", end="")
-                elif piece == 1:
-                    print("W ", end="")
-                else:
-                    if x == n:
-                        print("-", end="")
-                    else:
-                        print("- ", end="")
-            print("|")
-
-        print("   -----------------------")
+class Tile:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+        self.actors = []
 
 
 class Board:
-    def __init__(self, n=3):
-        self.num_board = BoardNumeric(n)
-        self.obj_board: Grid = Grid(n, n)
 
-        # Object grid create:
-        self.obj_board[int(n / 2)][int(n / 2)].actors.append(Granite(int(n / 2), int(n / 2)))
-        self.obj_board.spawn_players()
+    def __init__(self, n: int):
+        # grid
+        self.num = n * n
+        self.width = n
+        self.height = n
+        self.tiles = [[Tile(x, y) for x in range(n)] for y in range(n)]
 
+        # players
+        self.players = dict()
+
+        self.MAX_ACTORS_ON_TILE = 4  # Predefined so neural network can receive fixed array
+        # self.ALL_ACTIONS = {"idle": 10, "up": 11, "down": 12, "right": 13, "left": 14, "mine_resources": 15, "return_resources": 16, "choose_enemy": 17, "attack": 18, "npc": 19, "rifle_infantry": 20, "town_hall": 21, "barracks": 22, "sentry": 23,
+        #                     "mining_shack": 24, "continue_building": 25}
+        # self.ALL_ACTIONS_INT = {10: "idle", 11: "up", 12: "down", 13: "right", 14: "left", 15: "mine_resources", 16: "return_resources", 17: "choose_enemy", 18: "attack", 19: "npc", 20: "rifle_infantry", 21: "town_hall", 22: "barracks", 23: "sentry",
+        #                         24: "mining_shack", 25: "continue_building"}
+
+        self.ALL_ACTIONS = {"idle": 10,"right": 14}
+        self.ALL_ACTIONS_INT = {10: "idle",14: "right"}
+
+        self.iteration: int = 0  # game iteration
+        self.timeout_ticks: int = 100
+
+        self.spawn_world(self.width, self.height)
+        self.spawn_players()
+
+
+    # add [][] indexer syntax to the Board
     def __getitem__(self, index):
-        return self.num_board.pieces[index]
+        return self.tiles[index]
+    def spawn_world(self, world_width: int, world_height: int, ):
+        from games.td2020.src.Actors import Granite
+        # spawn granite
+        granite = Granite(int(world_width / 2), int(world_height / 2))
+        self[int(world_width / 2)][int(world_height / 2)].actors.append(granite)
 
-    def get_legal_moves(self, color):
-        # print("Getting legal moves:")
-        # print(self.obj_board.get_legal_moves_obj(color)) # TODO
+    def spawn_players(self):
+        # spawn players
 
-        return self.num_board.get_legal_moves_numeric(color)
+        from games.td2020.src.Player import Player
+        self.players[-1] = Player(-1, self, 1, 0)
+        self.players[1] = Player(1, self, self.width -1, self.height - 1)
 
-    def has_legal_moves(self, color):
-        # return len(self.obj_board.get_legal_moves_obj(color)) > 0
+        # spawn after they are created, so buildings can add themselves to this world for this player
+        self.players[-1].initial_spawn()
+        self.players[1].initial_spawn()
 
-        return self.num_board.has_legal_moves_numeric(color)
+    def get_legal_moves_obj(self, color):
+        moves = list()  # stores the legal moves.
 
-    def execute_move(self, move, color):
-        # self.obj_board.execute_move_obj(move,color)
-        # todo - after updating move in obj board, return numeric value of board
+        # Get all the squares with pieces of the given color.
+        for y in range(self.height):
+            for x in range(self.width):
+                for actor in self[x][y].actors:
+                    # check if it even is valid actor - for example not minerals and check if its not construction proxy
+                    if isinstance(actor, MyActor) and actor.is_constructed():
+                        if actor.player == color:
+                            newmoves = str(x) + " " + str(y) + " " + actor.short_name + str(actor.actions)
+                            moves.append(newmoves)
+        return list(moves)
 
-        self.num_board.execute_move_numeric(move, color)
+    def getValidMoves(self):
+        # returns binary flat vector
+        # same output length as getActionSize
 
-    def countDiff(self, color):
-        return self.num_board.countDiff(color)
+        columns = []
+        for y in range(self.height):
+            row = []
+            for x in range(self.width):
+                actors_in_tile = []
+                actors = self[x][y].actors
+                for i in range(self.MAX_ACTORS_ON_TILE):
+                    actor = actors[i]  # now actor can be empty or it can consist of object MyActor...
+
+                    valid_actions = [0] * len(self.ALL_ACTIONS)
+                    for j, (action_str, action_int) in enumerate(self.ALL_ACTIONS.items()):
+                        valid_actions[j] = actor.can_execute_action(action_str, self)
+                    actors[i].append(valid_actions)
+                row.append(actors_in_tile)
+            columns.append(row)
+        return columns
+
+    def display_obj(self):
+
+        display_str = ["".join(["-" * (2 * self.MAX_ACTORS_ON_TILE + 1)] * self.width) + "\n"]
+        for y in range(self.height):
+            for x in range(self.width):
+                tile = self[x][y]
+                if np.size(tile.actors) > 1:
+
+                    for actor in tile.actors:
+                        display_str.append((("+" if actor.player == 1 else "-") if hasattr(actor, "player") else "*") + str(actor.numeric_value))
+
+                    display_str.extend(["  "] * (self.MAX_ACTORS_ON_TILE - len(tile.actors)))
+
+                elif np.size(tile.actors) == 1:
+                    display_str.append("  " + tile.actors[0].short_name + "  ")
+                else:
+                    display_str.append("  " * self.MAX_ACTORS_ON_TILE)
+                display_str.append("|")
+
+            # print("".join(row_str))
+            display_str.append("\n")
+            if y < self.height:
+                display_str.append("".join(["-" * (2 * self.MAX_ACTORS_ON_TILE + 1)] * self.width) + "\n")
+        print("".join(display_str))
+
+    def timeout(self) -> bool:
+        print("checking timeout iteration " , self.iteration)
+        # returns boolean that returns true when game has timeouted
+        if self.iteration > self.timeout_ticks:
+            print("---> TIMEOUT <---")
+            return True
+        # update iteration
+        self.iteration += 1
+        return False

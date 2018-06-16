@@ -21,7 +21,7 @@ class MyActor(GeneralActor):
         self.production_time: int
         self.production_cost: int
         self.value: int
-        self.current_production_time: int  # amount that this building / character has been produced
+        self.current_production_time: int = 0  # amount that this building / character has been produced
 
         self.current_action: str = ""
         self.actions = ["idle"]
@@ -55,13 +55,12 @@ class BuildingMaster(MyActor):
 
 
 class TownHall(BuildingMaster):
-    unit_types = ["NPC"]
 
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
 
-        from games.td2020.src.Components import UnitProductionComponent,ResourcesDepositComponent
-        self.unit_production_component = UnitProductionComponent(self, self.unit_types)
+        from games.td2020.src.Components import UnitProductionComponent, ResourcesDepositComponent
+        self.unit_production_component = UnitProductionComponent(self, ["NPC"])
         self.resources_deposit_component = ResourcesDepositComponent()
         self.max_health = 400
         self.production_time: int = 10
@@ -79,13 +78,12 @@ class TownHall(BuildingMaster):
 
 
 class Barracks(BuildingMaster):
-    unit_types = ["RifleInfantry"]
 
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
         from games.td2020.src.Components import UnitProductionComponent
 
-        self.unit_production_component = UnitProductionComponent(self, self.unit_types)
+        self.unit_production_component = UnitProductionComponent(self, ["RifleInfantry"])
 
         self.max_health = 150
         self.production_time: int = 5
@@ -149,7 +147,7 @@ class NPC(Character):
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
         self.max_health = 20
-        self.production_time: int = 1
+        self.production_time: int = 10
         self.production_cost = 20
         self.value = 50
         self.short_name = "NPC "
@@ -165,7 +163,7 @@ class RifleInfantry(Character):
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
         self.max_health = 35
-        self.production_time: int = 2
+        self.production_time: int = 20
         self.production_cost = 60
         self.value = 30
         self.short_name = "Rif "

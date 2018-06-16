@@ -26,15 +26,16 @@ rm -rf ./TD2020/Debug/
 rm -rf ./TD2020/.vs/
 rm -rf ./TD2020/.git/
   
-rm -rf ./TD2020/Plugins/UnrealEnginePython/binaries/
-rm -rf ./TD2020/Plugins/UnrealEnginePython/tutorials/
-rm -rf ./TD2020/Plugins/UnrealEnginePython/intermediate/
-rm -rf ./TD2020/Plugins/UnrealEnginePython/screenshots/
-   
-rm -rf ./TD2020/Plugins/RTSPlugin/binaries/
-rm -rf ./TD2020/Plugins/RTSPlugin/tutorials/
-rm -rf ./TD2020/Plugins/RTSPlugin/intermediate/
-rm -rf ./TD2020/Plugins/RTSPlugin/screenshots/
+rm -rf ./TD2020/Plugins/*/binaries/
+rm -rf ./TD2020/Plugins/*/tutorials/
+rm -rf ./TD2020/Plugins/*/intermediate/
+rm -rf ./TD2020/Plugins/*/screenshots/
+
+rm -rf ./TD2020/Content/Scripts/alpha-zero-general/pretrained_models/*
+rm -rf ./TD2020/Content/Scripts/alpha-zero-general/temp/*
+
+
+find . -name "*_BuiltData.uasset" -exec rm {} \;
 
 find . -name "*.log" -exec rm {} \;
 find . -name "*.sln" -exec rm {} \;

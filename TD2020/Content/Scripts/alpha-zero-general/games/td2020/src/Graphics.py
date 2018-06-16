@@ -1,11 +1,11 @@
 from math import sqrt, ceil
 
 import pygame
-from numpy import size
+from numpy import size, clip
 
 
-def message_display(game_display, text, position, size, color=(0, 0, 0)):
-    large_text = pygame.font.Font('..\\assets\\Cyberbit.ttf', size)
+def message_display(game_display, text, position, text_size, color=(0, 0, 0)):
+    large_text = pygame.font.Font('..\\assets\\Cyberbit.ttf', text_size)
     text_surf = large_text.render(text, True, color)
     text_rect = text_surf.get_rect()
     text_rect.center = position
@@ -13,8 +13,8 @@ def message_display(game_display, text, position, size, color=(0, 0, 0)):
 
 
 def display_img(game_display, x, y):
-    carImg = pygame.image.load('..\\assets\\racecar.jpg')
-    game_display.blit(carImg, (x, y))
+    car_img = pygame.image.load('..\\assets\\racecar.jpg')
+    game_display.blit(car_img, (x, y))
 
 
 def init_visuals(world_width: int, world_height: int, visuals=True):
@@ -65,9 +65,7 @@ def update_graphics(world, game_display, clock, fps: int = 1):
                 actor: GeneralActor = _actor
 
                 x = actor.x * 100 + int(multiple_offset % 100) + actor_size + border
-
-                y = actor.y * 100 + int(
-                    multiple_offset / 100) * actor_size * 2 + actor_size + border
+                y = actor.y * 100 + int(multiple_offset / 100) * actor_size * 2 + actor_size + border
 
                 actor_location = (x, y)
 
@@ -83,11 +81,12 @@ def update_graphics(world, game_display, clock, fps: int = 1):
 
                 if isinstance(actor, MyActor):
                     if actor.player == -1:
-                        player_color = (0, 0, 255)
+                        player_color = (0, 255, 0)
                     else:
                         player_color = (255, 0, 0)
-                    pygame.draw.circle(game_display, player_color, actor_location, actor_size, 2)
-                    production_percent = float(actor.current_production_time) / float(actor.production_time)  # value between 0 and 1
+                    pygame.draw.circle(game_display, player_color, actor_location, actor_size, int(actor_size / 10))
+                    production_percent = clip(float(actor.current_production_time) / float(actor.production_time), 0, 1)  # value between 0 and 1
+
                     if production_percent == 1:
                         message_display(game_display, u"" + actor.current_action, (x, int(y - actor_size / 2)), int(actor_size / 3))
                     else:

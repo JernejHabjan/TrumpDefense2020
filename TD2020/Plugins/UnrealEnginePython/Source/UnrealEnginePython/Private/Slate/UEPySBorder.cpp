@@ -1,51 +1,42 @@
 
-#include "UnrealEnginePythonPrivatePCH.h"
-
 #include "UEPySBorder.h"
 
 
-#define sw_border StaticCastSharedRef<SBorder>(self->s_compound_widget.s_widget.s_widget)
-
 static PyObject *py_ue_sborder_clear_content(ue_PySBorder *self, PyObject * args)
 {
+	ue_py_slate_cast(SBorder);
+	py_SBorder->ClearContent();
 
-	sw_border->ClearContent();
-	Py_XDECREF(self->s_compound_widget.s_widget.py_swidget_content);
-
-	Py_INCREF(Py_None);
-	return Py_None;
+	Py_RETURN_NONE;
 }
 
 static PyObject *py_ue_sborder_set_content(ue_PySBorder *self, PyObject * args)
 {
+	ue_py_slate_cast(SBorder);
+
 	PyObject *py_content;
 	if (!PyArg_ParseTuple(args, "O:set_content", &py_content))
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
-	if (!py_swidget)
-	{
-		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
-	}
+	TSharedPtr<SWidget> child = py_ue_is_swidget<SWidget>(py_content);
+	if (!child.IsValid())
+		return nullptr;
 
-	Py_XDECREF(self->s_compound_widget.s_widget.py_swidget_content);
-	Py_INCREF(py_swidget);
-	self->s_compound_widget.s_widget.py_swidget_content = py_swidget;
+	py_SBorder->SetContent(child.ToSharedRef());
 
-	sw_border->SetContent(py_swidget->s_widget->AsShared());
-
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
 static PyObject *py_ue_sborder_set_padding(ue_PySBorder *self, PyObject * args)
 {
+	ue_py_slate_cast(SBorder);
+
 	PyObject *py_padding;
 	if (!PyArg_ParseTuple(args, "O:set_padding", &py_padding))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	FMargin *margin = ue_py_check_struct<FMargin>(py_padding);
@@ -61,42 +52,42 @@ static PyObject *py_ue_sborder_set_padding(ue_PySBorder *self, PyObject * args)
 		Py_DECREF(py_float);
 	}
 
-	sw_border->SetPadding(*margin);
+	py_SBorder->SetPadding(*margin);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
 static PyObject *py_ue_sborder_set_h_align(ue_PySBorder *self, PyObject * args)
 {
+	ue_py_slate_cast(SBorder);
 	int align;
 	if (!PyArg_ParseTuple(args, "i:set_h_align", &align))
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	sw_border->SetHAlign((EHorizontalAlignment)align);
+	py_SBorder->SetHAlign((EHorizontalAlignment)align);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
 static PyObject *py_ue_sborder_set_v_align(ue_PySBorder *self, PyObject * args)
 {
+	ue_py_slate_cast(SBorder);
 	int align;
 	if (!PyArg_ParseTuple(args, "i:set_v_align", &align))
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	sw_border->SetVAlign((EVerticalAlignment)align);
+	py_SBorder->SetVAlign((EVerticalAlignment)align);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
 static PyObject *py_ue_sborder_set_border_image(ue_PySBorder *self, PyObject * args)
 {
+	ue_py_slate_cast(SBorder);
 	PyObject *py_brush;
 	if (!PyArg_ParseTuple(args, "O:set_border_image", &py_brush))
 	{
@@ -107,10 +98,9 @@ static PyObject *py_ue_sborder_set_border_image(ue_PySBorder *self, PyObject * a
 	if (!brush)
 		return PyErr_Format(PyExc_Exception, "argument is not a FSlateBrush");
 
-	sw_border->SetBorderImage(brush);
+	py_SBorder->SetBorderImage(brush);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
 static PyMethodDef ue_PySBorder_methods[] = {
@@ -167,7 +157,7 @@ static int ue_py_sborder_init(ue_PySBorder *self, PyObject *args, PyObject *kwar
 	ue_py_slate_farguments_struct("foreground_color", ForegroundColor, FSlateColor);
 	ue_py_slate_farguments_fvector2d("content_scale", ContentScale);
 	ue_py_slate_farguments_fvector2d("desired_size_scale", DesiredSizeScale);
-	ue_py_snew(SBorder, s_compound_widget.s_widget);
+	ue_py_snew(SBorder);
 
 	return 0;
 }

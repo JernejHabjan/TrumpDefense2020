@@ -1,9 +1,9 @@
-#include "UnrealEnginePythonPrivatePCH.h"
+#include "UEPyUClassesImporter.h"
 
 static PyObject *ue_PyUClassesImporter_getattro(ue_PyUClassesImporter *self, PyObject *attr_name)
 {
-	PyObject *ret = PyObject_GenericGetAttr((PyObject *)self, attr_name);
-	if (!ret)
+	PyObject *py_attr = PyObject_GenericGetAttr((PyObject *)self, attr_name);
+	if (!py_attr)
 	{
 		if (PyUnicodeOrString_Check(attr_name))
 		{
@@ -15,16 +15,12 @@ static PyObject *ue_PyUClassesImporter_getattro(ue_PyUClassesImporter *self, PyO
 				{
 					// swallow old exception
 					PyErr_Clear();
-					ue_PyUObject *u_ret = ue_get_python_wrapper(u_class);
-					if (!u_ret)
-						return PyErr_Format(PyExc_Exception, "PyUObject is in invalid state");
-					Py_INCREF(u_ret);
-					return (PyObject *)u_ret;
+					Py_RETURN_UOBJECT(u_class);
 				}
 			}
 		}
 	}
-	return ret;
+	return py_attr;
 }
 
 static PyTypeObject ue_PyUClassesImporterType = {

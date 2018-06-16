@@ -2,13 +2,13 @@
 
 
 #include "GameFramework/Actor.h"
-
+#include "UnrealEnginePython.h"
 #include "PyActor.generated.h"
 
 
 
 UCLASS(BlueprintType, Blueprintable)
-class APyActor : public AActor
+class UNREALENGINEPYTHON_API APyActor : public AActor
 {
 	GENERATED_BODY()
 

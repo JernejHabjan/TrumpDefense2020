@@ -1,7 +1,5 @@
 #pragma once
 
-#include "UnrealEnginePython.h"
-
 #include "UEPySCompoundWidget.h"
 
 #include "Runtime/SlateCore/Public/Widgets/SWindow.h"
@@ -14,3 +12,5 @@ typedef struct {
 } ue_PySWindow;
 
 void ue_python_init_swindow(PyObject *);
+
+ue_PySWindow *py_ue_is_swindow(PyObject *obj);

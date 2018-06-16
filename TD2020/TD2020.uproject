@@ -40,13 +40,6 @@
 			"Enabled": false
 		},
 		{
-			"Name": "OnlineSubsystemGooglePlay",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"Android"
-			]
-		},
-		{
 			"Name": "AndroidPermission",
 			"Enabled": false
 		},
@@ -57,14 +50,6 @@
 		{
 			"Name": "IOSDeviceProfileSelector",
 			"Enabled": false
-		},
-		{
-			"Name": "OnlineSubsystemIOS",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"IOS",
-				"TVOS"
-			]
 		},
 		{
 			"Name": "MobileLauncherProfileWizard",
@@ -219,6 +204,21 @@
 		{
 			"Name": "AudioCapture",
 			"Enabled": false
+		},
+		{
+			"Name": "OnlineSubsystemGooglePlay",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Android"
+			]
+		},
+		{
+			"Name": "OnlineSubsystemIOS",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"IOS",
+				"TVOS"
+			]
 		}
 	],
 	"TargetPlatforms": [

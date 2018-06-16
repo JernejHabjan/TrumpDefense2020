@@ -1,4 +1,3 @@
-#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPyFStringAssetReference.h"
 
@@ -104,6 +103,7 @@ void ue_python_init_fstring_asset_reference(PyObject *ue_module)
 
 	Py_INCREF(&ue_PyFStringAssetReferenceType);
 	PyModule_AddObject(ue_module, "FStringAssetReference", (PyObject *)&ue_PyFStringAssetReferenceType);
+	PyModule_AddObject(ue_module, "FSoftObjectPath", (PyObject *)&ue_PyFStringAssetReferenceType);
 }
 
 PyObject *py_ue_new_fstring_asset_reference(FStringAssetReference ref)

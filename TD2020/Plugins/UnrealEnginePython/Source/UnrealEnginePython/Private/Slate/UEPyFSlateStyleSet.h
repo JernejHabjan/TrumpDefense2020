@@ -1,13 +1,16 @@
 #pragma once
 
-#include "UnrealEnginePython.h"
+#include "UEPySlate.h"
+#include "Wrappers/UEPyFColor.h"
+#include "Wrappers/UEPyFLinearColor.h"
 
-#include "Runtime/SlateCore/Public/Styling/SlateStyle.h"
-
-typedef struct {
+typedef struct
+{
 	PyObject_HEAD
-	/* Type-specific fields go here. */
-	FSlateStyleSet *style_set;
+		/* Type-specific fields go here. */
+		FSlateStyleSet *style_set;
 } ue_PyFSlateStyleSet;
+
+ue_PyFSlateStyleSet* py_ue_new_fslate_style_set(FSlateStyleSet* styleSet);
 
 void ue_python_init_fslate_style_set(PyObject *);

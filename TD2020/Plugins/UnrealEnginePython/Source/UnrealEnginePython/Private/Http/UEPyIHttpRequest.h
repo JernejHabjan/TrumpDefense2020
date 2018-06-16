@@ -1,16 +1,15 @@
 #pragma once
 
-#include "UnrealEnginePython.h"
+#include "UEPyModule.h"
 
 #include "Runtime/Online/HTTP/Public/Interfaces/IHttpRequest.h"
 #include "Runtime/Online/HTTP/Public/HttpModule.h"
-
-#include "UEPyIHttpRequest.generated.h"
-
+#include "UEPyIHttpBase.h"
 
 extern PyTypeObject ue_PyIHttpBaseType;
 
-typedef struct {
+typedef struct
+{
 	ue_PyIHttpBase base;
 	/* Type-specific fields go here. */
 	TSharedRef<IHttpRequest> http_request;
@@ -20,23 +19,23 @@ typedef struct {
 
 void ue_python_init_ihttp_request(PyObject *);
 
-UCLASS()
-class UPythonHttpDelegate : public UPythonDelegate
+class FPythonSmartHttpDelegate : public FPythonSmartDelegate
 {
-	GENERATED_BODY()
 
 public:
 	void OnRequestComplete(FHttpRequestPtr request, FHttpResponsePtr response, bool successful);
 	void OnRequestProgress(FHttpRequestPtr request, int32 sent, int32 received);
 
-	void SetPyHttpRequest(ue_PyIHttpRequest *request) {
+	void SetPyHttpRequest(ue_PyIHttpRequest *request)
+	{
 		py_http_request = request;
 		Py_INCREF(py_http_request);
 	}
 
-	~UPythonHttpDelegate() {
+	~FPythonSmartHttpDelegate()
+	{
 		Py_XDECREF(py_http_request);
 	}
 protected:
-	ue_PyIHttpRequest *py_http_request;
+	ue_PyIHttpRequest * py_http_request;
 };

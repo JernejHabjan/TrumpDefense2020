@@ -1,92 +1,102 @@
-#if WITH_EDITOR
-#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySPythonEditorViewport.h"
 
+#if WITH_EDITOR
 
+#include "Components/DirectionalLightComponent.h"
 
-#define sw_python_editor_viewport StaticCastSharedRef<SPythonEditorViewport>(self->s_editor_viewport.s_compound_widget.s_widget.s_widget)
-
-static PyObject *py_ue_spython_editor_viewport_get_world(ue_PySPythonEditorViewport *self, PyObject * args) {
-
-	ue_PyUObject *ret = ue_get_python_wrapper(sw_python_editor_viewport->GetPythonWorld());
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+static PyObject *py_ue_spython_editor_viewport_get_world(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
+	Py_RETURN_UOBJECT(py_SPythonEditorViewport->GetPythonWorld());
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_show_bounds(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_show_bounds(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	PyObject *py_bool;
-	if (!PyArg_ParseTuple(args, "O:set_show_bounds", &py_bool)) {
+	if (!PyArg_ParseTuple(args, "O:set_show_bounds", &py_bool))
+	{
 		return NULL;
 	}
 
 
-	sw_python_editor_viewport->GetViewportClient()->SetShowBounds(PyObject_IsTrue(py_bool) ? true : false);
+	py_SPythonEditorViewport->GetViewportClient()->SetShowBounds(PyObject_IsTrue(py_bool) ? true : false);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_show_stats(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_show_stats(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	PyObject *py_bool;
-	if (!PyArg_ParseTuple(args, "O:set_show_stats", &py_bool)) {
+	if (!PyArg_ParseTuple(args, "O:set_show_stats", &py_bool))
+	{
 		return NULL;
 	}
 
 
-	sw_python_editor_viewport->GetViewportClient()->SetShowStats(PyObject_IsTrue(py_bool) ? true : false);
+	py_SPythonEditorViewport->GetViewportClient()->SetShowStats(PyObject_IsTrue(py_bool) ? true : false);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_view_mode(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_view_mode(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	int mode;
-	if (!PyArg_ParseTuple(args, "i:set_view_mode", &mode)) {
-		return NULL;
+	if (!PyArg_ParseTuple(args, "i:set_view_mode", &mode))
+	{
+		return nullptr;
 	}
 
 
-	sw_python_editor_viewport->GetViewportClient()->SetViewMode((EViewModeIndex)mode);
+	py_SPythonEditorViewport->GetViewportClient()->SetViewMode((EViewModeIndex)mode);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_exposure_settings(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_exposure_settings(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	PyObject *py_settings;
-	if (!PyArg_ParseTuple(args, "O:set_exposure_settings", &py_settings)) {
-		return NULL;
+	if (!PyArg_ParseTuple(args, "O:set_exposure_settings", &py_settings))
+	{
+		return nullptr;
 	}
 
 	FExposureSettings *settings = ue_py_check_struct<FExposureSettings>(py_settings);
-	if (!settings) {
+	if (!settings)
+	{
 		return PyErr_Format(PyExc_Exception, "argument is not a FExposureSettings");
 	}
 
 
-	sw_python_editor_viewport->GetViewportClient()->ExposureSettings = *settings;
+	py_SPythonEditorViewport->GetViewportClient()->ExposureSettings = *settings;
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_view_location(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_view_location(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	float x = 0, y = 0, z = 0;
 
 	FVector vec;
 
-	if (PyTuple_Size(args) == 1) {
+	if (PyTuple_Size(args) == 1)
+	{
 		ue_PyFVector *ue_py_vec = py_ue_is_fvector(PyTuple_GetItem(args, 0));
-		if (!ue_py_vec) {
+		if (!ue_py_vec)
+		{
 			return PyErr_Format(PyExc_Exception, "argument is not a FVector");
 		}
 		vec = ue_py_vec->vec;
 	}
-	else {
-		if (!PyArg_ParseTuple(args, "fff", &x, &y, &z)) {
+	else
+	{
+		if (!PyArg_ParseTuple(args, "fff", &x, &y, &z))
+		{
 			return nullptr;;
 		}
 		vec.X = x;
@@ -94,26 +104,31 @@ static PyObject *py_ue_spython_editor_viewport_set_view_location(ue_PySPythonEdi
 		vec.Z = z;
 	}
 
-	sw_python_editor_viewport->GetViewportClient()->SetViewLocation(vec);
+	py_SPythonEditorViewport->GetViewportClient()->SetViewLocation(vec);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_view_rotation(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_view_rotation(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	float roll = 0, pitch = 0, yaw = 0;
 
 	FRotator rot;
 
-	if (PyTuple_Size(args) == 1) {
+	if (PyTuple_Size(args) == 1)
+	{
 		ue_PyFRotator *ue_py_rot = py_ue_is_frotator(PyTuple_GetItem(args, 0));
-		if (!ue_py_rot) {
+		if (!ue_py_rot)
+		{
 			return PyErr_Format(PyExc_Exception, "argument is not a FRotator");
 		}
 		rot = ue_py_rot->rot;
 	}
-	else {
-		if (!PyArg_ParseTuple(args, "fff", &roll, &pitch, &yaw)) {
+	else
+	{
+		if (!PyArg_ParseTuple(args, "fff", &roll, &pitch, &yaw))
+		{
 			return nullptr;;
 		}
 		rot.Roll = roll;
@@ -121,24 +136,28 @@ static PyObject *py_ue_spython_editor_viewport_set_view_rotation(ue_PySPythonEdi
 		rot.Yaw = yaw;
 	}
 
-	sw_python_editor_viewport->GetViewportClient()->SetViewRotation(rot);
+	py_SPythonEditorViewport->GetViewportClient()->SetViewRotation(rot);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_simulate(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_simulate(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	PyObject *py_bool;
-	if (!PyArg_ParseTuple(args, "O:simulate", &py_bool)) {
+	if (!PyArg_ParseTuple(args, "O:simulate", &py_bool))
+	{
 		return NULL;
 	}
 
-	sw_python_editor_viewport->Simulate(PyObject_IsTrue(py_bool) != 0);
+	py_SPythonEditorViewport->Simulate(PyObject_IsTrue(py_bool) != 0);
 
 	Py_RETURN_NONE;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_light_color(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_light_color(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	PyObject *py_obj;
 
 	if (!PyArg_ParseTuple(args, "O", &py_obj))
@@ -148,26 +167,31 @@ static PyObject *py_ue_spython_editor_viewport_set_light_color(ue_PySPythonEdito
 	if (!py_fcolor)
 		return PyErr_Format(PyExc_Exception, "argument is not a FColor");
 
-	sw_python_editor_viewport->GetPreviewScene()->SetLightColor(py_fcolor->color);
+	py_SPythonEditorViewport->GetPreviewScene()->SetLightColor(py_fcolor->color);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_light_direction(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_light_direction(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	float roll = 0, pitch = 0, yaw = 0;
 
 	FRotator rot;
 
-	if (PyTuple_Size(args) == 1) {
+	if (PyTuple_Size(args) == 1)
+	{
 		ue_PyFRotator *ue_py_rot = py_ue_is_frotator(PyTuple_GetItem(args, 0));
-		if (!ue_py_rot) {
+		if (!ue_py_rot)
+		{
 			return PyErr_Format(PyExc_Exception, "argument is not a FRotator");
 		}
 		rot = ue_py_rot->rot;
 	}
-	else {
-		if (!PyArg_ParseTuple(args, "fff", &roll, &pitch, &yaw)) {
+	else
+	{
+		if (!PyArg_ParseTuple(args, "fff", &roll, &pitch, &yaw))
+		{
 			return nullptr;;
 		}
 		rot.Roll = roll;
@@ -175,46 +199,43 @@ static PyObject *py_ue_spython_editor_viewport_set_light_direction(ue_PySPythonE
 		rot.Yaw = yaw;
 	}
 
-	sw_python_editor_viewport->GetPreviewScene()->SetLightDirection(rot);
+	py_SPythonEditorViewport->GetPreviewScene()->SetLightDirection(rot);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_sky_brightness(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_sky_brightness(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	float brightness;
 
 	if (!PyArg_ParseTuple(args, "f", &brightness))
 		return nullptr;
 
-	sw_python_editor_viewport->GetPreviewScene()->SetSkyBrightness(brightness);
+	py_SPythonEditorViewport->GetPreviewScene()->SetSkyBrightness(brightness);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_set_light_brightness(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_set_light_brightness(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
 	float brightness;
 
 	if (!PyArg_ParseTuple(args, "f", &brightness))
 		return nullptr;
 
-	sw_python_editor_viewport->GetPreviewScene()->SetLightBrightness(brightness);
+	py_SPythonEditorViewport->GetPreviewScene()->SetLightBrightness(brightness);
 
-	Py_INCREF(self);
-	return (PyObject *)self;
+	Py_RETURN_SLATE_SELF;
 }
 
-static PyObject *py_ue_spython_editor_viewport_get_light(ue_PySPythonEditorViewport *self, PyObject * args) {
+static PyObject *py_ue_spython_editor_viewport_get_light(ue_PySPythonEditorViewport *self, PyObject * args)
+{
+	ue_py_slate_cast(SPythonEditorViewport);
+	UDirectionalLightComponent *light = py_SPythonEditorViewport->GetPreviewScene()->DirectionalLight;
 
-	UDirectionalLightComponent *light = sw_python_editor_viewport->GetPreviewScene()->DirectionalLight;
-
-	ue_PyUObject *ret = ue_get_python_wrapper(light);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(light);
 }
 
 static PyMethodDef ue_PySPythonEditorViewport_methods[] = {
@@ -234,10 +255,12 @@ static PyMethodDef ue_PySPythonEditorViewport_methods[] = {
 	{ NULL }  /* Sentinel */
 };
 
-class FPythonEditorViewportClient : public FEditorViewportClient {
+class FPythonEditorViewportClient : public FEditorViewportClient
+{
 public:
 	FPythonEditorViewportClient(FEditorModeTools * InModeTools, FPreviewScene * InPreviewScene, const TWeakPtr<SEditorViewport> & InEditorViewportWidget) :
-		FEditorViewportClient(InModeTools, InPreviewScene, InEditorViewportWidget) {
+		FEditorViewportClient(InModeTools, InPreviewScene, InEditorViewportWidget)
+	{
 
 		EngineShowFlags.SetSelection(true);
 		EngineShowFlags.SetSelectionOutline(true);
@@ -247,14 +270,17 @@ public:
 		SelectedActor = nullptr;
 	}
 
-	virtual void ProcessClick(FSceneView & InView, HHitProxy* HitProxy, FKey Key, EInputEvent Event, uint32 HitX, uint32 HitY) {
-		if (!HitProxy) {
+	virtual void ProcessClick(FSceneView & InView, HHitProxy* HitProxy, FKey Key, EInputEvent Event, uint32 HitX, uint32 HitY)
+	{
+		if (!HitProxy)
+		{
 			GEditor->SelectNone(true, true, true);
 			SelectedActor = nullptr;
 			return;
 		}
 
-		if (HitProxy->IsA(HActor::StaticGetType())) {
+		if (HitProxy->IsA(HActor::StaticGetType()))
+		{
 			HActor *h_actor = (HActor *)HitProxy;
 			GEditor->SelectNone(true, true, true);
 			GEditor->SelectActor(h_actor->Actor, true, true);
@@ -263,35 +289,42 @@ public:
 
 			SetWidgetMode(FWidget::WM_Translate);
 		}
-		else if (HitProxy->IsA(HWidgetAxis::StaticGetType())) {
+		else if (HitProxy->IsA(HWidgetAxis::StaticGetType()))
+		{
 			// TODO do something ?
 		}
-		else {
+		else
+		{
 			GEditor->SelectNone(true, true, true);
 			SelectedActor = nullptr;
 		}
 	}
 
-	virtual FWidget::EWidgetMode GetWidgetMode() const {
+	virtual FWidget::EWidgetMode GetWidgetMode() const
+	{
 		if (SelectedActor == nullptr)
 			return FWidget::WM_None;
 		return FEditorViewportClient::GetWidgetMode();
 	}
 
-	virtual FMatrix GetWidgetCoordSystem() const {
+	virtual FMatrix GetWidgetCoordSystem() const
+	{
 		if (!SelectedActor)
 			return FMatrix::Identity;
 		return FRotationMatrix(SelectedActor->GetActorTransform().Rotator());
 	}
 
-	virtual FVector GetWidgetLocation() const {
+	virtual FVector GetWidgetLocation() const
+	{
 		if (!SelectedActor)
 			return FVector(0, 0, 0);
 		return SelectedActor->GetActorLocation();
 	}
 
-	virtual bool InputWidgetDelta(FViewport * InViewport, EAxisList::Type CurrentAxis, FVector & Drag, FRotator & Rot, FVector &Scale) {
-		if (SelectedActor && !bAltPressed) {
+	virtual bool InputWidgetDelta(FViewport * InViewport, EAxisList::Type CurrentAxis, FVector & Drag, FRotator & Rot, FVector &Scale)
+	{
+		if (SelectedActor && !bAltPressed)
+		{
 			SelectedActor->AddActorWorldOffset(Drag);
 			SelectedActor->AddActorWorldRotation(Rot);
 			SelectedActor->SetActorScale3D(SelectedActor->GetActorScale3D() + Scale);
@@ -302,11 +335,13 @@ public:
 		return false;
 	}
 
-	virtual void TrackingStarted(const FInputEventState & InInpuState, bool bIsDragginWidget, bool bNudge) {
+	virtual void TrackingStarted(const FInputEventState & InInpuState, bool bIsDragginWidget, bool bNudge)
+	{
 		bAltPressed = InInpuState.IsAltButtonPressed();
 	}
 
-	virtual void ResetCamera() {
+	virtual void ResetCamera()
+	{
 		if (!SelectedActor)
 			return;
 		FocusViewportOnBox(SelectedActor->GetComponentsBoundingBox());
@@ -318,11 +353,13 @@ protected:
 	AActor *SelectedActor;
 };
 
-UWorld *SPythonEditorViewport::GetPythonWorld() {
+UWorld *SPythonEditorViewport::GetPythonWorld()
+{
 	return GetWorld();
 }
 
-TSharedRef<FEditorViewportClient> SPythonEditorViewport::MakeEditorViewportClient() {
+TSharedRef<FEditorViewportClient> SPythonEditorViewport::MakeEditorViewportClient()
+{
 
 	PreviewScene = new FPreviewScene();
 
@@ -334,30 +371,39 @@ TSharedRef<FEditorViewportClient> SPythonEditorViewport::MakeEditorViewportClien
 
 	FExposureSettings settings;
 	settings.bFixed = true;
+#if ENGINE_MINOR_VERSION > 18
+	settings.FixedEV100 = 0;
+#else
 	settings.LogOffset = 0;
+#endif
 
 	client->ExposureSettings = settings;
 
 	return client.ToSharedRef();
 }
 
-TSharedPtr<FExtender> SPythonEditorViewport::GetExtenders() const {
+TSharedPtr<FExtender> SPythonEditorViewport::GetExtenders() const
+{
 	TSharedPtr<FExtender> Result(MakeShareable(new FExtender()));
 	return Result;
 }
 
-TSharedRef<SEditorViewport> SPythonEditorViewport::GetViewportWidget() {
+TSharedRef<SEditorViewport> SPythonEditorViewport::GetViewportWidget()
+{
 	return SharedThis(this);
 }
 
-TSharedPtr<SWidget> SPythonEditorViewport::MakeViewportToolbar() {
+TSharedPtr<SWidget> SPythonEditorViewport::MakeViewportToolbar()
+{
 	return SNew(SCommonEditorViewportToolbarBase, SharedThis(this));
 }
 
-void SPythonEditorViewport::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) {
+void SPythonEditorViewport::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
+{
 	SEditorViewport::Tick(AllottedGeometry, InCurrentTime, InDeltaTime);
 
-	if (bSimulate) {
+	if (bSimulate)
+	{
 		GetWorld()->Tick(ELevelTick::LEVELTICK_All, InDeltaTime);
 	}
 }
@@ -393,12 +439,14 @@ PyTypeObject ue_PySPythonEditorViewportType = {
 	ue_PySPythonEditorViewport_methods,             /* tp_methods */
 };
 
-static int ue_py_spython_editor_viewport_init(ue_PySPythonEditorViewport *self, PyObject *args, PyObject *kwargs) {
-	ue_py_snew_simple(SPythonEditorViewport, s_editor_viewport.s_compound_widget.s_widget);
+static int ue_py_spython_editor_viewport_init(ue_PySPythonEditorViewport *self, PyObject *args, PyObject *kwargs)
+{
+	ue_py_snew_simple(SPythonEditorViewport);
 	return 0;
 }
 
-void ue_python_init_spython_editor_viewport(PyObject *ue_module) {
+void ue_python_init_spython_editor_viewport(PyObject *ue_module)
+{
 
 	ue_PySPythonEditorViewportType.tp_init = (initproc)ue_py_spython_editor_viewport_init;
 

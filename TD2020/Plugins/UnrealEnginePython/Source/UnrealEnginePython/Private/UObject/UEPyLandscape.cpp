@@ -1,8 +1,13 @@
-#include "UnrealEnginePythonPrivatePCH.h"
-#include "Runtime/Landscape/Classes/LandscapeProxy.h"
-#include "Runtime/Landscape/Classes/LandscapeInfo.h"
+#include "UEPyLandscape.h"
+
 
 #if WITH_EDITOR
+
+#include "Wrappers/UEPyFRawMesh.h"
+#include "Runtime/Landscape/Classes/LandscapeProxy.h"
+#include "Runtime/Landscape/Classes/LandscapeInfo.h"
+#include "GameFramework/GameModeBase.h"
+
 PyObject *py_ue_create_landscape_info(ue_PyUObject *self, PyObject * args)
 {
 
@@ -12,11 +17,7 @@ PyObject *py_ue_create_landscape_info(ue_PyUObject *self, PyObject * args)
 	if (!landscape)
 		return PyErr_Format(PyExc_Exception, "uobject is not a ULandscapeProxy");
 
-	ue_PyUObject *ret = ue_get_python_wrapper(landscape->CreateLandscapeInfo());
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(landscape->CreateLandscapeInfo());
 }
 
 PyObject *py_ue_get_landscape_info(ue_PyUObject *self, PyObject * args)
@@ -32,11 +33,7 @@ PyObject *py_ue_get_landscape_info(ue_PyUObject *self, PyObject * args)
 	if (!info)
 		Py_RETURN_NONE;
 
-	ue_PyUObject *ret = ue_get_python_wrapper(info);
-	if (!ret)
-		return PyErr_Format(PyExc_Exception, "uobject is in invalid state");
-	Py_INCREF(ret);
-	return (PyObject *)ret;
+	Py_RETURN_UOBJECT(info);
 }
 
 PyObject *py_ue_landscape_import(ue_PyUObject *self, PyObject * args)

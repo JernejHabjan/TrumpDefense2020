@@ -1,38 +1,37 @@
 class Player:
-    from games.td2020.src import Grid
+    from games.td2020.OthelloLogic import Board as Grid
 
     def __init__(self, name: int, world: Grid, start_x: int, start_y: int):
-        from games.td2020.src import Grid
+        from games.td2020.OthelloLogic import Board as Grid
         self.world: Grid = world
         self.name: int = name
         self.start_x: int = start_x
         self.start_y: int = start_y
 
         # set variables
-        self.money = 0
+        self.money = 100
         self.actors = []
 
     def initial_spawn(self):
-        from games.td2020.src.Actors import TownHall, RifleInfantry, MiningShack, NPC
+        # self._character_initial_spawn("NPC", self.start_x, self.start_y)
+        # self._character_initial_spawn("RifleInfantry", self.start_x, self.start_y)
+        self._building_initial_spawn("TownHall", self.start_x, self.start_y)
 
-        # print("initial spawn")
-        # spawn initial buildings and characters
-        town_hall = TownHall(self.name, self.start_x, self.start_y)
-        # rifle_infantry = RifleInfantry(self.name, self.start_x, self.start_y)
+        # self._building_initial_spawn("Barracks", self.start_x - 1, self.start_y)
 
-        town_hall.health = town_hall.max_health
-        town_hall.current_production_time = town_hall.production_time
+    def _character_initial_spawn(self, name: str, x: int, y: int):
+        # noinspection PyUnresolvedReferences
+        from games.td2020.src.Actors import RifleInfantry, NPC
+        character = eval(name)(self.name, x, y)
+        character.spawn(self.world)
 
-
-        mining_shack = MiningShack(self.name, self.start_x, self.start_y)
-        mining_shack.health = mining_shack.max_health
-        mining_shack.current_production_time = mining_shack.production_time
-        npc = NPC(self.name, self.start_x, self.start_y)
-
-        town_hall.spawn(self.world)
-        # rifle_infantry.spawn(self.world)
-        # mining_shack.spawn(self.world)
-        npc.spawn(self.world)
+    def _building_initial_spawn(self, name: str, x: int, y: int):
+        # noinspection PyUnresolvedReferences
+        from games.td2020.src.Actors import TownHall, MiningShack, Barracks
+        building = eval(name)(self.name, x, y)
+        building.health = building.max_health
+        building.current_production_time = building.production_time
+        building.spawn(self.world)
 
     def calculate_score(self):
         # for actor in self.actors:
