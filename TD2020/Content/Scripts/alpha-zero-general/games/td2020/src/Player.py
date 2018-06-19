@@ -9,7 +9,7 @@ class Player:
         self.start_y: int = start_y
 
         # set variables
-        self.money = 100
+        self.money = 1000
         self.actors = []
 
     def initial_spawn(self):

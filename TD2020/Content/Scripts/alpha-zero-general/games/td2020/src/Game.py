@@ -13,7 +13,7 @@ class Game:
 
         self.world_width = world_width
         self.world_height = world_height
-        self.world: Grid = Grid(world_width, world_width)
+        self.world: Grid = Grid(world_width)
 
         # init
         # world objects are bound only to world grid, but player objects have tile location stored in player
@@ -137,7 +137,7 @@ class Game:
     @staticmethod
     def getNextState(board, player: int, action: int):
         # create copy of old world and execute actions on new one
-        from games.td2020.src.Grid import Grid
+        from games.td2020.OthelloLogic import Board as Grid
 
         new_world: Grid = copy.deepcopy(board)
         player = new_world.players[player]

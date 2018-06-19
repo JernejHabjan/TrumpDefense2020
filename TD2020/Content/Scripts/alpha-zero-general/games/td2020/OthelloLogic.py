@@ -11,8 +11,10 @@ Squares are stored and manipulated as (x,y) tuples.
 x is the column, y is the row.
 """
 
+# noinspection PyUnresolvedReferences
 from games.td2020.src.Actors import Granite, MyActor
 import numpy as np
+
 
 class Tile:
     def __init__(self, x: int, y: int):
@@ -34,24 +36,27 @@ class Board:
         self.players = dict()
 
         self.MAX_ACTORS_ON_TILE = 4  # Predefined so neural network can receive fixed array
-        # self.ALL_ACTIONS = {"idle": 10, "up": 11, "down": 12, "right": 13, "left": 14, "mine_resources": 15, "return_resources": 16, "choose_enemy": 17, "attack": 18, "npc": 19, "rifle_infantry": 20, "town_hall": 21, "barracks": 22, "sentry": 23,
-        #                     "mining_shack": 24, "continue_building": 25}
-        # self.ALL_ACTIONS_INT = {10: "idle", 11: "up", 12: "down", 13: "right", 14: "left", 15: "mine_resources", 16: "return_resources", 17: "choose_enemy", 18: "attack", 19: "npc", 20: "rifle_infantry", 21: "town_hall", 22: "barracks", 23: "sentry",
-        #                         24: "mining_shack", 25: "continue_building"}
+        self.ALL_ACTIONS = {"idle": 10, "up": 11, "down": 12, "right": 13, "left": 14, "mine_resources": 15, "return_resources": 16, "choose_enemy": 17, "attack": 18, "npc": 19, "rifle_infantry": 20, "town_hall": 21, "barracks": 22, "sentry": 23,
+                            "mining_shack": 24, "continue_building": 25}
+        self.ALL_ACTIONS = {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left": 14}
 
-        self.ALL_ACTIONS = {"idle": 10,"right": 14}
-        self.ALL_ACTIONS_INT = {10: "idle",14: "right"}
+        self.ALL_ACTIONS_INT = dict((y, x) for x, y in self.ALL_ACTIONS.items())
+        print("ALL ACTIONS INT", self.ALL_ACTIONS_INT)
+        self.ALL_ACTIONS_LEN = len(self.ALL_ACTIONS)
+
+        # self.ALL_ACTIONS = {"idle": 10, "up": 11, "down": 12, "right": 13, "left": 14}
+        # self.ALL_ACTIONS_INT = {10: "idle", 11: "up", 12: "down", 13: "right", 14: "left"}
 
         self.iteration: int = 0  # game iteration
-        self.timeout_ticks: int = 100
+        self.timeout_ticks: int = 5 # TODO temp 5
 
         self.spawn_world(self.width, self.height)
         self.spawn_players()
 
-
     # add [][] indexer syntax to the Board
     def __getitem__(self, index):
         return self.tiles[index]
+
     def spawn_world(self, world_width: int, world_height: int, ):
         from games.td2020.src.Actors import Granite
         # spawn granite
@@ -63,7 +68,7 @@ class Board:
 
         from games.td2020.src.Player import Player
         self.players[-1] = Player(-1, self, 1, 0)
-        self.players[1] = Player(1, self, self.width -1, self.height - 1)
+        self.players[1] = Player(1, self, self.width - 1, self.height - 1)
 
         # spawn after they are created, so buildings can add themselves to this world for this player
         self.players[-1].initial_spawn()
@@ -96,7 +101,7 @@ class Board:
                 for i in range(self.MAX_ACTORS_ON_TILE):
                     actor = actors[i]  # now actor can be empty or it can consist of object MyActor...
 
-                    valid_actions = [0] * len(self.ALL_ACTIONS)
+                    valid_actions = [0] * self.ALL_ACTIONS_LEN
                     for j, (action_str, action_int) in enumerate(self.ALL_ACTIONS.items()):
                         valid_actions[j] = actor.can_execute_action(action_str, self)
                     actors[i].append(valid_actions)
@@ -130,8 +135,8 @@ class Board:
         print("".join(display_str))
 
     def timeout(self) -> bool:
-        print("checking timeout iteration " , self.iteration)
-        # returns boolean that returns true when game has timeouted
+        # print("checking timeout iteration ", self.iteration)
+        # returns boolean that returns true when game timeouts
         if self.iteration > self.timeout_ticks:
             print("---> TIMEOUT <---")
             return True

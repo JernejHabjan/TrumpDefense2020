@@ -3,8 +3,9 @@ import sys
 
 from tensorflow.python.keras.callbacks import TensorBoard
 import numpy as np
-from tensorflow.python.keras.utils import plot_model
+from keras.utils import plot_model
 
+from NeuralNet import NeuralNet
 from utils import *
 from .OthelloNNet import OthelloNNet as ONNet
 
@@ -19,34 +20,34 @@ args = DotDict({
 })
 
 
-class NNetWrapper:
+class NNetWrapper(NeuralNet):
     def __init__(self, game):
-
+        super().__init__(game)
         self.nnet = ONNet(game, args)
+        self.board_x, self.board_y = game.getBoardSize()
         self.action_size = game.getActionSize()
 
-        self.tensorboard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0, write_graph=True, write_images=True)
-
+        self.tensorboard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0,
+                                       write_graph=True, write_images=True)
         # plot_model(self.nnet.model, to_file='_Files\\models\\' + type(self.nnet).__name__ + '_model_plot.png', show_shapes=True, show_layer_names=True)
 
     def train(self, examples):
         """
         examples: list of examples, each example is of form (board, pi, v)
         """
-
-
         input_boards, target_pis, target_vs = list(zip(*examples))
-
         input_boards = np.asarray(input_boards)
         target_pis = np.asarray(target_pis)
         target_vs = np.asarray(target_vs)
+
 
         print("printing input_boards shape", np.array(input_boards).shape)
         print("printing target_pis shape", np.array(target_pis).shape)
         print("printing target_vs shape", np.array(target_vs).shape)
 
-        # self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
-        self.nnet.model.fit(x=input_boards, y=[target_pis[:-1], target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
+
+        self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs,
+                            callbacks=[self.tensorboard])
 
     def predict(self, board):
         """
@@ -56,18 +57,7 @@ class NNetWrapper:
         # start = time.time()
 
         # preparing input
-
-        """
-        board: 
-        [[ 0  0  0  0  0  0]
-         [ 0  0  0  0  0  0]
-         [ 0  0 -1  1  0  0]
-         [ 0  0  1 -1  0  0]
-         [ 0  0  0  0  0  0]
-         [ 0  0  0  0  0  0]]
-        """
-
-        # board = board[np.newaxis, :, :] # TODO new axis
+        board = board[np.newaxis, :, :]
 
         # board now looks like this:
 
@@ -79,11 +69,8 @@ class NNetWrapper:
           [ 1  0 -1 -1 -1  0]
           [ 0  0  0  0  0  0]]]
         """
-
-        board = board[np.newaxis, :, :] # TODO - DODAMO DIMENZIJO ?????????
-
-
         print("printing board size ", np.size(board))
+
 
         # run
         pi, v = self.nnet.model.predict(board)

@@ -1,6 +1,10 @@
 from Coach import Coach
+from games.othello.OthelloGame import OthelloGame as Game
+from games.othello.keras.NNet import NNetWrapper as NNet
+
 from games.td2020.OthelloGame import OthelloGame as Game
 from games.td2020.keras.NNet import NNetWrapper as NNet
+
 from utils import *
 
 # install packages:
@@ -27,13 +31,13 @@ args = DotDict({
 })
 
 args = DotDict({
-    'numIters': 2,
-    'numEps': 2,
-    'tempThreshold': 15,
+    'numIters':1,
+    'numEps': 1,
+    'tempThreshold': 5,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
     'numMCTSSims': 2,
-    'arenaCompare': 2,
+    'arenaCompare': 1,
     'cpuct': 1,
 
     'checkpoint': './temp/',

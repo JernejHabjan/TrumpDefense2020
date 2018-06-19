@@ -14,16 +14,119 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/alpha_zero_general$checking.coverage" NAME="checking Coverage Results" MODIFIED="1527162543259" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/alpha_zero_general$OthelloGame.coverage" NAME="OthelloGame Coverage Results" MODIFIED="1529315992719" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$Game.coverage" NAME="Game Coverage Results" MODIFIED="1526718041906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/td2020/src" />
+    <SUITE FILE_PATH="coverage/alpha_zero_general$NNet.coverage" NAME="NNet Coverage Results" MODIFIED="1529424515554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020/keras" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$main__2_.coverage" NAME="main (2) Coverage Results" MODIFIED="1528477927034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020/src" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$ActionManager.coverage" NAME="ActionManager Coverage Results" MODIFIED="1526580990863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/td2020/src" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$OthelloNNet.coverage" NAME="OthelloNNet Coverage Results" MODIFIED="1527168981783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/othello/keras" />
+    <SUITE FILE_PATH="coverage/alpha_zero_general$OthelloLogic.coverage" NAME="OthelloLogic Coverage Results" MODIFIED="1529315641147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$pit.coverage" NAME="pit Coverage Results" MODIFIED="1528549095085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/alpha_zero_general$main.coverage" NAME="main Coverage Results" MODIFIED="1529160957281" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/alpha_zero_general$main.coverage" NAME="main Coverage Results" MODIFIED="1529425450837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1526736751191" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/td2020/src" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="OthelloLogic.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/OthelloLogic.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="833">
+              <caret line="50" column="49" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OthelloPlayers.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/OthelloPlayers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Arena.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Arena.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1105">
+              <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Coach.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Coach.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="42" column="73" selection-start-line="42" selection-start-column="71" selection-end-line="42" selection-end-column="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Game.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Game.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MCTS.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MCTS.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3723">
+              <caret line="220" column="31" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NeuralNet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/NeuralNet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pit.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NNet.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/games/td2020/keras/NNet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="699">
+              <caret line="66" column="29" lean-forward="true" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -34,36 +137,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>circle</find>
-      <find>.1</find>
-      <find>building health</find>
-      <find>building healt</find>
-      <find>can_conti</find>
-      <find>building hea</find>
-      <find>SAME ACTOR</find>
-      <find>self.</find>
-      <find>star</find>
-      <find>player</find>
-      <find>checking if</find>
-      <find>issubclass</find>
-      <find>scor</find>
-      <find>for</find>
-      <find>action_</find>
-      <find>timeout_ticks</find>
-      <find>MyActor</find>
-      <find>Print</find>
-      <find>ex</find>
-      <find>print</find>
-      <find>can_execute</find>
-      <find>printing nume</find>
-      <find>action</find>
-      <find>iteration</find>
       <find>timeou</find>
       <find>Timeou</find>
       <find>checking</find>
       <find>chec</find>
       <find>while</find>
       <find>runn</find>
+      <find>can_execute</find>
+      <find>print</find>
+      <find>executing mc</find>
+      <find>getting act</find>
+      <find>probability</find>
+      <find>recieved</find>
+      <find>MCTS CHOSE ACTION</find>
+      <find>MCTS CHOSE ACTION 505</find>
+      <find>505</find>
+      <find>------------- ACTION ---------------------------- 505</find>
+      <find>search</find>
+      <find>NTING ACTION SPLITTED DIFFERE</find>
+      <find>Err</find>
+      <find>checking if</find>
+      <find>checking if</find>
+      <find>dolzina seznama</find>
+      <find>train</find>
+      <find>printing si</find>
+      <find>random</find>
+      <find>for current ac</find>
+      <find>timeout</find>
+      <find>canonical_board</find>
+      <find>can exe</find>
+      <find>+1</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -92,8 +195,6 @@
         <option value="$PROJECT_DIR$/games/tictactoe/keras/NNet.py" />
         <option value="$PROJECT_DIR$/games/tictactoe/keras/TicTacToeNNet.py" />
         <option value="$PROJECT_DIR$/utils.py" />
-        <option value="$PROJECT_DIR$/games/othello/keras/NNet.py" />
-        <option value="$PROJECT_DIR$/games/othello/keras/OthelloNNet.py" />
         <option value="$PROJECT_DIR$/games/tictactoe_object/TicTacToeGame.py" />
         <option value="$PROJECT_DIR$/games/gobang/GobangGame.py" />
         <option value="$PROJECT_DIR$/games/gobang/GobangLogic.py" />
@@ -106,19 +207,21 @@
         <option value="$PROJECT_DIR$/games/td2020/src/Graphics.py" />
         <option value="$PROJECT_DIR$/../../../../README.md" />
         <option value="$PROJECT_DIR$/games/td2020/src/FunctionLibrary.py" />
-        <option value="$PROJECT_DIR$/games/td2020/OthelloPlayers.py" />
         <option value="$PROJECT_DIR$/games/td2020/OthelloGame_objectified.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/games/td2020/src/Grid.py" />
-        <option value="$PROJECT_DIR$/games/td2020/src/ActionManager.py" />
         <option value="$PROJECT_DIR$/games/td2020/src/Components.py" />
-        <option value="$PROJECT_DIR$/games/td2020/src/Game.py" />
-        <option value="$PROJECT_DIR$/games/td2020/keras/OthelloNNet.py" />
+        <option value="$PROJECT_DIR$/games/td2020/OthelloPlayers.py" />
         <option value="$PROJECT_DIR$/games/td2020/src/Player.py" />
-        <option value="$PROJECT_DIR$/games/td2020/OthelloLogic.py" />
+        <option value="$PROJECT_DIR$/games/td2020/src/Game.py" />
+        <option value="$PROJECT_DIR$/games/td2020/src/ActionManager.py" />
         <option value="$PROJECT_DIR$/games/td2020/OthelloGame.py" />
-        <option value="$PROJECT_DIR$/Coach.py" />
+        <option value="$PROJECT_DIR$/games/td2020/OthelloLogic.py" />
         <option value="$PROJECT_DIR$/MCTS.py" />
+        <option value="$PROJECT_DIR$/Coach.py" />
+        <option value="$PROJECT_DIR$/games/othello/keras/OthelloNNet.py" />
+        <option value="$PROJECT_DIR$/games/td2020/keras/OthelloNNet.py" />
+        <option value="$PROJECT_DIR$/games/othello/keras/NNet.py" />
+        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/games/td2020/keras/NNet.py" />
       </list>
     </option>
@@ -133,8 +236,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="483" />
-    <option name="y" value="-15" />
+    <option name="x" value="502" />
+    <option name="y" value="-20" />
     <option name="width" value="1460" />
     <option name="height" value="822" />
   </component>
@@ -143,6 +246,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -153,40 +257,59 @@
             <path>
               <item name="alpha-zero-general" type="b2602c69:ProjectViewProjectNode" />
               <item name="alpha-zero-general" type="462c0819:PsiDirectoryNode" />
-              <item name="pretrained_models" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alpha-zero-general" type="b2602c69:ProjectViewProjectNode" />
               <item name="alpha-zero-general" type="462c0819:PsiDirectoryNode" />
-              <item name="pretrained_models" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
               <item name="othello" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alpha-zero-general" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alpha-zero-general" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
+              <item name="othello" type="462c0819:PsiDirectoryNode" />
+              <item name="keras" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alpha-zero-general" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alpha-zero-general" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
+              <item name="td2020" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alpha-zero-general" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alpha-zero-general" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
+              <item name="td2020" type="462c0819:PsiDirectoryNode" />
+              <item name="keras" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="getCano&#9;null&#9;null&#10;initial spawn&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../README.md" />
+    <property name="last_opened_file_path" value="C:/ProgramData" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games" />
-      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\_Files" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games" />
+      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general" />
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\pretrained_models\othello\keras" />
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games\td2020" />
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games\othello_object_td2020" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games" />
-      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general" />
+      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\_Files" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -202,7 +325,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="OthelloNNet" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="NNet" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="alpha-zero-general" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -210,18 +333,18 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/othello/keras" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/games/td2020/keras" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/othello/keras/OthelloNNet.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/games/td2020/keras/NNet.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="checking" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="OthelloGame" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="alpha-zero-general" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -229,18 +352,18 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/games/td2020" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/checking.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/games/td2020/OthelloGame.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="main (2)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="OthelloLogic" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="alpha-zero-general" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -248,12 +371,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/games/td2020/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/games/td2020" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/games/td2020/src/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/games/td2020/OthelloLogic.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -300,17 +423,17 @@
     <list>
       <item itemvalue="Python.main" />
       <item itemvalue="Python.pit" />
-      <item itemvalue="Python.checking" />
-      <item itemvalue="Python.OthelloNNet" />
-      <item itemvalue="Python.main (2)" />
+      <item itemvalue="Python.OthelloLogic" />
+      <item itemvalue="Python.OthelloGame" />
+      <item itemvalue="Python.NNet" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.NNet" />
+        <item itemvalue="Python.OthelloGame" />
+        <item itemvalue="Python.OthelloLogic" />
         <item itemvalue="Python.pit" />
-        <item itemvalue="Python.main (2)" />
-        <item itemvalue="Python.OthelloNNet" />
-        <item itemvalue="Python.checking" />
       </list>
     </recent_temporary>
   </component>
@@ -346,14 +469,14 @@
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32988048" />
       <window_info anchor="bottom" x="2560" y="377" width="1920" height="1017" id="Run" order="2" type="WINDOWED" weight="0.42097026" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32988048" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.105325915" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11248013" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.49003986" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.40159363" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -383,7 +506,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="74" />
+      <option name="time" value="75" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -415,40 +538,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/games/tictactoe_object/TicTacToeLogic.py" />
-    <entry file="file://$PROJECT_DIR$/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/tictactoe_object/TicTacToeGame.py" />
-    <entry file="file://$PROJECT_DIR$/games/othello_object/OthelloGame.py" />
-    <entry file="file://$PROJECT_DIR$/games/td2020/TD2020Players.py" />
-    <entry file="file://$PROJECT_DIR$/games/td2020/TD2020Logic.py" />
-    <entry file="file://$PROJECT_DIR$/games/td2020/TD2020Game.py" />
-    <entry file="file://$USER_HOME$/.PyCharm2018.1/system/python_stubs/-313451744/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="4400" column="60" selection-start-line="4400" selection-start-column="60" selection-end-line="4400" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_Files/Deep Learning Book/00 Deep Learning.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="9" lean-forward="true" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/keras/utils/vis_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2244">
-          <caret line="136" selection-start-line="136" selection-end-line="136" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -487,13 +576,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/OthelloPlayers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tensorflow/python/keras/_impl/keras/utils/vis_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="498">
@@ -508,8 +590,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Game.py" />
-    <entry file="file://$PROJECT_DIR$/NeuralNet.py" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="353">
@@ -525,13 +605,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/FunctionLibrary.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/games/td2020/src/Graphics.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -539,73 +612,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Actors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="29" column="36" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Components.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="46" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
           <caret line="41" selection-start-line="41" selection-end-line="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="71" column="22" selection-start-line="71" selection-start-column="22" selection-end-line="71" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/OthelloLogic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="131" column="12" selection-start-line="131" selection-start-column="12" selection-end-line="131" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/ActionManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="703">
-          <caret line="322" column="40" selection-start-line="322" selection-start-column="39" selection-end-line="322" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Arena.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/copy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="148" selection-start-line="148" selection-end-line="148" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MCTS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1615">
-          <caret line="96" column="39" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -631,45 +641,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Player.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/keras/OthelloNNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/OthelloGame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="36" column="20" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Coach.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2499">
-          <caret line="158" column="69" selection-start-line="158" selection-start-column="59" selection-end-line="158" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pretrained_models/othello/keras/6x6 checkpoint_145.pth.tar" />
-    <entry file="file://$PROJECT_DIR$/pit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="23" column="18" selection-start-line="23" selection-start-column="3" selection-end-line="23" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tensorflow/python/keras/_impl/keras/engine/training_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
@@ -677,17 +649,182 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/keras/NNet.py">
+    <entry file="file://$PROJECT_DIR$/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
+        <state relative-caret-position="629">
+          <caret line="37" column="66" lean-forward="true" selection-start-line="37" selection-start-column="66" selection-end-line="37" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Components.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="46" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Player.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/copy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/FunctionLibrary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="805">
+          <caret line="137" column="8" selection-start-line="137" selection-start-column="8" selection-end-line="137" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Actors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="53" column="38" selection-start-line="53" selection-start-column="38" selection-end-line="53" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files/Python36/Lib/site-packages/tensorflow/python/keras/_impl/keras/engine/training.py" />
+    <entry file="file://$PROJECT_DIR$/games/td2020/OthelloGame.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/connect4/README.md" />
+    <entry file="file://$PROJECT_DIR$/games/connect4/Connect4Logic.py" />
+    <entry file="file://$PROJECT_DIR$/games/connect4/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/games/connect4/Connect4Game.py" />
+    <entry file="file://$PROJECT_DIR$/games/gobang/keras/NNet.py" />
+    <entry file="file://$PROJECT_DIR$/games/othello/keras/OthelloNNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/ActionManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2642">
+          <caret line="325" column="41" selection-start-line="325" selection-start-column="41" selection-end-line="325" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/othello/keras/NNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="59" column="8" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/keras/OthelloNNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Coach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="42" column="73" selection-start-line="42" selection-start-column="71" selection-end-line="42" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="38" column="25" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="25" />
+        <state relative-caret-position="340">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MCTS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3723">
+          <caret line="220" column="31" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NeuralNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Arena.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1105">
+          <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/OthelloPlayers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/OthelloLogic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="50" column="49" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/keras/NNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="699">
+          <caret line="66" column="29" lean-forward="true" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

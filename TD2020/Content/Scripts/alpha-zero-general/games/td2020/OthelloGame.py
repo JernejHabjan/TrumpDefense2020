@@ -20,56 +20,23 @@ class OthelloGame:
 
     def getInitBoard(self):
         # return initial board (numpy board)
-        print("board initialized")
+        # print("board initialized")
         self.saved_world = Board(self.n)  # TODO
 
         return self.saved_world
 
     def getBoardSize(self):
         # (a,b) tuple
-        return self.n, self.n
+        # return self.n, self.n
+        return self.n, self.saved_world.MAX_ACTORS_ON_TILE * self.saved_world.ALL_ACTIONS_LEN
 
     def getActionSize(self):
         # return number of actions
         # same output length as getValidMoves
-        return self.n * self.n * MAX_ACTORS_ON_TILE * len(self.saved_world.ALL_ACTIONS)
+        return self.n * self.n * MAX_ACTORS_ON_TILE * self.saved_world.ALL_ACTIONS_LEN
 
-    def getNextState(self, board, player: int, action: int):
-
-        if type(board) is np.ndarray:
-            board = self.saved_world  # TODO
-
-        # create copy of old world and execute actions on new one
-
-        print("iteration", str(board.iteration))
-
-        new_world: Board = copy.deepcopy(board)
-
-        player = new_world.players[player]
-
-        # beware that first value is random prefix (number 1) to prevent from trimming leading 0 when x position is 0
-        # try:
-        print("printing action in getNextState", action)
-        if action == -1:
-            print("Error - action not set in Search mcts")
-
-        neki1 = 496 / len(board.ALL_ACTIONS)
-        print(neki1)
-        a = neki1 % len(board.ALL_ACTIONS)
-
-        neki2 = neki1 / board.MAX_ACTORS_ON_TILE
-        print(neki2)
-        b = neki2 % board.MAX_ACTORS_ON_TILE
-
-        neki3 = neki2 / board.width
-        print(neki3)
-        c = neki3 % board.width
-
-        neki4 = neki3 / board.height
-        d = neki4 % board.height
-        #####################################################################################################
-
-        ## TODO - lazy way witohut modulos
+    def actionInttoArr(self, board, action: int):
+        # this parses action like "450" into position x,y and actor index on board and action int what action that is
         index = 0
         # convert object board to numpy array
         for y in range(board.height):
@@ -83,26 +50,50 @@ class OthelloGame:
                         if index == action:
                             a = x
                             b = y
-                            c = board.MAX_ACTORS_ON_TILE - actor_index - 1  # TODO - fora je ker je index 3 un ke ga prvo najde namest 0 - maybe odštejem tko pa dela???'
+                            c = actor_index
                             d = action_int
-                            break
+
+                            return [a, b, c, d]
                         index += 1
-                    #####################################################################################################
+        print("ERROR - action is not valid - too big number to exist in this grid")
+        return []
 
-        print("printing moduled values", a, b, c, d)
+    def actionInttoArrModulo(self, board, action: int):
+        # todo - optional
+        return []
 
-        # action_arr = [int(digit) for digit in str(action)]
-        # x = int(action_arr[1])
-        # y = int(action_arr[2])
-        # actor_index = int(action_arr[3])
-        # action_str = board.ALL_ACTIONS_INT[int(str(action_arr[4]) + str(action_arr[5]))]
+    def getNextState(self, board, player: int, action: int):
 
-        x = a
-        y = b
-        actor_index = c
-        action_str = board.ALL_ACTIONS_INT[d]
+        if type(board) is np.ndarray:
+            board = self.saved_world  # TODO
 
-        bbb = new_world[7][7].actors[0]
+        # create copy of old world and execute actions on new one
+
+        # print("iteration", str(board.iteration))
+
+        new_world: Board = copy.deepcopy(board)
+
+        player = new_world.players[player]
+
+        # beware that first value is random prefix (number 1) to prevent from trimming leading 0 when x position is 0
+        # try:
+        # print("printing action in getNextState", action)
+        if action == -1:
+            print("Error - action not set in Search mcts")
+
+        action_into_arr_array = self.actionInttoArr(new_world, action)
+        x = action_into_arr_array[0]
+        y = action_into_arr_array[1]
+        actor_index = action_into_arr_array[2]
+        action_str = new_world.ALL_ACTIONS_INT[action_into_arr_array[3]]
+        print("------------- ACTION ----------------------------", x, y, actor_index, action_str)
+
+        if actor_index >= len(new_world[x][y].actors):
+            CRED = '\033[91m'
+            CEND = '\033[0m'
+            print(CRED + "ERROR - Actor_index is bigger than number of num actors on this tile - to debug ... number ->" + str(len(new_world[x][y].actors)) + " " + str(len(self.saved_world[x][y].actors)) + CEND)  # TODO - Error
+            return new_world, -player.name
+
         actor = new_world[x][y].actors[actor_index]
         actor.update(new_world, action_str)
 
@@ -136,20 +127,19 @@ class OthelloGame:
                         valid_moves.extend(actor.action_manager.count_num_valid_moves(board))
                     else:
                         # here empty space
-                        some_arr.extend([0] * len(board.ALL_ACTIONS))
+                        some_arr.extend([0] * board.ALL_ACTIONS_LEN)
 
                 valid_moves.extend(some_arr)
 
-        print("printing valid moves", valid_moves)
+        # print("printing valid moves", valid_moves)
         return np.array(valid_moves)
 
     def getGameEnded(self, canonical_board: np.ndarray, player: int) -> float:
         # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
         # player = 1
         if self.saved_world.timeout():
-            print("Timeouted")
+            # print("Timeouted")
             return 1e-4
-
 
         if len(self.saved_world.players[player].actors) == 0:  # TODO - checking agains saved world and not canonical board -may be different
             return -player
@@ -213,7 +203,7 @@ class OthelloGame:
             numeric_board.append(board_row)
 
         numeric_board = np.array(numeric_board).tolist()
-        print("Printing numeric board of length:", len(numeric_board), "\n", numeric_board)
+        # print("Printing numeric board of length:", len(numeric_board), "\n", numeric_board)
 
         return player * np.array(numeric_board)
 
@@ -223,7 +213,7 @@ class OthelloGame:
 
         # pi_board = np.reshape(pi[:-1], (self.n, self.n)) #todo reshape?
 
-        pi_board = np.reshape(pi, (8, 8, 4, 2))  # todo reshape? -- is this correct???????? dunno
+        pi_board = np.reshape(pi, (self.n, self.n, self.saved_world.MAX_ACTORS_ON_TILE, self.saved_world.ALL_ACTIONS_LEN))  # todo reshape? -- is this correct???????? dunno
 
         l = []
 

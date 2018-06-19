@@ -106,8 +106,12 @@ class Coach:
                 end = time.time()
 
                 for eps in range(self.args.numEps):
+                    print("executing mcts episode")
                     self.mcts = MCTS(self.game, self.nnet, self.args)  # reset search tree
+
                     iteration_train_examples += self.__executeEpisode()
+
+                    print("printing shape of single iteration train examples", np.size(iteration_train_examples))
 
                     # bookkeeping + plot progress
                     eps_time.update(time.time() - end)
@@ -116,7 +120,7 @@ class Coach:
                     bar.next()
                 bar.finish()
 
-                # save the iteration examples to the history 
+                # save the iteration examples to the history
                 self.trainExamplesHistory.append(iteration_train_examples)
 
             # check if exceeded num iterations for training
@@ -124,7 +128,7 @@ class Coach:
                 print("len(trainExamplesHistory) =", len(self.trainExamplesHistory), " => remove the oldest train_examples")
                 self.trainExamplesHistory.pop(0)
             # backup history to a file
-            # NB! the examples were collected using the model from the previous iteration, so (i-1)  
+            # NB! the examples were collected using the model from the previous iteration, so (i-1)
             self.saveTrainExamples(i - 1)
 
             # shuffle examples before training
@@ -133,6 +137,7 @@ class Coach:
                 train_examples.extend(e)
             shuffle(train_examples)
 
+            print("printing len of train examples: ", len(train_examples))
             # training new network, keeping a copy of the old one
             self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
             # competitor network

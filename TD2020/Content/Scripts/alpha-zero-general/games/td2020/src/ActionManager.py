@@ -322,7 +322,7 @@ class ActionManager:
         num_valid_moves: list = []
         for action_str in world.ALL_ACTIONS.keys():
             if self.can_execute_action(action_str, world):
-
+                # print("can execute action str: ", action_str)
                 num_valid_moves.append(1)
             else:
                 num_valid_moves.append(0)

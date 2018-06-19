@@ -24,10 +24,10 @@ class HumanOthelloPlayer:
             if valid[i]:
                 print(int(i / self.game.n), int(i % self.game.n))
         while True:
+            a = input()
 
-            a = ("1 " + input('enter x, y, actor_index, action_int separated by space in format >a b c de<')).split(" ")
-            a = a[1] + a[2] + a[3] + a[4]
-
+            x, y = [int(x) for x in a.split(' ')]
+            a = self.game.n * x + y if x != -1 else self.game.n ** 2
             if valid[a]:
                 break
             else:

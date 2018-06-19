@@ -34,6 +34,8 @@ class MCTS:
         """
 
     def getActionProb(self, canonical_board, temp=1):
+
+        print("getting action probability")
         """
         This function performs numMCTSSims simulations of MCTS starting from
         canonical_board.
@@ -100,6 +102,7 @@ class MCTS:
         # check for terminal condition - end state
         if self.Es[s] != 0:
             # terminal node - return this state back
+            print("recieved terminal state" , self.Es[s])
             return -self.Es[s]
 
         # if state not yet in dictionary
@@ -186,14 +189,13 @@ class MCTS:
                 else:
                     u = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ?
 
+                # print("u ", u, "for current action", a) # todo printing U for action
+
                 if u > cur_best:
                     cur_best = u
                     best_act = a
-        else:
 
-            print("no valid actions")
-            print(valids)
-
+        # print("MCTS CHOSE ACTION", best_act)
         # now we got best action
         a = best_act
         # apply this action to game - get full board and player
@@ -201,6 +203,7 @@ class MCTS:
         # get only canonical form that is used for recursive call of MCTS
         next_s = self.game.getCanonicalForm(next_s, next_player)
         # calls recursively this search function again and returns terminal or leaf state in variable "v"
+        # print("going deeper")
         v = self.search(next_s)
 
         if (s, a) in self.Qsa:
