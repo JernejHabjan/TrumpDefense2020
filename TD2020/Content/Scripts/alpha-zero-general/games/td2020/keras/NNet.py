@@ -34,7 +34,6 @@ class NNetWrapper:
         examples: list of examples, each example is of form (board, pi, v)
         """
 
-
         input_boards, target_pis, target_vs = list(zip(*examples))
 
         input_boards = np.asarray(input_boards)
@@ -45,8 +44,16 @@ class NNetWrapper:
         print("printing target_pis shape", np.array(target_pis).shape)
         print("printing target_vs shape", np.array(target_vs).shape)
 
-        # self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
-        self.nnet.model.fit(x=input_boards, y=[target_pis[:-1], target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
+        # TODO - temp fix for PIS - TODO - DUNNO WHAT IS LAST ELEMENT BUT OK
+        temp_target_pis = []
+        for pi in target_pis:
+            temp_target_pis.append(pi[:-1]) # todo remove last element - i dont think its correct
+        target_pis = temp_target_pis
+
+
+
+
+        self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
 
     def predict(self, board):
         """
@@ -80,8 +87,7 @@ class NNetWrapper:
           [ 0  0  0  0  0  0]]]
         """
 
-        board = board[np.newaxis, :, :] # TODO - DODAMO DIMENZIJO ?????????
-
+        board = board[np.newaxis, :, :]  # TODO - DODAMO DIMENZIJO ?????????
 
         print("printing board size ", np.size(board))
 

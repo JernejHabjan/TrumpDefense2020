@@ -9,7 +9,7 @@ class Game:
 
     Use 1 for player1 and -1 for player2.
 
-    See othello/OthelloGame.py for an example implementation.
+    See othello/TD2020Game.py for an example implementation.
     """
 
     def __init__(self):

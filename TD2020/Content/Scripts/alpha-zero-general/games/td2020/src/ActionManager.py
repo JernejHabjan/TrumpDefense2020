@@ -1,7 +1,7 @@
 import numpy as np
 
 from games.td2020.src.FunctionLibrary import friendly, dist
-from games.td2020.OthelloLogic import Board
+from games.td2020.TD2020Logic import Board
 
 
 class ActionManager:

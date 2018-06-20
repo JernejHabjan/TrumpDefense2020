@@ -3,7 +3,7 @@ import sys
 
 import numpy as np
 
-from .OthelloLogic import Board
+from .TD2020Logic import Board
 import copy
 
 sys.path.append('..')

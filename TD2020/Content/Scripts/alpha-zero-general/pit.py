@@ -1,7 +1,7 @@
 import Arena
 from MCTS import MCTS
-from games.td2020.OthelloGame import OthelloGame, display
-from games.td2020.OthelloPlayers import RandomPlayer, HumanOthelloPlayer  # ,GreedyTicTacToePlay
+from games.td2020.TD2020Game import OthelloGame, display
+from games.td2020.TD2020Players import RandomPlayer, HumanOthelloPlayer  # ,GreedyTicTacToePlay
 from games.td2020.keras.NNet import NNetWrapper as NNet
 
 import numpy as np

@@ -3,7 +3,7 @@ import sys
 
 from tensorflow.python.keras.callbacks import TensorBoard
 import numpy as np
-from keras.utils import plot_model
+# from keras.utils import plot_model
 
 from NeuralNet import NeuralNet
 from utils import *

@@ -135,6 +135,7 @@ class Coach:
             train_examples = []
             for e in self.trainExamplesHistory:
                 train_examples.extend(e)
+
             shuffle(train_examples)
 
             print("printing len of train examples: ", len(train_examples))

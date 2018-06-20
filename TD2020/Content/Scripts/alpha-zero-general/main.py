@@ -2,7 +2,7 @@ from Coach import Coach
 from games.othello.OthelloGame import OthelloGame as Game
 from games.othello.keras.NNet import NNetWrapper as NNet
 
-from games.td2020.OthelloGame import OthelloGame as Game
+from games.td2020.TD2020Game import OthelloGame as Game
 from games.td2020.keras.NNet import NNetWrapper as NNet
 
 from utils import *
@@ -12,7 +12,6 @@ from utils import *
 # conda install keras
 # conda install -c anaconda graphviz
 # conda install pydot
-
 
 args = DotDict({
     'numIters': 100,

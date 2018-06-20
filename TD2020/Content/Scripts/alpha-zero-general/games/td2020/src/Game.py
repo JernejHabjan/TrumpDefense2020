@@ -9,7 +9,7 @@ class Game:
 
         self.current_player = 1  # set start to white player
         # create initial world
-        from games.td2020.OthelloLogic import Board as Grid
+        from games.td2020.TD2020Logic import Board as Grid
 
         self.world_width = world_width
         self.world_height = world_height
@@ -86,14 +86,18 @@ class Game:
                         actor = self.world[x][y].actors[actor_index]
                         if issubclass(type(actor), MyActor) and actor.player == self.current_player:
                             # now this is our actor - we can execute action for this actor
+                            random_action = random.choice(actor.actions)
 
-                            action_int = self.world.ALL_ACTIONS[random.choice(actor.actions)]  # TODO - random for now
+                            # check if actions are limited for testing purpposes so it doesnt crash
+                            if random_action in self.world.ALL_ACTIONS:
 
-                            # prefix number 1, to prevent from trimming numbers
-                            action = int("1" + str(actor.x) + str(actor.y) + str(actor_index) + str(action_int))
-                            print(str(action))
-                            # do not change current player here in for loop for this player
-                            self.world, _ = self.getNextState(self.world, self.current_player, action)
+                                action_int = self.world.ALL_ACTIONS[random_action]  # TODO - random for now
+
+                                # prefix number 1, to prevent from trimming numbers
+                                action = int("1" + str(actor.x) + str(actor.y) + str(actor_index) + str(action_int))
+                                print(str(action))
+                                # do not change current player here in for loop for this player
+                                self.world, _ = self.getNextState(self.world, self.current_player, action)
 
         # change current player after finishing logic for this player
         self.current_player = -self.current_player
@@ -137,7 +141,7 @@ class Game:
     @staticmethod
     def getNextState(board, player: int, action: int):
         # create copy of old world and execute actions on new one
-        from games.td2020.OthelloLogic import Board as Grid
+        from games.td2020.TD2020Logic import Board as Grid
 
         new_world: Grid = copy.deepcopy(board)
         player = new_world.players[player]

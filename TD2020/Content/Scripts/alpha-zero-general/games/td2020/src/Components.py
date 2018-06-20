@@ -1,7 +1,7 @@
 # import pandas as pd
 # from td2020.src.FunctionLibrary import retrieve_json
 from numpy import size
-from games.td2020.OthelloLogic import Board as Grid
+from games.td2020.TD2020Logic import Board as Grid
 
 
 class AttackComponent:
