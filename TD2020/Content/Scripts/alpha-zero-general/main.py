@@ -29,14 +29,15 @@ args = DotDict({
     'numItersForTrainExamplesHistory': 20,
 })
 
+# noinspection PyRedeclaration
 args = DotDict({
-    'numIters':1,
-    'numEps': 1,
+    'numIters':10,
+    'numEps': 10,
     'tempThreshold': 5,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
-    'numMCTSSims': 2,
-    'arenaCompare': 1,
+    'numMCTSSims': 500,
+    'arenaCompare': 10,
     'cpuct': 1,
 
     'checkpoint': './temp/',

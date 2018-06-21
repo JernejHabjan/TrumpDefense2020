@@ -19,6 +19,8 @@ args = DotDict({
 })
 
 
+
+
 class NNetWrapper:
     def __init__(self, game):
 

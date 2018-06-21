@@ -48,7 +48,7 @@ class Board:
         # self.ALL_ACTIONS_INT = {10: "idle", 11: "up", 12: "down", 13: "right", 14: "left"}
 
         self.iteration: int = 0  # game iteration
-        self.timeout_ticks: int = 5 # TODO temp 5
+        self.timeout_ticks: int = 50
 
         self.spawn_world(self.width, self.height)
         self.spawn_players()
@@ -137,6 +137,9 @@ class Board:
     def timeout(self) -> bool:
         # print("checking timeout iteration ", self.iteration)
         # returns boolean that returns true when game timeouts
+
+        print("this world has iteration ", self.iteration )
+
         if self.iteration > self.timeout_ticks:
             print("---> TIMEOUT <---")
             return True

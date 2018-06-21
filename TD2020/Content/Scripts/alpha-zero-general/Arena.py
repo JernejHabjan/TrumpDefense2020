@@ -58,13 +58,18 @@ class Arena:
             # nnet player -> <function n1p at ....>
             funct = players[cur_player + 1]
             # retrieves action
-            action = funct(self.game.getCanonicalForm(board, cur_player))
-
-            valids = self.game.getValidMoves(self.game.getCanonicalForm(board, cur_player), 1)
+            action = funct(board)
+            print("action chosen", action)
+            valids = self.game.getValidMoves(board, cur_player)
 
             # check if action is valid
-            if valids[action] == 0:
-                assert valids[action] > 0
+            # if valids[action] == 0:  # TODO - COMMENTED ASSERT ?????????? ACTION MAY BE 0 ??????????? WHAT IS ACTION 0 ??????????
+            #     assert valids[action] > 0
+
+
+
+
+
             # apply action
             board, cur_player = self.game.getNextState(board, cur_player, action)
 

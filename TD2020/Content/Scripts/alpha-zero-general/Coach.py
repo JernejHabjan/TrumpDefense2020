@@ -57,13 +57,13 @@ class Coach:
         while True:
 
             episode_step += 1
-            # get canonical board - ugly board
-            canonical_board = self.game.getCanonicalForm(board, self.curPlayer)
+
             # sets temp var that is passed into MCTS getActionProb
             temp = int(episode_step < self.args.tempThreshold)
             # returns probability from getActionProb
-            pi = self.mcts.getActionProb(canonical_board, temp=temp)
+            pi = self.mcts.getActionProb(board, self.curPlayer, temp=temp)
             # return symmetries - todo ? what are symmetries here
+            canonical_board = self.game.getCanonicalForm(board, self.curPlayer)
             sym = self.game.getSymmetries(canonical_board, pi)
             # iterating through symmetries with tuple board,pi
             for b, p in sym:
@@ -151,11 +151,12 @@ class Coach:
 
             print('PITTING AGAINST PREVIOUS VERSION')
             # create two new AI players that fight each other, each with different network - one with pnet and other with nnet
-            arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)), lambda x: np.argmax(nmcts.getActionProb(x, temp=0)), self.game)
+            arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, self.curPlayer, temp=0)), lambda x: np.argmax(nmcts.getActionProb(x, self.curPlayer, temp=0)), self.game)
             # returns wins for competitive network - pwins and wins for current network - nwins
             pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
 
             print('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
+            print("New Wins", nwins, "Prev wins", pwins, "Draws", draws)
             if pwins + nwins > 0 and float(nwins) / (pwins + nwins) < self.args.updateThreshold:
                 print('REJECTING NEW MODEL')
                 self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')

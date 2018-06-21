@@ -3,6 +3,12 @@ class DotDict(dict):
         return self[name]
 
 
+def print_e(string):
+    CRED = '\033[91m'
+    CEND = '\033[0m'
+    print(CRED + string + CEND)
+
+
 # from graphviz import Digraph
 # import torch
 # from torch.autograd import Variable

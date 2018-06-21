@@ -3,20 +3,31 @@ import sys
 
 import numpy as np
 
+from utils import print_e
 from .TD2020Logic import Board
 import copy
+import warnings
 
 sys.path.append('..')
 
 MAX_ACTORS_ON_TILE = 4  # Predefined so neural network can receive fixed array
 
+from games.td2020.src.Graphics import init_visuals, update_graphics
+
 
 class OthelloGame:
-    def __init__(self, n):
+    def __init__(self, n, verbose=False, fps=200):
 
         self.n = n
-
+        self.fps = fps
         self.saved_world = Board(self.n)  # todo - here is saved world used for all kinds of stuff like accessing actors if only numeric board has been given --- DUNNO
+        self.verbose = verbose
+
+        # init visuals if variable 'visuals' is true
+        if self.verbose:
+            self.game_display, self.clock = init_visuals(n, n, verbose)
+            update_graphics(self.saved_world, self.game_display, self.clock, self.fps)
+        # start game tick
 
     def getInitBoard(self):
         # return initial board (numpy board)
@@ -65,6 +76,8 @@ class OthelloGame:
     def getNextState(self, board, player: int, action: int):
 
         if type(board) is np.ndarray:
+            print_e("Error - get next state retrieved ndarray")
+
             board = self.saved_world  # TODO
 
         # create copy of old world and execute actions on new one
@@ -89,13 +102,15 @@ class OthelloGame:
         print("------------- ACTION ----------------------------", x, y, actor_index, action_str)
 
         if actor_index >= len(new_world[x][y].actors):
-            CRED = '\033[91m'
-            CEND = '\033[0m'
-            print(CRED + "ERROR - Actor_index is bigger than number of num actors on this tile - to debug ... number ->" + str(len(new_world[x][y].actors)) + " " + str(len(self.saved_world[x][y].actors)) + CEND)  # TODO - Error
+            print_e("ERROR - Actor_index is bigger than number of num actors on this tile - to debug ... number ->" + str(len(new_world[x][y].actors)) + " " + str(len(self.saved_world[x][y].actors)))
+
             return new_world, -player.name
 
         actor = new_world[x][y].actors[actor_index]
         actor.update(new_world, action_str)
+        if self.verbose:
+            print("updating graphics")
+            update_graphics(new_world, self.game_display, self.clock, self.fps)
 
         # TODO - updating iteration here
         new_world.iteration += 1
@@ -108,6 +123,8 @@ class OthelloGame:
     def getValidMoves(self, board, player: int) -> np.array:
 
         if type(board) is np.ndarray:
+            print_e("Error - get valid moves retrieved ndarray")
+
             board = self.saved_world  # TODO
 
         # return a fixed size binary vector
@@ -134,17 +151,28 @@ class OthelloGame:
         # print("printing valid moves", valid_moves)
         return np.array(valid_moves)
 
-    def getGameEnded(self, canonical_board: np.ndarray, player: int) -> float:
+    def getGameEnded(self, board, player: int) -> float:
         # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
         # player = 1
-        if self.saved_world.timeout():
+
+        if board.timeout():
             # print("Timeouted")
             return 1e-4
 
-        if len(self.saved_world.players[player].actors) == 0:  # TODO - checking agains saved world and not canonical board -may be different
-            return -player
-        if len(self.saved_world.players[-player].actors) == 0:
+        # if len(self.saved_world.players[player].actors) == 0:  # TODO - checking agains saved world and not canonical board -may be different
+        #     return -player
+        # if len(self.saved_world.players[-player].actors) == 0:
+        #     return player
+
+        # lets create custom win condition - build 3 npcs:
+
+        if len(board.players[player].actors) == 3:
+            warnings.warn("_____________________________________ PLAYER " + str(player) + " HAS REACHED END CONDITION ______________________________________")
             return player
+
+        if len(board.players[-player].actors) == 3:
+            warnings.warn("_____________________________________ PLAYER " + str(player) + " HAS REACHED END CONDITION ______________________________________")
+            return -player
 
         return 0
 
@@ -184,9 +212,15 @@ class OthelloGame:
                     # check if its not granite
                     if actor_index < len(board[x][y].actors) and issubclass(type(board[x][y].actors[actor_index]), MyActor):
                         actor = board[x][y].actors[actor_index]
+
                         for action_str, action_int in board.ALL_ACTIONS.items():
                             if actor.action_manager.can_execute_action(action_str, board):
-                                board_row_actors_actions.append(action_int)
+
+                                # return positive numbers for this player, negative for other player
+                                if actor.player == player:
+                                    board_row_actors_actions.append(action_int)
+                                else:
+                                    board_row_actors_actions.append(-action_int)
                             else:
                                 board_row_actors_actions.append(0)
                     else:
@@ -204,8 +238,8 @@ class OthelloGame:
 
         numeric_board = np.array(numeric_board).tolist()
         # print("Printing numeric board of length:", len(numeric_board), "\n", numeric_board)
-
-        return player * np.array(numeric_board)
+        # print("printing canonical board",np.array(numeric_board))
+        return np.array(numeric_board)
 
     def getSymmetries(self, canonical_board: np.ndarray, pi: np.array) -> np.ndarray:
         # mirror, rotational

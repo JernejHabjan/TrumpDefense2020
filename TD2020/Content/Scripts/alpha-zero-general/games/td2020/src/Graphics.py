@@ -5,7 +5,7 @@ from numpy import size, clip
 
 
 def message_display(game_display, text, position, text_size, color=(0, 0, 0)):
-    large_text = pygame.font.Font('..\\assets\\Cyberbit.ttf', text_size)
+    large_text = pygame.font.Font('games\\td2020\\assets\\Cyberbit.ttf', text_size)
     text_surf = large_text.render(text, True, color)
     text_rect = text_surf.get_rect()
     text_rect.center = position
@@ -17,8 +17,8 @@ def display_img(game_display, x, y):
     game_display.blit(car_img, (x, y))
 
 
-def init_visuals(world_width: int, world_height: int, visuals=True):
-    if visuals:
+def init_visuals(world_width: int, world_height: int, verbose=True):
+    if verbose:
         pygame.init()
         # square
         display_width, display_height = world_width * 100, world_height * 100  # for example 800

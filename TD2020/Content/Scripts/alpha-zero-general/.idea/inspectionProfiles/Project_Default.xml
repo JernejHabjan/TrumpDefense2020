@@ -36,6 +36,12 @@
           <option value="games.td2020.src.Actors.MyActor.current_action" />
           <option value="games.td2020.src.Actors.GeneralActor.color" />
           <option value="games.td2020.src.Actors.MyActor.*" />
+          <option value="pygame.QUIT" />
+          <option value="pygame.KEYDOWN" />
+          <option value="pygame.K_LEFT" />
+          <option value="pygame.K_ESCAPE" />
+          <option value="pygame.MOUSEBUTTONUP" />
+          <option value="pygame.quit" />
         </list>
       </option>
     </inspection_tool>

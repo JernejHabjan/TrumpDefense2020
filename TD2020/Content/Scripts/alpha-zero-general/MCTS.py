@@ -33,7 +33,7 @@ class MCTS:
                     0.        , 0.        ])}
         """
 
-    def getActionProb(self, canonical_board, temp=1):
+    def getActionProb(self, board,player, temp=1):
 
         print("getting action probability")
         """
@@ -47,10 +47,10 @@ class MCTS:
 
         # runs simulation multiple times
         for i in range(self.args.numMCTSSims):
-            self.search(canonical_board)
+            self.search(board,player)
 
         # get string representation of this board in canonical way - ugly string
-        s = self.game.stringRepresentation(canonical_board)
+        s = self.game.stringRepresentation(self.game.getCanonicalForm(board,player))
         # stores number of counts for each action in given state - state "s"
         counts = [self.Nsa[(s, a)] if (s, a) in self.Nsa else 0 for a in range(self.game.getActionSize())]
 
@@ -66,7 +66,7 @@ class MCTS:
         probs = [x / float(sum(counts)) for x in counts]
         return probs
 
-    def search(self, canonical_board):
+    def search(self, board, player):
         """
         This function performs one iteration of MCTS. It is recursively called
         till a leaf node is found. The action chosen at each node is one that
@@ -87,7 +87,7 @@ class MCTS:
         """
 
         # get string representation of this board in canonical way - ugly string
-        s = self.game.stringRepresentation(canonical_board)
+        s = self.game.stringRepresentation(self.game.getCanonicalForm(board, player))
 
         # if not yet in dictionary ES, which stores game.getGameEnded ended for board s
         # if s not in self.Es: # TODO --------------- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ COMMENTED THESE 4 LINES - if actor chooses idle - state remains the same and timeout condition is not checked again
@@ -95,21 +95,21 @@ class MCTS:
         #     self.Es[s] = self.game.getGameEnded(canonical_board, 1)
         #     # check if game has finished in this node
 
-        ## TODO ------------------ @@ @@@@@@@@@@@@@@@@@@@@@@@@@@@ my code
-        self.Es[s] = self.game.getGameEnded(canonical_board, 1)
-        ## TODO --------------------------------------------------------------- ASIGNING EVERYTIME NEW VALUE!!!! IS THIS BAD - but timeout has to be checked
+
+        self.Es[s] = self.game.getGameEnded(board, player)
+
 
         # check for terminal condition - end state
         if self.Es[s] != 0:
             # terminal node - return this state back
-            print("recieved terminal state" , self.Es[s])
+            print("recieved terminal state", self.Es[s])
             return -self.Es[s]
 
         # if state not yet in dictionary
         if s not in self.Ps:
             # leaf node
 
-            # here for example keras NNet for Othello game is called, which calls then self.nnet.model.predict(board), which is library function # TODO WARNING - Canonical board
+            # here for example keras NNet for Othello game is called, which calls then self.nnet.model.predict(board), which is library function
             # it inputs canonical_board, that should look like this:
             """
             [[ 0  0  0  0  0  0]
@@ -124,7 +124,7 @@ class MCTS:
             #     pi: a policy vector for the current board- a numpy array of length game.getActionSize
             #     v: a float in [-1,1] that gives the value of the current board
 
-            self.Ps[s], v = self.nnet.predict(canonical_board)
+            self.Ps[s], v = self.nnet.predict(self.game.getCanonicalForm(board, player))
             # self.PS[s]
 
             """
@@ -147,7 +147,7 @@ class MCTS:
             """
             [0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0]
             """
-            valids = self.game.getValidMoves(canonical_board, 1)
+            valids = self.game.getValidMoves(board, player)
 
             # masking invalid moves
             self.Ps[s] = self.Ps[s] * valids
@@ -189,7 +189,7 @@ class MCTS:
                 else:
                     u = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ?
 
-                # print("u ", u, "for current action", a) # todo printing U for action
+                print("u ", u, "for current action", a) # todo printing U for action
 
                 if u > cur_best:
                     cur_best = u
@@ -199,12 +199,12 @@ class MCTS:
         # now we got best action
         a = best_act
         # apply this action to game - get full board and player
-        next_s, next_player = self.game.getNextState(canonical_board, 1, a)
-        # get only canonical form that is used for recursive call of MCTS
-        next_s = self.game.getCanonicalForm(next_s, next_player)
+
+        next_s, next_player = self.game.getNextState(board, player, a)
+
         # calls recursively this search function again and returns terminal or leaf state in variable "v"
         # print("going deeper")
-        v = self.search(next_s)
+        v = self.search(next_s, next_player)
 
         if (s, a) in self.Qsa:
             # calculate new value for this Qsa

@@ -27,7 +27,7 @@ mcts1 = MCTS(g, n1, args1)
 
 
 # nnet player
-def n1p(x): return np.argmax(mcts1.getActionProb(x, temp=0))
+def n1p(x,player): return np.argmax(mcts1.getActionProb(x,player, temp=0)) # todo - added player as input and to getActionProb as second parameter
 
 
 # n2 = NNet(g)
