@@ -108,31 +108,33 @@ class Board:
         if not self.verbose:
             return
 
-        display_str = ["\n" + "".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n|"]
-        for y in range(self.height):
-            for x in range(self.width):
-                tile = self[x][y]
-                if np.size(tile.actors) > 1:
-                    for actor in tile.actors:
-                        display_str.append((("+" if actor.player == 1 else "-") if hasattr(actor, "player") else "*") + str(actor.numeric_value))
-                    display_str.extend(["  "] * (MAX_ACTORS_ON_TILE - len(tile.actors)))
-                elif np.size(tile.actors) == 1:
-                    display_str.append("  " + tile.actors[0].short_name + "  ")
-                else:
-                    display_str.append("  " * MAX_ACTORS_ON_TILE)
-                display_str.append("|")
-            display_str.append("\n")
-            if y < self.height:
-                display_str.append("".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n")
-            if y < self.height - 1:
-                display_str.append("|")
-        print("".join(display_str))
-
-        # Display using pygame
-        # warning - do not assign pygame canvas to self as it cannot be later copied via deepcopy
         if self.draw_pygame:
+            # Display using pygame
+            # warning - do not assign pygame canvas to self as it cannot be later copied via deepcopy
             game_display, clock = init_visuals(self.width, self.height, self.verbose)
             update_graphics(self, game_display, clock, self.fps)
+        else:
+            display_str = ["\n" + "".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n|"]
+            for y in range(self.height):
+                for x in range(self.width):
+                    tile = self[x][y]
+                    if np.size(tile.actors) > 1:
+                        for actor in tile.actors:
+                            display_str.append((("+" if actor.player == 1 else "-") if hasattr(actor, "player") else "*") + str(actor.numeric_value))
+                        display_str.extend(["  "] * (MAX_ACTORS_ON_TILE - len(tile.actors)))
+                    elif np.size(tile.actors) == 1:
+                        display_str.append("  " + tile.actors[0].short_name + "  ")
+                    else:
+                        display_str.append("  " * MAX_ACTORS_ON_TILE)
+                    display_str.append("|")
+                display_str.append("\n")
+                if y < self.height:
+                    display_str.append("".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n")
+                if y < self.height - 1:
+                    display_str.append("|")
+            print("".join(display_str))
+
+
 
     def timeout(self) -> bool:
 

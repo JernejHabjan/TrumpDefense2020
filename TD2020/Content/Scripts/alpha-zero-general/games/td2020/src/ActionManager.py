@@ -18,7 +18,7 @@ class ActionManager:
 
     # ACTIONS
 
-    def choose_enemy(self, world: Board):
+    def choose_enemy(self, board: Board):
         print("choosing enemy")
 
         # choose nearest enemy, where priority are those with attack component by constant factor
@@ -26,7 +26,7 @@ class ActionManager:
         nearest_enemy = None
         nearest_enemy_dist = np.inf
         # negate player so we are choosing opponents enemies
-        for actor in world.players[-self.actor.player].actors:
+        for actor in board.players[-self.actor.player].actors:
             distance = dist(self.actor, actor)
 
             if hasattr(actor, "attack_component"):
@@ -38,7 +38,7 @@ class ActionManager:
 
         self.enemy_actor = nearest_enemy
 
-    def attack(self, world: Board):
+    def attack(self, board: Board):
 
         print("Attacking enemy " + str(type(self.enemy_actor)))
 
@@ -53,59 +53,59 @@ class ActionManager:
             print("Enemy killed" + str(type(enemy)) + " of team " + str(enemy.player))
 
             # remove him
-            if enemy in world.players[enemy.player].actors:
-                world.players[enemy.player].actors.remove(enemy)
+            if enemy in board.players[enemy.player].actors:
+                board.players[enemy.player].actors.remove(enemy)
 
-            if enemy in world[enemy.x][enemy.y].actors:
-                world[enemy.x][enemy.y].actors.remove(enemy)
+            if enemy in board[enemy.x][enemy.y].actors:
+                board[enemy.x][enemy.y].actors.remove(enemy)
 
             del enemy
 
-    def npc(self, world: Board):
+    def npc(self, board: Board):
 
-        self.actor.unit_production_component.construct_unit("NPC", world)
+        self.actor.unit_production_component.construct_unit("NPC", board)
 
-    def rifle_infantry(self, world: Board):
+    def rifle_infantry(self, board: Board):
 
-        self.actor.unit_production_component.construct_unit("RifleInfantry", world)
+        self.actor.unit_production_component.construct_unit("RifleInfantry", board)
 
-    def town_hall(self, world: Board):
-        self._spawn_here("TownHall", world)
+    def town_hall(self, board: Board):
+        self._spawn_here("TownHall", board)
 
-    def barracks(self, world: Board):
-        self._spawn_here("Barracks", world)
+    def barracks(self, board: Board):
+        self._spawn_here("Barracks", board)
 
-    def sentry(self, world: Board):
-        self._spawn_here("Sentry", world)
+    def sentry(self, board: Board):
+        self._spawn_here("Sentry", board)
 
-    def mining_shack(self, world: Board):
-        self._spawn_here("MiningShack", world)
+    def mining_shack(self, board: Board):
+        self._spawn_here("MiningShack", board)
 
-    def up(self, world: Board):
+    def up(self, board: Board):
 
-        self._execute_move(self.actor.x, self.actor.y - 1, world)
+        self._execute_move(self.actor.x, self.actor.y - 1, board)
 
-    def down(self, world: Board):
+    def down(self, board: Board):
 
-        self._execute_move(self.actor.x, self.actor.y + 1, world)
+        self._execute_move(self.actor.x, self.actor.y + 1, board)
 
-    def right(self, world: Board):
+    def right(self, board: Board):
 
-        self._execute_move(self.actor.x + 1, self.actor.y, world)
+        self._execute_move(self.actor.x + 1, self.actor.y, board)
 
-    def left(self, world: Board):
+    def left(self, board: Board):
 
-        self._execute_move(self.actor.x - 1, self.actor.y, world)
+        self._execute_move(self.actor.x - 1, self.actor.y, board)
 
-    def idle(self, world: Board):
+    def idle(self, board: Board):
         pass
 
-    def mine_resources(self, world: Board):
+    def mine_resources(self, board: Board):
 
         from games.td2020.src.Actors import ResourcesMaster
 
         resource = None
-        for actor in world[self.actor.x][self.actor.y].actors:
+        for actor in board[self.actor.x][self.actor.y].actors:
 
             if isinstance(actor, ResourcesMaster):
                 resource = actor
@@ -115,20 +115,20 @@ class ActionManager:
         resource.amount -= resource.gather_amount
         self.actor.gather_amount += resource.gather_amount
 
-    def return_resources(self, world: Board):
+    def return_resources(self, board: Board):
 
         # add money
-        world.players[self.actor.player].money += self.actor.gather_amount
+        board.players[self.actor.player].money += self.actor.gather_amount
         # reset gather amount
         self.actor.gather_amount = 0
-        print("new money amount " + str(world.players[self.actor.player].money))
+        print("new money amount " + str(board.players[self.actor.player].money))
 
-    def continue_building(self, world: Board):  # continues building building for +1 time
+    def continue_building(self, board: Board):  # continues building building for +1 time
         # get building to construct on this tile
 
         from games.td2020.src.Actors import MyActor
         building: MyActor = None
-        for actor in world[self.actor.x][self.actor.y].actors:
+        for actor in board[self.actor.x][self.actor.y].actors:
             from games.td2020.src.Actors import BuildingMaster
             if isinstance(actor, BuildingMaster) and friendly(actor, self.actor):
                 # we found building on this tile
@@ -147,47 +147,45 @@ class ActionManager:
         increment = remaining_initial / building.production_time
         building.health += increment
 
-    def execute_action(self, action, world: Board):
-        if self.can_execute_action(action, world):
+    def execute_action(self, action, board: Board):
+        if self.can_execute_action(action, board):
             self.actor.current_action = action
             # print("Executing " + action + " by", type(self.actor).__name__)
-            eval("self." + action + "(world)")
-
-    # ACTION CHECKING
+            eval("self." + action + "(board)")
 
     # noinspection PyUnusedLocal
-    def can_execute_action(self, action: str, world: Board):
+    def can_execute_action(self, action: str, board: Board):
         production_percent = float(self.actor.current_production_time) / float(self.actor.production_time)  # value between 0 and 1
         if production_percent == 1:
             # print("checking if action " + action + " can be executed...")
-            can_execute = eval("self.can_" + action + "(world)")
+            can_execute = eval("self.can_" + action + "(board)")
             # print("executed: " + str(can_execute))
             return can_execute
         else:
             print("cannot execute action - not constructed to max")
             return False
 
-    # noinspection PyUnusedLocal,PyMethodMayBeStatic
-    def can_idle(self, world: Board):
+    # noinspection PyUnusedLocal
+    def can_idle(self, board: Board):
         return True
 
-    def can_up(self, world: Board):
-        return self._can_execute_move(self.actor.x, self.actor.y - 1, world)
+    def can_up(self, board: Board):
+        return self._can_execute_move(self.actor.x, self.actor.y - 1, board)
 
-    def can_down(self, world: Board):
-        return self._can_execute_move(self.actor.x, self.actor.y + 1, world)
+    def can_down(self, board: Board):
+        return self._can_execute_move(self.actor.x, self.actor.y + 1, board)
 
-    def can_right(self, world: Board):
-        return self._can_execute_move(self.actor.x + 1, self.actor.y, world)
+    def can_right(self, board: Board):
+        return self._can_execute_move(self.actor.x + 1, self.actor.y, board)
 
-    def can_left(self, world: Board):
-        return self._can_execute_move(self.actor.x - 1, self.actor.y, world)
+    def can_left(self, board: Board):
+        return self._can_execute_move(self.actor.x - 1, self.actor.y, board)
 
-    def can_mine_resources(self, world: Board):
+    def can_mine_resources(self, board: Board):
         from games.td2020.src.Actors import ResourcesMaster
         # find if there are any resources on this location
         resource = None
-        for actor in world[self.actor.x][self.actor.y].actors:
+        for actor in board[self.actor.x][self.actor.y].actors:
 
             if isinstance(actor, ResourcesMaster):
                 resource = actor
@@ -197,14 +195,14 @@ class ActionManager:
         from games.td2020.src.Actors import NPC
         return resource is not None and isinstance(self.actor, NPC) and self.actor.gather_amount < self.actor.max_gather_amount
 
-    def can_return_resources(self, world: Board):
+    def can_return_resources(self, board: Board):
         from games.td2020.src.Actors import NPC
         if not isinstance(self.actor, NPC):
             return False
 
         # find if there are any mines on this location
         resource_deposit_actor = None
-        for actor in world[self.actor.x][self.actor.y].actors:
+        for actor in board[self.actor.x][self.actor.y].actors:
             if hasattr(actor, 'resources_deposit_component'):
                 resource_deposit_actor = actor
                 break
@@ -213,39 +211,39 @@ class ActionManager:
         return resource_deposit_actor is not None and friendly(resource_deposit_actor, self.actor)
 
     # noinspection PyUnusedLocal
-    def can_choose_enemy(self, world: Board):
+    def can_choose_enemy(self, board: Board):
         return hasattr(self.actor, 'attack_component')
 
     # noinspection PyUnusedLocal
-    def can_attack(self, world: Board):
+    def can_attack(self, board: Board):
         # check if enemy has been chosen:
         # check if we can attack
         # check range
         return self.enemy_actor is not None and hasattr(self.actor, 'attack_component') and dist(self.actor, self.enemy_actor) <= self.actor.attack_component.range
 
-    def can_npc(self, world: Board):
-        return self._can_character_spawn("NPC", world)
+    def can_npc(self, board: Board):
+        return self._can_character_spawn("NPC", board)
 
-    def can_rifle_infantry(self, world: Board):
-        return self._can_character_spawn("RifleInfantry", world)
+    def can_rifle_infantry(self, board: Board):
+        return self._can_character_spawn("RifleInfantry", board)
 
-    def can_town_hall(self, world: Board):
-        return self._can_spawn_here(world, "TownHall")
+    def can_town_hall(self, board: Board):
+        return self._can_spawn_here(board, "TownHall")
 
-    def can_barracks(self, world: Board):
-        return self._can_spawn_here(world, "Barracks")
+    def can_barracks(self, board: Board):
+        return self._can_spawn_here(board, "Barracks")
 
-    def can_sentry(self, world: Board):
-        return self._can_spawn_here(world, "Sentry")
+    def can_sentry(self, board: Board):
+        return self._can_spawn_here(board, "Sentry")
 
-    def can_mining_shack(self, world: Board):
-        return self._can_spawn_here(world, "MiningShack")
+    def can_mining_shack(self, board: Board):
+        return self._can_spawn_here(board, "MiningShack")
 
-    def can_continue_building(self, world: Board):
+    def can_continue_building(self, board: Board):
         from games.td2020.src.Actors import NPC
         if not isinstance(self.actor, NPC):
             return False
-        for actor in world[self.actor.x][self.actor.y].actors:
+        for actor in board[self.actor.x][self.actor.y].actors:
             from games.td2020.src.Actors import BuildingMaster
             if isinstance(actor, BuildingMaster) and friendly(actor, self.actor):
                 # we found building on this tile and its friendly
@@ -255,35 +253,35 @@ class ActionManager:
         return False
 
     # HELPER METHODS
-    def _execute_move(self, new_x: int, new_y: int, world: Board):
+    def _execute_move(self, new_x: int, new_y: int, board: Board):
         # print("moving from ", self.actor.x, self.actor.y, " to new location", new_x, new_y)
         # remove from old tile
-        world[self.actor.x][self.actor.y].actors.remove(self.actor)
+        board[self.actor.x][self.actor.y].actors.remove(self.actor)
 
         # add to new tile
-        world[new_x][new_y].actors.append(self.actor)
+        board[new_x][new_y].actors.append(self.actor)
         self.actor.x, self.actor.y = new_x, new_y
 
-    def _spawn_here(self, name: str, world: Board):  # spawns construction proxy
+    def _spawn_here(self, name: str, board: Board):  # spawns construction proxy
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import BuildingMaster, Barracks, TownHall, Sentry, MiningShack
-        if self._can_spawn_here(world, name):
+        if self._can_spawn_here(board, name):
             building = eval(name)(self.actor.player, self.actor.x, self.actor.y)
             # pay
-            world.players[self.actor.player].money -= building.production_cost
+            board.players[self.actor.player].money -= building.production_cost
 
-            building.spawn(world)
+            building.spawn(board)
             print("spawned new building - adding to player actors" + str(type(building)))
 
         else:
             print("not enough money")
 
-    def _can_execute_move(self, new_x: int, new_y: int, world: Board):
+    def _can_execute_move(self, new_x: int, new_y: int, board: Board):
         from games.td2020.src.Actors import Character
 
-        return 0 <= new_x < world.width and 0 <= new_y < world.height and issubclass(type(self.actor), Character) and len(world[new_x][new_y].actors) < MAX_ACTORS_ON_TILE
+        return 0 <= new_x < board.width and 0 <= new_y < board.height and issubclass(type(self.actor), Character) and len(board[new_x][new_y].actors) < MAX_ACTORS_ON_TILE
 
-    def _can_spawn_here(self, world: Board, name: str):
+    def _can_spawn_here(self, board: Board, name: str):
         from games.td2020.src.Actors import NPC
         if not isinstance(self.actor, NPC):
             return False
@@ -292,13 +290,13 @@ class ActionManager:
         from games.td2020.src.Actors import BuildingMaster, Barracks, TownHall, Sentry, MiningShack
 
         # check if here no buildings exist yet
-        building_exists_on_tile = any(isinstance(actor, BuildingMaster) for actor in world[self.actor.x][self.actor.y].actors)
+        building_exists_on_tile = any(isinstance(actor, BuildingMaster) for actor in board[self.actor.x][self.actor.y].actors)
 
         if building_exists_on_tile:
             print("buildings already exist on this tile. Returning False")
             return False
 
-        if len(world[self.actor.x][self.actor.y].actors) == MAX_ACTORS_ON_TILE:
+        if len(board[self.actor.x][self.actor.y].actors) == MAX_ACTORS_ON_TILE:
             print("cannot spawn here - " + str(MAX_ACTORS_ON_TILE) + " already on tile")
             return False
 
@@ -308,20 +306,20 @@ class ActionManager:
 
         print("checking cost...")
         # check if we can pay for construction proxy
-        return world.players[self.actor.player].money >= building.production_cost
+        return board.players[self.actor.player].money >= building.production_cost
 
-    def _can_character_spawn(self, name: str, world: Board):
+    def _can_character_spawn(self, name: str, board: Board):
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import RifleInfantry, NPC
         character_temp = eval(name)(0, 0, 0)
 
-        return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and world.players[self.actor.player].money >= character_temp.production_cost and len(
-            world[self.actor.x][self.actor.y].actors) < MAX_ACTORS_ON_TILE
+        return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and board.players[self.actor.player].money >= character_temp.production_cost and len(
+            board[self.actor.x][self.actor.y].actors) < MAX_ACTORS_ON_TILE
 
-    def count_num_valid_moves(self, world: Board) -> list:
+    def count_num_valid_moves(self, board: Board) -> list:
         num_valid_moves: list = []
         for action_str in ALL_ACTIONS.keys():
-            if self.can_execute_action(action_str, world):
+            if self.can_execute_action(action_str, board):
                 # print("can execute action str: ", action_str)
                 num_valid_moves.append(1)
             else:

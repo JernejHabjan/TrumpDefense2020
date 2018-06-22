@@ -1,5 +1,5 @@
 from math import sqrt, ceil
-
+from games.td2020.src.config_file import CANVAS_SCALE, BORDER
 import pygame
 from numpy import size, clip
 
@@ -21,7 +21,7 @@ def init_visuals(world_width: int, world_height: int, verbose=True):
     if verbose:
         pygame.init()
         # square
-        display_width, display_height = world_width * 100, world_height * 100  # for example 800
+        display_width, display_height = world_width * CANVAS_SCALE, world_height * CANVAS_SCALE  # for example 800
 
         game_display = pygame.display.set_mode((display_width, display_height))
         pygame.display.set_caption('TD2020 Python game')
@@ -31,7 +31,7 @@ def init_visuals(world_width: int, world_height: int, verbose=True):
     return None, None
 
 
-def update_graphics(world, game_display, clock, fps: int = 1):
+def update_graphics(board, game_display, clock, fps: int = 1):
     from games.td2020.src.Actors import GeneralActor
     # clear display
     global num_actors
@@ -39,33 +39,31 @@ def update_graphics(world, game_display, clock, fps: int = 1):
     # self.display_img(game_display, x,y)
 
     # draw grid:
-    for i in range(100, 800, 100):
-        pygame.draw.line(game_display, (0, 0, 0), [i, 0], [i, 800])
-        for j in range(100, 800, 100):
-            pygame.draw.line(game_display, (0, 0, 0), [0, j], [800, j])
+    for y in range(CANVAS_SCALE, board.height * CANVAS_SCALE, CANVAS_SCALE):
+        pygame.draw.line(game_display, (0, 0, 0), [y, 0], [y, board.height * CANVAS_SCALE])
+        for x in range(CANVAS_SCALE, board.width * CANVAS_SCALE, CANVAS_SCALE):
+            pygame.draw.line(game_display, (0, 0, 0), [0, x], [board.width * CANVAS_SCALE, x])
 
     # draw objects
-    border = 5
-
-    for tiles in world.tiles:
+    for tiles in board.tiles:
         for tile in tiles:
             num_actors = size(tile.actors)
             if num_actors == 0:
                 continue
 
             num_in_row_column = ceil(sqrt(num_actors))
-            actor_size = int((50 - 2 * border) / num_in_row_column)
+            actor_size = int((CANVAS_SCALE / 2 - 2 * BORDER) / num_in_row_column)
 
             for index, _actor in enumerate(tile.actors):
                 # print("DRAWING ACTOR " + str(type(_actor)))
 
                 # offset if multiple actors are on same tile
-                multiple_offset = int((100 / num_in_row_column) * index)
+                multiple_offset = int((CANVAS_SCALE / num_in_row_column) * index)
 
                 actor: GeneralActor = _actor
 
-                x = actor.x * 100 + int(multiple_offset % 100) + actor_size + border
-                y = actor.y * 100 + int(multiple_offset / 100) * actor_size * 2 + actor_size + border
+                x = int(actor.x * CANVAS_SCALE + int(multiple_offset % CANVAS_SCALE) + actor_size + BORDER)
+                y = int(actor.y * CANVAS_SCALE + int(multiple_offset / CANVAS_SCALE) * actor_size * 2 + actor_size + BORDER)
 
                 actor_location = (x, y)
 
@@ -91,8 +89,7 @@ def update_graphics(world, game_display, clock, fps: int = 1):
                         message_display(game_display, u"" + actor.current_action, (x, int(y - actor_size / 2)), int(actor_size / 3))
                     else:
 
-                        message_display(game_display, u"" + str(production_percent * 100) + "%", (x, int(y - actor_size / 2)), int(actor_size / 3),
-                                        (int(255 - 255 * production_percent), int(255 - 255 * production_percent), int(255 - 255 * production_percent)))
+                        message_display(game_display, u"" + str(production_percent * 100) + "%", (x, int(y - actor_size / 2)), int(actor_size / 3), (int(255 - 255 * production_percent), int(255 - 255 * production_percent), int(255 - 255 * production_percent)))
 
                 message_display(game_display, u"" + actor.short_name, actor_location, actor_size)
 

@@ -1,12 +1,9 @@
 from __future__ import print_function
 import sys
-
 import numpy as np
-
 from systems.utils import DotDict
 from games.td2020.src.Board import Board
 import copy
-
 
 from games.td2020.src.config_file import *
 
@@ -21,7 +18,6 @@ class Game:
         self.fps = args.fps
         # self.saved_world = Board(width, height)  # todo - here is saved world used for all kinds of stuff like accessing actors if only numeric board has been given --- DUNNO
         self.verbose = args.verbose
-
 
     def getInitBoard(self):
         # return initial board (numpy board)
@@ -65,12 +61,12 @@ class Game:
 
     # noinspection PyUnusedLocal
     @staticmethod
-    def actionInttoArrModulo(board, action: int) -> list:
+    def _action_into_arr_modulo(board, action: int) -> list:
         # todo - optional
         return []
 
     @staticmethod
-    def arrIntoAction(board, action_array: list) -> int:
+    def arr_into_action(board, action_array: list) -> int:
         # to get from array like  ['1', '1', '0', '0', 'npc'] index of action like "25"
         counter = 0
         for y in range(board.height):
@@ -251,6 +247,9 @@ class Game:
         # assert (len(pi) == self.n ** 2 + 1)  # 1 for pass # todo -this assert is wrong - it should be 8x8x4x2 - because pi = 512 which is 8*8*4*2
 
         # pi_board = np.reshape(pi[:-1], (self.n, self.n)) #todo reshape?
+
+        print("Game.py", "GetSymmetries canonical board shape ", canonical_board.shape, " TODO ------------- set self.width and self.height in function below to shape widths to make this function static")
+
 
         pi_board = np.reshape(pi, (self.width, self.height, MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))  # todo reshape? -- is this correct???????? dunno
 

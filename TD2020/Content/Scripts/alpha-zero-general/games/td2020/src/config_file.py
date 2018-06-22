@@ -7,3 +7,6 @@ ALL_ACTIONS_INT = dict((y, x) for x, y in ALL_ACTIONS.items())
 
 ALL_ACTIONS_LEN = len(ALL_ACTIONS)
 TIMEOUT_TICKS: int = 500
+
+CANVAS_SCALE = 100  # for drawing
+BORDER = int(CANVAS_SCALE / 20)
