@@ -3,10 +3,9 @@ import sys
 
 from tensorflow.python.keras.callbacks import TensorBoard
 import numpy as np
-from tensorflow.python.keras.utils import plot_model
 
-from utils import *
-from .OthelloNNet import OthelloNNet as ONNet
+from systems.utils import *
+from .TD2020NNet import TD2020NNet as ONNet
 
 sys.path.append('..')
 args = DotDict({
@@ -18,7 +17,15 @@ args = DotDict({
     'num_channels': 512,
 })
 
-
+# noinspection PyRedeclaration
+args = DotDict({
+    'lr': 0.001,
+    'dropout': 0.3,
+    'epochs': 2,
+    'batch_size': 8,
+    'cuda': False,
+    'num_channels': 512,
+})
 
 
 class NNetWrapper:
@@ -28,7 +35,6 @@ class NNetWrapper:
         self.action_size = game.getActionSize()
 
         self.tensorboard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0, write_graph=True, write_images=True)
-
         # plot_model(self.nnet.model, to_file='_Files\\models\\' + type(self.nnet).__name__ + '_model_plot.png', show_shapes=True, show_layer_names=True)
 
     def train(self, examples):
@@ -42,18 +48,15 @@ class NNetWrapper:
         target_pis = np.asarray(target_pis)
         target_vs = np.asarray(target_vs)
 
-        print("printing input_boards shape", np.array(input_boards).shape)
-        print("printing target_pis shape", np.array(target_pis).shape)
-        print("printing target_vs shape", np.array(target_vs).shape)
+        # print("printing input_boards shape", np.array(input_boards).shape)
+        # print("printing target_pis shape", np.array(target_pis).shape)
+        # print("printing target_vs shape", np.array(target_vs).shape)
 
         # TODO - temp fix for PIS - TODO - DUNNO WHAT IS LAST ELEMENT BUT OK
         temp_target_pis = []
         for pi in target_pis:
-            temp_target_pis.append(pi[:-1]) # todo remove last element - i dont think its correct
+            temp_target_pis.append(pi[:-1])  # todo remove last element - i dont think its correct
         target_pis = temp_target_pis
-
-
-
 
         self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
 
@@ -91,7 +94,7 @@ class NNetWrapper:
 
         board = board[np.newaxis, :, :]  # TODO - DODAMO DIMENZIJO ?????????
 
-        print("printing board size ", np.size(board))
+        # print("printing board size ", np.size(board))
 
         # run
         pi, v = self.nnet.model.predict(board)
@@ -133,7 +136,10 @@ class NNetWrapper:
 
     def load_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):
         # https://github.com/pytorch/examples/blob/master/imagenet/main.py#L98
+
         filepath = os.path.join(folder, filename)
         if not os.path.exists(filepath):
             raise ValueError("No model in path {}".format(filepath))
+
+        print("NNet", "loading checkpoint", filepath)
         self.nnet.model.load_weights(filepath)

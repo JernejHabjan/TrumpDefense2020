@@ -1,7 +1,8 @@
 import numpy as np
 
 from games.td2020.src.FunctionLibrary import friendly, dist
-from games.td2020.TD2020Logic import Board
+from games.td2020.src.Board import Board
+from games.td2020.src.config_file import *
 
 
 class ActionManager:
@@ -12,7 +13,6 @@ class ActionManager:
         self.actions = actions
         self.actor: MyActor = actor
         self.enemy_actor: MyActor = None
-
 
         self.ATTACK_COMPONENT_PRIORITY = 1  # priority of attacking actor with attack component rather than one without attack component
 
@@ -150,7 +150,7 @@ class ActionManager:
     def execute_action(self, action, world: Board):
         if self.can_execute_action(action, world):
             self.actor.current_action = action
-            print("Executing " + action + " by", type(self.actor).__name__)
+            # print("Executing " + action + " by", type(self.actor).__name__)
             eval("self." + action + "(world)")
 
     # ACTION CHECKING
@@ -256,7 +256,7 @@ class ActionManager:
 
     # HELPER METHODS
     def _execute_move(self, new_x: int, new_y: int, world: Board):
-        print("moving from ", self.actor.x, self.actor.y, " to new location", new_x, new_y)
+        # print("moving from ", self.actor.x, self.actor.y, " to new location", new_x, new_y)
         # remove from old tile
         world[self.actor.x][self.actor.y].actors.remove(self.actor)
 
@@ -281,7 +281,7 @@ class ActionManager:
     def _can_execute_move(self, new_x: int, new_y: int, world: Board):
         from games.td2020.src.Actors import Character
 
-        return 0 <= new_x < world.width and 0 <= new_y < world.height and issubclass(type(self.actor), Character) and len(world[new_x][new_y].actors) < world.MAX_ACTORS_ON_TILE
+        return 0 <= new_x < world.width and 0 <= new_y < world.height and issubclass(type(self.actor), Character) and len(world[new_x][new_y].actors) < MAX_ACTORS_ON_TILE
 
     def _can_spawn_here(self, world: Board, name: str):
         from games.td2020.src.Actors import NPC
@@ -298,8 +298,8 @@ class ActionManager:
             print("buildings already exist on this tile. Returning False")
             return False
 
-        if len(world[self.actor.x][self.actor.y].actors) == world.MAX_ACTORS_ON_TILE:
-            print("cannot spawn here - " + str(world.MAX_ACTORS_ON_TILE) + " already on tile")
+        if len(world[self.actor.x][self.actor.y].actors) == MAX_ACTORS_ON_TILE:
+            print("cannot spawn here - " + str(MAX_ACTORS_ON_TILE) + " already on tile")
             return False
 
         # get production cost of this
@@ -316,11 +316,11 @@ class ActionManager:
         character_temp = eval(name)(0, 0, 0)
 
         return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and world.players[self.actor.player].money >= character_temp.production_cost and len(
-            world[self.actor.x][self.actor.y].actors) < world.MAX_ACTORS_ON_TILE
+            world[self.actor.x][self.actor.y].actors) < MAX_ACTORS_ON_TILE
 
     def count_num_valid_moves(self, world: Board) -> list:
         num_valid_moves: list = []
-        for action_str in world.ALL_ACTIONS.keys():
+        for action_str in ALL_ACTIONS.keys():
             if self.can_execute_action(action_str, world):
                 # print("can execute action str: ", action_str)
                 num_valid_moves.append(1)

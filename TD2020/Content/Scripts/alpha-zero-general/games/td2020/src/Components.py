@@ -1,7 +1,7 @@
 # import pandas as pd
 # from td2020.src.FunctionLibrary import retrieve_json
 from numpy import size
-from games.td2020.TD2020Logic import Board as Grid
+from games.td2020.src.Board import Board as Grid
 
 
 class AttackComponent:
@@ -26,7 +26,7 @@ class UnitProductionComponent:
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import MyActor, NPC, RifleInfantry
 
-        print("started constructing unit " + name)
+        # print("started constructing unit " + name)
         character: MyActor = eval(name)(self.parent.player, self.parent.x, self.parent.y)
 
         # get production cost of this actor
@@ -51,7 +51,7 @@ class UnitProductionComponent:
             character = self.producing_units.pop()
             character.current_production_time = character.production_time
             character.spawn(world)
-            print("new character spawned")
+            # print("new character spawned")
 
 
 class ResourcesDepositComponent:

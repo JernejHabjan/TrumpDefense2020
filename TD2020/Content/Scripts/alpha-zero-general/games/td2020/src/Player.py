@@ -1,8 +1,8 @@
 class Player:
-    from games.td2020.TD2020Logic import Board as Grid
+    from games.td2020.src.Board import Board as Grid
 
     def __init__(self, name: int, world: Grid, start_x: int, start_y: int):
-        from games.td2020.TD2020Logic import Board as Grid
+        from games.td2020.src.Board import Board as Grid
         self.world: Grid = world
         self.name: int = name
         self.start_x: int = start_x
