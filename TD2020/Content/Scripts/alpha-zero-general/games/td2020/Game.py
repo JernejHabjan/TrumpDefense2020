@@ -75,7 +75,7 @@ class Game:
                 for actor_index in range(MAX_ACTORS_ON_TILE):
                     for action_str, action_int in ALL_ACTIONS.items():
 
-                        if action_array[2] == str(y) and action_array[1] == str(x) and action_array[3] == str(actor_index) and action_array[4] == action_str:
+                        if str(action_array[1]) == str(x) and str(action_array[2]) == str(y) and str(action_array[3]) == str(actor_index) and action_array[4] == action_str:
                             return counter
                         else:
                             counter += 1
@@ -249,7 +249,6 @@ class Game:
         # pi_board = np.reshape(pi[:-1], (self.n, self.n)) #todo reshape?
 
         print("Game.py", "GetSymmetries canonical board shape ", canonical_board.shape, " TODO ------------- set self.width and self.height in function below to shape widths to make this function static")
-
 
         pi_board = np.reshape(pi, (self.width, self.height, MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))  # todo reshape? -- is this correct???????? dunno
 

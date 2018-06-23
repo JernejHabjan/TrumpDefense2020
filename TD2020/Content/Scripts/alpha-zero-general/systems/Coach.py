@@ -150,8 +150,15 @@ class Coach:
             nmcts = MCTS(self.game, self.nnet, self.args)
 
             print('PITTING AGAINST PREVIOUS VERSION')
+
             # create two new AI players that fight each other, each with different network - one with pnet and other with nnet
-            arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, self.curPlayer, temp=0)), lambda x: np.argmax(nmcts.getActionProb(x, self.curPlayer, temp=0)), self.game)
+            def player1(x, player):
+                return np.argmax(pmcts.getActionProb(x, self.curPlayer, temp=0))
+
+            def player2(x, player):
+                return np.argmax(nmcts.getActionProb(x, self.curPlayer, temp=0))
+
+            arena = Arena(player1, player2, self.game)
             # returns wins for competitive network - pwins and wins for current network - nwins
             pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
 

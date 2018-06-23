@@ -96,6 +96,33 @@ https://developer.nvidia.com/rdp/cudnn-download
 -extract file, add it in corresponding folder in 
 >C:\Program Files\NVIDIA GPU Computing Toolkit\Cuda\v9.0\
 
+
+New tutorial:
+
+Install cuda:
+- From programs disk install these files in this order:
+- cuda_9.0.176_win10
+- cuda_9.0.176.1_windows
+- cuda_9.0.176.2_windows
+- cuda_9.0.176.3_windows
+- Extract this folder and add it to Cuda path to corresponding folders:
+- cudnn-9.0-windows10-x64-v7.1
+
+vertify cuda installation:
+- nvcc --version
+
+- make sure its added to env variables:
+- C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin
+- C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\libnvvp
+
+tensorflow gpu
+- Install tensorflow in pycharm (launch it in admin)
+- Interpreter-> check Use conda package manager button on the right,
+- add package -> tensorflow-gpu, tensorflow, tensorboard, keras 2.13 - version is important!
+
+
+
+
 ### Graphviz and pydot:
 ```
 conda install graphviz

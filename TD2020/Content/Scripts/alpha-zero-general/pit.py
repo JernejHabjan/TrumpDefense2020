@@ -16,7 +16,7 @@ args = DotDict({
     'height': 8,
     'verbose': True,
     'draw_pygame': True,
-    'fps': 1,
+    'fps': 60,
 })
 g = Game(args)
 

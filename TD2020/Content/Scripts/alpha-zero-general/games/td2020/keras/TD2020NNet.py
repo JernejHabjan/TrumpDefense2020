@@ -1,9 +1,11 @@
 import sys
 
-import numpy as np
-from tensorflow.python.keras.layers import BatchNormalization, Activation, Reshape, Input, Dropout, Flatten, Dense, Conv2D
-from tensorflow.python.keras.models import Model
-from tensorflow.python.keras.optimizers import Adam
+# from tensorflow.python.keras.layers import BatchNormalization, Activation, Reshape, Input, Dropout, Flatten, Dense, Conv2D
+# from tensorflow.python.keras.models import Model
+# from tensorflow.python.keras.optimizers import Adam
+from keras import Model
+from keras.layers import Input, Reshape, Activation, BatchNormalization, Conv2D, Dense, Dropout, Flatten
+from keras.optimizers import Adam
 
 sys.path.append('..')
 
@@ -13,7 +15,7 @@ class TD2020NNet:
         # game params
         self.board_x, self.board_y, self.max_num_actors_on_tile_times_num_actions = game.getBoardSize()
 
-        print("TD2020NNet -",self.board_x, self.board_y,self.max_num_actors_on_tile_times_num_actions)
+        print("TD2020NNet -", self.board_x, self.board_y, self.max_num_actors_on_tile_times_num_actions)
 
         self.action_size = game.getActionSize()
         self.args = args

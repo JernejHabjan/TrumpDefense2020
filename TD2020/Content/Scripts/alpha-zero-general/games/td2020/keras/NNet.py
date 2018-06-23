@@ -1,7 +1,9 @@
 import os
 import sys
+from keras.callbacks import TensorBoard
+# from tensorflow.python.keras.callbacks import TensorBoard # from tensorflow
 
-from tensorflow.python.keras.callbacks import TensorBoard
+
 import numpy as np
 
 from systems.utils import *
@@ -57,6 +59,7 @@ class NNetWrapper:
         for pi in target_pis:
             temp_target_pis.append(pi[:-1])  # todo remove last element - i dont think its correct
         target_pis = temp_target_pis
+        target_pis = np.asarray(target_pis)
 
         self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
 

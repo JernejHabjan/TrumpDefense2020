@@ -63,7 +63,12 @@ class Arena:
             # nnet player -> <function n1p at ....>
             funct = players[cur_player + 1]
             # retrieves action
-            action = funct(board, cur_player)  # TODO - ADDED CURR PLAYER PARAMETER TO ACTION - SHOULD IT BE CUR PLAYER + 1 ?????? or -curr_player??????????
+
+            import inspect
+
+            print("printing funct", inspect.getsource(funct))
+            action = funct(board, cur_player)  # TODO - ADDED CURR PLAYER PARAMETER TO ACTION - SHOULD IT BE CUR PLAYER + 1 ?????? or -curr_player?????????? TypeError: <lambda>() takes 1 positional argument but 2 were given
+
             action_arr = self.game.actionIntoArr(board, action)
             if verbose:
                 print("action chosen", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
