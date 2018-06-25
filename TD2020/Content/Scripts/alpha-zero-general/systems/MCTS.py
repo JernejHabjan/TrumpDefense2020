@@ -21,21 +21,8 @@ class MCTS:
         self.Es = {}  # stores game.getGameEnded ended for board s
         self.Vs = {}  # stores game.getValidMoves for board s
 
-        # PS:
-        """
-            {array([0.        , 0.        , 0.        , 0.        , 0.        ,
-                    0.        , 0.        , 0.        , 0.25112109, 0.        ,
-                    0.        , 0.        , 0.        , 0.24944946, 0.        ,
-                    0.        , 0.        , 0.        , 0.        , 0.        ,
-                    0.        , 0.        , 0.2495447 , 0.        , 0.        ,
-                    0.        , 0.        , 0.24988475, 0.        , 0.        ,
-                    0.        , 0.        , 0.        , 0.        , 0.        ,
-                    0.        , 0.        ])}
-        """
-
     def getActionProb(self, board, player, temp=1):
 
-        # print("getting action probability")
         """
         This function performs numMCTSSims simulations of MCTS starting from
         canonical_board.
@@ -57,6 +44,7 @@ class MCTS:
         if temp == 0:
             # get action with most counts in Nsa for this state
             best_a = np.argmax(counts)
+
             probs = [0] * len(counts)
             # noinspection PyTypeChecker
             probs[best_a] = 1
@@ -89,34 +77,19 @@ class MCTS:
         # get string representation of this board in canonical way - ugly string
         s = self.game.stringRepresentation(self.game.getCanonicalForm(board, player))
 
-        # if not yet in dictionary ES, which stores game.getGameEnded ended for board s
-        # if s not in self.Es: # TODO --------------- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ COMMENTED THESE 4 LINES - if actor chooses idle - state remains the same and timeout condition is not checked again
-        #     # add player who won to that state in dictionary Es
-        #     self.Es[s] = self.game.getGameEnded(canonical_board, 1)
-        #     # check if game has finished in this node
-
-        self.Es[s] = self.game.getGameEnded(board, 1)
+        # check if game has finished in this node
+        # have to check for gameEnded every search because of timeout iteration even if board is always same
+        self.Es[s] = self.game.getGameEnded(board)
 
         # check for terminal condition - end state
         if self.Es[s] != 0:
             # terminal node - return this state back
-            # print("recieved terminal state", self.Es[s])
+            # print("received terminal state", self.Es[s])
             return -self.Es[s]
 
         # if state not yet in dictionary
         if s not in self.Ps:
             # leaf node
-
-            # here for example keras NNet for Othello game is called, which calls then self.nnet.model.predict(board), which is library function
-            # it inputs canonical_board, that should look like this:
-            """
-            [[ 0  0  0  0  0  0]
-             [ 0  0  0  0  0  0]
-             [ 0  0 -1  1  0  0]
-             [ 0  0  1 -1  0  0]
-             [ 0  0  0  0  0  0]
-             [ 0  0  0  0  0  0]]
-            """
 
             # self.nnet.predict returns next values:
             #     pi: a policy vector for the current board- a numpy array of length game.getActionSize
@@ -139,17 +112,13 @@ class MCTS:
             [[0.00579279]]
             """
 
-            # get all valid moves for this board
-            # valids is 1-d fixed size binary numpy vector
-            # for example
-            """
-            [0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0]
-            """
             valids = self.game.getValidMoves(board, player)
 
             # masking invalid moves
             self.Ps[s] = self.Ps[s] * valids
             # now self.Ps[s] contains only valid predictions
+            # print("mcts.py","printing valid predictions", self.Ps[s])
+
             sum_ps_s = np.sum(self.Ps[s])
             if sum_ps_s > 0:
                 self.Ps[s] /= sum_ps_s  # renormalize
@@ -163,6 +132,7 @@ class MCTS:
                 self.Ps[s] /= np.sum(self.Ps[s])
 
             self.Vs[s] = valids
+
             # leaf node
             self.Ns[s] = 0
             return -v
@@ -177,8 +147,6 @@ class MCTS:
         # pick the action with the highest upper confidence bound
         # loop through all actions
         for a in range(self.game.getActionSize()):
-            # print("action size of size ", self.game.getActionSize())
-            # print("printing action of getActionSize in search mcts", a)
             # if action in valid moves for this state
             if valids[a]:
                 if (s, a) in self.Qsa:
@@ -186,22 +154,19 @@ class MCTS:
                     u = self.Qsa[(s, a)] + self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s]) / (1 + self.Nsa[(s, a)])
                 else:
                     u = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ?
-
-                # print("u ", u, "for current action", a) # todo printing U for action
-
+                # print("u ", u, "for current action", a)
                 if u > cur_best:
                     cur_best = u
                     best_act = a
 
-        # print("MCTS CHOSE ACTION", best_act)
         # now we got best action
         a = best_act
         # apply this action to game - get full board and player
 
+        # print("mcts.py getting next state for action", self.game.actionIntoArr(board, a))
         next_s, next_player = self.game.getNextState(board, player, a)
 
         # calls recursively this search function again and returns terminal or leaf state in variable "v"
-        # print("going deeper")
         v = self.search(next_s, next_player)
 
         if (s, a) in self.Qsa:

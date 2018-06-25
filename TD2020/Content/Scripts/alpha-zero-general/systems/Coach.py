@@ -7,8 +7,10 @@ from random import shuffle
 
 import numpy as np
 
+from games.td2020.src.config_file import ALL_ACTIONS_INT
 from systems.Arena import Arena
 from systems.MCTS import MCTS
+# noinspection PyUnresolvedReferences
 from systems.pytorch_classification.utils import Bar, AverageMeter
 
 
@@ -49,6 +51,7 @@ class Coach:
         train_examples = []
         # init board
         board = self.game.getInitBoard()
+        print("printing initial board ticks", board.iteration)
         # set current player
         self.curPlayer = 1
         # set episodes counter
@@ -74,15 +77,20 @@ class Coach:
             # parameter p : how uniform this sample is -> https://goo.gl/3D6yrj
             action = np.random.choice(len(pi), p=pi)
             # apply action
+
+            action_arr = self.game.actionIntoArr(board, action)
+            print("Coach.py ", "player ", self.curPlayer, "getting new state with action", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
             board, self.curPlayer = self.game.getNextState(board, self.curPlayer, action)
 
             # get winning player in variable "r"
-            r = self.game.getGameEnded(board, 1)
+            r = self.game.getGameEnded(board)
+
             # if game has ended
             if r != 0:
                 # x[0] -> board
                 # x[1] -> player
                 # x[2] -> pi
+                print("coach - episode ended with result:", r)
                 return [(x[0], x[2], r * ((-1) ** (x[1] != self.curPlayer))) for x in train_examples]
 
     def learn(self):
@@ -153,14 +161,14 @@ class Coach:
 
             # create two new AI players that fight each other, each with different network - one with pnet and other with nnet
             def player1(x, player):
-                return np.argmax(pmcts.getActionProb(x, self.curPlayer, temp=0))
+                return np.argmax(pmcts.getActionProb(x, player, temp=0))
 
             def player2(x, player):
-                return np.argmax(nmcts.getActionProb(x, self.curPlayer, temp=0))
+                return np.argmax(nmcts.getActionProb(x, player, temp=0))
 
             arena = Arena(player1, player2, self.game)
             # returns wins for competitive network - pwins and wins for current network - nwins
-            pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
+            pwins, nwins, draws = arena.playGames(self.args.arenaCompare, self.args.verbose)
 
             print('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
             print("New Wins", nwins, "Prev wins", pwins, "Draws", draws)

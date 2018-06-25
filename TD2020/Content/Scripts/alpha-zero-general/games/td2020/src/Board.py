@@ -123,7 +123,7 @@ class Board:
                             display_str.append((("+" if actor.player == 1 else "-") if hasattr(actor, "player") else "*") + str(actor.numeric_value))
                         display_str.extend(["  "] * (MAX_ACTORS_ON_TILE - len(tile.actors)))
                     elif np.size(tile.actors) == 1:
-                        display_str.append("  " + tile.actors[0].short_name + "  ")
+                        display_str.append(" " + (("+" if tile.actors[0].player == 1 else "-") if hasattr(tile.actors[0], "player") else " ") + tile.actors[0].short_name + "  ")
                     else:
                         display_str.append("  " * MAX_ACTORS_ON_TILE)
                     display_str.append("|")
@@ -134,13 +134,10 @@ class Board:
                     display_str.append("|")
             print("".join(display_str))
 
-
-
     def timeout(self) -> bool:
 
         if self.iteration > TIMEOUT_TICKS:
             # board has timeouted
             return True
-        # update iteration
-        self.iteration += 1
+
         return False

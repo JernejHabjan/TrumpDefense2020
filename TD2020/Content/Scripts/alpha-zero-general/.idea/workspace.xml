@@ -14,7 +14,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/alpha_zero_general$get_action.coverage" NAME="get_action Coverage Results" MODIFIED="1529674474900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/alpha_zero_general$learn.coverage" NAME="learn Coverage Results" MODIFIED="1529786025836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/alpha_zero_general$learn.coverage" NAME="learn Coverage Results" MODIFIED="1529941557007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$OthelloLogic.coverage" NAME="OthelloLogic Coverage Results" MODIFIED="1529315641147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$main__2_.coverage" NAME="main (2) Coverage Results" MODIFIED="1528477927034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020/src" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$checking.coverage" NAME="checking Coverage Results" MODIFIED="1527162543259" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -26,60 +26,45 @@
     <SUITE FILE_PATH="coverage/alpha_zero_general$NNet.coverage" NAME="NNet Coverage Results" MODIFIED="1529424515554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020/keras" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$test.coverage" NAME="test Coverage Results" MODIFIED="1529783048204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$OthelloGame.coverage" NAME="OthelloGame Coverage Results" MODIFIED="1529315992719" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020" />
-    <SUITE FILE_PATH="coverage/alpha_zero_general$pit.coverage" NAME="pit Coverage Results" MODIFIED="1529785434792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/alpha_zero_general$pit.coverage" NAME="pit Coverage Results" MODIFIED="1529939525046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Players.py" pinned="true" current-in-tab="false">
+      <file leaf-file-name="Players.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/games/td2020/Players.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="14" column="32" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="32" />
+            <state relative-caret-position="170">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#631#1768#0" />
-                <element signature="e#1842#3414#0" />
-                <element signature="e#3476#13277#0" />
+                <element signature="e#0#27#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
+      <file leaf-file-name="Board.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/src/Board.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="23" selection-start-column="23" selection-end-column="23" />
+            <state relative-caret-position="596">
+              <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NNet.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/games/td2020/keras/NNet.py">
+      <file leaf-file-name="Actors.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/src/Actors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="62" selection-start-line="62" selection-end-line="62" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-221">
+              <caret line="29" column="36" lean-forward="true" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="get_action.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/get_action.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Arena.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Arena.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/systems/Arena.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+            <state relative-caret-position="-481">
+              <caret line="62" column="51" lean-forward="true" selection-start-line="62" selection-start-column="51" selection-end-line="62" selection-end-column="51" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -87,55 +72,56 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MCTS.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/systems/MCTS.py">
+      <file leaf-file-name="Player.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/src/Player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="39" column="74" selection-start-line="39" selection-start-column="74" selection-end-line="39" selection-end-column="74" />
+            <state relative-caret-position="595">
+              <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Coach.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/systems/Coach.py">
+      <file leaf-file-name="Graphics.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/src/Graphics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="159" selection-start-line="159" selection-end-line="159" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="153">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../../../README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="493">
-                <caret line="104" column="24" lean-forward="true" selection-start-line="104" selection-start-column="24" selection-end-line="104" selection-end-column="24" />
-              </first_editor>
-              <second_editor>
-                <markdownNavigatorState />
-              </second_editor>
+      <file leaf-file-name="FunctionLibrary.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/src/FunctionLibrary.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="learn.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/learn.py">
+      <file leaf-file-name="config_file.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/src/config_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="94">
-              <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
+            <state relative-caret-position="204">
+              <caret line="12" column="19" selection-start-line="12" selection-end-line="12" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/systems/utils.py">
+      <file leaf-file-name="Components.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/src/Components.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="459">
+              <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Game.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/games/td2020/Game.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-884">
+              <caret line="35" column="70" lean-forward="true" selection-start-line="35" selection-start-column="70" selection-end-line="35" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -151,36 +137,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Arena</find>
-      <find>new charac</find>
-      <find>new</find>
-      <find>moving</find>
-      <find>getting ac</find>
-      <find>mcts epis</find>
-      <find>REJEC</find>
-      <find>ACCEPT</find>
-      <find>Checkpoint Directory exists!</find>
-      <find>MAX_ACTORS_ON_TILE</find>
-      <find>player</find>
-      <find>update</find>
-      <find>arg</find>
-      <find>update_graphics</find>
-      <find>update_gra</find>
-      <find>display</find>
-      <find>updating graph</find>
-      <find>mcts1</find>
-      <find>action chosen</find>
-      <find>select_object</find>
-      <find>issubclass</find>
-      <find>Shortcut</find>
-      <find>name</find>
-      <find>clicked_actor</find>
-      <find>conti</find>
-      <find>extend</find>
-      <find>clip</find>
-      <find>pmcts.get</find>
       <find>REJECTING</find>
       <find>pmcts.getActionProb</find>
+      <find>game ov</find>
+      <find>game result</find>
+      <find>count</find>
+      <find>new win</find>
+      <find>best act</find>
+      <find>Aren</find>
+      <find>getGameEnded</find>
+      <find>Error</find>
+      <find>turn  3</find>
+      <find>nextState</find>
+      <find>printing valid</find>
+      <find>is valid: 1</find>
+      <find>is valid</find>
+      <find>boar</find>
+      <find>Turn</find>
+      <find>with acti</find>
+      <find>iteration</find>
+      <find>game over</find>
+      <find>player</find>
+      <find>displ</find>
+      <find>nded with result</find>
+      <find>19</find>
+      <find>action chosen</find>
+      <find>inspect</find>
+      <find>import tensorf</find>
+      <find>tensorflo</find>
+      <find>EPS</find>
+      <find>clicked_actor_index_arr</find>
     </findStrings>
     <replaceStrings>
       <replace>append</replace>
@@ -189,9 +175,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/games/tictactoe/TicTacToeLogic.py" />
-        <option value="$PROJECT_DIR$/Game.py" />
-        <option value="$PROJECT_DIR$/games/tictactoe/TicTacToeGame.py" />
         <option value="$PROJECT_DIR$/games/tictactoe/keras/NNet.py" />
         <option value="$PROJECT_DIR$/games/tictactoe/keras/TicTacToeNNet.py" />
         <option value="$PROJECT_DIR$/games/tictactoe_object/TicTacToeGame.py" />
@@ -226,20 +209,23 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/games/td2020/datatables/td_myactor.json" />
         <option value="$PROJECT_DIR$/games/td2020/src/FunctionLibrary.py" />
-        <option value="$PROJECT_DIR$/games/td2020/src/Board.py" />
-        <option value="$PROJECT_DIR$/games/td2020/src/config_file.py" />
-        <option value="$PROJECT_DIR$/games/td2020/src/ActionManager.py" />
-        <option value="$PROJECT_DIR$/games/td2020/Game.py" />
-        <option value="$PROJECT_DIR$/games/td2020/Players.py" />
         <option value="$PROJECT_DIR$/games/td2020/src/Graphics.py" />
         <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/games/td2020/keras/TD2020NNet.py" />
         <option value="$PROJECT_DIR$/games/td2020/keras/NNet.py" />
-        <option value="$PROJECT_DIR$/learn.py" />
-        <option value="$PROJECT_DIR$/systems/Arena.py" />
         <option value="$PROJECT_DIR$/pit.py" />
-        <option value="$PROJECT_DIR$/systems/Coach.py" />
+        <option value="$PROJECT_DIR$/games/td2020/src/Board.py" />
+        <option value="$PROJECT_DIR$/systems/args.py" />
+        <option value="$PROJECT_DIR$/learn.py" />
         <option value="$PROJECT_DIR$/../../../../README.md" />
+        <option value="$PROJECT_DIR$/systems/Coach.py" />
+        <option value="$PROJECT_DIR$/games/td2020/src/config_file.py" />
+        <option value="$PROJECT_DIR$/games/td2020/keras/TD2020NNet.py" />
+        <option value="$PROJECT_DIR$/games/td2020/Game.py" />
+        <option value="$PROJECT_DIR$/systems/MCTS.py" />
+        <option value="$PROJECT_DIR$/systems/utils.py" />
+        <option value="$PROJECT_DIR$/games/td2020/src/ActionManager.py" />
+        <option value="$PROJECT_DIR$/games/td2020/Players.py" />
+        <option value="$PROJECT_DIR$/systems/Arena.py" />
       </list>
     </option>
   </component>
@@ -253,8 +239,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="265" />
-    <option name="y" value="-8" />
+    <option name="x" value="586" />
+    <option name="y" value="-9" />
     <option name="width" value="1920" />
     <option name="height" value="776" />
   </component>
@@ -263,6 +249,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -280,13 +267,6 @@
               <item name="alpha-zero-general" type="462c0819:PsiDirectoryNode" />
               <item name="games" type="462c0819:PsiDirectoryNode" />
               <item name="td2020" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alpha-zero-general" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alpha-zero-general" type="462c0819:PsiDirectoryNode" />
-              <item name="games" type="462c0819:PsiDirectoryNode" />
-              <item name="td2020" type="462c0819:PsiDirectoryNode" />
-              <item name="datatables" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alpha-zero-general" type="b2602c69:ProjectViewProjectNode" />
@@ -311,7 +291,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,21 +299,22 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../README.md" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\jh0228.STUDENT\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\systems" />
-      <recent name="C:\Users\jh0228.STUDENT\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games\td2020\src" />
-      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games" />
-      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\_Files" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\jh0228.STUDENT\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\systems" />
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games" />
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general" />
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\pretrained_models\othello\keras" />
       <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games\td2020" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jh0228.STUDENT\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\_Files" />
+      <recent name="C:\Users\jh0228.STUDENT\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\systems" />
+      <recent name="C:\Users\jh0228.STUDENT\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games\td2020\src" />
+      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\games" />
+      <recent name="C:\Users\jh\Documents\TrumpDefense2020\TD2020\Content\Scripts\alpha-zero-general\_Files" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -493,15 +473,15 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32988048" />
-      <window_info anchor="bottom" x="2560" y="371" width="1920" height="1017" id="Run" order="2" type="WINDOWED" weight="0.42097026" />
+      <window_info anchor="bottom" x="2560" y="371" width="1920" height="1017" id="Run" order="2" type="WINDOWED" visible="true" weight="0.42097026" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32988048" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11367188" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.40703124" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.25365102" />
+      <window_info anchor="bottom" x="2858" y="422" width="1896" height="705" id="Debug" order="3" type="WINDOWED" weight="0.54189086" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -532,7 +512,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="84" />
+      <option name="time" value="86" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -552,6 +532,11 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>l[0]</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>self.pieces[0][0]</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -564,27 +549,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/ProgramData/Anaconda3/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="310" selection-start-line="310" selection-end-line="310" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28271">
-          <caret line="1663" selection-start-line="1663" selection-end-line="1663" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Components.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tensorflow/python/keras/_impl/keras/engine/network.py" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tensorflow/python/keras/_impl/keras/engine/saving.py" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tensorflow/python/keras/_impl/keras/backend.py" />
@@ -594,13 +558,6 @@
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tensorflow/python/framework/op_def_library.py" />
     <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/tensorflow/python/framework/ops.py" />
     <entry file="file://$PROJECT_DIR$/games/othello/OthelloGame.py" />
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Player.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_Files/new 1.txt" />
     <entry file="file://$PROJECT_DIR$/_Files/w.txt" />
     <entry file="file://$PROJECT_DIR$/_Files/usageForGameFunctions.txt" />
@@ -642,34 +599,10 @@
     <entry file="file://$PROJECT_DIR$/games/td2020/__init__.py" />
     <entry file="file://$PROJECT_DIR$/NeuralNet.py" />
     <entry file="file://$PROJECT_DIR$/Game.py" />
-    <entry file="file://$PROJECT_DIR$/systems/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor>
-            <markdownNavigatorState />
-          </second_editor>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/systems/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/FunctionLibrary.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -680,161 +613,198 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/config_file.py">
+    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$USER_HOME$/.PyCharm2018.1/system/python_stubs/-313451744/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Board.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="112" column="101" selection-start-line="112" selection-start-column="101" selection-end-line="112" selection-end-column="101" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Actors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="36" lean-forward="true" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/ActionManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="38" column="40" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/Game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1190">
-          <caret line="77" column="62" selection-start-line="77" selection-start-column="62" selection-end-line="77" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Graphics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/keras/TD2020NNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/systems/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="425">
+          <caret line="4620" column="8" selection-start-line="4620" selection-start-column="8" selection-end-line="4620" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/get_action.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/systems/MCTS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="39" column="74" selection-start-line="39" selection-start-column="74" selection-end-line="39" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/learn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/systems/Arena.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/keras/NNet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/Players.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="14" column="32" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#631#1768#0" />
-            <element signature="e#1842#3414#0" />
-            <element signature="e#3476#13277#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="23" selection-start-column="23" selection-end-column="23" />
+          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pit.py">
+    <entry file="file://$PROJECT_DIR$/systems/args.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="45" lean-forward="true" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/systems/Coach.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="159" selection-start-line="159" selection-end-line="159" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="17">
+          <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../../../README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="493">
-            <caret line="104" column="24" lean-forward="true" selection-start-line="104" selection-start-column="24" selection-end-line="104" selection-end-column="24" />
+          <first_editor relative-caret-position="271">
+            <caret line="134" column="16" selection-start-line="134" selection-start-column="16" selection-end-line="134" selection-end-column="16" />
           </first_editor>
           <second_editor>
             <markdownNavigatorState />
           </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/learn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="14" lean-forward="true" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/keras/TD2020NNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="e#230#239#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/keras/NNet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/systems/Coach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="751">
+          <caret line="170" column="43" selection-start-line="170" selection-start-column="43" selection-end-line="170" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/systems/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/systems/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/systems/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/systems/MCTS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1175">
+          <caret line="168" column="105" selection-start-line="168" selection-start-column="105" selection-end-line="168" selection-end-column="105" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/ActionManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="168" column="37" lean-forward="true" selection-start-line="168" selection-start-column="37" selection-end-line="168" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Actors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-221">
+          <caret line="29" column="36" lean-forward="true" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Board.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="596">
+          <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Components.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/config_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="19" selection-start-line="12" selection-end-line="12" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/FunctionLibrary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Graphics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Player.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/Game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-884">
+          <caret line="35" column="70" lean-forward="true" selection-start-line="35" selection-start-column="70" selection-end-line="35" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/Players.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/systems/Arena.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-481">
+          <caret line="62" column="51" lean-forward="true" selection-start-line="62" selection-start-column="51" selection-end-line="62" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

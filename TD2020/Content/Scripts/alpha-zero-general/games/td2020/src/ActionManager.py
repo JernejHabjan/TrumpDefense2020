@@ -165,7 +165,7 @@ class ActionManager:
             print("cannot execute action - not constructed to max")
             return False
 
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal,PyMethodMayBeStatic
     def can_idle(self, board: Board):
         return True
 

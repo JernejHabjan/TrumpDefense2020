@@ -24,17 +24,48 @@ args = DotDict({
     'load_model': False,
     'load_folder_file': ('/dev/models/8x100x50', 'best.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
+
+    'width': 8,
+    'height': 8,
+    'verbose': True,
+    'draw_pygame': False,
+    'fps': 300,
 })
 
 # noinspection PyRedeclaration
 args = DotDict({
-    'numIters': 4,
-    'numEps': 4,
+    'numIters': 2,
+    'numEps': 2,
     'tempThreshold': 5,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
-    'numMCTSSims': 200,
-    'arenaCompare': 10,
+    'numMCTSSims': 10,
+    'arenaCompare': 4,
+    'cpuct': 1,
+
+    'checkpoint': './temp/',
+    'load_model': False,
+    'load_folder_file': ('./pretrained_models/othello/keras/', '6x6 checkpoint_145.pth.tar'),
+    'numItersForTrainExamplesHistory': 20,
+
+    'width': 8,
+    'height': 8,
+    'verbose': True,
+    'draw_pygame':False,
+    'fps': 300,
+
+})
+
+
+# noinspection PyRedeclaration
+args = DotDict({
+    'numIters': 10,
+    'numEps': 10,
+    'tempThreshold': 5,
+    'updateThreshold': 0.6,
+    'maxlenOfQueue': 200000,
+    'numMCTSSims': 10,
+    'arenaCompare': 20,
     'cpuct': 1,
 
     'checkpoint': './temp/',

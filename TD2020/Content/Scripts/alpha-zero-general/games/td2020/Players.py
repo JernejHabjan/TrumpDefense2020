@@ -1,18 +1,19 @@
-import numpy as np
-import pygame
 from math import sqrt, ceil
+import numpy as np
+import pandas as pd
+import pygame
 from numpy import size
 from pygame.rect import Rect
-import pandas as pd
-
+from games.td2020 import Game
+from games.td2020.src import Board
 from games.td2020.src.config_file import *
 
 
 class RandomPlayer:
-    def __init__(self, game):
+    def __init__(self, game: Game):
         self.game = game
 
-    def play(self, board, player):
+    def play(self, board, player) -> int:
         a = np.random.randint(self.game.getActionSize())
         valids = self.game.getValidMoves(board, player)
         while valids[a] != 1:
@@ -21,10 +22,10 @@ class RandomPlayer:
 
 
 class HumanPlayer:
-    def __init__(self, game):
+    def __init__(self, game: Game):
         self.game = game
 
-    def play(self, board, player):
+    def play(self, board: Board, player: int) -> int:
         # display(board)
         print("----------")
         valid = self.game.getValidMoves(board, player)
@@ -56,7 +57,7 @@ class HumanPlayer:
         return a
 
     @staticmethod
-    def select_object(board, click_location):
+    def select_object(board: Board, click_location: tuple) -> tuple:
         # select object by clicking on it - you can select only your objects
 
         # draw objects
@@ -92,7 +93,7 @@ class HumanPlayer:
                         return [actor, actor_location, actor_size], [1, x, y, actor_index]  # has to have prefix number 1
         return [None] * 3, [None] * 4
 
-    def _manage_input(self, board, player) -> list:
+    def _manage_input(self, board: Board, player: int) -> list:
         # returns array like this [1, 7, 7, 0, "idle")
 
         from games.td2020.src.Graphics import init_visuals, update_graphics
@@ -101,9 +102,8 @@ class HumanPlayer:
 
         from games.td2020.src.Actors import MyActor
         clicked_actor = None
-        clicked_actor_index_arr = None  # index on which this actor is located - x,y,actor_index
+        clicked_actor_index_arr = []  # index on which this actor is located - x,y,actor_index
         while True:
-
             for event in pygame.event.get():
                 # print(event)
                 if event.type == pygame.QUIT:
@@ -115,71 +115,51 @@ class HumanPlayer:
                         if event.key == pygame.K_UP:
                             print("pressed up...")
                             clicked_actor_index_arr.append("up")
-                            return clicked_actor_index_arr
                         if event.key == pygame.K_DOWN:
                             print("pressed down...")
-
                             clicked_actor_index_arr.append("down")
-                            return clicked_actor_index_arr
                         if event.key == pygame.K_LEFT:
                             print("pressed left...")
-
                             clicked_actor_index_arr.append("left")
-                            return clicked_actor_index_arr
                         if event.key == pygame.K_RIGHT:
                             print("pressed right...")
-
                             clicked_actor_index_arr.append("right")
-                            return clicked_actor_index_arr
-
-
-
                         from games.td2020.src.FunctionLibrary import retrieve_json
                         print("retrieving shortcut for", str(type(clicked_actor).__name__))
                         td_my_actor: pd.DataFrame = retrieve_json('td_myactor', str(type(clicked_actor).__name__))
                         actor_shortcut = td_my_actor["Shortcut"].values[0]
-
                         print("printing actor shortcut", actor_shortcut)
-
-
                         from games.td2020.src.Actors import TownHall, Barracks, NPC
-                        if type(clicked_actor) == TownHall:  #  these if statements are hardcoded
-
+                        if type(clicked_actor) == TownHall:  # these if statements are hardcoded - todo (optinal) - use variable actor_shortcut
                             if event.key == pygame.K_q:
                                 clicked_actor_index_arr.append("npc")
-                                return clicked_actor_index_arr
-
                         if type(clicked_actor) == Barracks:
                             if event.key == pygame.K_q:
                                 print("mele infantry unsupported")
                             if event.key == pygame.K_w:
                                 clicked_actor_index_arr.append("rifle_infantry")
-                                return clicked_actor_index_arr
                             if event.key == pygame.K_e:
                                 print("bow infantry unsupported")
                         if type(clicked_actor) == NPC:
                             if event.key == pygame.K_q:
                                 clicked_actor_index_arr.append("town_hall")
-                                return clicked_actor_index_arr
                             if event.key == pygame.K_w:
                                 print("shack unsupported")
                             if event.key == pygame.K_e:
                                 print("constr office unsupported")
                             if event.key == pygame.K_a:
                                 clicked_actor_index_arr.append("mining_shack")
-                                return clicked_actor_index_arr
                             if event.key == pygame.K_s:
                                 print("apartment unsupported")
                             if event.key == pygame.K_d:
                                 clicked_actor_index_arr.append("barracks")
-                                return clicked_actor_index_arr
                             if event.key == pygame.K_y:
                                 clicked_actor_index_arr.append("sentry")
-                                return clicked_actor_index_arr
                         # idle
                         if event.key == pygame.K_SPACE:
                             clicked_actor_index_arr.append("idle")
-                            return clicked_actor_index_arr
+
+                        return clicked_actor_index_arr
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         raise SystemExit(0)
@@ -223,21 +203,15 @@ class HumanPlayer:
                                             print("right clicked on construction proxy")
 
                                             clicked_actor_index_arr.append("continue_building")
-                                            return clicked_actor_index_arr
                                         else:
                                             print("return resources")
                                             clicked_actor_index_arr.append("return_resources")
-                                            return clicked_actor_index_arr
-
                                     else:
                                         clicked_actor.action_manager.enemy_actor = right_clicked_actor
                                         clicked_actor_index_arr.append("attack")
-                                        return clicked_actor_index_arr
-
                                 else:
                                     print("right clicked minerals")
                                     clicked_actor_index_arr.append("mine_resources")
-                                    return clicked_actor_index_arr
                             else:
                                 clicked_x, clicked_y = pos
 
@@ -246,34 +220,28 @@ class HumanPlayer:
                                     if clicked_y < clicked_actor.y * CANVAS_SCALE:
                                         print("clicked up...")
                                         clicked_actor_index_arr.append("up")
-                                        return clicked_actor_index_arr
                                     if clicked_y > clicked_actor.y * CANVAS_SCALE:
                                         print("clicked down...")
-
                                         clicked_actor_index_arr.append("down")
-                                        return clicked_actor_index_arr
                                 else:
                                     # we moved mouse more in x direction than y, so its horizontal movement
-
                                     if clicked_x < clicked_actor.x * CANVAS_SCALE:
                                         print("clicked left...")
-
                                         clicked_actor_index_arr.append("left")
-                                        return clicked_actor_index_arr
+
                                     if clicked_x > clicked_actor.x * CANVAS_SCALE:
                                         print("clicked right...")
-
                                         clicked_actor_index_arr.append("right")
-                                        return clicked_actor_index_arr
+                            return clicked_actor_index_arr
                         else:
                             print("first left click on actor to select it")
 
 
 class GreedyPlayer:
-    def __init__(self, game):
+    def __init__(self, game: Game):
         self.game = game
 
-    def play(self, board, player):
+    def play(self, board: Board, player: int) -> int:
         valids = self.game.getValidMoves(board, player)
         candidates = []
         for a in range(self.game.getActionSize()):

@@ -76,29 +76,10 @@ conda install numba
 conda install cudatoolkit
 conda install -c peterjc123 pytorch cuda90 
 ```
-### TensorFlow GPU
-good tutorial 
-http://www.python36.com/install-tensorflow-gpu-windows/
-```
-pip install --ignore-installed --upgrade tensorflow-gpu cuda 9.0 
- https://developer.nvidia.com/cuda-90-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exenetwork
-```
- 
-add it to environmental variables:
-```
-C:\Program Files\NVIDIA GPU Computing Toolkit\Cuda\v9.0\bin
-C:\Program Files\NVIDIA GPU Computing Toolkit\Cuda\v9.0\lib\x64
-``` 
- 
-- then download this:
-https://developer.nvidia.com/rdp/cudnn-download
-
--extract file, add it in corresponding folder in 
->C:\Program Files\NVIDIA GPU Computing Toolkit\Cuda\v9.0\
 
 
-New tutorial:
 
+### TensorFlow and CUDA
 Install cuda:
 - From programs disk install these files in this order:
 - cuda_9.0.176_win10
@@ -106,18 +87,20 @@ Install cuda:
 - cuda_9.0.176.2_windows
 - cuda_9.0.176.3_windows
 - Extract this folder and add it to Cuda path to corresponding folders:
-- cudnn-9.0-windows10-x64-v7.1
+    - cudnn-9.0-windows10-x64-v7.1
 
 vertify cuda installation:
 - nvcc --version
 
 - make sure its added to env variables:
+```
 - C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin
 - C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\libnvvp
-
-tensorflow gpu
-- Install tensorflow in pycharm (launch it in admin)
-- Interpreter-> check Use conda package manager button on the right,
+```
+#### TensorFlow Gpu
+- Todo - check if i can only import whole conda environment from below tutorial
+- Install tensorflow in pycharm and not from conda cmd (launch it in admin)
+- Interpreter-> check "Use conda package manager button" on the right,
 - add package -> tensorflow-gpu, tensorflow, tensorboard, keras 2.13 - version is important!
 
 
@@ -134,6 +117,18 @@ Add path to environmental variables and !important! restart Pycharm
 ```
 C:\Program Files (x86)\Graphviz2.38\bin
 ```
+
+## Conda export
+to export form conda cmd
+```cmd
+conda list --explicit > requirements.txt
+```
+to install on other machine
+```
+conda create --name myenv --file requirements.txt
+activate myenv
+```
+Requirements are in _Files folder as requirements.txt
 
 # Publishing
 ## Setup

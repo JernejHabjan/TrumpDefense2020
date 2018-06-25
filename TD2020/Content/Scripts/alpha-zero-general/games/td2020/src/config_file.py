@@ -6,7 +6,8 @@ ALL_ACTIONS = {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left":
 ALL_ACTIONS_INT = dict((y, x) for x, y in ALL_ACTIONS.items())
 
 ALL_ACTIONS_LEN = len(ALL_ACTIONS)
-TIMEOUT_TICKS: int = 500
+TIMEOUT_TICKS: int = 10
 
 CANVAS_SCALE = 100  # for drawing
 BORDER = int(CANVAS_SCALE / 20)
+SHOW_TENSORFLOW_GPU = False

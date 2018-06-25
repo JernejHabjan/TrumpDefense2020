@@ -1,6 +1,7 @@
 import time
-
+from games.td2020.Game import display as game_display
 from games.td2020.src.config_file import *
+# noinspection PyUnresolvedReferences
 from systems.pytorch_classification.utils import Bar, AverageMeter
 
 
@@ -9,7 +10,7 @@ class Arena:
     An Arena class where any 2 agents can be pit against each other.
     """
 
-    def __init__(self, player1, player2, game, display=None):
+    def __init__(self, player1, player2, game, display=game_display):
         """
         Input:
             player 1,2: two functions that takes board as input, return action
@@ -21,8 +22,10 @@ class Arena:
         see othello/Players.py for an example. See pit.py for pitting
         human players/other baselines with each other.
         """
+
         self.player1 = player1  # function
         self.player2 = player2  # function
+
         self.game = game
         self.display = display  # function
 
@@ -47,15 +50,12 @@ class Arena:
         it = 0
 
         # while game not ended
-        while self.game.getGameEnded(board, 1) == 0:
+        while self.game.getGameEnded(board) == 0:
             it += 1
             # draw game
             if verbose:
-                assert self.display
-
                 self.display(board)
-                print("Turn ", str(it), "Player ", str(cur_player))
-                print("player ", players[cur_player+1])
+                print("Turn", str(it), "Player ", str(cur_player))
 
             # function of player that takes board as input
             # executes function or method that player represents
@@ -64,19 +64,21 @@ class Arena:
             funct = players[cur_player + 1]
             # retrieves action
 
-            import inspect
-
-            print("printing funct", inspect.getsource(funct))
-            action = funct(board, cur_player)  # TODO - ADDED CURR PLAYER PARAMETER TO ACTION - SHOULD IT BE CUR PLAYER + 1 ?????? or -curr_player?????????? TypeError: <lambda>() takes 1 positional argument but 2 were given
+            # import inspect
+            # print("arena.py", "printing funct", inspect.getsource(funct))
+            # function like this
+            # def player1(x, player):
+            #     return np.argmax(pmcts.getActionProb(x, self.curPlayer, temp=0))
+            action = funct(board, cur_player)
 
             action_arr = self.game.actionIntoArr(board, action)
             if verbose:
-                print("action chosen", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
+                print("Arena.py - action chosen", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
             valids = self.game.getValidMoves(board, cur_player)
 
             # check if action is valid
             if valids[action] == 0:
-                print("Arena", "ERROR ---- Action not in valids", action)
+                print("Arena", "ERROR ---- Action not in valids - algorithm may have chosen wrong side of board to play as his figures", action, "parsed action:", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
 
             # apply action
             board, cur_player = self.game.getNextState(board, cur_player, action)
@@ -84,9 +86,9 @@ class Arena:
         # draw game over
         if verbose:
             assert self.display
-            print("Game over: Turn ", str(it), "Result ", str(self.game.getGameEnded(board, 1)))
+            print("Game over: Turn", str(it), "Result ", str(self.game.getGameEnded(board)))
             self.display(board)
-        return self.game.getGameEnded(board, 1)
+        return self.game.getGameEnded(board)
 
     def playGames(self, num, verbose=False):
         """
