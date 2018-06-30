@@ -1,5 +1,7 @@
 #pragma once
 
+#include "UnrealEnginePython.h"
+
 #include "UEPySWidget.h"
 
 #include "Runtime/SlateCore/Public/Widgets/SLeafWidget.h"

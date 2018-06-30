@@ -2,17 +2,16 @@
 
 
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
 #if ENGINE_MINOR_VERSION < 18
 #include "Runtime/CoreUObject/Public/Misc/StringAssetReference.h"
 #endif
 
-typedef struct
-{
+typedef struct {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		FStringAssetReference fstring_asset_reference;
+	/* Type-specific fields go here. */
+	FStringAssetReference fstring_asset_reference;
 } ue_PyFStringAssetReference;
 
 PyObject *py_ue_new_fstring_asset_reference(FStringAssetReference);

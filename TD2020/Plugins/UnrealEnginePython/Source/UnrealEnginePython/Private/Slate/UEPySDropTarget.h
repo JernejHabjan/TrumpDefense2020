@@ -1,8 +1,9 @@
 #pragma once
 
-#include "UEPySCompoundWidget.h"
+#include "UnrealEnginePython.h"
 
-#if WITH_EDITOR
+
+#include "UEPySCompoundWidget.h"
 
 #include "Editor/EditorWidgets/Public/SDropTarget.h"
 
@@ -14,4 +15,3 @@ typedef struct {
 } ue_PySDropTarget;
 
 void ue_python_init_sdrop_target(PyObject *);
-#endif

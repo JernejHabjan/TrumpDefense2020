@@ -1,24 +1,22 @@
-
-#include "UEPySEditorViewport.h"
-
 #if WITH_EDITOR
+#include "UnrealEnginePythonPrivatePCH.h"
+
+#include "UEPySViewport.h"
 
 
 
+#define sw_editor_viewport StaticCastSharedRef<SEditorViewport>(self->s_compound_widget.s_widget.s_widget)
 
-static PyObject *py_ue_seditor_viewport_enable_stereo_rendering(ue_PySEditorViewport *self, PyObject * args)
-{
-	ue_py_slate_cast(SEditorViewport);
-
+static PyObject *py_ue_seditor_viewport_enable_stereo_rendering(ue_PySEditorViewport *self, PyObject * args) {
 	PyObject *py_bool;
-	if (!PyArg_ParseTuple(args, "O:enable_stereo_rendering", &py_bool))
-	{
-		return nullptr;
+	if (!PyArg_ParseTuple(args, "O:enable_stereo_rendering", &py_bool)) {
+		return NULL;
 	}
 
-	py_SEditorViewport->EnableStereoRendering(PyObject_IsTrue(py_bool) ? true : false);
+	sw_editor_viewport->EnableStereoRendering(PyObject_IsTrue(py_bool) ? true : false);
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyMethodDef ue_PySEditorViewport_methods[] = {
@@ -57,8 +55,7 @@ PyTypeObject ue_PySEditorViewportType = {
 	ue_PySEditorViewport_methods,             /* tp_methods */
 };
 
-void ue_python_init_seditor_viewport(PyObject *ue_module)
-{
+void ue_python_init_seditor_viewport(PyObject *ue_module) {
 
 	ue_PySEditorViewportType.tp_base = &ue_PySCompoundWidgetType;
 

@@ -1,4 +1,4 @@
-#include "UEPyFObjectThumbnail.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 
 static PyObject *py_ue_fobject_thumbnail_get_image_width(ue_PyFObjectThumbnail *self, PyObject * args)

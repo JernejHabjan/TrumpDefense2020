@@ -1,7 +1,9 @@
 // Copyright 20Tab S.r.l.
 
+#include "UnrealEnginePythonPrivatePCH.h"
 #include "PyActor.h"
-#include "UEPyModule.h"
+
+#include "PythonDelegate.h"
 
 APyActor::APyActor()
 {

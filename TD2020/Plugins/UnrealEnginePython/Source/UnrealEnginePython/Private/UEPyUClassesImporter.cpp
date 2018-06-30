@@ -1,4 +1,4 @@
-#include "UEPyUClassesImporter.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 static PyObject *ue_PyUClassesImporter_getattro(ue_PyUClassesImporter *self, PyObject *attr_name)
 {

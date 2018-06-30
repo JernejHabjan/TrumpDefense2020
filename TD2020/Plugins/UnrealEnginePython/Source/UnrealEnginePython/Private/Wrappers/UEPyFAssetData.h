@@ -1,14 +1,12 @@
 #pragma once
-
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
 #if WITH_EDITOR
 
-struct ue_PyFAssetData
-{
+struct ue_PyFAssetData {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		FAssetData asset_data;
+	/* Type-specific fields go here. */
+	FAssetData asset_data;
 };
 
 PyObject *py_ue_new_fassetdata(FAssetData);

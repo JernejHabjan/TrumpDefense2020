@@ -1,9 +1,13 @@
 #pragma once
 
+#include "UnrealEnginePython.h"
+
 #include "UEPySCompoundWidget.h"
-
-#include "Runtime/UMG/Public/Blueprint/UserWidget.h"
-
+#include "UEPyFGeometry.h"
+#include "UEPyFPaintContext.h"
+#include "UEPyFCharacterEvent.h"
+#include "UEPyFKeyEvent.h"
+#include "UEPyFPointerEvent.h"
 
 extern PyTypeObject ue_PySPythonWidgetType;
 
@@ -214,7 +218,7 @@ public:
 		const FWidgetStyle & InWidgetStyle,
 		bool bParentEnabled) const override
 	{
-		int32 MaxLayer = SCompoundWidget::OnPaint(Args, AllottedGeometry, MyClippingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
+        int32 MaxLayer = SCompoundWidget::OnPaint(Args, AllottedGeometry, MyClippingRect, OutDrawElements, LayerId, InWidgetStyle, bParentEnabled);
 
 		FScopePythonGIL gil;
 
@@ -271,8 +275,8 @@ public:
 
 	void SetPyObject(PyObject *py_obj)
 	{
-		Py_XDECREF(self);
-		Py_INCREF(py_obj);
+        Py_XDECREF(self);
+        Py_INCREF(py_obj);
 		self = py_obj;
 	}
 
@@ -288,21 +292,21 @@ public:
 		}
 	}
 
-	void SetContent(TSharedRef<SWidget> InContent)
-	{
-		ChildSlot
-			[
-				InContent
-			];
-	}
+    void SetContent(TSharedRef<SWidget> InContent)
+    {
+        ChildSlot
+	    [
+		    InContent
+	    ];
+    }
 
-	void ClearContent()
-	{
-		ChildSlot.DetachWidget();
-	}
+    void ClearContent()
+    {
+        ChildSlot.DetachWidget();
+    }
 
 protected:
-	PyObject * self;
+	PyObject *self;
 
 	TWeakPtr<FActiveTimerHandle> ActiveTimerHandle;
 

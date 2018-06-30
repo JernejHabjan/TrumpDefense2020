@@ -1,65 +1,61 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
-#include "UEPySMultiLineEditableText.h"
+#include "UEPySEditableTextBox.h"
 
 
-static PyObject *py_ue_smulti_line_editable_text_select_all_text(ue_PySMultiLineEditableText *self, PyObject * args)
-{
-	ue_py_slate_cast(SMultiLineEditableText);
 
-	py_SMultiLineEditableText->SelectAllText();
+#define sw_multi_line_editable_text StaticCastSharedRef<SMultiLineEditableText>(self->s_widget.s_widget)
 
-	Py_RETURN_NONE;
+static PyObject *py_ue_smulti_line_editable_text_select_all_text(ue_PySMultiLineEditableText *self, PyObject * args) {
+
+	sw_multi_line_editable_text->SelectAllText();
+
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
-static PyObject *py_ue_smulti_line_editable_text_clear_selection(ue_PySMultiLineEditableText *self, PyObject * args)
-{
-	ue_py_slate_cast(SMultiLineEditableText);
+static PyObject *py_ue_smulti_line_editable_text_clear_selection(ue_PySMultiLineEditableText *self, PyObject * args) {
 
-	py_SMultiLineEditableText->ClearSelection();
 
-	Py_RETURN_NONE;
+	sw_multi_line_editable_text->ClearSelection();
+
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
-static PyObject *py_ue_smulti_line_editable_text_get_selected_text(ue_PySMultiLineEditableText *self, PyObject * args)
-{
-	ue_py_slate_cast(SMultiLineEditableText);
+static PyObject *py_ue_smulti_line_editable_text_get_selected_text(ue_PySMultiLineEditableText *self, PyObject * args) {
 
-	FText text = py_SMultiLineEditableText->GetSelectedText();
+
+	FText text = sw_multi_line_editable_text->GetSelectedText();
 
 	return PyUnicode_FromString(TCHAR_TO_UTF8(*text.ToString()));
 }
 
-static PyObject *py_ue_smulti_line_editable_text_get_text(ue_PySMultiLineEditableText *self, PyObject * args)
-{
-	ue_py_slate_cast(SMultiLineEditableText);
+static PyObject *py_ue_smulti_line_editable_text_get_text(ue_PySMultiLineEditableText *self, PyObject * args) {
 
-	FText text = py_SMultiLineEditableText->GetText();
+	FText text = sw_multi_line_editable_text->GetText();
 
 	return PyUnicode_FromString(TCHAR_TO_UTF8(*text.ToString()));
 }
 
-static PyObject *py_ue_smulti_line_editable_text_get_plain_text(ue_PySMultiLineEditableText *self, PyObject * args)
-{
-	ue_py_slate_cast(SMultiLineEditableText);
+static PyObject *py_ue_smulti_line_editable_text_get_plain_text(ue_PySMultiLineEditableText *self, PyObject * args) {
 
-	FText text = py_SMultiLineEditableText->GetPlainText();
+	FText text = sw_multi_line_editable_text->GetPlainText();
 
 	return PyUnicode_FromString(TCHAR_TO_UTF8(*text.ToString()));
 }
 
-static PyObject *py_ue_smulti_line_editable_text_set_text(ue_PySMultiLineEditableText *self, PyObject * args)
-{
-	ue_py_slate_cast(SMultiLineEditableText);
+static PyObject *py_ue_smulti_line_editable_text_set_text(ue_PySMultiLineEditableText *self, PyObject * args) {
 	char *text;
-	if (!PyArg_ParseTuple(args, "s:set_text", &text))
-	{
+	if (!PyArg_ParseTuple(args, "s:set_text", &text)) {
 		return NULL;
 	}
 
-	py_SMultiLineEditableText->SetText(FText::FromString(UTF8_TO_TCHAR(text)));
+	sw_multi_line_editable_text->SetText(FText::FromString(UTF8_TO_TCHAR(text)));
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 
@@ -104,8 +100,7 @@ PyTypeObject ue_PySMultiLineEditableTextType = {
 	ue_PySMultiLineEditableText_methods,             /* tp_methods */
 };
 
-static int ue_py_smulti_line_editable_text_init(ue_PySMultiLineEditableText *self, PyObject *args, PyObject *kwargs)
-{
+static int ue_py_smulti_line_editable_text_init(ue_PySMultiLineEditableText *self, PyObject *args, PyObject *kwargs) {
 
 	ue_py_slate_setup_farguments(SMultiLineEditableText);
 
@@ -116,12 +111,11 @@ static int ue_py_smulti_line_editable_text_init(ue_PySMultiLineEditableText *sel
 
 	ue_py_slate_farguments_text("text", Text);
 
-	ue_py_snew(SMultiLineEditableText);
+	ue_py_snew(SMultiLineEditableText, s_widget);
 	return 0;
 }
 
-void ue_python_init_smulti_line_editable_text(PyObject *ue_module)
-{
+void ue_python_init_smulti_line_editable_text(PyObject *ue_module) {
 
 	ue_PySMultiLineEditableTextType.tp_init = (initproc)ue_py_smulti_line_editable_text_init;
 

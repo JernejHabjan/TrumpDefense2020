@@ -1,17 +1,10 @@
-// Copyright 20Tab S.r.l.
+// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 
-#include "UnrealEnginePython.h"
-#include "UEPyModule.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 #include "PythonBlueprintFunctionLibrary.h"
 #include "HAL/IConsoleManager.h"
-#include "HAL/PlatformFilemanager.h"
 #if ENGINE_MINOR_VERSION < 13
 #include "ClassIconFinder.h"
-#endif
-
-#include "Styling/SlateStyleRegistry.h"
-#if WITH_EDITOR
-#include "Interfaces/IPluginManager.h"
 #endif
 
 #if ENGINE_MINOR_VERSION >= 18
@@ -89,7 +82,7 @@ bool FUnrealEnginePythonModule::PythonGILAcquire()
 	return false;
 #endif
 	return true;
-}
+	}
 
 void FUnrealEnginePythonModule::UESetupPythonInterpreter(bool verbose)
 {
@@ -108,13 +101,27 @@ void FUnrealEnginePythonModule::UESetupPythonInterpreter(bool verbose)
 
 	PyObject *py_path = PyDict_GetItemString(py_sys_dict, "path");
 
-	char *zip_path = TCHAR_TO_UTF8(*ZipPath);
+	/*char *zip_path = TCHAR_TO_UTF8(*FPaths::ConvertRelativePathToFull(FPaths::Combine(PROJECT_CONTENT_DIR, FString("ue_python.zip"))));
 	PyObject *py_zip_path = PyUnicode_FromString(zip_path);
-	PyList_Insert(py_path, 0, py_zip_path);
+	PyList_Insert(py_path, 0, py_zip_path);*/
 
-	char *scripts_path = TCHAR_TO_UTF8(*ScriptsPath);
+	//Project content directory
+	char *scripts_path = TCHAR_TO_UTF8(*FPaths::ConvertRelativePathToFull(FPaths::Combine(PROJECT_CONTENT_DIR, FString("Scripts"))));
 	PyObject *py_scripts_path = PyUnicode_FromString(scripts_path);
 	PyList_Insert(py_path, 0, py_scripts_path);
+
+	/* UnrealEnginePython Plugin Content/Scripts path */
+	FString PluginRoot = IPluginManager::Get().FindPlugin("UnrealEnginePython")->GetBaseDir();
+	FString ScriptsPath = FPaths::ConvertRelativePathToFull(FPaths::Combine(PluginRoot, FString("Content/Scripts")));
+	PyObject *py_plugin_scripts_path = PyUnicode_FromString(TCHAR_TO_UTF8(*ScriptsPath));
+	PyList_Insert(py_path, 0, py_plugin_scripts_path);
+
+	/* add the plugin Binaries and Win64 paths - windows only */
+	FString PythonHome = FPaths::ConvertRelativePathToFull(FPaths::Combine(PluginRoot, FString("Binaries/Win64")));
+	char *python_path = TCHAR_TO_UTF8(*PythonHome);
+	char *site_path = TCHAR_TO_UTF8(*FPaths::Combine(FString(PythonHome), FString("Lib/site-packages")));
+	PyList_Insert(py_path, 0, PyUnicode_FromString(python_path));
+	PyList_Insert(py_path, 0, PyUnicode_FromString(site_path));
 
 	char *additional_modules_path = TCHAR_TO_UTF8(*AdditionalModulesPath);
 	PyObject *py_additional_modules_path = PyUnicode_FromString(additional_modules_path);
@@ -216,7 +223,7 @@ void FUnrealEnginePythonModule::StartupModule()
 #endif
 		FPlatformMisc::SetEnvironmentVar(TEXT("PYTHONHOME"), *PythonHome);
 		Py_SetPythonHome(home);
-	}
+}
 
 	if (GConfig->GetString(UTF8_TO_TCHAR("Python"), UTF8_TO_TCHAR("RelativeHome"), PythonHome, GEngineIni))
 	{
@@ -230,7 +237,7 @@ void FUnrealEnginePythonModule::StartupModule()
 #endif
 
 		Py_SetPythonHome(home);
-	}
+}
 
 	FString IniValue;
 	if (GConfig->GetString(UTF8_TO_TCHAR("Python"), UTF8_TO_TCHAR("ProgramName"), IniValue, GEngineIni))
@@ -339,7 +346,7 @@ void FUnrealEnginePythonModule::StartupModule()
 		PathVars.Append(OurPythonPaths);
 		FString ModifiedPath = FString::Join(PathVars, PathDelimiter);
 		FPlatformMisc::SetEnvironmentVar(TEXT("PATH"), *ModifiedPath);
-	}
+		}
 
 #if PY_MAJOR_VERSION >= 3
 	init_unreal_engine_builtin();
@@ -365,7 +372,16 @@ void FUnrealEnginePythonModule::StartupModule()
 	main_dict = PyModule_GetDict((PyObject*)main_module);
 	local_dict = main_dict;// PyDict_New();
 
+	// Redirecting stdout
 	setup_stdout_stderr();
+	
+	//import upymodule_importer
+	PyImport_ImportModule("upymodule_importer");
+
+	char const* startupCode = 
+		"import upystartup\n"
+		"upystartup.startup()\n";
+	PyRun_SimpleString(startupCode);
 
 	if (PyImport_ImportModule("ue_site"))
 	{
@@ -374,13 +390,14 @@ void FUnrealEnginePythonModule::StartupModule()
 	else
 	{
 		// TODO gracefully manage the error
-		unreal_engine_py_log_error();
+		UE_LOG(LogPython, Warning, TEXT("ue_site not found (if you don't use the startup file ignore this warning)"));
+		//unreal_engine_py_log_error();
 	}
 
 	// release the GIL
 	PythonGILRelease();
 
-}
+	}
 
 void FUnrealEnginePythonModule::ShutdownModule()
 {
@@ -476,7 +493,7 @@ void FUnrealEnginePythonModule::RunStringSandboxed(char *str)
 		Py_EndInterpreter(py_new_state);
 		PyThreadState_Swap(_main);
 		return;
-	}
+}
 	PyObject *global_dict = PyModule_GetDict(m);
 
 	PyObject *eval_ret = PyRun_String(str, Py_file_input, global_dict, global_dict);
@@ -620,6 +637,45 @@ void FUnrealEnginePythonModule::RunFileSandboxed(char *filename, void(*callback)
 
 	Py_EndInterpreter(py_new_state);
 	PyThreadState_Swap(_main);
+}
+
+void FUnrealEnginePythonModule::AddPathToSysPath(const FString& Path)
+{
+	PythonGILAcquire();
+
+	PyObject *py_sys = PyImport_ImportModule("sys");
+	PyObject *py_sys_dict = PyModule_GetDict(py_sys);
+	PyObject *py_path = PyDict_GetItemString(py_sys_dict, "path");
+
+	char *charPath = TCHAR_TO_UTF8(*Path);
+	PyObject *py_scripts_path = PyUnicode_FromString(charPath);
+	PyList_Insert(py_path, 0, py_scripts_path);
+
+	PythonGILRelease();
+}
+
+void FUnrealEnginePythonModule::AddPythonDependentPlugin(const FString& PluginName)
+{
+	//Add plugin Content/Script to sys.path
+	FString PluginRoot = IPluginManager::Get().FindPlugin(PluginName)->GetBaseDir();
+	FString ScriptsPath = FPaths::ConvertRelativePathToFull(FPaths::Combine(PluginRoot, FString("Content/Scripts")));
+	FUnrealEnginePythonModule::Get().AddPathToSysPath(ScriptsPath);
+	UE_LOG(LogPython, Log, TEXT("Added %s Plugin Content/Scripts (%s) to sys.path"), *PluginName, *ScriptsPath);
+
+	//run import interpreter on upythonmodule.json inside scripts
+	FString PyModulePath = FString::Printf(TEXT("%s/upymodule.json"), *ScriptsPath);
+	FString RunImport = FString::Printf(TEXT("import upymodule_importer\nupymodule_importer.parseJson('%s')"), *PyModulePath);
+
+ 	PythonGILAcquire();
+
+	if (PyRun_SimpleString(TCHAR_TO_UTF8(*RunImport)) == 0) {
+		UE_LOG(LogPython, Log, TEXT("%s Plugin upymodule.json parsed"), *PluginName);
+	}
+	else {
+		unreal_engine_py_log_error();
+	}
+
+	PythonGILRelease();
 }
 
 #undef LOCTEXT_NAMESPACE

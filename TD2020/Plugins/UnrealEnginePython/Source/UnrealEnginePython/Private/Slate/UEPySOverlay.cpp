@@ -1,11 +1,13 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
-#include "UEPySOverlay.h"
+#include "UEPySBox.h"
+
+
+#define sw_overlay StaticCastSharedRef<SOverlay>(self->s_panel.s_widget.s_widget)
 
 static PyObject *py_ue_soverlay_add_slot(ue_PySOverlay *self, PyObject * args, PyObject *kwargs)
 {
-	ue_py_slate_cast(SOverlay);
-
 	PyObject *py_content;
 	int z_order = -1;
 	int h_align = 0;
@@ -29,12 +31,16 @@ static PyObject *py_ue_soverlay_add_slot(ue_PySOverlay *self, PyObject * args, P
 		return nullptr;
 	}
 
-	TSharedPtr<SWidget> Child = py_ue_is_swidget<SWidget>(py_content);
-	if (!Child.IsValid())
-		return nullptr;
+	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
+	if (!py_swidget)
+	{
+		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
+	}
 
-	SOverlay::FOverlaySlot &fslot = py_SOverlay->AddSlot(z_order);
-	fslot.AttachWidget(Child.ToSharedRef());
+	Py_INCREF(py_swidget);
+
+	SOverlay::FOverlaySlot &fslot = sw_overlay->AddSlot(z_order);
+	fslot.AttachWidget(py_swidget->s_widget->AsShared());
 	fslot.HAlign((EHorizontalAlignment)h_align);
 	if (padding)
 	{
@@ -60,13 +66,13 @@ static PyObject *py_ue_soverlay_add_slot(ue_PySOverlay *self, PyObject * args, P
 	}
 	fslot.VAlign((EVerticalAlignment)v_align);
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyObject *py_ue_soverlay_get_num_widgets(ue_PySOverlay *self, PyObject * args)
 {
-	ue_py_slate_cast(SOverlay);
-	return PyLong_FromLong(py_SOverlay->GetNumWidgets());
+	return PyLong_FromLong(sw_overlay->GetNumWidgets());
 }
 
 static PyMethodDef ue_PySOverlay_methods[] = {
@@ -107,9 +113,11 @@ PyTypeObject ue_PySOverlayType = {
 	ue_PySOverlay_methods,             /* tp_methods */
 };
 
-static int ue_py_soverlay_init(ue_PySOverlay *self, PyObject *args, PyObject *kwargs)
+static int ue_py_soverlay_init(ue_PySBox *self, PyObject *args, PyObject *kwargs)
 {
-	ue_py_snew_simple(SOverlay);
+
+	ue_py_snew_simple(SOverlay, s_panel.s_widget);
+
 	return 0;
 }
 

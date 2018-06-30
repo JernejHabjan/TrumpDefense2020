@@ -1,8 +1,7 @@
 // Copyright 20Tab S.r.l.
 
+#include "UnrealEnginePythonPrivatePCH.h"
 #include "PyCommandlet.h"
-
-#include "UEPyModule.h"
 
 #include "Regex.h"
 
@@ -94,7 +93,7 @@ int32 UPyCommandlet::Main(const FString& CommandLine)
 		strcpy_s(argv[i], PyArgv[i].Len() + 1, TCHAR_TO_UTF8(*PyArgv[i].ReplaceEscapedCharWithChar()));
 #endif
 #endif
-}
+	}
 
 	PySys_SetArgv(PyArgv.Num(), argv);
 

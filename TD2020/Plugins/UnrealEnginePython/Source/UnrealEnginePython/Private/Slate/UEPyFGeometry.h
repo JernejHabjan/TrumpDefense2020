@@ -1,14 +1,13 @@
 #pragma once
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
 #include "Runtime/SlateCore/Public/Layout/Geometry.h"
 
-typedef struct
-{
+typedef struct {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		FGeometry geometry;
+	/* Type-specific fields go here. */
+	FGeometry geometry;
 } ue_PyFGeometry;
 
 void ue_python_init_fgeometry(PyObject *);

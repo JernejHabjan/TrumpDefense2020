@@ -1,49 +1,45 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySPythonComboBox.h"
 
 
-static PyObject *py_ue_spython_combo_box_clear_selection(ue_PySPythonComboBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SPythonComboBox);
-	py_SPythonComboBox->ClearSelection();
-	Py_RETURN_SLATE_SELF;
+#define sw_python_combo_box StaticCastSharedRef<SPythonComboBox>(self->s_panel.s_widget.s_widget)
+
+static PyObject *py_ue_spython_combo_box_clear_selection(ue_PySPythonComboBox *self, PyObject * args) {
+	sw_python_combo_box->ClearSelection();
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
-static PyObject *py_ue_spython_combo_box_get_selected_item(ue_PySPythonComboBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SPythonComboBox);
-	TSharedPtr<FPythonItem> ptr_item = py_SPythonComboBox->GetSelectedItem();
+static PyObject *py_ue_spython_combo_box_get_selected_item(ue_PySPythonComboBox *self, PyObject * args) {
+
+	TSharedPtr<FPythonItem> ptr_item = sw_python_combo_box->GetSelectedItem();
 	if (!ptr_item.IsValid())
 		return PyErr_Format(PyExc_Exception, "invalid shared pointer to python item");
 
-	Py_INCREF(ptr_item->py_object);
-	return ptr_item->py_object;
+	Py_INCREF(ptr_item.Get()->py_object);
+	return ptr_item.Get()->py_object;
 }
 
-static PyObject *py_ue_spython_combo_box_set_selected_item(ue_PySPythonComboBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SPythonComboBox);
-
+static PyObject *py_ue_spython_combo_box_set_selected_item(ue_PySPythonComboBox *self, PyObject * args) {
 	PyObject *py_item;
-	if (!PyArg_ParseTuple(args, "O", &py_item))
-	{
+	if (!PyArg_ParseTuple(args, "O", &py_item)) {
 		return nullptr;
 	}
 
-	for (TSharedPtr<FPythonItem> item : *(py_SPythonComboBox->PythonOptionsSource))
-	{
+	for (TSharedPtr<FPythonItem> item : *(sw_python_combo_box->PythonOptionsSource)) {
 		// just for being safe
 		if (!item.IsValid())
 			continue;
-		if (py_item == item->py_object)
-		{
-			py_SPythonComboBox->SetSelectedItem(item);
+		if (py_item == item.Get()->py_object) {
+			sw_python_combo_box->SetSelectedItem(item);
 			break;
 		}
 	}
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyMethodDef ue_PySPythonComboBox_methods[] = {
@@ -84,28 +80,24 @@ PyTypeObject ue_PySPythonComboBoxType = {
 	ue_PySPythonComboBox_methods,             /* tp_methods */
 };
 
-static int ue_py_spython_combo_box_init(ue_PySPythonComboBox *self, PyObject *args, PyObject *kwargs)
-{
+static int ue_py_spython_combo_box_init(ue_PySPythonComboBox *self, PyObject *args, PyObject *kwargs) {
 	ue_py_slate_setup_farguments(SPythonComboBox);
 
 	// first of all check for values
 	PyObject *values = ue_py_dict_get_item(kwargs, "options_source");
-	if (!values)
-	{
+	if (!values) {
 		PyErr_SetString(PyExc_Exception, "you must specify the combo box items");
 		return -1;
 	}
 
 	values = PyObject_GetIter(values);
-	if (!values)
-	{
+	if (!values) {
 		PyErr_SetString(PyExc_Exception, "values field is not an iterable");
 		return -1;
 	}
 
 	TArray<TSharedPtr<FPythonItem>> *items = new TArray<TSharedPtr<FPythonItem>>();
-	while (PyObject *item = PyIter_Next(values))
-	{
+	while (PyObject *item = PyIter_Next(values)) {
 		Py_INCREF(item);
 		items->Add(TSharedPtr<FPythonItem>(new FPythonItem(item)));
 	}
@@ -113,17 +105,17 @@ static int ue_py_spython_combo_box_init(ue_PySPythonComboBox *self, PyObject *ar
 
 	arguments.OptionsSource(items);
 
-	TSharedPtr<SWidget> child = nullptr;
+	ue_PySWidget *s_widget_content = nullptr;
 
 	PyObject *content = ue_py_dict_get_item(kwargs, "content");
-	if (content)
-	{
-		child = py_ue_is_swidget<SWidget>(content);
-		if (!child.IsValid())
-		{
+	if (content) {
+		s_widget_content = py_ue_is_swidget(content);
+		if (!s_widget_content) {
+			PyErr_SetString(PyExc_Exception, "content is not a SWidget");
 			return -1;
 		}
-		arguments.Content()[child.ToSharedRef()];
+		Py_INCREF(s_widget_content);
+		arguments.Content()[s_widget_content->s_widget];
 	}
 
 	ue_py_slate_farguments_optional_struct_ptr("button_style", ButtonStyle, FButtonStyle);
@@ -144,18 +136,15 @@ static int ue_py_spython_combo_box_init(ue_PySPythonComboBox *self, PyObject *ar
 	ue_py_slate_farguments_event("on_selection_changed", OnSelectionChanged, TSlateDelegates<TSharedPtr<FPythonItem>>::FOnSelectionChanged, OnSelectionChanged);
 
 
-	ue_py_snew(SPythonComboBox);
-
-	ue_py_slate_cast(SPythonComboBox);
+	ue_py_snew(SPythonComboBox, s_panel.s_widget);
 
 	// keep track of the list, so we can delete on destruction
-	py_SPythonComboBox->PythonOptionsSource = items;
+	sw_python_combo_box->PythonOptionsSource = items;
 
 	return 0;
 }
 
-void ue_python_init_spython_combo_box(PyObject *ue_module)
-{
+void ue_python_init_spython_combo_box(PyObject *ue_module) {
 
 	ue_PySPythonComboBoxType.tp_base = &ue_PySPanelType;
 	ue_PySPythonComboBoxType.tp_init = (initproc)ue_py_spython_combo_box_init;

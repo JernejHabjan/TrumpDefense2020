@@ -1,14 +1,10 @@
-#include "UEPyViewport.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #if WITH_EDITOR
 #include "LevelEditor.h"
 #include "Editor/LevelEditor/Public/ILevelViewport.h"
 #include "Editor/UnrealEd/Public/LevelEditorViewport.h"
 #endif
-
-#include "Slate/UEPySWidget.h"
-// required for GEngine access
-#include "Engine/Engine.h"
 
 PyObject *py_unreal_engine_get_game_viewport_client(PyObject * self, PyObject * args)
 {
@@ -155,13 +151,16 @@ PyObject *py_ue_add_viewport_widget_content(ue_PyUObject *self, PyObject * args)
 			return PyErr_Format(PyExc_Exception, "cannot retrieve GameViewportClient from UWorld");
 	}
 
-	TSharedPtr<SWidget> content = py_ue_is_swidget<SWidget>(py_widget);
-	if (!content.IsValid())
+	ue_PySWidget *py_swidget = py_ue_is_swidget(py_widget);
+	if (!py_swidget)
 	{
-		return nullptr;
+		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
 	}
+	// Do not increment reference count as it is assumed this function is used in a PyComponent/PyActor/ that can holds reference to
+	// it in various ways
+	// Py_INCREF(py_swidget);
 
-	viewport->AddViewportWidgetContent(content.ToSharedRef());
+	viewport->AddViewportWidgetContent(py_swidget->s_widget, z_order);
 
 	Py_RETURN_NONE;
 }
@@ -182,13 +181,14 @@ PyObject *py_ue_remove_viewport_widget_content(ue_PyUObject *self, PyObject * ar
 	if (!viewport)
 		return PyErr_Format(PyExc_Exception, "object is not a GameViewportClient");
 
-	TSharedPtr<SWidget> content = py_ue_is_swidget<SWidget>(py_widget);
-	if (!content.IsValid())
+	ue_PySWidget *py_swidget = py_ue_is_swidget(py_widget);
+	if (!py_swidget)
 	{
-		return nullptr;
+		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
 	}
+	Py_DECREF(py_swidget);
 
-	viewport->RemoveViewportWidgetContent(content.ToSharedRef());
+	viewport->RemoveViewportWidgetContent(py_swidget->s_widget);
 
 	Py_RETURN_NONE;
 }

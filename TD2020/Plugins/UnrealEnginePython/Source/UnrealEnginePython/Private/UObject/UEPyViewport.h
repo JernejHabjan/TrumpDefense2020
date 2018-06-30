@@ -2,7 +2,7 @@
 
 
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 PyObject *py_unreal_engine_get_game_viewport_client(PyObject *, PyObject *);
 
 #if WITH_EDITOR

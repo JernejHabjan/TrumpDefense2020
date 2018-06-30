@@ -1,3 +1,5 @@
+#include "UnrealEnginePythonPrivatePCH.h"
+
 
 #include "UEPyFTabManager.h"
 
@@ -44,8 +46,7 @@ static PyTypeObject ue_PyFTabManagerType = {
 };
 
 
-void ue_python_init_ftab_manager(PyObject *ue_module)
-{
+void ue_python_init_ftab_manager(PyObject *ue_module) {
 	ue_PyFTabManagerType.tp_new = PyType_GenericNew;
 
 	if (PyType_Ready(&ue_PyFTabManagerType) < 0)
@@ -55,8 +56,7 @@ void ue_python_init_ftab_manager(PyObject *ue_module)
 	PyModule_AddObject(ue_module, "FTabManager", (PyObject *)&ue_PyFTabManagerType);
 }
 
-PyObject *py_ue_new_ftab_manager(TSharedRef<FTabManager> tab_manager)
-{
+PyObject *py_ue_new_ftab_manager(TSharedRef<FTabManager> tab_manager) {
 	ue_PyFTabManager *ret = (ue_PyFTabManager *)PyObject_New(ue_PyFTabManager, &ue_PyFTabManagerType);
 	new(&ret->tab_manager) TSharedRef<FTabManager>(tab_manager);
 	return (PyObject *)ret;

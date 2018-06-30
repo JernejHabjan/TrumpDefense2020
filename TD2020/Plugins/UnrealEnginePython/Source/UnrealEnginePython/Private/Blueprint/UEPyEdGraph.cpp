@@ -1,4 +1,4 @@
-#include "UEPyEdGraph.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #if WITH_EDITOR
 
@@ -12,7 +12,6 @@
 #include "Editor/BlueprintGraph/Classes/EdGraphSchema_K2_Actions.h"
 #include "Editor/AIGraph/Classes/AIGraph.h"
 #include "Editor/AIGraph/Classes/AIGraphNode.h"
-#include "Editor/BlueprintGraph/Classes/K2Node_FunctionEntry.h"
 
 PyObject *py_ue_graph_add_node_call_function(ue_PyUObject * self, PyObject * args)
 {
@@ -290,56 +289,56 @@ PyObject *py_ue_graph_add_node(ue_PyUObject * self, PyObject * args)
 	PyObject *py_node_class;
 	int x = 0;
 	int y = 0;
-
-	char *metadata = nullptr;
 	PyObject *py_data = nullptr;
-
+	char *metadata = nullptr;
 	if (!PyArg_ParseTuple(args, "O|iisO:graph_add_node", &py_node_class, &x, &y, &metadata, &py_data))
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	UEdGraph *graph = ue_py_check_type<UEdGraph>(self);
-	if (!graph)
+	if (!self->ue_object->IsA<UEdGraph>())
+	{
 		return PyErr_Format(PyExc_Exception, "uobject is not a UEdGraph");
+	}
 
-	UObject *u_obj = ue_py_check_type<UObject>(py_node_class);
-	if (!u_obj)
+	UEdGraph *graph = (UEdGraph *)self->ue_object;
+
+	if (!ue_is_pyuobject(py_node_class))
+	{
 		return PyErr_Format(PyExc_Exception, "argument is not a UObject");
+	}
 
 	UEdGraphNode *node = nullptr;
 
-	if (UClass *u_class = Cast<UClass>(u_obj))
+	ue_PyUObject *py_obj = (ue_PyUObject *)py_node_class;
+	if (py_obj->ue_object->IsA<UClass>())
 	{
+		UClass *u_class = (UClass *)py_obj->ue_object;
 		if (!u_class->IsChildOf<UEdGraphNode>())
 		{
 			return PyErr_Format(PyExc_Exception, "argument is not a child of UEdGraphNode");
 		}
-		node = NewObject<UEdGraphNode>(graph, u_class);
+		node = (UEdGraphNode *)NewObject<UObject>(graph, u_class);
 		node->PostLoad();
 	}
-	else
+	else if (py_obj->ue_object->IsA<UEdGraphNode>())
 	{
-		node = Cast<UEdGraphNode>(u_obj);
-		if (node)
+		node = (UEdGraphNode *)py_obj->ue_object;
+		if (node->GetOuter() != graph)
 		{
-			if (node->GetOuter() != graph)
-
-				node->Rename(*node->GetName(), graph);
+			node->Rename(*node->GetName(), graph);
 		}
 	}
 
 	if (!node)
+	{
 		return PyErr_Format(PyExc_Exception, "argument is not a supported type");
-
+	}
 
 	node->CreateNewGuid();
 	node->PostPlacedNewNode();
 	node->SetFlags(RF_Transactional);
-	if (node->Pins.Num() == 0)
-	{
-		node->AllocateDefaultPins();
-	}
+	node->AllocateDefaultPins();
 	node->NodePosX = x;
 	node->NodePosY = y;
 
@@ -478,61 +477,6 @@ PyObject *py_ue_node_find_pin(ue_PyUObject * self, PyObject * args)
 	PyObject *ret = py_ue_new_edgraphpin(pin);
 	Py_INCREF(ret);
 	return ret;
-}
-
-PyObject *py_ue_node_function_entry_set_pure(ue_PyUObject * self, PyObject * args)
-{
-
-	ue_py_check(self);
-
-	PyObject *py_bool = nullptr;
-	if (!PyArg_ParseTuple(args, "O:node_function_entry_set_pure", &py_bool))
-	{
-		return nullptr;
-	}
-
-	UK2Node_FunctionEntry *node = ue_py_check_type<UK2Node_FunctionEntry>(self);
-	if (!node)
-		return PyErr_Format(PyExc_Exception, "uobject is not a K2Node_FunctionEntry");
-
-	UEdGraph *graph = node->GetGraph();
-
-	if (!graph)
-		return PyErr_Format(PyExc_Exception, "unable to get graph from node");
-
-	UBlueprint *blueprint = FBlueprintEditorUtils::FindBlueprintForGraph(graph);
-	if (!blueprint)
-		return PyErr_Format(PyExc_Exception, "unable to get blueprint from node");
-
-	UClass *Class = blueprint->SkeletonGeneratedClass;
-	UFunction *function = nullptr;
-	for (TFieldIterator<UFunction> FunctionIt(Class, EFieldIteratorFlags::IncludeSuper); FunctionIt; ++FunctionIt)
-	{
-		if (*FunctionIt->GetName() == graph->GetName())
-		{
-			function = *FunctionIt;
-			break;
-		}
-	}
-
-	if (!function)
-		return PyErr_Format(PyExc_Exception, "unable to get function from node");
-
-	node->Modify();
-	function->Modify();
-
-	if (PyObject_IsTrue(py_bool))
-	{
-		function->FunctionFlags |= FUNC_BlueprintPure;
-		node->AddExtraFlags(FUNC_BlueprintPure);
-	}
-	else
-	{
-		function->FunctionFlags &= ~FUNC_BlueprintPure;
-		node->ClearExtraFlags(FUNC_BlueprintPure);
-	}
-
-	Py_RETURN_NONE;
 }
 
 PyObject *py_ue_node_create_pin(ue_PyUObject * self, PyObject * args)

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "UEPySEditorViewport.h"
+#include "UnrealEnginePython.h"
 
-#if WITH_EDITOR
+
+#include "UEPySEditorViewport.h"
 
 #include "Editor/LevelEditor/Public/SLevelViewport.h"
 #include "Editor/LevelEditor/Private/SLevelEditor.h"
@@ -11,11 +12,9 @@
 
 extern PyTypeObject ue_PySLevelViewportType;
 
-typedef struct
-{
+typedef struct {
 	ue_PySEditorViewport s_editor_viewport;
 	/* Type-specific fields go here. */
 } ue_PySLevelViewport;
 
 void ue_python_init_slevel_viewport(PyObject *);
-#endif

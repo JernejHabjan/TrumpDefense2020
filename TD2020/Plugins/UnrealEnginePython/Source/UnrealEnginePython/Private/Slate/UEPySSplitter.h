@@ -1,13 +1,14 @@
 #pragma once
 
+#include "UnrealEnginePython.h"
+
 #include "UEPySPanel.h"
 
 #include "Runtime/Slate/Public/Widgets/Layout/SSplitter.h"
 
 extern PyTypeObject ue_PySSplitterType;
 
-typedef struct
-{
+typedef struct {
 	ue_PySPanel s_panel;
 	/* Type-specific fields go here. */
 } ue_PySSplitter;

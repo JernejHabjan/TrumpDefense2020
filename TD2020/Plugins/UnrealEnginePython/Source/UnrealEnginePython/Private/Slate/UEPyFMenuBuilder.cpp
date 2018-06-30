@@ -1,6 +1,12 @@
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPyFMenuBuilder.h"
 
-#include "Wrappers/UEPyESlateEnums.h"
+#include "Runtime/Slate/Public/Framework/Commands/UIAction.h"
+#if WITH_EDITOR
+#include "Developer/AssetTools/Public/AssetToolsModule.h"
+#include "Developer/AssetTools/Public/IAssetTools.h"
+#endif
 
 static PyObject *py_ue_fmenu_builder_begin_section(ue_PyFMenuBuilder *self, PyObject * args)
 {
@@ -11,20 +17,22 @@ static PyObject *py_ue_fmenu_builder_begin_section(ue_PyFMenuBuilder *self, PyOb
 
 	self->menu_builder.BeginSection(name, FText::FromString(UTF8_TO_TCHAR(text)));
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 static PyObject *py_ue_fmenu_builder_end_section(ue_PyFMenuBuilder *self, PyObject * args)
 {
 	self->menu_builder.EndSection();
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 static PyObject *py_ue_fmenu_builder_make_widget(ue_PyFMenuBuilder *self, PyObject * args)
 {
 	ue_PySWidget *ret = (ue_PySWidget *)PyObject_New(ue_PySWidget, &ue_PySWidgetType);
-	new (&ret->Widget) TSharedRef<SWidget>(self->menu_builder.MakeWidget());
+	new (&ret->s_widget) TSharedRef<SWidget>(self->menu_builder.MakeWidget());
 	return (PyObject *)ret;
 }
 
@@ -78,7 +86,8 @@ static PyObject *py_ue_fmenu_builder_add_menu_separator(ue_PyFMenuBuilder *self,
 
 	self->menu_builder.AddMenuSeparator(f_name);
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 #if WITH_EDITOR

@@ -1,7 +1,8 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPyFSlateApplication.h"
 
-#include "Slate/UEPySWidget.h"
 
 static PyObject *py_ue_get_average_delta_time(PyObject *cls, PyObject * args)
 {
@@ -63,13 +64,15 @@ static PyObject *py_ue_set_all_user_focus(PyObject *cls, PyObject * args)
 		return nullptr;
 	}
 
-	TSharedPtr<SWidget> Widget = py_ue_is_swidget<SWidget>(py_widget);
-	if (!Widget.IsValid())
+	ue_PySWidget *py_swidget = py_ue_is_swidget(py_widget);
+	if (!py_swidget)
 	{
-		return nullptr;
+		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
 	}
 
-	FSlateApplication::Get().SetAllUserFocus(Widget, (EFocusCause)focus_cause);
+	TSharedPtr<SWidget> widget_ptr(py_swidget->s_widget);
+
+	FSlateApplication::Get().SetAllUserFocus(widget_ptr, (EFocusCause)focus_cause);
 
 	Py_RETURN_NONE;
 }

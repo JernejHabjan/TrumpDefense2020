@@ -1,8 +1,9 @@
-#include "UEPyAnimSequence.h"
+#include "UnrealEnginePythonPrivatePCH.h"
+#include "Animation/AnimSequence.h"
+#include "Animation/BlendSpaceBase.h"
+#include "Animation/AnimMontage.h"
 
-
-PyObject *py_ue_anim_get_skeleton(ue_PyUObject * self, PyObject * args)
-{
+PyObject *py_ue_anim_get_skeleton(ue_PyUObject * self, PyObject * args) {
 	ue_py_check(self);
 
 	UAnimationAsset *anim = ue_py_check_type<UAnimationAsset>(self);
@@ -10,8 +11,7 @@ PyObject *py_ue_anim_get_skeleton(ue_PyUObject * self, PyObject * args)
 		return PyErr_Format(PyExc_Exception, "UObject is not a UAnimationAsset.");
 
 	USkeleton *skeleton = anim->GetSkeleton();
-	if (!skeleton)
-	{
+	if (!skeleton) {
 		Py_RETURN_NONE;
 	}
 
@@ -21,8 +21,7 @@ PyObject *py_ue_anim_get_skeleton(ue_PyUObject * self, PyObject * args)
 
 #if WITH_EDITOR
 #if ENGINE_MINOR_VERSION > 13
-PyObject *py_ue_anim_sequence_get_raw_animation_data(ue_PyUObject * self, PyObject * args)
-{
+PyObject *py_ue_anim_sequence_get_raw_animation_data(ue_PyUObject * self, PyObject * args) {
 	ue_py_check(self);
 
 	UAnimSequence *anim_seq = ue_py_check_type<UAnimSequence>(self);
@@ -31,8 +30,7 @@ PyObject *py_ue_anim_sequence_get_raw_animation_data(ue_PyUObject * self, PyObje
 
 	PyObject *py_list = PyList_New(0);
 
-	for (FRawAnimSequenceTrack rast : anim_seq->GetRawAnimationData())
-	{
+	for (FRawAnimSequenceTrack rast : anim_seq->GetRawAnimationData()) {
 		PyObject *py_item = py_ue_new_fraw_anim_sequence_track(rast);
 		PyList_Append(py_list, py_item);
 		Py_DECREF(py_item);
@@ -41,8 +39,7 @@ PyObject *py_ue_anim_sequence_get_raw_animation_data(ue_PyUObject * self, PyObje
 	return py_list;
 }
 
-PyObject *py_ue_anim_sequence_get_raw_animation_track(ue_PyUObject * self, PyObject * args)
-{
+PyObject *py_ue_anim_sequence_get_raw_animation_track(ue_PyUObject * self, PyObject * args) {
 	ue_py_check(self);
 
 	int index;
@@ -59,8 +56,7 @@ PyObject *py_ue_anim_sequence_get_raw_animation_track(ue_PyUObject * self, PyObj
 	return py_ue_new_fraw_anim_sequence_track(anim_seq->GetRawAnimationTrack(index));
 }
 
-PyObject *py_ue_anim_sequence_add_new_raw_track(ue_PyUObject * self, PyObject * args)
-{
+PyObject *py_ue_anim_sequence_add_new_raw_track(ue_PyUObject * self, PyObject * args) {
 	ue_py_check(self);
 
 	char *name;
@@ -74,15 +70,12 @@ PyObject *py_ue_anim_sequence_add_new_raw_track(ue_PyUObject * self, PyObject * 
 
 	FRawAnimSequenceTrack *rast = nullptr;
 
-	if (py_rast)
-	{
+	if (py_rast) {
 		ue_PyFRawAnimSequenceTrack *py_f_rast = py_ue_is_fraw_anim_sequence_track(py_rast);
-		if (py_f_rast)
-		{
+		if (py_f_rast) {
 			rast = &py_f_rast->raw_anim_sequence_track;
 		}
-		else
-		{
+		else {
 			return PyErr_Format(PyExc_Exception, "argument is not a FRawAnimSequenceTrack.");
 		}
 	}
@@ -99,27 +92,25 @@ PyObject *py_ue_anim_sequence_add_new_raw_track(ue_PyUObject * self, PyObject * 
 	return PyLong_FromLong(index);
 }
 
-PyObject *py_ue_add_anim_composite_section(ue_PyUObject * self, PyObject * args)
-{
-	ue_py_check(self);
+PyObject *py_ue_add_anim_composite_section(ue_PyUObject * self, PyObject * args) {
+    ue_py_check(self);
 
-	char *name;
-	float time;
-	if (!PyArg_ParseTuple(args, "sf:add_anim_composite_section", &name, &time))
-		return nullptr;
+    char *name;
+    float time;
+    if (!PyArg_ParseTuple(args, "sf:add_anim_composite_section", &name, &time))
+        return nullptr;
 
-	UAnimMontage *anim = ue_py_check_type<UAnimMontage>(self);
-	if (!anim)
-		return PyErr_Format(PyExc_Exception, "UObject is not a UAnimMontage.");
+    UAnimMontage *anim = ue_py_check_type<UAnimMontage>(self);
+    if (!anim)
+        return PyErr_Format(PyExc_Exception, "UObject is not a UAnimMontage.");
 
-	return PyLong_FromLong(anim->AddAnimCompositeSection(FName(UTF8_TO_TCHAR(name)), time));
+    return PyLong_FromLong(anim->AddAnimCompositeSection(FName(UTF8_TO_TCHAR(name)), time));
 }
 
 #endif
 #endif
 
-PyObject *py_ue_anim_set_skeleton(ue_PyUObject * self, PyObject * args)
-{
+PyObject *py_ue_anim_set_skeleton(ue_PyUObject * self, PyObject * args) {
 	ue_py_check(self);
 
 	PyObject *py_skeleton;
@@ -135,12 +126,11 @@ PyObject *py_ue_anim_set_skeleton(ue_PyUObject * self, PyObject * args)
 		return PyErr_Format(PyExc_Exception, "argument is not a USkeleton.");
 
 	anim->SetSkeleton(skeleton);
-
+	
 	Py_RETURN_NONE;
 }
 
-PyObject *py_ue_get_blend_parameter(ue_PyUObject * self, PyObject * args)
-{
+PyObject *py_ue_get_blend_parameter(ue_PyUObject * self, PyObject * args) {
 	ue_py_check(self);
 
 	int index;
@@ -159,8 +149,7 @@ PyObject *py_ue_get_blend_parameter(ue_PyUObject * self, PyObject * args)
 	return py_ue_new_uscriptstruct(FBlendParameter::StaticStruct(), (uint8 *)&parameter);
 }
 
-PyObject *py_ue_set_blend_parameter(ue_PyUObject * self, PyObject * args)
-{
+PyObject *py_ue_set_blend_parameter(ue_PyUObject * self, PyObject * args) {
 	ue_py_check(self);
 
 	int index;

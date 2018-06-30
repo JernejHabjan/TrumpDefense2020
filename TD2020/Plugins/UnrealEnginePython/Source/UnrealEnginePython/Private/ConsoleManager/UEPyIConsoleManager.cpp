@@ -1,3 +1,6 @@
+
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPyIConsoleManager.h"
 
 static PyObject *py_ue_iconsole_manager_add_history_entry(PyObject *cls, PyObject * args)

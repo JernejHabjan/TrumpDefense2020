@@ -1,4 +1,5 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySLeafWidget.h"
 
@@ -37,8 +38,7 @@ PyTypeObject ue_PySLeafWidgetType = {
 	ue_PySLeafWidget_methods,             /* tp_methods */
 };
 
-void ue_python_init_sleaf_widget(PyObject *ue_module)
-{
+void ue_python_init_sleaf_widget(PyObject *ue_module) {
 
 	ue_PySLeafWidgetType.tp_base = &ue_PySWidgetType;
 

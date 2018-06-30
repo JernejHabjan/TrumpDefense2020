@@ -1,5 +1,7 @@
 #pragma once
 
+#include "UnrealEnginePython.h"
+
 #include "UEPySCompoundWidget.h"
 
 #if WITH_EDITOR
@@ -8,8 +10,7 @@
 
 extern PyTypeObject ue_PySFilePathPickerType;
 
-typedef struct
-{
+typedef struct {
 	ue_PySCompoundWidget s_compound_widget;
 	/* Type-specific fields go here. */
 } ue_PySFilePathPicker;

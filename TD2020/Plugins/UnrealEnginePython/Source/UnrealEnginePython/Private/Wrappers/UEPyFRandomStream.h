@@ -2,13 +2,12 @@
 
 
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
-typedef struct
-{
+typedef struct {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		FRandomStream rstream;
+	/* Type-specific fields go here. */
+	FRandomStream rstream;
 } ue_PyFRandomStream;
 
 void ue_python_init_frandomstream(PyObject *);

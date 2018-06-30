@@ -1,10 +1,8 @@
-#include "UEPyFRawMesh.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #if WITH_EDITOR
 
 #if ENGINE_MINOR_VERSION > 13
-
-#include "Engine/StaticMesh.h"
 
 static PyObject *py_ue_fraw_mesh_set_vertex_positions(ue_PyFRawMesh *self, PyObject * args)
 {

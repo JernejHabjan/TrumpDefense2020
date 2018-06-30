@@ -1,4 +1,4 @@
-#include "UEPyFColor.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 static PyObject *py_ue_fcolor_to_hex(ue_PyFColor *self, PyObject * args)
 {

@@ -1,24 +1,25 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPySSlider.h"
 
-static PyObject *py_ue_sslider_set_value(ue_PySSlider *self, PyObject * args)
-{
-	ue_py_slate_cast(SSlider);
+
+#define sw_slider StaticCastSharedRef<SSlider>(self->s_leaf_widget.s_widget.s_widget)
+
+static PyObject *py_ue_sslider_set_value(ue_PySSlider *self, PyObject * args) {
 	float value;
-	if (!PyArg_ParseTuple(args, "f:set_value", &value))
-	{
-		return nullptr;
+	if (!PyArg_ParseTuple(args, "f:set_value", &value)) {
+		return NULL;
 	}
 
-	py_SSlider->SetValue(value);
+	sw_slider->SetValue(value);
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
-static PyObject *py_ue_sslider_get_value(ue_PySSlider *self, PyObject * args)
-{
-	ue_py_slate_cast(SSlider);
-	return PyFloat_FromDouble(py_SSlider->GetValue());
+static PyObject *py_ue_sslider_get_value(ue_PySSlider *self, PyObject * args) {
+	return PyFloat_FromDouble(sw_slider->GetValue());
 }
 
 static PyMethodDef ue_PySSlider_methods[] = {
@@ -58,9 +59,8 @@ PyTypeObject ue_PySSliderType = {
 	ue_PySSlider_methods,             /* tp_methods */
 };
 
-static int ue_py_sslider_init(ue_PySSlider *self, PyObject *args, PyObject *kwargs)
-{
-
+static int ue_py_sslider_init(ue_PySSlider *self, PyObject *args, PyObject *kwargs) {
+	
 	ue_py_slate_setup_farguments(SSlider);
 
 	ue_py_slate_farguments_bool("indent_handle", IndentHandle);
@@ -78,12 +78,11 @@ static int ue_py_sslider_init(ue_PySSlider *self, PyObject *args, PyObject *kwar
 	ue_py_slate_farguments_optional_struct_ptr("style", Style, FSliderStyle);
 	ue_py_slate_farguments_float("value", Value);
 
-	ue_py_snew(SSlider);
+	ue_py_snew(SSlider, s_leaf_widget.s_widget);
 	return 0;
 }
 
-void ue_python_init_sslider(PyObject *ue_module)
-{
+void ue_python_init_sslider(PyObject *ue_module) {
 	ue_PySSliderType.tp_init = (initproc)ue_py_sslider_init;
 
 	ue_PySSliderType.tp_base = &ue_PySLeafWidgetType;

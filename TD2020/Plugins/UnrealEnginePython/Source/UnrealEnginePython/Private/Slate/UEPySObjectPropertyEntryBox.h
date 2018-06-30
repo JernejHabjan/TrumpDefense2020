@@ -1,18 +1,17 @@
 #pragma once
 
-#include "UEPySCompoundWidget.h"
+#include "UnrealEnginePython.h"
 
-#if WITH_EDITOR
+
+#include "UEPySCompoundWidget.h"
 
 #include "Editor/PropertyEditor/Public/PropertyCustomizationHelpers.h"
 
 extern PyTypeObject ue_PySObjectPropertyEntryBoxType;
 
-typedef struct
-{
+typedef struct {
 	ue_PySCompoundWidget s_compound_widget;
 	/* Type-specific fields go here. */
 } ue_PySObjectPropertyEntryBox;
 
 void ue_python_init_sobject_property_entry_box(PyObject *);
-#endif

@@ -4,15 +4,26 @@
 #include "PythonDelegate.h"
 #include "PythonSmartDelegate.h"
 #include "UEPyUScriptStruct.h"
-#include "PythonHouseKeeper.h"
 
-// common wrappers
-#include "Wrappers/UEPyFVector.h"
-#include "Wrappers/UEPyFRotator.h"
-#include "Wrappers/UEPyFQuat.h"
-#include "Wrappers/UEPyFTransform.h"
-#include "Wrappers/UEPyFColor.h"
-#include "Wrappers/UEPyFLinearColor.h"
+
+
+//#include "UEPyModule.generated.h"
+
+typedef struct
+{
+	PyObject_HEAD
+	/* Type-specific fields go here. */
+	UObject *ue_object;
+	// reference to proxy class (can be null)
+	PyObject *py_proxy;
+	// the __dict__
+	PyObject *py_dict;
+	// if true RemoveFromRoot will be called at object destruction time
+	int auto_rooted;
+} ue_PyUObject;
+
+
+
 
 
 void unreal_engine_py_log_error();
@@ -20,8 +31,8 @@ ue_PyUObject *ue_get_python_uobject(UObject *);
 ue_PyUObject *ue_get_python_uobject_inc(UObject *);
 UWorld *ue_get_uworld(ue_PyUObject *);
 AActor *ue_get_actor(ue_PyUObject *);
-PyObject *ue_py_convert_property(UProperty *, uint8 *, int32);
-bool ue_py_convert_pyobject(PyObject *, UProperty *, uint8 *, int32);
+PyObject *ue_py_convert_property(UProperty *, uint8 *);
+bool ue_py_convert_pyobject(PyObject *, UProperty *, uint8 *);
 ue_PyUObject *ue_is_pyuobject(PyObject *);
 
 void ue_bind_events_for_py_class_by_attribute(UObject *, PyObject *);

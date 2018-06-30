@@ -1,27 +1,30 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySButton.h"
 
+#define sw_button StaticCastSharedRef<SButton>(self->s_border.s_compound_widget.s_widget.s_widget)
+
 static PyObject *py_ue_sbutton_is_pressed(ue_PySButton *self, PyObject * args)
 {
-	ue_py_slate_cast(SButton);
 
-	if (py_SButton->IsPressed())
+	if (sw_button->IsPressed())
 	{
-		Py_RETURN_TRUE;
+		Py_INCREF(Py_True);
+		return Py_True;
 	}
 
-	Py_RETURN_FALSE;
+	Py_INCREF(Py_False);
+	return Py_False;
 }
 
 
 static PyObject *py_ue_sbutton_bind_on_clicked(ue_PySButton *self, PyObject * args)
 {
-	ue_py_slate_cast(SButton);
 	PyObject *py_callable;
 	if (!PyArg_ParseTuple(args, "O:bind_on_clicked", &py_callable))
 	{
-		return nullptr;
+		return NULL;
 	}
 
 	if (!PyCalllable_Check_Extended(py_callable))
@@ -30,13 +33,14 @@ static PyObject *py_ue_sbutton_bind_on_clicked(ue_PySButton *self, PyObject * ar
 	}
 
 	FOnClicked handler;
-	TSharedRef<FPythonSlateDelegate>py_delegate = FUnrealEnginePythonHouseKeeper::Get()->NewSlateDelegate(self->s_border.s_compound_widget.s_widget.Widget, py_callable);
+	TSharedRef<FPythonSlateDelegate>py_delegate = FUnrealEnginePythonHouseKeeper::Get()->NewSlateDelegate(self->s_border.s_compound_widget.s_widget.s_widget, py_callable);
 	py_delegate->SetPyCallable(py_callable);
 	handler.BindSP(py_delegate, &FPythonSlateDelegate::OnClicked);
 
-	py_SButton->SetOnClicked(handler);
+	sw_button->SetOnClicked(handler);
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyMethodDef ue_PySButton_methods[] = {
@@ -105,7 +109,7 @@ static int ue_py_sbutton_init(ue_PySButton *self, PyObject *args, PyObject *kwar
 	ue_py_slate_farguments_optional_enum("touch_method", TouchMethod, EButtonTouchMethod::Type);
 	ue_py_slate_farguments_optional_enum("v_align", VAlign, EVerticalAlignment);
 
-	ue_py_snew(SButton);
+	ue_py_snew(SButton, s_border.s_compound_widget.s_widget);
 	return 0;
 }
 

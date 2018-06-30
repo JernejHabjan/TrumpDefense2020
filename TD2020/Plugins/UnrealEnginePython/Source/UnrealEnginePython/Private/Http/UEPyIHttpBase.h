@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
 #include "Runtime/Online/HTTP/Public/HttpModule.h"
 #include "Runtime/Online/HTTP/Public/Interfaces/IHttpBase.h"

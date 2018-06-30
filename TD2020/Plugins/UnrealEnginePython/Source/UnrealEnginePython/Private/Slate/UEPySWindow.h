@@ -1,5 +1,7 @@
 #pragma once
 
+#include "UnrealEnginePython.h"
+
 #include "UEPySCompoundWidget.h"
 
 #include "Runtime/SlateCore/Public/Widgets/SWindow.h"

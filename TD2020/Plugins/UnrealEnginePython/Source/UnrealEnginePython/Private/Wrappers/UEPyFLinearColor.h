@@ -2,13 +2,12 @@
 
 
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
-typedef struct
-{
+typedef struct {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		FLinearColor color;
+	/* Type-specific fields go here. */
+	FLinearColor color;
 } ue_PyFLinearColor;
 
 PyObject *py_ue_new_flinearcolor(FLinearColor);

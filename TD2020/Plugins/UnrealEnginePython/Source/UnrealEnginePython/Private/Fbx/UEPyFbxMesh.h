@@ -1,5 +1,5 @@
 #pragma once
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
 #if WITH_EDITOR
 #if ENGINE_MINOR_VERSION > 12
@@ -9,8 +9,8 @@
 struct ue_PyFbxMesh
 {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		FbxMesh *fbx_mesh;
+	/* Type-specific fields go here. */
+	FbxMesh *fbx_mesh;
 };
 
 

@@ -1,4 +1,5 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySPanel.h"
 

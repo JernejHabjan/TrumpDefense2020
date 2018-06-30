@@ -1,6 +1,7 @@
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPyFToolBarBuilder.h"
 
-#include "UEPyFSlateIcon.h"
 #include "Runtime/Slate/Public/Framework/Commands/UIAction.h"
 
 static PyObject *py_ue_ftool_bar_builder_begin_section(ue_PyFToolBarBuilder *self, PyObject * args)
@@ -11,14 +12,16 @@ static PyObject *py_ue_ftool_bar_builder_begin_section(ue_PyFToolBarBuilder *sel
 
 	self->tool_bar_builder.BeginSection(FName(name));
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 static PyObject *py_ue_ftool_bar_builder_end_section(ue_PyFToolBarBuilder *self, PyObject * args)
 {
 	self->tool_bar_builder.EndSection();
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 static PyObject *py_ue_ftool_bar_builder_add_tool_bar_button(ue_PyFToolBarBuilder *self, PyObject * args)
@@ -58,7 +61,8 @@ static PyObject *py_ue_ftool_bar_builder_add_tool_bar_button(ue_PyFToolBarBuilde
 
 	self->tool_bar_builder.AddToolBarButton(FUIAction(handler), FName(hook), FText::FromString(UTF8_TO_TCHAR(label)), FText::FromString(UTF8_TO_TCHAR(tooltip)), py_slate_icon->icon);
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 static PyObject *py_ue_ftool_bar_builder_add_separator(ue_PyFToolBarBuilder *self, PyObject * args)
@@ -75,7 +79,8 @@ static PyObject *py_ue_ftool_bar_builder_add_separator(ue_PyFToolBarBuilder *sel
 
 	self->tool_bar_builder.AddSeparator(f_name);
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 
@@ -83,19 +88,24 @@ static PyObject *py_ue_ftool_bar_builder_begin_block_group(ue_PyFToolBarBuilder 
 {
 	self->tool_bar_builder.BeginBlockGroup();
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 static PyObject *py_ue_ftool_bar_builder_end_block_group(ue_PyFToolBarBuilder *self, PyObject * args)
 {
 	self->tool_bar_builder.EndBlockGroup();
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 static PyObject *py_ue_ftool_bar_builder_make_widget(ue_PyFToolBarBuilder *self, PyObject * args)
 {
-	return (PyObject *)py_ue_new_swidget<ue_PySWidget>(self->tool_bar_builder.MakeWidget(), &ue_PySWidgetType);
+	ue_PySWidget *ret = (ue_PySWidget *)PyObject_New(ue_PySWidget, &ue_PySWidgetType);
+	ue_py_setup_swidget(ret);
+	ret->s_widget = self->tool_bar_builder.MakeWidget();
+	return (PyObject *)ret;
 }
 
 static PyMethodDef ue_PyFToolBarBuilder_methods[] = {

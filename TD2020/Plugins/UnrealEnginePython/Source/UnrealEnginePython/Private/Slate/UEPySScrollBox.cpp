@@ -1,10 +1,13 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPySScrollBox.h"
 
 
+#define sw_scroll_box StaticCastSharedRef<SScrollBox>(self->s_compound_widget.s_widget.s_widget)
+
 static PyObject *py_ue_sscroll_box_add_slot(ue_PySScrollBox *self, PyObject * args, PyObject *kwargs)
 {
-	ue_py_slate_cast(SScrollBox);
 	PyObject *py_content;
 	int h_align = 0;
 	int v_align = 0;
@@ -19,27 +22,29 @@ static PyObject *py_ue_sscroll_box_add_slot(ue_PySScrollBox *self, PyObject * ar
 		&h_align,
 		&v_align))
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	TSharedPtr<SWidget> Content = py_ue_is_swidget<SWidget>(py_content);
-	if (!Content.IsValid())
+	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
+	if (!py_swidget)
 	{
-		return nullptr;
+		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
 	}
 
-	SScrollBox::FSlot &fslot = py_SScrollBox->AddSlot();
-	fslot.AttachWidget(Content.ToSharedRef());
+	Py_INCREF(py_swidget);
+
+	SScrollBox::FSlot &fslot = sw_scroll_box->AddSlot();
+	fslot.AttachWidget(py_swidget->s_widget->AsShared());
 	fslot.HAlign((EHorizontalAlignment)h_align);
 	fslot.VAlign((EVerticalAlignment)v_align);
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyObject *py_ue_sscroll_box_clear_children(ue_PySScrollBox *self, PyObject * args)
 {
-	ue_py_slate_cast(SScrollBox);
-	py_SScrollBox->ClearChildren();
+	sw_scroll_box->ClearChildren();
 
 	Py_RETURN_NONE;
 }
@@ -54,7 +59,7 @@ static PyMethodDef ue_PySScrollBox_methods[] = {
 PyTypeObject ue_PySScrollBoxType = {
 	PyVarObject_HEAD_INIT(NULL, 0)
 	"unreal_engine.SScrollBox", /* tp_name */
-	sizeof(ue_PySScrollBox), /* tp_basicsize */
+	sizeof(ue_PySNumericEntryBox), /* tp_basicsize */
 	0,                         /* tp_itemsize */
 	0,       /* tp_dealloc */
 	0,                         /* tp_print */
@@ -95,7 +100,7 @@ static int ue_py_sscroll_box_init(ue_PySScrollBox *self, PyObject *args, PyObjec
 	ue_py_slate_farguments_optional_fvector2d("scroll_bar_thickness", ScrollBarThickness);
 	ue_py_slate_farguments_optional_struct_ptr("style", Style, FScrollBoxStyle);
 
-	ue_py_snew(SScrollBox);
+	ue_py_snew(SScrollBox, s_compound_widget.s_widget);
 
 	return 0;
 }

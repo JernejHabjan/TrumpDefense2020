@@ -1,5 +1,7 @@
 #pragma once
 
+#include "UnrealEnginePython.h"
+
 #include "UEPySBorder.h"
 
 #include "Runtime/Slate/Public/Widgets/Views/SHeaderRow.h"

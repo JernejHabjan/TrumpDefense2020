@@ -41,18 +41,23 @@ public:
     bool GetResources(TSubclassOf<URTSResourceType> ResourceType, float* OutResourceAmount);
 
     /** Checks the amount of resources in stock of this player. */
+	UFUNCTION(BlueprintCallable)
     bool CanPayResources(TSubclassOf<URTSResourceType> ResourceType, float ResourceAmount);
 
     /** Checks the amount of resources in stock of this player. */
+	UFUNCTION(BlueprintCallable)
     bool CanPayAllResources(TMap<TSubclassOf<URTSResourceType>, float> Resources);
 
     /** Adds the specified resources to the stock of this player. */
+	UFUNCTION(BlueprintCallable)
     virtual float AddResources(TSubclassOf<URTSResourceType> ResourceType, float ResourceAmount);
 
     /** Removes the specified resources from the stock of this player. */
+	UFUNCTION(BlueprintCallable)
     virtual float PayResources(TSubclassOf<URTSResourceType> ResourceType, float ResourceAmount);
 
     /** Removes the specified resources from the stock of this player. */
+	UFUNCTION(BlueprintCallable)
     virtual void PayAllResources(TMap<TSubclassOf<URTSResourceType>, float> Resources);
 
 

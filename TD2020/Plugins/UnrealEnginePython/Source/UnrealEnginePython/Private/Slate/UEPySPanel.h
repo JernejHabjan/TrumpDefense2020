@@ -1,5 +1,9 @@
 #pragma once
 
+
+#include "UnrealEnginePython.h"
+
+
 #include "UEPySWidget.h"
 
 extern PyTypeObject ue_PySPanelType;

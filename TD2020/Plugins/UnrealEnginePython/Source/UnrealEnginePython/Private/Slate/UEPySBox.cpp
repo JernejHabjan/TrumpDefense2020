@@ -1,23 +1,31 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySBox.h"
 
+
+#define sw_box StaticCastSharedRef<SBox>(self->s_panel.s_widget.s_widget)
+
 static PyObject *py_ue_sbox_set_content(ue_PySBox *self, PyObject * args)
 {
-	ue_py_slate_cast(SBox);
 	PyObject *py_content;
 	if (!PyArg_ParseTuple(args, "O:set_content", &py_content))
 	{
 		return NULL;
 	}
 
-	TSharedPtr<SWidget> child = py_ue_is_swidget<SWidget>(py_content);
-	if (!child.IsValid())
-		return nullptr;
+	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
+	if (!py_swidget)
+	{
+		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
+	}
 
-	py_SBox->SetContent(child.ToSharedRef());
+	Py_INCREF(py_swidget);
 
-	Py_RETURN_SLATE_SELF;
+	sw_box->SetContent(py_swidget->s_widget->AsShared());
+
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyMethodDef ue_PySBox_methods[] = {
@@ -73,7 +81,7 @@ static int ue_py_sbox_init(ue_PySBox *self, PyObject *args, PyObject *kwargs)
 	ue_py_slate_farguments_optional_foptional_size("min_desired_height", MinDesiredHeight);
 	ue_py_slate_farguments_optional_foptional_size("min_desired_width", MinDesiredWidth);
 
-	ue_py_snew(SBox);
+	ue_py_snew(SBox, s_panel.s_widget);
 
 	return 0;
 }

@@ -1,4 +1,4 @@
-#include "UEPyCapture.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "Runtime/MovieSceneCapture/Public/MovieSceneCapture.h"
 
@@ -16,11 +16,6 @@ for a queue of UMovieSceneCapture objects
 #include "Editor/EditorEngine.h"
 #include "Slate/SceneViewport.h"
 #include "AutomatedLevelSequenceCapture.h"
-
-#include "Slate/UEPySPythonEditorViewport.h"
-#include "GameFramework/GameModeBase.h"
-#include "GameFramework/GameMode.h"
-
 
 struct FInEditorMultiCapture : TSharedFromThis<FInEditorMultiCapture>
 {
@@ -270,7 +265,7 @@ private:
 
 	void NextCapture(bool bIsSimulating)
 	{
-
+		
 		FEditorDelegates::EndPIE.RemoveAll(this);
 		// remove item from the TArray;
 		CaptureObjects.RemoveAt(0);
@@ -394,11 +389,15 @@ PyObject *py_ue_capture_initialize(ue_PyUObject * self, PyObject * args)
 #if WITH_EDITOR
 	if (py_widget)
 	{
+		ue_PySWidget *s_widget = py_ue_is_swidget(py_widget);
+		if (!s_widget)
+			return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
 
-		TSharedPtr<SPythonEditorViewport> Viewport = py_ue_is_swidget<SPythonEditorViewport>(py_widget);
-		if (Viewport.IsValid())
+
+		if (s_widget->s_widget->GetType().Compare(FName("SPythonEditorViewport")) == 0)
 		{
-			capture->Initialize(Viewport->GetSceneViewport());
+			TSharedRef<SPythonEditorViewport> s_viewport = StaticCastSharedRef<SPythonEditorViewport>(s_widget->s_widget);
+			capture->Initialize(s_viewport->GetSceneViewport());
 			capture->StartWarmup();
 		}
 		else

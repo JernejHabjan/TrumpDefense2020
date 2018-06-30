@@ -1,10 +1,8 @@
-#include "UEPyFRawAnimSequenceTrack.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
-static PyObject *py_ue_fraw_anim_sequence_track_get_pos_keys(ue_PyFRawAnimSequenceTrack *self, void *closure)
-{
+static PyObject *py_ue_fraw_anim_sequence_track_get_pos_keys(ue_PyFRawAnimSequenceTrack *self, void *closure) {
 	PyObject *py_list = PyList_New(0);
-	for (FVector vec : self->raw_anim_sequence_track.PosKeys)
-	{
+	for (FVector vec : self->raw_anim_sequence_track.PosKeys) {
 		PyObject *py_vec = py_ue_new_fvector(vec);
 		PyList_Append(py_list, py_vec);
 		Py_DECREF(py_vec);
@@ -12,11 +10,9 @@ static PyObject *py_ue_fraw_anim_sequence_track_get_pos_keys(ue_PyFRawAnimSequen
 	return py_list;
 }
 
-static PyObject *py_ue_fraw_anim_sequence_track_get_scale_keys(ue_PyFRawAnimSequenceTrack *self, void *closure)
-{
+static PyObject *py_ue_fraw_anim_sequence_track_get_scale_keys(ue_PyFRawAnimSequenceTrack *self, void *closure) {
 	PyObject *py_list = PyList_New(0);
-	for (FVector vec : self->raw_anim_sequence_track.ScaleKeys)
-	{
+	for (FVector vec : self->raw_anim_sequence_track.ScaleKeys) {
 		PyObject *py_vec = py_ue_new_fvector(vec);
 		PyList_Append(py_list, py_vec);
 		Py_DECREF(py_vec);
@@ -24,11 +20,9 @@ static PyObject *py_ue_fraw_anim_sequence_track_get_scale_keys(ue_PyFRawAnimSequ
 	return py_list;
 }
 
-static PyObject *py_ue_fraw_anim_sequence_track_get_rot_keys(ue_PyFRawAnimSequenceTrack *self, void *closure)
-{
+static PyObject *py_ue_fraw_anim_sequence_track_get_rot_keys(ue_PyFRawAnimSequenceTrack *self, void *closure) {
 	PyObject *py_list = PyList_New(0);
-	for (FQuat quat : self->raw_anim_sequence_track.RotKeys)
-	{
+	for (FQuat quat : self->raw_anim_sequence_track.RotKeys) {
 		PyObject *py_quat = py_ue_new_fquat(quat);
 		PyList_Append(py_list, py_quat);
 		Py_DECREF(py_quat);
@@ -36,28 +30,22 @@ static PyObject *py_ue_fraw_anim_sequence_track_get_rot_keys(ue_PyFRawAnimSequen
 	return py_list;
 }
 
-static int py_ue_fraw_anim_sequence_track_set_pos_keys(ue_PyFRawAnimSequenceTrack *self, PyObject *value, void *closure)
-{
+static int py_ue_fraw_anim_sequence_track_set_pos_keys(ue_PyFRawAnimSequenceTrack *self, PyObject *value, void *closure) {
 	TArray<FVector> pos;
-	if (value)
-	{
+	if (value) {
 		PyObject *py_iter = PyObject_GetIter(value);
-		if (py_iter)
-		{
+		if (py_iter) {
 			bool failed = false;
-			while (PyObject *py_item = PyIter_Next(py_iter))
-			{
+			while (PyObject *py_item = PyIter_Next(py_iter)) {
 				ue_PyFVector *py_vec = py_ue_is_fvector(py_item);
-				if (!py_vec)
-				{
+				if (!py_vec) {
 					failed = true;
 					break;
 				}
 				pos.Add(py_vec->vec);
 			}
 			Py_DECREF(py_iter);
-			if (!failed)
-			{
+			if (!failed) {
 				self->raw_anim_sequence_track.PosKeys = pos;
 				return 0;
 			}
@@ -67,28 +55,22 @@ static int py_ue_fraw_anim_sequence_track_set_pos_keys(ue_PyFRawAnimSequenceTrac
 	return -1;
 }
 
-static int py_ue_fraw_anim_sequence_track_set_scale_keys(ue_PyFRawAnimSequenceTrack *self, PyObject *value, void *closure)
-{
+static int py_ue_fraw_anim_sequence_track_set_scale_keys(ue_PyFRawAnimSequenceTrack *self, PyObject *value, void *closure) {
 	TArray<FVector> scale;
-	if (value)
-	{
+	if (value) {
 		PyObject *py_iter = PyObject_GetIter(value);
-		if (py_iter)
-		{
+		if (py_iter) {
 			bool failed = false;
-			while (PyObject *py_item = PyIter_Next(py_iter))
-			{
+			while (PyObject *py_item = PyIter_Next(py_iter)) {
 				ue_PyFVector *py_vec = py_ue_is_fvector(py_item);
-				if (!py_vec)
-				{
+				if (!py_vec) {
 					failed = true;
 					break;
 				}
 				scale.Add(py_vec->vec);
 			}
 			Py_DECREF(py_iter);
-			if (!failed)
-			{
+			if (!failed) {
 				self->raw_anim_sequence_track.ScaleKeys = scale;
 				return 0;
 			}
@@ -98,28 +80,22 @@ static int py_ue_fraw_anim_sequence_track_set_scale_keys(ue_PyFRawAnimSequenceTr
 	return -1;
 }
 
-static int py_ue_fraw_anim_sequence_track_set_rot_keys(ue_PyFRawAnimSequenceTrack *self, PyObject *value, void *closure)
-{
+static int py_ue_fraw_anim_sequence_track_set_rot_keys(ue_PyFRawAnimSequenceTrack *self, PyObject *value, void *closure) {
 	TArray<FQuat> rot;
-	if (value)
-	{
+	if (value) {
 		PyObject *py_iter = PyObject_GetIter(value);
-		if (py_iter)
-		{
+		if (py_iter) {
 			bool failed = false;
-			while (PyObject *py_item = PyIter_Next(py_iter))
-			{
+			while (PyObject *py_item = PyIter_Next(py_iter)) {
 				ue_PyFQuat *py_quat = py_ue_is_fquat(py_item);
-				if (!py_quat)
-				{
+				if (!py_quat) {
 					failed = true;
 					break;
 				}
 				rot.Add(py_quat->quat);
 			}
 			Py_DECREF(py_iter);
-			if (!failed)
-			{
+			if (!failed) {
 				self->raw_anim_sequence_track.RotKeys = rot;
 				return 0;
 			}
@@ -182,8 +158,7 @@ static PyTypeObject ue_PyFRawAnimSequenceTrackType = {
 
 
 
-void ue_python_init_fraw_anim_sequence_track(PyObject *ue_module)
-{
+void ue_python_init_fraw_anim_sequence_track(PyObject *ue_module) {
 	ue_PyFRawAnimSequenceTrackType.tp_new = PyType_GenericNew;
 
 	if (PyType_Ready(&ue_PyFRawAnimSequenceTrackType) < 0)
@@ -193,15 +168,13 @@ void ue_python_init_fraw_anim_sequence_track(PyObject *ue_module)
 	PyModule_AddObject(ue_module, "FRawAnimSequenceTrack", (PyObject *)&ue_PyFRawAnimSequenceTrackType);
 }
 
-ue_PyFRawAnimSequenceTrack *py_ue_is_fraw_anim_sequence_track(PyObject *obj)
-{
+ue_PyFRawAnimSequenceTrack *py_ue_is_fraw_anim_sequence_track(PyObject *obj) {
 	if (!PyObject_IsInstance(obj, (PyObject *)&ue_PyFRawAnimSequenceTrackType))
 		return nullptr;
 	return (ue_PyFRawAnimSequenceTrack *)obj;
 }
 
-PyObject *py_ue_new_fraw_anim_sequence_track(FRawAnimSequenceTrack raw_anim_sequence_track)
-{
+PyObject *py_ue_new_fraw_anim_sequence_track(FRawAnimSequenceTrack raw_anim_sequence_track) {
 	ue_PyFRawAnimSequenceTrack *ret = (ue_PyFRawAnimSequenceTrack *)PyObject_New(ue_PyFRawAnimSequenceTrack, &ue_PyFRawAnimSequenceTrackType);
 	new(&ret->raw_anim_sequence_track) FRawAnimSequenceTrack(raw_anim_sequence_track);
 	return (PyObject *)ret;

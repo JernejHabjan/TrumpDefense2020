@@ -3,6 +3,7 @@
 #include "PythonConsolePrivatePCH.h"
 #include "SPythonConsole.h"
 #include "SPythonLog.h"
+#include "TabManager.h"
 #include "Editor/WorkspaceMenuStructure/Public/WorkspaceMenuStructureModule.h"
 #include "SDockTab.h"
 #include "Editor/WorkspaceMenuStructure/Public/WorkspaceMenuStructure.h"

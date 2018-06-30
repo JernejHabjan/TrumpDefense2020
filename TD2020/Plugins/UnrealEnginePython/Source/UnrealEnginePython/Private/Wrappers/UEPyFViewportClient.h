@@ -1,15 +1,12 @@
 #pragma once
-
-#include "UEPyModule.h"
-#include "UnrealClient.h"
+#include "UnrealEnginePython.h"
 
 extern PyTypeObject ue_PyFViewportClientType;
 
-struct ue_PyFViewportClient
-{
+struct ue_PyFViewportClient {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		TSharedRef<FViewportClient> viewport_client;;
+	/* Type-specific fields go here. */
+	TSharedRef<FViewportClient> viewport_client;;
 };
 
 void ue_python_init_fviewport_client(PyObject *);

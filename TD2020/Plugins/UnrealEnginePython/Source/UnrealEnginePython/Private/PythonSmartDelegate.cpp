@@ -1,7 +1,5 @@
-
+#include "UnrealEnginePythonPrivatePCH.h"
 #include "PythonSmartDelegate.h"
-
-#include "UEPyModule.h"
 
 FPythonSmartDelegate::FPythonSmartDelegate()
 {

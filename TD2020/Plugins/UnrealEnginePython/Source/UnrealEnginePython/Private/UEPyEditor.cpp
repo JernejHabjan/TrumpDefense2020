@@ -1,7 +1,6 @@
-#include "UEPyEditor.h"
-
 #if WITH_EDITOR
 
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "Developer/AssetTools/Public/AssetToolsModule.h"
 #include "Editor/UnrealEd/Classes/Factories/Factory.h"
@@ -29,12 +28,6 @@
 #include "Developer/Settings/Public/ISettingsModule.h"
 #include "Engine/Blueprint.h"
 
-#include "Wrappers/UEPyFARFilter.h"
-#include "Wrappers/UEPyFVector.h"
-#include "Wrappers/UEPyFAssetData.h"
-#include "Wrappers/UEPyFEditorViewportClient.h"
-
-#include "UEPyIPlugin.h"
 
 PyObject *py_unreal_engine_editor_play_in_viewport(PyObject * self, PyObject * args)
 {
@@ -188,42 +181,62 @@ PyObject *py_unreal_engine_editor_command_build(PyObject * self, PyObject * args
 
 PyObject *py_unreal_engine_editor_command_save_current_level(PyObject * self, PyObject * args)
 {
+
+	if (!GEditor)
+		return PyErr_Format(PyExc_Exception, "no GEditor found");
+
 	FLevelEditorActionCallbacks::Save();
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 PyObject *py_unreal_engine_editor_command_save_all_levels(PyObject * self, PyObject * args)
 {
 
+	if (!GEditor)
+		return PyErr_Format(PyExc_Exception, "no GEditor found");
+
 	FLevelEditorActionCallbacks::SaveAllLevels();
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 PyObject *py_unreal_engine_editor_save_all(PyObject * self, PyObject * args)
 {
 
+	if (!GEditor)
+		return PyErr_Format(PyExc_Exception, "no GEditor found");
+
 	FEditorFileUtils::SaveDirtyPackages(false, true, true, false, false, false);
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 PyObject *py_unreal_engine_editor_command_build_lighting(PyObject * self, PyObject * args)
 {
 
-	FLevelEditorActionCallbacks::BuildLightingOnly_Execute();
+	if (!GEditor)
+		return PyErr_Format(PyExc_Exception, "no GEditor found");
 
-	Py_RETURN_NONE;
+	FLevelEditorActionCallbacks::BuildLightingOnly_Execute();
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 
 PyObject *py_unreal_engine_editor_deselect_actors(PyObject * self, PyObject * args)
 {
 
+	if (!GEditor)
+		return PyErr_Format(PyExc_Exception, "no GEditor found");
+
 	GEditor->SelectNone(true, true, false);
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 PyObject *py_unreal_engine_editor_play(PyObject * self, PyObject * args)
@@ -1360,58 +1373,46 @@ PyObject *py_unreal_engine_blueprint_add_member_variable(PyObject * self, PyObje
 
 	PyObject *py_blueprint;
 	char *name;
-	PyObject *py_type;
+	char *in_type;
 	PyObject *py_is_array = nullptr;
-	char *default_value = nullptr;
-	if (!PyArg_ParseTuple(args, "OsO|Os:blueprint_add_member_variable", &py_blueprint, &name, &py_type, &py_is_array, &default_value))
+	if (!PyArg_ParseTuple(args, "Oss|O:blueprint_add_member_variable", &py_blueprint, &name, &in_type, &py_is_array))
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	UBlueprint *bp = ue_py_check_type<UBlueprint>(py_blueprint);
-	if (!bp)
-		return PyErr_Format(PyExc_Exception, "uobject is not a Blueprint");
-
-	FEdGraphPinType pin;
-
-	if (PyUnicode_Check(py_type))
+	if (!ue_is_pyuobject(py_blueprint))
 	{
-		char *in_type = PyUnicode_AsUTF8(py_type);
+		return PyErr_Format(PyExc_Exception, "argument is not a UObject");
+	}
 
-		bool is_array = false;
-		if (py_is_array && PyObject_IsTrue(py_is_array))
-			is_array = true;
+	ue_PyUObject *py_obj = (ue_PyUObject *)py_blueprint;
+	if (!py_obj->ue_object->IsA<UBlueprint>())
+		return PyErr_Format(PyExc_Exception, "uobject is not a UBlueprint");
+	UBlueprint *bp = (UBlueprint *)py_obj->ue_object;
+
+	bool is_array = false;
+	if (py_is_array && PyObject_IsTrue(py_is_array))
+		is_array = true;
 #if ENGINE_MINOR_VERSION > 14
-		pin.PinCategory = UTF8_TO_TCHAR(in_type);
+	FEdGraphPinType pin;
+	pin.PinCategory = UTF8_TO_TCHAR(in_type);
 #if ENGINE_MINOR_VERSION >= 17
-		pin.ContainerType = is_array ? EPinContainerType::Array : EPinContainerType::None;
+	pin.ContainerType = is_array ? EPinContainerType::Array : EPinContainerType::None;
 #else
-		pin.bIsArray = is_array;
+	pin.bIsArray = is_array;
 #endif
 #else
-		FEdGraphPinType pin2(UTF8_TO_TCHAR(in_type), FString(""), nullptr, is_array, false);
-		pin = pin2;
+	FEdGraphPinType pin(UTF8_TO_TCHAR(in_type), FString(""), nullptr, is_array, false);
 #endif
-	}
-	else
+
+	if (FBlueprintEditorUtils::AddMemberVariable(bp, UTF8_TO_TCHAR(name), pin))
 	{
-		FEdGraphPinType *pinptr = ue_py_check_struct<FEdGraphPinType>(py_type);
-		if (!pinptr)
-			return PyErr_Format(PyExc_Exception, "argument is not a EdGraphPinType");
-		pin = *pinptr;
+		Py_INCREF(Py_True);
+		return Py_True;
 	}
 
-	FString DefaultValue = FString("");
-
-	if (default_value)
-		DefaultValue = FString(default_value);
-
-	if (FBlueprintEditorUtils::AddMemberVariable(bp, UTF8_TO_TCHAR(name), pin, DefaultValue))
-	{
-		Py_RETURN_TRUE;
-	}
-
-	Py_RETURN_FALSE;
+	Py_INCREF(Py_False);
+	return Py_False;
 }
 
 PyObject *py_unreal_engine_blueprint_set_variable_visibility(PyObject * self, PyObject * args)
@@ -1422,12 +1423,18 @@ PyObject *py_unreal_engine_blueprint_set_variable_visibility(PyObject * self, Py
 	PyObject *visibility;
 	if (!PyArg_ParseTuple(args, "OsO:blueprint_set_variable_visibility", &py_blueprint, &name, &visibility))
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	UBlueprint *bp = ue_py_check_type<UBlueprint>(py_blueprint);
-	if (!bp)
-		return PyErr_Format(PyExc_Exception, "uobject is not a Blueprint");
+	if (!ue_is_pyuobject(py_blueprint))
+	{
+		return PyErr_Format(PyExc_Exception, "argument is not a UObject");
+	}
+
+	ue_PyUObject *py_obj = (ue_PyUObject *)py_blueprint;
+	if (!py_obj->ue_object->IsA<UBlueprint>())
+		return PyErr_Format(PyExc_Exception, "uobject is not a UBlueprint");
+	UBlueprint *bp = (UBlueprint *)py_obj->ue_object;
 
 	bool visible = false;
 	if (PyObject_IsTrue(visibility))
@@ -1437,7 +1444,8 @@ PyObject *py_unreal_engine_blueprint_set_variable_visibility(PyObject * self, Py
 
 	FBlueprintEditorUtils::SetBlueprintOnlyEditableFlag(bp, FName(UTF8_TO_TCHAR(name)), !visible);
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
 PyObject *py_unreal_engine_blueprint_add_new_timeline(PyObject * self, PyObject * args)
@@ -1476,12 +1484,18 @@ PyObject *py_unreal_engine_blueprint_add_function(PyObject * self, PyObject * ar
 	char *name;
 	if (!PyArg_ParseTuple(args, "Os:blueprint_add_function", &py_blueprint, &name))
 	{
-		return nullptr;
+		return NULL;
 	}
-		
-	UBlueprint *bp = ue_py_check_type<UBlueprint>(py_blueprint);
-	if (!bp)
-		return PyErr_Format(PyExc_Exception, "argument is not a UBlueprint");
+
+	if (!ue_is_pyuobject(py_blueprint))
+	{
+		return PyErr_Format(PyExc_Exception, "argument is not a UObject");
+	}
+
+	ue_PyUObject *py_obj = (ue_PyUObject *)py_blueprint;
+	if (!py_obj->ue_object->IsA<UBlueprint>())
+		return PyErr_Format(PyExc_Exception, "uobject is not a UBlueprint");
+	UBlueprint *bp = (UBlueprint *)py_obj->ue_object;
 
 	UEdGraph *graph = FBlueprintEditorUtils::CreateNewGraph(bp, FName(UTF8_TO_TCHAR(name)), UEdGraph::StaticClass(), UEdGraphSchema_K2::StaticClass());
 	FBlueprintEditorUtils::AddFunctionGraph<UClass>(bp, graph, true, nullptr);
@@ -1749,32 +1763,23 @@ PyObject *py_ue_factory_create_new(ue_PyUObject *self, PyObject * args)
 	char *name;
 	if (!PyArg_ParseTuple(args, "s:factory_create_new", &name))
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	UFactory *factory = ue_py_check_type<UFactory>(self);
-	if (!factory)
+	if (!self->ue_object->IsA<UFactory>())
 		return PyErr_Format(PyExc_Exception, "uobject is not a Factory");
 
 	UPackage *outer = CreatePackage(nullptr, UTF8_TO_TCHAR(name));
 	if (!outer)
 		return PyErr_Format(PyExc_Exception, "unable to create package");
 
+	UFactory *factory = (UFactory *)self->ue_object;
 	UClass *u_class = factory->GetSupportedClass();
 
 	char *obj_name = strrchr(name, '/') + 1;
 	if (strlen(obj_name) < 1)
 	{
 		return PyErr_Format(PyExc_Exception, "invalid object name");
-	}
-
-	// avoid duplicates
-	if (u_class->IsChildOf<UBlueprint>())
-	{
-		if (FindObject<UBlueprint>(outer, UTF8_TO_TCHAR(obj_name)))
-		{
-			return PyErr_Format(PyExc_Exception, "a blueprint with this name already exists in the package");
-		}
 	}
 
 	UObject *u_object = factory->FactoryCreateNew(u_class, outer, FName(UTF8_TO_TCHAR(obj_name)), RF_Public | RF_Standalone, nullptr, GWarn);

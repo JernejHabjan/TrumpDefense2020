@@ -1,29 +1,30 @@
 
-#include "UEPySWindow.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #if WITH_EDITOR
 #include "Editor/MainFrame/Public/Interfaces/IMainFrameModule.h"
 #endif
 
+#include "UEPySWindow.h"
 
+#define sw_window StaticCastSharedRef<SWindow>(self->s_compound_widget.s_widget.s_widget)
 
 static PyObject *py_ue_swindow_set_title(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
 	char *title;
 	if (!PyArg_ParseTuple(args, "s:set_title", &title))
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	py_SWindow->SetTitle(FText::FromString(UTF8_TO_TCHAR(title)));
+	sw_window->SetTitle(FText::FromString(UTF8_TO_TCHAR(title)));
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyObject *py_ue_swindow_resize(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
 	int width;
 	int height;
 	if (!PyArg_ParseTuple(args, "ii:resize", &width, &height))
@@ -32,68 +33,70 @@ static PyObject *py_ue_swindow_resize(ue_PySWindow *self, PyObject * args)
 	}
 
 
-	py_SWindow->Resize(FVector2D(width, height));
+	sw_window->Resize(FVector2D(width, height));
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyObject *py_ue_swindow_minimize(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
-	py_SWindow->Minimize();
+	sw_window->Minimize();
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyObject *py_ue_swindow_set_content(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
 	PyObject *py_content;
 	if (!PyArg_ParseTuple(args, "O:set_content", &py_content))
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	TSharedPtr<SWidget> Content = py_ue_is_swidget<SWidget>(py_content);
-	if (!Content.IsValid())
+	ue_PySWidget *py_swidget = py_ue_is_swidget(py_content);
+	if (!py_swidget)
 	{
-		return nullptr;
+		return PyErr_Format(PyExc_Exception, "argument is not a SWidget");
 	}
 
-	py_SWindow->SetContent(Content.ToSharedRef());
+	Py_INCREF(py_swidget);
 
-	Py_RETURN_SLATE_SELF;
+	sw_window->SetContent(py_swidget->s_widget->AsShared());
+
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyObject *py_ue_swindow_set_sizing_rule(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
 	int rule;
 	if (!PyArg_ParseTuple(args, "i:set_sizing_rule", &rule))
 	{
-		return nullptr;
+		return NULL;
 	}
 
 
 #if ENGINE_MINOR_VERSION > 15
-	py_SWindow->SetSizingRule((ESizingRule)rule);
+	sw_window->SetSizingRule((ESizingRule)rule);
 #else
-	py_SWindow->SetSizingRule((ESizingRule::Type)rule);
+	sw_window->SetSizingRule((ESizingRule::Type)rule);
 #endif
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyObject *py_ue_swindow_get_handle(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
-	return PyLong_FromLongLong((long long)py_SWindow->GetNativeWindow()->GetOSWindowHandle());
+	return PyLong_FromLongLong((long long)sw_window->GetNativeWindow()->GetOSWindowHandle());
 }
 
 static PyObject *py_ue_swindow_request_destroy(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
-	py_SWindow->RequestDestroyWindow();
+
+	sw_window->RequestDestroyWindow();
 
 	Py_RETURN_NONE;
 }
@@ -101,20 +104,18 @@ static PyObject *py_ue_swindow_request_destroy(ue_PySWindow *self, PyObject * ar
 #if WITH_EDITOR
 static PyObject *py_ue_swindow_add_modal(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
 	TSharedPtr<SWindow> parent_window;
 	if (FModuleManager::Get().IsModuleLoaded("MainFrame"))
 	{
 		parent_window = FModuleManager::LoadModuleChecked<IMainFrameModule>("MainFrame").GetParentWindow();
 	}
-	FSlateApplication::Get().AddModalWindow(StaticCastSharedRef<SWindow>(py_SWindow->AsShared()), parent_window, false);
+	FSlateApplication::Get().AddModalWindow(StaticCastSharedRef<SWindow>(sw_window->AsShared()), parent_window, false);
 	Py_RETURN_NONE;
 }
 #endif
 
 static PyObject *py_ue_swindow_add_child(ue_PySWindow *self, PyObject * args)
 {
-	ue_py_slate_cast(SWindow);
 	PyObject *py_obj;
 	if (!PyArg_ParseTuple(args, "O:add_child", &py_obj))
 	{
@@ -128,8 +129,8 @@ static PyObject *py_ue_swindow_add_child(ue_PySWindow *self, PyObject * args)
 	}
 
 	FSlateApplication::Get().AddWindowAsNativeChild(
-		StaticCastSharedRef<SWindow>(py_swindow_child->s_compound_widget.s_widget.Widget),
-		py_SWindow);
+		StaticCastSharedRef<SWindow>(py_swindow_child->s_compound_widget.s_widget.s_widget),
+		sw_window);
 
 	Py_RETURN_NONE;
 }
@@ -150,8 +151,36 @@ static PyMethodDef ue_PySWindow_methods[] = {
 	{ NULL }  /* Sentinel */
 };
 
-
-DECLARE_UE_PY_SLATE_WIDGET(SWindow);
+PyTypeObject ue_PySWindowType = {
+	PyVarObject_HEAD_INIT(NULL, 0)
+	"unreal_engine.SWindow", /* tp_name */
+	sizeof(ue_PySWindow), /* tp_basicsize */
+	0,                         /* tp_itemsize */
+	0,       /* tp_dealloc */
+	0,                         /* tp_print */
+	0,                         /* tp_getattr */
+	0,                         /* tp_setattr */
+	0,                         /* tp_reserved */
+	0,                         /* tp_repr */
+	0,                         /* tp_as_number */
+	0,                         /* tp_as_sequence */
+	0,                         /* tp_as_mapping */
+	0,                         /* tp_hash  */
+	0,                         /* tp_call */
+	0,                         /* tp_str */
+	0,                         /* tp_getattro */
+	0,                         /* tp_setattro */
+	0,                         /* tp_as_buffer */
+	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,        /* tp_flags */
+	"Unreal Engine SWindow",           /* tp_doc */
+	0,                         /* tp_traverse */
+	0,                         /* tp_clear */
+	0,                         /* tp_richcompare */
+	0,                         /* tp_weaklistoffset */
+	0,                         /* tp_iter */
+	0,                         /* tp_iternext */
+	ue_PySWindow_methods,             /* tp_methods */
+};
 
 static int ue_py_swindow_init(ue_PySWindow *self, PyObject *args, PyObject *kwargs)
 {
@@ -199,9 +228,7 @@ static int ue_py_swindow_init(ue_PySWindow *self, PyObject *args, PyObject *kwar
 	ue_py_slate_farguments_optional_bool("use_os_window_border", UseOSWindowBorder);
 	ue_py_slate_farguments_optional_struct("user_resize_border", UserResizeBorder, FMargin);
 
-	ue_py_snew(SWindow);
-
-	ue_py_slate_cast(SWindow);
+	ue_py_snew(SWindow, s_compound_widget.s_widget);
 
 #if WITH_EDITOR
 	// is it a modal window ?
@@ -216,49 +243,27 @@ static int ue_py_swindow_init(ue_PySWindow *self, PyObject *args, PyObject *kwar
 	if (on_closed && PyCalllable_Check_Extended(on_closed))
 	{
 		FOnWindowClosed handler;
-		TSharedRef<FPythonSlateDelegate> py_delegate = FUnrealEnginePythonHouseKeeper::Get()->NewSlateDelegate(self->s_compound_widget.s_widget.Widget, on_closed);
+		TSharedRef<FPythonSlateDelegate> py_delegate = FUnrealEnginePythonHouseKeeper::Get()->NewSlateDelegate(self->s_compound_widget.s_widget.s_widget, on_closed);
 		handler.BindSP(py_delegate, &FPythonSlateDelegate::OnWindowClosed);
 
-		py_SWindow->SetOnWindowClosed(handler);
+		sw_window->SetOnWindowClosed(handler);
 	}
 
 	// is it a child ?
 	PyObject *is_child = ue_py_dict_get_item(kwargs, "child");
 	if (!(is_child && PyObject_IsTrue(is_child)))
 	{
-		FSlateApplication::Get().AddWindow(py_SWindow, true);
+		FSlateApplication::Get().AddWindow(StaticCastSharedRef<SWindow>(sw_window->AsShared()), true);
 	}
 
 	return 0;
 }
-
-PyNumberMethods ue_PySWindow_number_methods;
-
-static PyObject *ue_py_swindow_lshift(ue_PySWindow *self, PyObject *value)
-{
-	ue_py_slate_cast(SWindow);
-
-	TSharedPtr<SWidget> Content = py_ue_is_swidget<SWidget>(value);
-	if (!Content.IsValid())
-	{
-		return nullptr;
-	}
-
-	py_SWindow->SetContent(Content.ToSharedRef());
-
-	Py_RETURN_SLATE_SELF;
-}
-
 
 void ue_python_init_swindow(PyObject *ue_module)
 {
 
 	ue_PySWindowType.tp_init = (initproc)ue_py_swindow_init;
 	ue_PySWindowType.tp_call = (ternaryfunc)py_ue_swindow_set_content;
-
-	memset(&ue_PySWindow_number_methods, 0, sizeof(PyNumberMethods));
-	ue_PySWindowType.tp_as_number = &ue_PySWindow_number_methods;
-	ue_PySWindow_number_methods.nb_lshift = (binaryfunc)ue_py_swindow_lshift;
 
 	ue_PySWindowType.tp_base = &ue_PySCompoundWidgetType;
 

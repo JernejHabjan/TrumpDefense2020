@@ -1,4 +1,4 @@
-#include "UEPyFRotator.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 static PyObject *py_ue_frotator_get_vector(ue_PyFRotator *self, PyObject * args) {
 	FVector vec = self->rot.Vector();

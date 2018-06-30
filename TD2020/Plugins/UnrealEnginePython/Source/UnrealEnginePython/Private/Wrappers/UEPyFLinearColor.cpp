@@ -1,4 +1,4 @@
-#include "UEPyFLinearColor.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 static PyObject *py_ue_flinearcolor_to_fcolor(ue_PyFLinearColor *self, PyObject * args)
 {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "UnrealEnginePython.h"
 
 #include "UEPySCompoundWidget.h"
 
@@ -7,8 +8,7 @@
 
 extern PyTypeObject ue_PySNumericEntryBoxType;
 
-typedef struct
-{
+typedef struct {
 	ue_PySCompoundWidget s_compound_widget;
 	/* Type-specific fields go here. */
 } ue_PySNumericEntryBox;

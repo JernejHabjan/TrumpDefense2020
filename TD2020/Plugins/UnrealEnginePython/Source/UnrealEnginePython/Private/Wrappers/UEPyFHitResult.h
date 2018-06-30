@@ -2,15 +2,12 @@
 
 
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
-#include "Engine/EngineTypes.h"
-
-typedef struct
-{
+typedef struct {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
-		FHitResult hit;
+	/* Type-specific fields go here. */
+	FHitResult hit;
 } ue_PyFHitResult;
 
 PyObject *py_ue_new_fhitresult(FHitResult);

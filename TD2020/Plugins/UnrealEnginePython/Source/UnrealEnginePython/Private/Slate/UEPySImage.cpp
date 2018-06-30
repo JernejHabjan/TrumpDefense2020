@@ -1,14 +1,14 @@
+
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPySImage.h"
 
-#include "Engine/Texture2D.h"
+#define sw_image StaticCastSharedRef<SImage>(self->s_leaf_widget.s_widget.s_widget)
 
-static PyObject *py_ue_simage_set_brush(ue_PySImage *self, PyObject * args)
-{
-	ue_py_slate_cast(SImage);
+static PyObject *py_ue_simage_set_brush(ue_PySImage *self, PyObject * args) {
 	PyObject *py_brush;
-	if (!PyArg_ParseTuple(args, "O:set_brush", &py_brush))
-	{
-		return nullptr;
+	if (!PyArg_ParseTuple(args, "O:set_brush", &py_brush)) {
+		return NULL;
 	}
 
 	FSlateBrush *brush = ue_py_check_struct<FSlateBrush>(py_brush);
@@ -17,19 +17,17 @@ static PyObject *py_ue_simage_set_brush(ue_PySImage *self, PyObject * args)
 
 	self->brush = *brush;
 
-	py_SImage->SetImage(&self->brush);
+	sw_image->SetImage(&self->brush);
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
-static PyObject *py_ue_simage_set_texture(ue_PySImage *self, PyObject * args)
-{
-	ue_py_slate_cast(SImage);
+static PyObject *py_ue_simage_set_texture(ue_PySImage *self, PyObject * args) {
 	PyObject *py_texture;
 	PyObject *py_linear_color = nullptr;
-	if (!PyArg_ParseTuple(args, "O|O:set_texture", &py_texture, &py_linear_color))
-	{
-		return nullptr;
+	if (!PyArg_ParseTuple(args, "O|O:set_texture", &py_texture, &py_linear_color)) {
+		return NULL;
 	}
 
 	UTexture2D *texture = ue_py_check_type<UTexture2D>(py_texture);
@@ -38,11 +36,9 @@ static PyObject *py_ue_simage_set_texture(ue_PySImage *self, PyObject * args)
 
 	FLinearColor tint(1, 1, 1, 1);
 
-	if (py_linear_color)
-	{
+	if (py_linear_color) {
 		ue_PyFLinearColor *py_color = py_ue_is_flinearcolor(py_linear_color);
-		if (!py_color)
-		{
+		if (!py_color) {
 			return PyErr_Format(PyExc_Exception, "argument is not a FLinearColor");
 		}
 		tint = py_color->color;
@@ -57,9 +53,10 @@ static PyObject *py_ue_simage_set_texture(ue_PySImage *self, PyObject * args)
 	self->brush.TintColor = tint;
 #endif
 
-	py_SImage->SetImage(&self->brush);
+	sw_image->SetImage(&self->brush);
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyMethodDef ue_PySImage_methods[] = {
@@ -100,20 +97,18 @@ PyTypeObject ue_PySImageType = {
 	ue_PySImage_methods,             /* tp_methods */
 };
 
-static int ue_py_simage_init(ue_PySImage *self, PyObject *args, PyObject *kwargs)
-{
+static int ue_py_simage_init(ue_PySImage *self, PyObject *args, PyObject *kwargs) {
 	ue_py_slate_setup_farguments(SImage);
 
 	ue_py_slate_farguments_struct("color_and_opacity", ColorAndOpacity, FSlateColor);
 	ue_py_slate_farguments_optional_struct_ptr("image", Image, FSlateBrush);
 	ue_py_slate_farguments_event("on_mouse_button_down", OnMouseButtonDown, FPointerEventHandler, OnMouseEvent);
 
-	ue_py_snew(SImage);
+	ue_py_snew(SImage, s_leaf_widget.s_widget);
 	return 0;
 }
 
-void ue_python_init_simage(PyObject *ue_module)
-{
+void ue_python_init_simage(PyObject *ue_module) {
 
 	ue_PySImageType.tp_init = (initproc)ue_py_simage_init;
 

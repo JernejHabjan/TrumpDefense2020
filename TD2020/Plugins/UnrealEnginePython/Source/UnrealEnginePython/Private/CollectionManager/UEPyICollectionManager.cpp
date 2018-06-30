@@ -1,6 +1,7 @@
-#include "UEPyICollectionManager.h"
-
 #if WITH_EDITOR
+#include "UnrealEnginePythonPrivatePCH.h"
+
+#include "UEPyICollectionManager.h"
 
 #include "Developer/CollectionManager/Public/CollectionManagerModule.h"
 
@@ -10,8 +11,7 @@ static PyObject *py_ue_icollection_manager_get_collections(PyObject *cls, PyObje
 	ICollectionManager &CollectionManager = FCollectionManagerModule::GetModule().Get();
 	TArray<FCollectionNameType> collections;
 	CollectionManager.GetCollections(collections);
-	for (FCollectionNameType name_type : collections)
-	{
+	for (FCollectionNameType name_type : collections) {
 		PyList_Append(py_list, Py_BuildValue((char *)"(si)", TCHAR_TO_UTF8(*name_type.Name.ToString()), (int)name_type.Type));
 	}
 	return py_list;
@@ -41,8 +41,7 @@ static PyObject *py_ue_icollection_manager_get_root_collections(PyObject *cls, P
 	ICollectionManager &CollectionManager = FCollectionManagerModule::GetModule().Get();
 	TArray<FCollectionNameType> collections;
 	CollectionManager.GetRootCollections(collections);
-	for (FCollectionNameType name_type : collections)
-	{
+	for (FCollectionNameType name_type : collections) {
 		PyList_Append(py_list, Py_BuildValue((char *)"(si)", TCHAR_TO_UTF8(*name_type.Name.ToString()), (int)name_type.Type));
 	}
 	return py_list;
@@ -60,8 +59,7 @@ static PyObject *py_ue_icollection_manager_get_child_collection_names(PyObject *
 	ICollectionManager &CollectionManager = FCollectionManagerModule::GetModule().Get();
 	TArray<FName> names;
 	CollectionManager.GetChildCollectionNames(FName(UTF8_TO_TCHAR(name)), (ECollectionShareType::Type)type, (ECollectionShareType::Type)child_type, names);
-	for (FName cname : names)
-	{
+	for (FName cname : names) {
 		PyList_Append(py_list, PyUnicode_FromString(TCHAR_TO_UTF8(*cname.ToString())));
 	}
 	return py_list;
@@ -79,8 +77,7 @@ static PyObject *py_ue_icollection_manager_get_child_collections(PyObject *cls, 
 	ICollectionManager &CollectionManager = FCollectionManagerModule::GetModule().Get();
 	TArray<FCollectionNameType> collections;
 	CollectionManager.GetChildCollections(FName(UTF8_TO_TCHAR(name)), (ECollectionShareType::Type)type, collections);
-	for (FCollectionNameType name_type : collections)
-	{
+	for (FCollectionNameType name_type : collections) {
 		PyList_Append(py_list, Py_BuildValue((char *)"(si)", TCHAR_TO_UTF8(*name_type.Name.ToString()), (int)name_type.Type));
 	}
 	return py_list;
@@ -96,8 +93,7 @@ static PyObject *py_ue_icollection_manager_get_collection_names(PyObject *cls, P
 	ICollectionManager &CollectionManager = FCollectionManagerModule::GetModule().Get();
 	TArray<FName> names;
 	CollectionManager.GetCollectionNames((ECollectionShareType::Type)type, names);
-	for (FName name : names)
-	{
+	for (FName name : names) {
 		PyList_Append(py_list, PyUnicode_FromString(TCHAR_TO_UTF8(*name.ToString())));
 	}
 	return py_list;
@@ -113,8 +109,7 @@ static PyObject *py_ue_icollection_manager_get_root_collection_names(PyObject *c
 	ICollectionManager &CollectionManager = FCollectionManagerModule::GetModule().Get();
 	TArray<FName> names;
 	CollectionManager.GetRootCollectionNames((ECollectionShareType::Type)type, names);
-	for (FName name : names)
-	{
+	for (FName name : names) {
 		PyList_Append(py_list, PyUnicode_FromString(TCHAR_TO_UTF8(*name.ToString())));
 	}
 	return py_list;
@@ -399,8 +394,7 @@ static PyObject *py_ue_icollection_manager_get_assets_in_collection(PyObject *cl
 	if (CollectionManager.GetAssetsInCollection(FName(UTF8_TO_TCHAR(name)), (ECollectionShareType::Type)type, paths, (ECollectionRecursionFlags::Flags)recursion))
 	{
 		PyObject *py_list = PyList_New(0);
-		for (FName path : paths)
-		{
+		for (FName path : paths) {
 			PyList_Append(py_list, PyUnicode_FromString(TCHAR_TO_UTF8(*path.ToString())));
 		}
 		return py_list;
@@ -424,8 +418,7 @@ static PyObject *py_ue_icollection_manager_get_objects_in_collection(PyObject *c
 	if (CollectionManager.GetObjectsInCollection(FName(UTF8_TO_TCHAR(name)), (ECollectionShareType::Type)type, paths, (ECollectionRecursionFlags::Flags)recursion))
 	{
 		PyObject *py_list = PyList_New(0);
-		for (FName path : paths)
-		{
+		for (FName path : paths) {
 			PyList_Append(py_list, PyUnicode_FromString(TCHAR_TO_UTF8(*path.ToString())));
 		}
 		return py_list;
@@ -449,8 +442,7 @@ static PyObject *py_ue_icollection_manager_get_classes_in_collection(PyObject *c
 	if (CollectionManager.GetClassesInCollection(FName(UTF8_TO_TCHAR(name)), (ECollectionShareType::Type)type, paths, (ECollectionRecursionFlags::Flags)recursion))
 	{
 		PyObject *py_list = PyList_New(0);
-		for (FName path : paths)
-		{
+		for (FName path : paths) {
 			PyList_Append(py_list, PyUnicode_FromString(TCHAR_TO_UTF8(*path.ToString())));
 		}
 		return py_list;

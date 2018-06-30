@@ -1,4 +1,4 @@
-#include "UEPyVisualLogger.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "Runtime/Engine/Public/VisualLogger/VisualLogger.h"
 

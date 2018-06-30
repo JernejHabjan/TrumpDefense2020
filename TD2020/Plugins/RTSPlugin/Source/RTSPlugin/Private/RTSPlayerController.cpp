@@ -178,6 +178,7 @@ bool ARTSPlayerController::GetObjectsAtWorldPosition(const FVector& WorldPositio
 
 bool ARTSPlayerController::GetSelectionFrame(FIntRect& OutSelectionFrame)
 {
+
 	if (!bCreatingSelectionFrame)
 	{
 		return false;
@@ -213,6 +214,7 @@ ARTSTeamInfo* ARTSPlayerController::GetTeamInfo() const
 
 bool ARTSPlayerController::GetObjectsAtPointerPosition(TArray<FHitResult>& OutHitResults)
 {
+
     // Get local player viewport.
     ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(Player);
 

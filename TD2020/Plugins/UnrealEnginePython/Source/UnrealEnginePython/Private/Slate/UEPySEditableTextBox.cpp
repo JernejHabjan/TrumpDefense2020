@@ -1,57 +1,52 @@
 
-
+#include "UnrealEnginePythonPrivatePCH.h"
 
 #include "UEPySEditableTextBox.h"
 
 
-static PyObject *py_ue_seditable_text_box_select_all_text(ue_PySEditableTextBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SEditableTextBox);
 
-	py_SEditableTextBox->SelectAllText();
+#define sw_editable_text_box StaticCastSharedRef<SEditableTextBox>(self->s_border.s_compound_widget.s_widget.s_widget)
 
-	Py_RETURN_NONE;
+static PyObject *py_ue_seditable_text_box_select_all_text(ue_PySEditableTextBox *self, PyObject * args) {
+
+	sw_editable_text_box->SelectAllText();
+
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
-static PyObject *py_ue_seditable_text_box_clear_selection(ue_PySEditableTextBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SEditableTextBox);
+static PyObject *py_ue_seditable_text_box_clear_selection(ue_PySEditableTextBox *self, PyObject * args) {
 
-	py_SEditableTextBox->ClearSelection();
+	sw_editable_text_box->ClearSelection();
 
-	Py_RETURN_NONE;
+	Py_INCREF(Py_None);
+	return Py_None;
 }
 
-static PyObject *py_ue_seditable_text_box_get_selected_text(ue_PySEditableTextBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SEditableTextBox);
+static PyObject *py_ue_seditable_text_box_get_selected_text(ue_PySEditableTextBox *self, PyObject * args) {
 
-	FText text = py_SEditableTextBox->GetSelectedText();
+	FText text = sw_editable_text_box->GetSelectedText();
 
 	return PyUnicode_FromString(TCHAR_TO_UTF8(*text.ToString()));
 }
 
-static PyObject *py_ue_seditable_text_box_get_text(ue_PySEditableTextBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SEditableTextBox);
+static PyObject *py_ue_seditable_text_box_get_text(ue_PySEditableTextBox *self, PyObject * args) {
 
-	FText text = py_SEditableTextBox->GetText();
+	FText text = sw_editable_text_box->GetText();
 
 	return PyUnicode_FromString(TCHAR_TO_UTF8(*text.ToString()));
 }
 
-static PyObject *py_ue_seditable_text_box_set_text(ue_PySEditableTextBox *self, PyObject * args)
-{
-	ue_py_slate_cast(SEditableTextBox);
+static PyObject *py_ue_seditable_text_box_set_text(ue_PySEditableTextBox *self, PyObject * args) {
 	char *text;
-	if (!PyArg_ParseTuple(args, "s:set_text", &text))
-	{
-		return nullptr;
+	if (!PyArg_ParseTuple(args, "s:set_text", &text)) {
+		return NULL;
 	}
 
-	py_SEditableTextBox->SetText(FText::FromString(UTF8_TO_TCHAR(text)));
+	sw_editable_text_box->SetText(FText::FromString(UTF8_TO_TCHAR(text)));
 
-	Py_RETURN_SLATE_SELF;
+	Py_INCREF(self);
+	return (PyObject *)self;
 }
 
 static PyMethodDef ue_PySEditableTextBox_methods[] = {
@@ -94,8 +89,7 @@ PyTypeObject ue_PySEditableTextBoxType = {
 	ue_PySEditableTextBox_methods,             /* tp_methods */
 };
 
-static int ue_py_seditable_text_box_init(ue_PySEditableTextBox *self, PyObject *args, PyObject *kwargs)
-{
+static int ue_py_seditable_text_box_init(ue_PySEditableTextBox *self, PyObject *args, PyObject *kwargs) {
 	ue_py_slate_setup_farguments(SEditableTextBox);
 
 	ue_py_slate_farguments_bool("allow_context_menu", AllowContextMenu);
@@ -123,12 +117,11 @@ static int ue_py_seditable_text_box_init(ue_PySEditableTextBox *self, PyObject *
 	ue_py_slate_farguments_optional_enum("text_shaping_method", TextShapingMethod, ETextShapingMethod);
 	ue_py_slate_farguments_enum("virtual_keyboard_type", VirtualKeyboardType, EKeyboardType);
 
-	ue_py_snew(SEditableTextBox);
+	ue_py_snew(SEditableTextBox, s_border.s_compound_widget.s_widget);
 	return 0;
 }
 
-void ue_python_init_seditable_text_box(PyObject *ue_module)
-{
+void ue_python_init_seditable_text_box(PyObject *ue_module) {
 
 	ue_PySEditableTextBoxType.tp_init = (initproc)ue_py_seditable_text_box_init;
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "UEPyModule.h"
+#include "UnrealEnginePython.h"
 
 #include "Runtime/Core/Public/HAL/IConsoleManager.h"
 
 typedef struct
 {
 	PyObject_HEAD
-		/* Type-specific fields go here. */
+	/* Type-specific fields go here. */
 } ue_PyIConsoleManager;
 
 class FPythonSmartConsoleDelegate : public FPythonSmartDelegate

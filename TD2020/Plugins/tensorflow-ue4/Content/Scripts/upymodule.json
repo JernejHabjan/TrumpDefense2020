@@ -1,0 +1,8 @@
+{
+	"name" : "tensorflow-ue4",
+	"pythonModules": {
+		"tensorflow-gpu": "1.6.0",
+		"pandas":"0.23.1"
+
+	}
+}

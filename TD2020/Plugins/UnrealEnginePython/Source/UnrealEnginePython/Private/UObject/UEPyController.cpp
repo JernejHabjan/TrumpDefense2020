@@ -1,9 +1,5 @@
-#include "UEPyController.h"
+#include "UnrealEnginePythonPrivatePCH.h"
 
-#include "GameFramework/Controller.h"
-#include "GameFramework/HUD.h"
-#include "GameFramework/Pawn.h"
-#include "GameFramework/PlayerController.h"
 
 PyObject *py_ue_controller_posses(ue_PyUObject * self, PyObject * args)
 {

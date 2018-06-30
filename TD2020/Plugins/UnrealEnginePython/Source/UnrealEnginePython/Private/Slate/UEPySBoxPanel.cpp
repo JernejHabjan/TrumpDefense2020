@@ -1,12 +1,15 @@
 
+#include "UnrealEnginePythonPrivatePCH.h"
+
 #include "UEPySBoxPanel.h"
 
 
-static PyObject *py_ue_sbox_panel_clear_children(ue_PySBoxPanel *self, PyObject * args)
-{
-	ue_py_slate_cast(SBoxPanel);
+#define sw_box_panel StaticCastSharedRef<SBoxPanel>(self->s_panel.s_widget.s_widget)
 
-	py_SBoxPanel->ClearChildren();
+static PyObject *py_ue_sbox_panel_clear_children(ue_PySGridPanel *self, PyObject * args)
+{
+
+	sw_box_panel->ClearChildren();
 
 	Py_RETURN_NONE;
 }
