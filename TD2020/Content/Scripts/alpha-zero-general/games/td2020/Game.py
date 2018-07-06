@@ -2,8 +2,10 @@ from __future__ import print_function
 import copy
 import sys
 import numpy as np
+
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS, ALL_ACTIONS_INT, PLAYER1WIN, PLAYER2WIN
 from games.td2020.src.Board import Board
-from games.td2020.src.config_file import *
+
 from systems.utils import DotDict
 
 sys.path.append('..')
@@ -21,7 +23,7 @@ class Game:
         return Board(self.args)
 
     def getBoardSize(self) -> tuple:
-        return self.width, self.height, MAX_ACTORS_ON_TILE * ALL_ACTIONS_LEN
+        return self.width, self.height, MAX_ACTORS_ON_TILE
 
     def getActionSize(self) -> int:
         return self.width * self.height * MAX_ACTORS_ON_TILE * ALL_ACTIONS_LEN
@@ -112,10 +114,10 @@ class Game:
     def getGameEnded(board: Board) -> float:
         # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
 
-        # lets create custom win condition - build 3 npcs:
-        if len(board.players[1].actors) >= 3:
+        # lets create custom win condition - build 5 npcs:
+        if eval(PLAYER1WIN):
             return 1
-        if len(board.players[-1].actors) >= 3:
+        if eval(PLAYER2WIN):
             return -1
         if board.timeout():
             # print("Timeouted")
@@ -132,8 +134,6 @@ class Game:
     @staticmethod
     def getCanonicalForm(board: Board, player: int) -> np.ndarray:
         # return state if player==1, else return -state if player==-1
-
-        from games.td2020.src.Actors import MyActor
         numeric_board: list = []
         # convert object board to numpy array
         for y in range(board.height):
@@ -142,28 +142,12 @@ class Game:
             for x in range(board.width):
                 board_row_actors: list = []
                 for actor_index in range(MAX_ACTORS_ON_TILE):
-                    board_row_actors_actions: list = []
-                    # check if its not granite
-                    if actor_index < len(board[x][y].actors) and issubclass(type(board[x][y].actors[actor_index]), MyActor):
+                    if actor_index < len(board[x][y].actors):
+
                         actor = board[x][y].actors[actor_index]
-
-                        for action_str, action_int in ALL_ACTIONS.items():
-                            if actor.action_manager.can_execute_action(action_str, board):
-
-                                # return positive numbers for this player, negative for other player
-                                if actor.player == player:
-                                    board_row_actors_actions.append(action_int)
-                                else:
-                                    board_row_actors_actions.append(-action_int)
-                            else:
-                                board_row_actors_actions.append(0)
+                        board_row_actors.append(actor.numeric_value)
                     else:
-
-                        board_row_actors_actions.append([0] * len(ALL_ACTIONS))  # empty actions for empty actors and minerals
-                    board_row_actors = np.array(board_row_actors).flatten()
-                    # board_row_actors.append(board_row_actors_actions)
-                    board_row_actors = np.append(board_row_actors, board_row_actors_actions)
-
+                        board_row_actors.append(0)
                 board_row.append(board_row_actors)
 
             numeric_board.append(board_row)

@@ -10,11 +10,10 @@ Board data:
 Squares are stored and manipulated as (x,y) tuples.
 x is the column, y is the row.
 """
-
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS, TIMEOUT_TICKS
 # noinspection PyUnresolvedReferences
 from games.td2020.src.Actors import Granite, MyActor
 from games.td2020.src.Graphics import init_visuals, update_graphics
-from games.td2020.src.config_file import *
 import numpy as np
 
 from systems.utils import DotDict

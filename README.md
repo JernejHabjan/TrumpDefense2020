@@ -130,6 +130,145 @@ activate myenv
 ```
 Requirements are in _Files folder as requirements.txt
 
+# Python Alpha Zero algorithm
+
+## Defining actions
+```python
+actions = ["idle", "up", "down", "right", "left", "mine_resources", "return_resources", "attack", "find_enemy", "npc", "rifle_infantry", "town_hall", "barracks", "sentry", "mining_shack", "continue_building"]
+```
+That sums up to 16 actions
+
+## Defining game rules:
+Maximum 4 units per field.
+
+
+## Defining win Conditions
+### 1. Create 3 builders:
+Point is for algorithm to learn to select town hall and execute action 'npc' before opponent does
+Actions:
+```
+actions = ["idle", "up", "down", "right", "left", "npc"]
+```
+Action sequence:
+```
+npc
+npc
+npc
+```
+### 2. Pick up minerals:
+Neural network must select town hall, execute action 'npc' to create workers and individually move them towards minerals and pick minerals up
+Actions:
+```
+actions = ["idle", "up", "down", "right", "left", "mine_resources"]
+```
+Action sequence:
+```
+npc
+(while not at minerals)
+    move (in apropriate direction)
+gather_resources
+```
+### 3. Return minerals:
+Player would have to successfully return picked up minerals to resource drain like Town Hall or Mineral Mine.
+Actions:
+```
+actions = ["idle", "up", "down", "right", "left", "mine_resources", "return_resources"]
+```
+Action sequence:
+```
+npc
+(while not at minerals)
+    move (in apropriate direction)
+gather_resources
+(while not at resource drain)
+    move (in apropriate direction)
+return_resources
+```
+### 4. Build barracks (0 initial money):
+Player receives 1 TownHall and 1 NPC at start with 0 money and has to gather enough resources to build barracks.
+Actions:
+```
+actions = ["idle", "up", "down", "right", "left", "mine_resources", "return_resources", "barracks", "continue_building"]
+```
+Action sequence:
+```
+(while not enough minerals for barracks)
+    (while not at minerals)
+        move (in apropriate direction)
+    gather_resources
+    (while not at resource drain)
+        move (in apropriate direction)
+    return_resources
+barracks
+(while barracks not built)
+    continue_building
+```
+### 5. Gather 1000 minerals:
+Point is to set timeout to lower number, which would force player to build economy (building new workers) while gathering minerals. It would need to place mining_shack closer to minerals to more efficiently gather minerals.
+Actions:
+```
+actions = ["idle", "up", "down", "right", "left", "mine_resources", "return_resources", "npc", "mining_shack"]
+```
+Action sequence:
+```
+(while enough minerals)
+    npc OR mining_shack
+(while not at minerals)
+    move (in apropriate direction)
+gather_resources
+(while not at resource drain)
+    move (in apropriate direction)
+return_resources
+```
+### 4. Build Rifle unit from Barracks (0 initial money):
+Player receives 1 TownHall and 1 NPC at start with 0 money and has to gather enough resources to build Barracks and from it Rifle unit.
+Actions:
+```
+actions = ["idle", "up", "down", "right", "left", "mine_resources", "return_resources", "rifle_infantry", "barracks", "continue_building"]
+```
+Action sequence:
+```
+(while not enough minerals for barracks)
+    (while not at minerals)
+        move (in apropriate direction)
+    gather_resources
+    (while not at resource drain)
+        move (in apropriate direction)
+    return_resources
+barracks
+(while barracks not built)
+    continue_building
+(repeat step for gathering minerals until enough for Rifle unit)
+rifle_unit
+```
+### 4. Destroy enemy (0 initial money):
+Player receives 1 TownHall and 1 NPC at start with 0 money and has to gather enough resources to build Barracks and from it Rifle unit. Then has to move rifle unit towards enemy and with it keep attacking enemy units until they are destroyed.
+Actions:
+```
+actions = ["idle", "up", "down", "right", "left", "mine_resources", "return_resources", "attack", "find_enemy", "npc", "rifle_infantry", "barracks", "continue_building"]
+```
+Action sequence:
+```
+(while not enough minerals for barracks)
+    (while not at minerals)
+        move (in apropriate direction)
+    gather_resources
+    (while not at resource drain)
+        move (in apropriate direction)
+    return_resources
+barracks
+(while barracks not built)
+    continue_building
+(repeat step for gathering minerals until enough for Rifle unit)
+rifle_unit
+(while not at enemy)
+    move (in apropriate direction)
+(while enemy is alive)
+    find_enemy
+    (while found enemy is alive)
+        attack
+```
+
 # Publishing
 ## Setup
 - If source engine is not on disk

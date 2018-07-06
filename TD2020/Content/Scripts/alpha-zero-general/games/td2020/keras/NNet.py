@@ -1,39 +1,15 @@
 import os
-import sys
-# from keras.callbacks import TensorBoard
-from tensorflow.python.keras.callbacks import TensorBoard # from tensorflow
-
-
+from keras.callbacks import TensorBoard
+# from tensorflow.python.keras.callbacks import TensorBoard # from tensorflow
 import numpy as np
-
-from systems.utils import *
+from config_file import NNET_ARGS
 from .TD2020NNet import TD2020NNet as ONNet
-
-sys.path.append('..')
-args = DotDict({
-    'lr': 0.001,
-    'dropout': 0.3,
-    'epochs': 10,
-    'batch_size': 64,
-    'cuda': False,
-    'num_channels': 512,
-})
-
-# noinspection PyRedeclaration
-args = DotDict({
-    'lr': 0.001,
-    'dropout': 0.3,
-    'epochs': 2,
-    'batch_size': 8,
-    'cuda': False,
-    'num_channels': 512,
-})
 
 
 class NNetWrapper:
     def __init__(self, game):
 
-        self.nnet = ONNet(game, args)
+        self.nnet = ONNet(game, NNET_ARGS)
         self.action_size = game.getActionSize()
 
         self.tensorboard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0, write_graph=True, write_images=True)
@@ -61,7 +37,7 @@ class NNetWrapper:
         target_pis = temp_target_pis
         target_pis = np.asarray(target_pis)
 
-        self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=args.batch_size, epochs=args.epochs, callbacks=[self.tensorboard])
+        self.nnet.model.fit(x=input_boards, y=[target_pis, target_vs], batch_size=NNET_ARGS.batch_size, epochs=NNET_ARGS.epochs, callbacks=[self.tensorboard])
 
     def predict(self, board):
         """

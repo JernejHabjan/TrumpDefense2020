@@ -1,6 +1,6 @@
 import time
 from games.td2020.Game import display as game_display
-from games.td2020.src.config_file import *
+from config_file import *
 # noinspection PyUnresolvedReferences
 from systems.pytorch_classification.utils import Bar, AverageMeter
 

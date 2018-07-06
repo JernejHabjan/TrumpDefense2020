@@ -1,6 +1,5 @@
-from numpy.ma import ceil, sqrt
-
-from games.td2020.src.config_file import CANVAS_SCALE, BORDER
+from math import sqrt, ceil
+from config_file import CANVAS_SCALE, BORDER
 import pygame
 from numpy import size, clip
 

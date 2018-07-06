@@ -1,8 +1,8 @@
 import numpy as np
 
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS
 from games.td2020.src.FunctionLibrary import friendly, dist
 from games.td2020.src.Board import Board
-from games.td2020.src.config_file import *
 
 
 class ActionManager:
@@ -313,8 +313,7 @@ class ActionManager:
         from games.td2020.src.Actors import RifleInfantry, NPC
         character_temp = eval(name)(0, 0, 0)
 
-        return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and board.players[self.actor.player].money >= character_temp.production_cost and len(
-            board[self.actor.x][self.actor.y].actors) < MAX_ACTORS_ON_TILE
+        return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and board.players[self.actor.player].money >= character_temp.production_cost and len(board[self.actor.x][self.actor.y].actors) < MAX_ACTORS_ON_TILE
 
     def count_num_valid_moves(self, board: Board) -> list:
         num_valid_moves: list = []

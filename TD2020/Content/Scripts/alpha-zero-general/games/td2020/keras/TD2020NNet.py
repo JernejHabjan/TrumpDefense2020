@@ -1,15 +1,15 @@
+# from tensorflow.python.keras.layers import BatchNormalization, Activation, Reshape, Input, Dropout, Flatten, Dense, Conv2D
+# from tensorflow.python.keras.models import Model
+# from tensorflow.python.keras.optimizers import Adam
 import os
 import sys
-from games.td2020.src.config_file import SHOW_TENSORFLOW_GPU
+from config_file import SHOW_TENSORFLOW_GPU
 
 if not SHOW_TENSORFLOW_GPU:
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-# from keras import Model
-# from keras.layers import Input, Reshape, Activation, BatchNormalization, Conv2D, Dense, Dropout, Flatten
-# from keras.optimizers import Adam
-from tensorflow.python.keras.layers import BatchNormalization, Activation, Reshape, Input, Dropout, Flatten, Dense, Conv2D
-from tensorflow.python.keras.models import Model
-from tensorflow.python.keras.optimizers import Adam
+from keras import Model
+from keras.layers import Input, Reshape, Activation, BatchNormalization, Conv2D, Dense, Dropout, Flatten
+from keras.optimizers import Adam
 
 sys.path.append('..')
 
@@ -17,14 +17,14 @@ sys.path.append('..')
 class TD2020NNet:
     def __init__(self, game, args):
         # game params
-        self.board_x, self.board_y, self.max_num_actors_on_tile_times_num_actions = game.getBoardSize()
+        self.board_x, self.board_y, self.max_actors_on_tile = game.getBoardSize()
 
         self.action_size = game.getActionSize()
         self.args = args
 
         # Neural Net
-        self.input_boards = Input(shape=(self.board_x, self.board_y, self.max_num_actors_on_tile_times_num_actions))  # s: batch_size x board_x x board_y x max_num_actors_on_tile_times_num_actions
-        x_image = Reshape((self.board_x, self.board_y, self.max_num_actors_on_tile_times_num_actions))(self.input_boards)  # batch_size  x board_x x board_y x max_num_actors_on_tile_times_num_actions
+        self.input_boards = Input(shape=(self.board_x, self.board_y, self.max_actors_on_tile))  # s: batch_size x board_x x board_y x max_num_actors_on_tile_times_num_actions
+        x_image = Reshape((self.board_x, self.board_y, self.max_actors_on_tile))(self.input_boards)  # batch_size  x board_x x board_y x max_num_actors_on_tile_times_num_actions
 
         # print("shape of input", np.shape(self.input_boards), "x_image:", np.shape(x_image))
         # Conv2D layers need 4D inputs: (samples, width, height, input_channels), and will output (samples, modified_width, modified_height, filters)

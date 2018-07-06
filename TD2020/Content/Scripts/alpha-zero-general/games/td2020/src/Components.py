@@ -1,5 +1,3 @@
-# import pandas as pd
-# from td2020.src.FunctionLibrary import retrieve_json
 from numpy import size
 from games.td2020.src.Board import Board as Grid
 

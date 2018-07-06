@@ -7,7 +7,8 @@ from random import shuffle
 
 import numpy as np
 
-from games.td2020.src.config_file import ALL_ACTIONS_INT
+from games.td2020.Game import display
+from config_file import ALL_ACTIONS_INT
 from systems.Arena import Arena
 from systems.MCTS import MCTS
 # noinspection PyUnresolvedReferences
@@ -91,6 +92,7 @@ class Coach:
                 # x[1] -> player
                 # x[2] -> pi
                 print("coach - episode ended with result:", r)
+                display(board)
                 return [(x[0], x[2], r * ((-1) ** (x[1] != self.curPlayer))) for x in train_examples]
 
     def learn(self):

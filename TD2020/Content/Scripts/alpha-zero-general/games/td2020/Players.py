@@ -4,9 +4,11 @@ import pandas as pd
 import pygame
 from numpy import size
 from pygame.rect import Rect
+
+from config_file import ALL_ACTIONS_INT, CANVAS_SCALE, BORDER
 from games.td2020 import Game
 from games.td2020.src import Board
-from games.td2020.src.config_file import *
+
 
 
 class RandomPlayer:
