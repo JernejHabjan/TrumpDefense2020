@@ -1,7 +1,7 @@
 import numpy as np
 
 from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS
-from games.td2020.src.FunctionLibrary import friendly, dist
+from games.td2020.src.FunctionLibrary import friendly, dist, get_nearest_instance_of_class, can_add_unit, get_valid_nearby_coordinates
 from games.td2020.src.Board import Board
 
 
@@ -94,7 +94,6 @@ class ActionManager:
         self._execute_move(self.actor.x + 1, self.actor.y, board)
 
     def left(self, board: Board):
-
         self._execute_move(self.actor.x - 1, self.actor.y, board)
 
     def idle(self, board: Board):
@@ -103,17 +102,13 @@ class ActionManager:
     def mine_resources(self, board: Board):
 
         from games.td2020.src.Actors import ResourcesMaster
+        resource: ResourcesMaster = get_nearest_instance_of_class(board, self.actor.x, self.actor.y, ResourcesMaster)
 
-        resource = None
-        for actor in board[self.actor.x][self.actor.y].actors:
 
-            if isinstance(actor, ResourcesMaster):
-                resource = actor
-                break
-
-        print("successfully mined resources")
         resource.amount -= resource.gather_amount
         self.actor.gather_amount += resource.gather_amount
+
+
 
     def return_resources(self, board: Board):
 
@@ -123,20 +118,12 @@ class ActionManager:
         self.actor.gather_amount = 0
         print("new money amount " + str(board.players[self.actor.player].money))
 
+    # noinspection PyUnresolvedReferences
     def continue_building(self, board: Board):  # continues building building for +1 time
         # get building to construct on this tile
 
-        from games.td2020.src.Actors import MyActor
-        building: MyActor = None
-        for actor in board[self.actor.x][self.actor.y].actors:
-            from games.td2020.src.Actors import BuildingMaster
-            if isinstance(actor, BuildingMaster) and friendly(actor, self.actor):
-                # we found building on this tile
-                if actor.current_production_time < actor.production_time:
-                    # we found a building on this tile that is not yet constructed
-                    building = actor
-                    break
-
+        from games.td2020.src.Actors import BuildingMaster
+        building: BuildingMaster = get_nearest_instance_of_class(board, self.actor.y, self.actor.y, BuildingMaster, opts="actor.current_production_time < actor.production_time")
         # continue building this building you are standing on
         print("Continue building ")
 
@@ -184,13 +171,7 @@ class ActionManager:
     def can_mine_resources(self, board: Board):
         from games.td2020.src.Actors import ResourcesMaster
         # find if there are any resources on this location
-        resource = None
-        for actor in board[self.actor.x][self.actor.y].actors:
-
-            if isinstance(actor, ResourcesMaster):
-                resource = actor
-                break
-        # no resources found on this location - return
+        resource: ResourcesMaster = get_nearest_instance_of_class(board, self.actor.x, self.actor.y, ResourcesMaster)
 
         from games.td2020.src.Actors import NPC
         return resource is not None and isinstance(self.actor, NPC) and self.actor.gather_amount < self.actor.max_gather_amount
@@ -202,10 +183,11 @@ class ActionManager:
 
         # find if there are any mines on this location
         resource_deposit_actor = None
-        for actor in board[self.actor.x][self.actor.y].actors:
-            if hasattr(actor, 'resources_deposit_component'):
-                resource_deposit_actor = actor
-                break
+        for x,y in get_valid_nearby_coordinates(board, self.actor.x, self.actor.y):
+            for actor in board[x][y].actors:
+                if hasattr(actor, 'resources_deposit_component'):
+                    resource_deposit_actor = actor
+                    break
         # no mines found on this location - return
 
         return resource_deposit_actor is not None and friendly(resource_deposit_actor, self.actor)
@@ -243,14 +225,9 @@ class ActionManager:
         from games.td2020.src.Actors import NPC
         if not isinstance(self.actor, NPC):
             return False
-        for actor in board[self.actor.x][self.actor.y].actors:
-            from games.td2020.src.Actors import BuildingMaster
-            if isinstance(actor, BuildingMaster) and friendly(actor, self.actor):
-                # we found building on this tile and its friendly
-                if actor.current_production_time < actor.production_time:
-                    # we found a building on this tile that is not yet constructed
-                    return True
-        return False
+
+        from games.td2020.src.Actors import BuildingMaster
+        return True if get_nearest_instance_of_class(board, self.actor.y, self.actor.y, BuildingMaster, opts="actor.current_production_time < actor.production_time") else False
 
     # HELPER METHODS
     def _execute_move(self, new_x: int, new_y: int, board: Board):
@@ -270,7 +247,7 @@ class ActionManager:
             # pay
             board.players[self.actor.player].money -= building.production_cost
 
-            building.spawn(board)
+            building.spawn(board, self.actor.x, self.actor.y)
             print("spawned new building - adding to player actors" + str(type(building)))
 
         else:
@@ -290,22 +267,17 @@ class ActionManager:
         from games.td2020.src.Actors import BuildingMaster, Barracks, TownHall, Sentry, MiningShack
 
         # check if here no buildings exist yet
-        building_exists_on_tile = any(isinstance(actor, BuildingMaster) for actor in board[self.actor.x][self.actor.y].actors)
 
-        if building_exists_on_tile:
-            print("buildings already exist on this tile. Returning False")
-            return False
-
-        if len(board[self.actor.x][self.actor.y].actors) == MAX_ACTORS_ON_TILE:
-            print("cannot spawn here - " + str(MAX_ACTORS_ON_TILE) + " already on tile")
+        if not can_add_unit(board, self.actor.x, self.actor.y, is_building=True):
             return False
 
         # get production cost of this
 
-        building = eval(name)(self.actor.player, self.actor.x, self.actor.y)
+        building: BuildingMaster = eval(name)(self.actor.player, self.actor.x, self.actor.y)
 
         print("checking cost...")
         # check if we can pay for construction proxy
+        # noinspection PyUnresolvedReferences
         return board.players[self.actor.player].money >= building.production_cost
 
     def _can_character_spawn(self, name: str, board: Board):
@@ -313,7 +285,7 @@ class ActionManager:
         from games.td2020.src.Actors import RifleInfantry, NPC
         character_temp = eval(name)(0, 0, 0)
 
-        return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and board.players[self.actor.player].money >= character_temp.production_cost and len(board[self.actor.x][self.actor.y].actors) < MAX_ACTORS_ON_TILE
+        return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and board.players[self.actor.player].money >= character_temp.production_cost and can_add_unit(board, self.actor.x, self.actor.y)
 
     def count_num_valid_moves(self, board: Board) -> list:
         num_valid_moves: list = []

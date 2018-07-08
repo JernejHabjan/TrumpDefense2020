@@ -17,7 +17,6 @@ class Game:
         self.width = args.width
         self.height = args.height
         self.fps = args.fps
-        self.verbose = args.verbose
 
     def getInitBoard(self) -> Board:
         return Board(self.args)
@@ -114,25 +113,22 @@ class Game:
     def getGameEnded(board: Board) -> float:
         # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
 
-        # lets create custom win condition - build 5 npcs:
         if eval(PLAYER1WIN):
+
             return 1
         if eval(PLAYER2WIN):
+
             return -1
         if board.timeout():
             # print("Timeouted")
             return 1e-4
 
-        # # Final rules - learning to defeat other player
-        # if len(self.saved_world.players[player].actors) == 0:
-        #     return -player
-        # if len(self.saved_world.players[-player].actors) == 0:
-        #     return player
-
         return 0
 
     @staticmethod
     def getCanonicalForm(board: Board, player: int) -> np.ndarray:
+        from games.td2020.src.Actors import MyActor
+
         # return state if player==1, else return -state if player==-1
         numeric_board: list = []
         # convert object board to numpy array
@@ -145,8 +141,14 @@ class Game:
                     if actor_index < len(board[x][y].actors):
 
                         actor = board[x][y].actors[actor_index]
-                        board_row_actors.append(actor.numeric_value)
+
+                        if issubclass(type(board[x][y].actors[actor_index]), MyActor):
+                            board_row_actors.append(actor.player * actor.numeric_value)
+                        else:
+                            # this is neutral unit
+                            board_row_actors.append(actor.numeric_value)  # TODO - neutral resources may look like they belong to player 1 - but minerals has value very small - 0.0001
                     else:
+                        # this is empty field
                         board_row_actors.append(0)
                 board_row.append(board_row_actors)
 

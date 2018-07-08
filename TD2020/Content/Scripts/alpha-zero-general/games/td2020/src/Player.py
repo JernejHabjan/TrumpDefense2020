@@ -23,7 +23,7 @@ class Player:
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import RifleInfantry, NPC
         character = eval(name)(self.name, x, y)
-        character.spawn(self.world)
+        character.spawn(self.world, x, y)
 
     def _building_initial_spawn(self, name: str, x: int, y: int):
         # noinspection PyUnresolvedReferences
@@ -31,7 +31,7 @@ class Player:
         building = eval(name)(self.name, x, y)
         building.health = building.max_health
         building.current_production_time = building.production_time
-        building.spawn(self.world)
+        building.spawn(self.world, x, y)
 
     def calculate_score(self):
         # for actor in self.actors:

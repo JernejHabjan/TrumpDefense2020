@@ -29,7 +29,7 @@ class Arena:
         self.game = game
         self.display = display  # function
 
-    def __playGame(self, verbose=False):
+    def __playGame(self, verbose:int=0):
         """
         Executes one episode of a game.
 
@@ -51,9 +51,11 @@ class Arena:
 
         # while game not ended
         while self.game.getGameEnded(board) == 0:
+
+
             it += 1
             # draw game
-            if verbose:
+            if verbose == 3 or verbose == 5:
                 self.display(board)
                 print("Turn", str(it), "Player ", str(cur_player))
 
@@ -71,26 +73,34 @@ class Arena:
             #     return np.argmax(pmcts.getActionProb(x, self.curPlayer, temp=0))
             action = funct(board, cur_player)
 
+
+
+
             action_arr = self.game.actionIntoArr(board, action)
-            if verbose:
-                print("Arena.py - action chosen", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
             valids = self.game.getValidMoves(board, cur_player)
+
+            if verbose > 0:
+                print("Arena.py - action chosen", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
 
             # check if action is valid
             if valids[action] == 0:
                 print("Arena", "ERROR ---- Action not in valids - algorithm may have chosen wrong side of board to play as his figures", action, "parsed action:", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
 
+
+
             # apply action
             board, cur_player = self.game.getNextState(board, cur_player, action)
 
+
+
         # draw game over
-        if verbose:
+        if verbose > 1:
             assert self.display
-            print("Game over: Turn", str(it), "Result ", str(self.game.getGameEnded(board)))
+            print("Game over: Turn", str(it), "Result", str(self.game.getGameEnded(board)))
             self.display(board)
         return self.game.getGameEnded(board)
 
-    def playGames(self, num, verbose=False):
+    def playGames(self, num, verbose:int=0):
         """
         Plays num games in which player1 starts num/2 games and player2 starts
         num/2 games.
@@ -132,7 +142,7 @@ class Arena:
             eps_time.update(time.time() - end)
             end = time.time()
             # update bar
-            bar.suffix = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}'.format(eps=eps + 1, maxeps=maxeps, et=eps_time.avg, total=bar.elapsed_td, eta=bar.eta_td)
+            bar.suffix = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}\n'.format(eps=eps + 1, maxeps=maxeps, et=eps_time.avg, total=bar.elapsed_td, eta=bar.eta_td)
             bar.next()
         # change players
         self.player1, self.player2 = self.player2, self.player1
@@ -140,9 +150,9 @@ class Arena:
         # iterate through second half of games
         for _ in range(num):
             game_result = self.__playGame(verbose=verbose)
-            if game_result == -1:
+            if game_result == 1:
                 one_won += 1
-            elif game_result == 1:
+            elif game_result == -1: # TODO - TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - TO JE PBLO PREJ LIH OBRNEN - PREJ NJE BLO if game_Result == -1: one_won +1
                 two_won += 1
             else:
                 draws += 1
@@ -150,7 +160,7 @@ class Arena:
             eps += 1
             eps_time.update(time.time() - end)
             end = time.time()
-            bar.suffix = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}'.format(eps=eps + 1, maxeps=num, et=eps_time.avg, total=bar.elapsed_td, eta=bar.eta_td)
+            bar.suffix = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}\n'.format(eps=eps + 1, maxeps=num, et=eps_time.avg, total=bar.elapsed_td, eta=bar.eta_td)
             bar.next()
 
         bar.finish()

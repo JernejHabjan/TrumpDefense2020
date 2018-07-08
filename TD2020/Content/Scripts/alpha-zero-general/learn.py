@@ -13,4 +13,7 @@ c = Coach(g, nnet, LEARN_ARGS)
 if LEARN_ARGS.load_model:
     print("Load trainExamples from file")
     c.loadTrainExamples()
-c.learn()
+try:
+    c.learn()
+except RecursionError as e:
+    raise Exception("Make sure you didn't set variable TIMEOUT_TICKS too high or chosen wrong config for learning -", e)

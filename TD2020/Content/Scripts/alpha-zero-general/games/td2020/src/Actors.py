@@ -1,3 +1,6 @@
+from games.td2020.src.FunctionLibrary import get_nearest_empty_spawn
+
+
 class GeneralActor:
 
     def __init__(self, x: int, y: int):
@@ -36,7 +39,9 @@ class MyActor(GeneralActor):
         pass
         # print("Actor destroyed")
 
-    def spawn(self, world):
+    def spawn(self, world, x_in: int, y_in: int):
+        self.x, self.y = get_nearest_empty_spawn(world, x_in, y_in)
+
         # spawn character - by adding it to player
         world.players[self.player].actors.append(self)
         # add to world tile
@@ -62,12 +67,12 @@ class TownHall(BuildingMaster):
         from games.td2020.src.Components import UnitProductionComponent, ResourcesDepositComponent
         self.unit_production_component = UnitProductionComponent(self, ["NPC"])
         self.resources_deposit_component = ResourcesDepositComponent()
-        self.max_health = 400
+        self.max_health: int = 400
         self.production_time: int = 10
         self.production_cost = 500
-        self.value = 500
+        self.value: int = 500
         self.short_name = "Hall"
-        self.color = {"R": 235, "G": 255, "B": 0}
+        self.color: dict = {"R": 235, "G": 255, "B": 0}
         self.health = self.max_health * 0.1  # 10%
         self.actions.extend(["npc"])
         self.numeric_value = 1
@@ -191,4 +196,4 @@ class Granite(ResourcesMaster):
         self.short_name = "Gran"
         self.color = {"R": 230, "G": 0, "B": 50}
         self.gather_amount: int = 20
-        self.numeric_value = 7
+        self.numeric_value = 0.0001

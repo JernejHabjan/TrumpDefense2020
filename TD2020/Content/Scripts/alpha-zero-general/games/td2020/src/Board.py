@@ -30,7 +30,6 @@ class Board:
 
     def __init__(self, args: DotDict):
         # get parameters
-        self.draw_pygame = args.draw_pygame
         self.width = args.width
         self.height = args.height
         self.fps = args.fps
@@ -107,7 +106,7 @@ class Board:
         if not self.verbose:
             return
 
-        if self.draw_pygame:
+        if self.verbose > 3:
             # Display using pygame
             # warning - do not assign pygame canvas to self as it cannot be later copied via deepcopy
             game_display, clock = init_visuals(self.width, self.height, self.verbose)

@@ -121,4 +121,8 @@ class NNetWrapper:
             raise ValueError("No model in path {}".format(filepath))
 
         print("NNet", "loading checkpoint", filepath)
-        self.nnet.model.load_weights(filepath)
+
+        try:
+            self.nnet.model.load_weights(filepath)
+        except Exception as e:
+            raise Exception("Value error occurred when loading checkpoint - make sure you didn't change grid dimensions or actors_on_tile or action size after learning model ->", e)

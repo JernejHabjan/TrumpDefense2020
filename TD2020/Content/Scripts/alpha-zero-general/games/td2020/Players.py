@@ -10,7 +10,6 @@ from games.td2020 import Game
 from games.td2020.src import Board
 
 
-
 class RandomPlayer:
     def __init__(self, game: Game):
         self.game = game
@@ -42,7 +41,7 @@ class HumanPlayer:
                 print("----------")
         while True:
 
-            if board.draw_pygame:
+            if board.verbose > 3:
                 print("select action on canvas")
                 a = self._manage_input(board, player)
                 print("action from pygame returned:", a)
@@ -117,15 +116,19 @@ class HumanPlayer:
                         if event.key == pygame.K_UP:
                             print("pressed up...")
                             clicked_actor_index_arr.append("up")
+                            return clicked_actor_index_arr
                         if event.key == pygame.K_DOWN:
                             print("pressed down...")
                             clicked_actor_index_arr.append("down")
+                            return clicked_actor_index_arr
                         if event.key == pygame.K_LEFT:
                             print("pressed left...")
                             clicked_actor_index_arr.append("left")
+                            return clicked_actor_index_arr
                         if event.key == pygame.K_RIGHT:
                             print("pressed right...")
                             clicked_actor_index_arr.append("right")
+                            return clicked_actor_index_arr
                         from games.td2020.src.FunctionLibrary import retrieve_json
                         print("retrieving shortcut for", str(type(clicked_actor).__name__))
                         td_my_actor: pd.DataFrame = retrieve_json('td_myactor', str(type(clicked_actor).__name__))
@@ -135,33 +138,38 @@ class HumanPlayer:
                         if type(clicked_actor) == TownHall:  # these if statements are hardcoded - todo (optinal) - use variable actor_shortcut
                             if event.key == pygame.K_q:
                                 clicked_actor_index_arr.append("npc")
+                                return clicked_actor_index_arr
                         if type(clicked_actor) == Barracks:
                             if event.key == pygame.K_q:
                                 print("mele infantry unsupported")
                             if event.key == pygame.K_w:
                                 clicked_actor_index_arr.append("rifle_infantry")
+                                return clicked_actor_index_arr
                             if event.key == pygame.K_e:
                                 print("bow infantry unsupported")
                         if type(clicked_actor) == NPC:
                             if event.key == pygame.K_q:
                                 clicked_actor_index_arr.append("town_hall")
+                                return clicked_actor_index_arr
                             if event.key == pygame.K_w:
                                 print("shack unsupported")
                             if event.key == pygame.K_e:
                                 print("constr office unsupported")
                             if event.key == pygame.K_a:
                                 clicked_actor_index_arr.append("mining_shack")
+                                return clicked_actor_index_arr
                             if event.key == pygame.K_s:
                                 print("apartment unsupported")
                             if event.key == pygame.K_d:
                                 clicked_actor_index_arr.append("barracks")
+                                return clicked_actor_index_arr
                             if event.key == pygame.K_y:
                                 clicked_actor_index_arr.append("sentry")
+                                return clicked_actor_index_arr
                         # idle
                         if event.key == pygame.K_SPACE:
                             clicked_actor_index_arr.append("idle")
-
-                        return clicked_actor_index_arr
+                            return clicked_actor_index_arr
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         raise SystemExit(0)

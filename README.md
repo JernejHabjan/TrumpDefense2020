@@ -139,7 +139,12 @@ actions = ["idle", "up", "down", "right", "left", "mine_resources", "return_reso
 That sums up to 16 actions
 
 ## Defining game rules:
-Maximum 4 units per field.
+- Grid of size 8x8,
+- Maximum 1 unit per field.
+- Units for player 1 are defined with positive numbers (1, 2, 3, 4, 5, 6...) where increased number doesn't mean nothing, but every unit is encoded with one of these numbers,
+- Units for player -1 are defined with negative numbers (-1, -2, -3, -4, -5, -6...) where increased number doesn't mean nothing, but every unit is encoded with one of these numbers,
+- Neutral units (minerals) are encoded with small positive integer (0.0001)
+- Empty fields are represented with number 0
 
 
 ## Defining win Conditions

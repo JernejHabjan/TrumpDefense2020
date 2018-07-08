@@ -1,6 +1,8 @@
 import math
 import numpy as np
 
+from config_file import ALL_ACTIONS_INT
+
 EPS = 1e-8
 
 
@@ -31,16 +33,17 @@ class MCTS:
             probs: a policy vector where the probability of the ith action is
                    proportional to Nsa[(s,a)]**(1./temp)
         """
+        # print("__________________________________ CALLED ACTION PROB ________________________________")
 
         # runs simulation multiple times
         for i in range(self.args.numMCTSSims):
+            # print("______________ EXECUTING ONE MCTS SIM _____________________")
             self.search(board, player)
 
         # get string representation of this board in canonical way - ugly string
         s = self.game.stringRepresentation(self.game.getCanonicalForm(board, player))
         # stores number of counts for each action in given state - state "s"
         counts = [self.Nsa[(s, a)] if (s, a) in self.Nsa else 0 for a in range(self.game.getActionSize())]
-
         if temp == 0:
             # get action with most counts in Nsa for this state
             best_a = np.argmax(counts)
@@ -74,12 +77,16 @@ class MCTS:
             v: the negative of the value of the current canonical_board
         """
 
+        # print("called mcts search")
+
         # get string representation of this board in canonical way - ugly string
         s = self.game.stringRepresentation(self.game.getCanonicalForm(board, player))
 
         # check if game has finished in this node
         # have to check for gameEnded every search because of timeout iteration even if board is always same
         self.Es[s] = self.game.getGameEnded(board)
+
+        # print("mcts search checking end condition", self.Es[s])
 
         # check for terminal condition - end state
         if self.Es[s] != 0:
@@ -159,6 +166,13 @@ class MCTS:
                     cur_best = u
                     best_act = a
 
+        action_into_arr_array = self.game.actionIntoArr(board, best_act)
+        x = action_into_arr_array[0]
+        y = action_into_arr_array[1]
+        actor_index = action_into_arr_array[2]
+        action_str = ALL_ACTIONS_INT[action_into_arr_array[3]]
+        # print("MTCS", "printing U for best action",cur_best, "------------- ACTION ----------------------------", x, y, actor_index, action_str)
+
         # now we got best action
         a = best_act
         # apply this action to game - get full board and player
@@ -169,6 +183,7 @@ class MCTS:
         # calls recursively this search function again and returns terminal or leaf state in variable "v"
         v = self.search(next_s, next_player)
 
+        # print("recieved back terminal state from search", v)
         if (s, a) in self.Qsa:
             # calculate new value for this Qsa
             # Num(state, action) * Value(state,action) + value / (Num(state,action) + 1)
@@ -183,4 +198,6 @@ class MCTS:
 
         # visited this state +1 times
         self.Ns[s] += 1
+
+        # print("returning -v to search back",-v)
         return -v

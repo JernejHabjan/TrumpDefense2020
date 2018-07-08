@@ -11,48 +11,19 @@ PATH = os.path.expanduser('~\\TD2020\\saved_models\\')
 # noinspection PyRedeclaration
 PATH = './temp/'
 
+
+# verbose: 0 - no output, 1 - basic learning output, 2 - output grid at end of game, 3 - output grid at end of each turn, 4 - output pygame at end of game, 5 - output pygame at end of each turn
+
 NNET_ARGS = DotDict({
     'lr': 0.001,
     'dropout': 0.3,
     'epochs': 10,
-    'batch_size': 64,
+    'batch_size': 128,
     'cuda': False,
     'num_channels': 512,
 })
 
-# noinspection PyRedeclaration
-NNET_ARGS = DotDict({
-    'lr': 0.001,
-    'dropout': 0.3,
-    'epochs': 2,
-    'batch_size': 8,
-    'cuda': False,
-    'num_channels': 512,
-})
 
-LEARN_ARGS = DotDict({
-    'numIters': 100,
-    'numEps': 100,
-    'tempThreshold': 15,
-    'updateThreshold': 0.6,
-    'maxlenOfQueue': 200000,
-    'numMCTSSims': 25,
-    'arenaCompare': 30,
-    'cpuct': 1,
-
-    'checkpoint': './temp/',
-    'load_model': False,
-    'load_folder_file': ('/dev/models/8x100x50', 'best.pth.tar'),
-    'numItersForTrainExamplesHistory': 20,
-
-    'width': 8,
-    'height': 8,
-    'verbose': True,
-    'draw_pygame': False,
-    'fps': 300,
-})
-
-# noinspection PyRedeclaration
 LEARN_ARGS = DotDict({
     'numIters': 2,
     'numEps': 2,
@@ -60,7 +31,7 @@ LEARN_ARGS = DotDict({
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
     'numMCTSSims': 10,
-    'arenaCompare': 4,
+    'arenaCompare': 2,
     'cpuct': 1,
 
     'checkpoint': './temp/',
@@ -70,32 +41,7 @@ LEARN_ARGS = DotDict({
 
     'width': 8,
     'height': 8,
-    'verbose': True,
-    'draw_pygame': False,
-    'fps': 300,
-
-})
-
-# noinspection PyRedeclaration
-LEARN_ARGS = DotDict({
-    'numIters': 2,
-    'numEps': 2,
-    'tempThreshold': 5,
-    'updateThreshold': 0.6,
-    'maxlenOfQueue': 200000,
-    'numMCTSSims': 10,
-    'arenaCompare': 20,
-    'cpuct': 1,
-
-    'checkpoint': './temp/',
-    'load_model': False,
-    'load_folder_file': ('./pretrained_models/othello/keras/', '6x6 checkpoint_145.pth.tar'),
-    'numItersForTrainExamplesHistory': 20,
-
-    'width': 8,
-    'height': 8,
-    'verbose': True,
-    'draw_pygame': False,
+    'verbose': 3,
     'fps': 300,
 
 })
@@ -103,8 +49,7 @@ LEARN_ARGS = DotDict({
 PIT_ARGS = DotDict({
     'width': 8,
     'height': 8,
-    'verbose': True,
-    'draw_pygame': True,
+    'verbose': 4,
     'fps': 60,
 
     'numMCTSSims': 50,
@@ -114,30 +59,38 @@ PIT_ARGS = DotDict({
 GET_ACTION_ARGS = DotDict({
     'width': 8,
     'height': 8,
-    'verbose': False,
-    'draw_pygame': False,
+    'verbose': 0,
     'fps': 1,
 
     'numMCTSSims': 50,
     'cpuct': 1.0
 })
 
-WIN_CONDITION = 1
+WIN_CONDITION = 2
 
+# 3 builders
 if WIN_CONDITION == 1:
     WIN_CONDITION_ARGS = DotDict({
-        'ALL_ACTIONS': {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
-        'TIMEOUT_TICKS': 10,
-        'PLAYER1WIN': 'len(board.players[1].actors) >= 3',
-        'PLAYER2WIN': 'len(board.players[-1].actors) >= 3'
+        'ALL_ACTIONS': {"npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
+        'TIMEOUT_TICKS': 25,
+        'PLAYER1WIN': 'len(board.players[1].actors) >= 10',
+        'PLAYER2WIN': 'len(board.players[-1].actors) >= 10'
     })
+# pick up minerals
 elif WIN_CONDITION == 2:
     WIN_CONDITION_ARGS = DotDict({
-
+        'ALL_ACTIONS': {"npc": 19, "up": 11, "down": 12, "right": 13, "left": 14,  "mine_resources": 15},
+        'TIMEOUT_TICKS': 200,
+        'PLAYER1WIN': 'any([hasattr(actor, "gather_amount") and actor.gather_amount > 0 for actor in board.players[1].actors])',
+        'PLAYER2WIN': 'any([hasattr(actor, "gather_amount") and actor.gather_amount > 0 for actor in board.players[-1].actors])',
     })
 else:
+    # sandbox mode
     WIN_CONDITION_ARGS = DotDict({
-        'ALL_ACTIONS': {"idle": 10, "up": 11, "down": 12, "right": 13, "left": 14, "mine_resources": 15, "return_resources": 16, "choose_enemy": 17, "attack": 18, "npc": 19, "rifle_infantry": 20, "town_hall": 21, "barracks": 22, "sentry": 23, "mining_shack": 24, "continue_building": 25}
+        'ALL_ACTIONS': {"idle": 10, "up": 11, "down": 12, "right": 13, "left": 14, "mine_resources": 15, "return_resources": 16, "choose_enemy": 17, "attack": 18, "npc": 19, "rifle_infantry": 20, "town_hall": 21, "barracks": 22, "sentry": 23, "mining_shack": 24, "continue_building": 25},
+        'TIMEOUT_TICKS': 10000,
+        'PLAYER1WIN': 'len(board.players[-1].actors) == 0',
+        'PLAYER2WIN': 'len(board.players[1].actors) == 0'
     })
 
 ALL_ACTIONS = WIN_CONDITION_ARGS.ALL_ACTIONS

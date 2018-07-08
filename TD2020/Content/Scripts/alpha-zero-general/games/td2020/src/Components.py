@@ -1,5 +1,7 @@
 from numpy import size
+
 from games.td2020.src.Board import Board as Grid
+from games.td2020.src.FunctionLibrary import can_add_unit
 
 
 class AttackComponent:
@@ -41,15 +43,16 @@ class UnitProductionComponent:
         actor = self.producing_units[0]
 
         # print("continuing constructing unit " + str(type(self.producing_units[0])) + " with construction time " + str( self.current_production_time) + " of " + str(self.producing_units[0].production_time))
-
         actor.current_production_time += 1
         if actor.current_production_time >= actor.production_time:
-            # print("finished updating unit production")
-            # spawn character and reset timer
-            character = self.producing_units.pop()
-            character.current_production_time = character.production_time
-            character.spawn(world)
-            # print("new character spawned")
+            # get actors on this tile check if we can spawn this unit here
+            if can_add_unit(world, self.parent.x, self.parent.y):
+                # print("finished updating unit production")
+                # spawn character and reset timer
+                character = self.producing_units.pop()
+                character.current_production_time = character.production_time
+                character.spawn(world, self.parent.x, self.parent.y)
+                # print("new character spawned")
 
 
 class ResourcesDepositComponent:

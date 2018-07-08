@@ -46,20 +46,21 @@ class Coach:
                            pi is the MCTS informed policy vector, v is +1 if
                            the player eventually won the game, else -1.
         """
+        # print("\nCoach - executing one episode of self play")
+
         # private method
 
         # init train_examples array
         train_examples = []
         # init board
         board = self.game.getInitBoard()
-        print("printing initial board ticks", board.iteration)
         # set current player
         self.curPlayer = 1
         # set episodes counter
         episode_step = 0
 
         while True:
-
+            # print("this is one iteration here in coach")
             episode_step += 1
 
             # sets temp var that is passed into MCTS getActionProb
@@ -76,11 +77,29 @@ class Coach:
 
             # random action probability
             # parameter p : how uniform this sample is -> https://goo.gl/3D6yrj
+
+            # print("COACH.py printing pi", pi,"printing len pi",len(pi))
             action = np.random.choice(len(pi), p=pi)
+
+
+
+
             # apply action
 
             action_arr = self.game.actionIntoArr(board, action)
-            print("Coach.py ", "player ", self.curPlayer, "getting new state with action", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
+            if self.args.verbose > 0:
+                pass
+                # print("----------")
+                # for i in range(len(self.game.getValidMoves(board, self.curPlayer))):
+                #     if self.game.getValidMoves(board, self.curPlayer)[i]:
+                #         action_into_arr_array = self.game.actionIntoArr(board, i)
+                #         x = action_into_arr_array[0]
+                #         y = action_into_arr_array[1]
+                #         actor_index = action_into_arr_array[2]
+                #         action_str = ALL_ACTIONS_INT[action_into_arr_array[3]]
+                #         print(x, y, actor_index, action_str)
+                # print("----------")
+                print("Coach.py ", "player ", self.curPlayer, "getting new state with action", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
             board, self.curPlayer = self.game.getNextState(board, self.curPlayer, action)
 
             # get winning player in variable "r"
@@ -91,8 +110,9 @@ class Coach:
                 # x[0] -> board
                 # x[1] -> player
                 # x[2] -> pi
-                print("coach - episode ended with result:", r)
-                display(board)
+                if self.args.verbose == 3 or self.args.verbose == 5:
+                    print("coach - episode ended with result:", r)
+                    display(board)
                 return [(x[0], x[2], r * ((-1) ** (x[1] != self.curPlayer))) for x in train_examples]
 
     def learn(self):
@@ -198,7 +218,6 @@ class Coach:
         model_file = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
         examples_file = model_file + ".examples"
         if not os.path.isfile(examples_file):
-            print(examples_file)
             r = input("File with trainExamples not found. Continue? [y|n]")
             if r != "y":
                 sys.exit()

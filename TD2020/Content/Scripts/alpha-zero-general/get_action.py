@@ -12,7 +12,6 @@ def create_board(board):
     return 1
 
 
-
 g = Game(GET_ACTION_ARGS)
 board = g.getInitBoard()
 # board = create_board(board)

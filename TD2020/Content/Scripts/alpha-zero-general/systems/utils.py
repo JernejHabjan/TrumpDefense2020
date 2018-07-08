@@ -2,6 +2,7 @@ class DotDict(dict):
     def __getattr__(self, name):
         return self[name]
 
+
 # noinspection PyPep8Naming
 def print_e(string):
     CRED = '\033[91m'
