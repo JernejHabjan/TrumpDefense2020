@@ -16,6 +16,7 @@ TD2020/Saved/AutoScreenshot.png
 /TD2020/saved/Temp/
 /TD2020/saved/SaveGames/
 /TD2020/saved/HardwareSurvey/
+/TD2020/saved/Screenshots/
 
 /TD2020/Content/Developers/
 /TD2020/Content/Collections/
@@ -73,3 +74,4 @@ TD2020/Content/Scripts/alpha-zero-general/pretrained_models/tictactoe/keras/best
 *.DESKTOP-V81M6C5
 *.DESKTOP-V81M6C5
 TD2020/Content/Scripts/alpha-zero-general/.idea/workspace.xml
+TD2020/Saved/AutoScreenshot.png

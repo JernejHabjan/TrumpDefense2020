@@ -27,5 +27,7 @@ enum class ERTSOrderType : uint8
 	ORDER_Gather,
 
 	/** Return carried resources. */
-	ORDER_ReturnResources
+	ORDER_ReturnResources,
+
+	ORDER_AttackMove
 };
