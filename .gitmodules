@@ -3,4 +3,4 @@
 	url = https://github.com/20tab/UnrealEnginePython
 [submodule "TD2020/Plugins/RTSPlugin"]
 	path = TD2020/Plugins/RTSPlugin
-	url = https://github.com/npruehs/ue4-rts
+	url = https://github.com/JernejHabjan/ue4-rts
