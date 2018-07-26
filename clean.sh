@@ -27,9 +27,9 @@ rm -rf ./TD2020/.vs/
 rm -rf ./TD2020/.git/
   
 rm -rf ./TD2020/Plugins/*/binaries/
-rm -rf ./TD2020/Plugins/*/tutorials/
+
 rm -rf ./TD2020/Plugins/*/intermediate/
-rm -rf ./TD2020/Plugins/*/screenshots/
+
 
 rm -rf ./TD2020/Content/Scripts/alpha-zero-general/pretrained_models/*
 rm -rf ./TD2020/Content/Scripts/alpha-zero-general/temp/*
