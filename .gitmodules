@@ -1,6 +1,0 @@
-[submodule "TD2020/Plugins/UnrealEnginePython"]
-	path = TD2020/Plugins/UnrealEnginePython
-	url = https://github.com/20tab/UnrealEnginePython
-[submodule "TD2020/Plugins/ue4-rts"]
-	path = TD2020/Plugins/ue4-rts
-	url = https://github.com/JernejHabjan/ue4-rts

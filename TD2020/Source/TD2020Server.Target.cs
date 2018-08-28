@@ -11,7 +11,7 @@ public class TD2020ServerTarget : TargetRules
 		Type = TargetType.Server;
 		//BuildEnvironment = TargetBuildEnvironment.Shared;
         //bOutputToEngineBinaries = true;
-		ExtraModuleNames.Add("TD2020");
+		ExtraModuleNames.AddRange( new string[] { "TD2020"} );
 	}
 
 	//

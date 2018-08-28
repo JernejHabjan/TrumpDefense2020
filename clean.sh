@@ -20,22 +20,21 @@ rm -rf ./TD2020/Content/Collections/
        
 rm -rf ./TD2020/build/
 rm -rf ./TD2020/intermediate/
+rm -rf ./TD2020/saved/
 rm -rf ./TD2020/binaries/
 rm -rf ./TD2020/DerivedDataCache/
 rm -rf ./TD2020/Debug/
 rm -rf ./TD2020/.vs/
 rm -rf ./TD2020/.git/
   
-rm -rf ./TD2020/Plugins/*/binaries/
 
-rm -rf ./TD2020/Plugins/*/intermediate/
 
 
 rm -rf ./TD2020/Content/Scripts/alpha-zero-general/pretrained_models/*
 rm -rf ./TD2020/Content/Scripts/alpha-zero-general/temp/*
 
 
-find . -name "*_BuiltData.uasset" -exec rm {} \;
+
 
 find . -name "*.log" -exec rm {} \;
 find . -name "*.sln" -exec rm {} \;
