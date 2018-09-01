@@ -1,0 +1,8 @@
+Initial release of TD2020 game!
+
+- Computer agent not yet supported.
+- Dedicated server can be joined on local machine using open 127.0.0.1:7777.
+- Dedicated server required router port forwarding to be accessed from other machine.
+- Huge amount of bugs - feel free to post issue listing the ones that you found.
+
+Enjoy!
