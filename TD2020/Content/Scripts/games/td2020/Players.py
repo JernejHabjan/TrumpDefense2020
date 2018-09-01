@@ -1,13 +1,13 @@
 from math import sqrt, ceil
 import numpy as np
 import pandas as pd
-import pygame
 from numpy import size
-from pygame.rect import Rect
-
-from config_file import ALL_ACTIONS_INT, CANVAS_SCALE, BORDER
+from config_file import CANVAS_SCALE, BORDER
 from games.td2020 import Game
 from games.td2020.src import Board
+from games.td2020.src.FunctionLibrary import arr_into_action, action_into_array_print
+import pygame
+from pygame.rect import Rect
 
 
 class RandomPlayer:
@@ -27,17 +27,12 @@ class HumanPlayer:
         self.game = game
 
     def play(self, board: Board, player: int) -> int:
-        # display(board)
+        # board.display()
         print("----------")
         valid = self.game.getValidMoves(board, player)
         for i in range(len(valid)):
             if valid[i]:
-                action_into_arr_array = self.game.actionIntoArr(board, i)
-                x = action_into_arr_array[0]
-                y = action_into_arr_array[1]
-                actor_index = action_into_arr_array[2]
-                action_str = ALL_ACTIONS_INT[action_into_arr_array[3]]
-                print(x, y, actor_index, action_str)
+                action_into_array_print(board, i)
                 print("----------")
         while True:
 
@@ -48,7 +43,7 @@ class HumanPlayer:
             else:
                 a = ("1 " + input('type one of above actions\n')).split(" ")
             # convert to action index in valids array
-            a = self.game.arr_into_action(board, a)
+            a = arr_into_action(board, a)
             print("action parsed in player.py", a)
             if valid[a]:
                 break

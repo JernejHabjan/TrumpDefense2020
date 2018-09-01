@@ -275,6 +275,10 @@ rifle_unit
 ```
 
 # Publishing
+## Steam Api
+- Steam API now works only when publishing using "debug" or "development" option and not "shipping"!
+## Additional packaging material
+- Make sure you don't forget to add hardware cursors to packaged game.
 ## Setup
 - If source engine is not on disk
     - download [source](https://github.com/EpicGames/UnrealEngine/releases)

@@ -4,9 +4,9 @@ import time
 import numpy as np
 import tensorflow as tf
 from config_file import NNET_ARGS
-from systems.pytorch_classification.utils.misc import AverageMeter
+from systems.misc.misc import AverageMeter
 
-from systems.pytorch_classification.utils.progress.progress.bar import Bar
+from systems.misc.progress.bar import Bar
 from .TD2020NNet import TD2020NNet as ONNet
 
 sys.path.append('../../')
@@ -14,11 +14,6 @@ sys.path.append('../../')
 
 class NNetWrapper:
     def __init__(self, game):
-
-
-        import time
-        start_time = time.time()
-
 
         self.nnet = ONNet(game, NNET_ARGS)
         self.board_x, self.board_y, self.max_actors_on_tile = game.getBoardSize()
@@ -29,12 +24,6 @@ class NNetWrapper:
         with tf.Session() as temp_sess:
             temp_sess.run(tf.global_variables_initializer())
         self.sess.run(tf.variables_initializer(self.nnet.graph.get_collection('variables')))
-
-
-        print("--- %s seconds ---" % (time.time() - start_time))
-
-
-
 
     def train(self, examples):
         """
@@ -57,21 +46,12 @@ class NNetWrapper:
                 sample_ids = np.random.randint(len(examples), size=NNET_ARGS.batch_size)
                 boards, pis, vs = list(zip(*[examples[i] for i in sample_ids]))
 
-
-
-
                 # TODO - temp fix for PIS - TODO - DUNNO WHAT IS LAST ELEMENT BUT OK
                 temp_target_pis = []
                 for pi in pis:
                     temp_target_pis.append(pi[:-1])  # todo remove last element - i dont think its correct
                 target_pis = temp_target_pis
                 pis = np.asarray(target_pis)
-
-
-
-
-
-
 
                 # predict and compute gradient and do SGD step
                 input_dict = {self.nnet.input_boards: boards, self.nnet.target_pis: pis, self.nnet.target_vs: vs, self.nnet.dropout: NNET_ARGS.dropout, self.nnet.isTraining: True}
@@ -120,7 +100,7 @@ class NNetWrapper:
         # print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
         return prob[0], v[0]
 
-    def save_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):
+    def save_checkpoint(self, folder, filename):
         filepath = os.path.join(folder, filename)
         if not os.path.exists(folder):
             print("Checkpoint Directory does not exist! Making directory {}".format(folder))
@@ -132,7 +112,7 @@ class NNetWrapper:
         with self.nnet.graph.as_default():
             self.saver.save(self.sess, filepath)
 
-    def load_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):
+    def load_checkpoint(self, folder, filename):
         filepath = os.path.join(folder, filename)
         if not os.path.exists(filepath + '.meta'):
             raise Exception("No model in path {}".format(filepath))

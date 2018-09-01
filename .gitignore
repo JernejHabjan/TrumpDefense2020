@@ -24,6 +24,12 @@ TD2020/Saved/AutoScreenshot.png
 /TD2020/.vs/
 /TD2020/.git/
 
+
+/TD2020/Content/Scripts/alpha-zero-general/pretrained_models/
+/TD2020/Content/Scripts/alpha-zero-general/temp/
+/TD2020/Content/Scripts/_Files/models/
+
+
 *_BuiltData.uasset
 *.log
 *.sln
@@ -35,12 +41,4 @@ TD2020/Saved/AutoScreenshot.png
 *.sdf
 *.xcodeproj
 *.xcworkspace
-
-TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/keras/6x6 checkpoint_145.pth.tar
-TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/6x100x25_best.pth.tar
-TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/6x6_153checkpoints_best.pth.tar
-TD2020/Content/Scripts/alpha-zero-general/pretrained_models/othello/pytorch/8x8_100checkpoints_best.pth.tar
-TD2020/Content/Scripts/alpha-zero-general/pretrained_models/tictactoe/keras/best-25eps-25sim-10epch.pth.tar
-
-TD2020/Content/Scripts/alpha-zero-general/.idea/workspace.xml
 

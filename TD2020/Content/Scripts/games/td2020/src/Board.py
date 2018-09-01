@@ -1,21 +1,8 @@
-"""
-Author: Eric P. Nichols
-Date: Feb 8, 2008.
-Board class.
-Board data:
-  1=white, -1=black, 0=empty
-  first dim is column , 2nd is row:
-     pieces[1][7] is the square in column 2,
-     at the opposite end of the board in row 8.
-Squares are stored and manipulated as (x,y) tuples.
-x is the column, y is the row.
-"""
 from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS, TIMEOUT_TICKS
 # noinspection PyUnresolvedReferences
 from games.td2020.src.Actors import Granite, MyActor
 from games.td2020.src.Graphics import init_visuals, update_graphics
 import numpy as np
-
 from systems.utils import DotDict
 
 
@@ -51,13 +38,15 @@ class Board:
         return self.tiles[index]
 
     def spawn_world(self, world_width: int, world_height: int, ):
+        # spawns minerals on world on fixed positions
+
         from games.td2020.src.Actors import Granite
         # spawn granite
         granite = Granite(int(world_width / 2), int(world_height / 2))
         self[int(world_width / 2)][int(world_height / 2)].actors.append(granite)
 
     def spawn_players(self):
-        # spawn players
+        # spawn players on fixed positions (1,0 and width-1,height-1) and appends initial buildings to it
 
         from games.td2020.src.Player import Player
         self.players[-1] = Player(-1, self, 1, 0)
@@ -67,21 +56,9 @@ class Board:
         self.players[-1].initial_spawn()
         self.players[1].initial_spawn()
 
-    def get_legal_moves_obj(self, color):
-        moves = list()  # stores the legal moves.
-
-        # Get all the squares with pieces of the given color.
-        for y in range(self.height):
-            for x in range(self.width):
-                for actor in self[x][y].actors:
-                    # check if it even is valid actor - for example not minerals and check if its not construction proxy
-                    if isinstance(actor, MyActor) and actor.is_constructed():
-                        if actor.player == color:
-                            newmoves = str(x) + " " + str(y) + " " + actor.short_name + str(actor.actions)
-                            moves.append(newmoves)
-        return list(moves)
-
     def getValidMoves(self):
+        # return 1 if action is executable else 0, for every possible action and that for every actor and that for every field on grid
+
         # returns binary flat vector
         # same output length as getActionSize
 
@@ -92,15 +69,20 @@ class Board:
                 actors_in_tile = []
                 actors = self[x][y].actors
                 for i in range(MAX_ACTORS_ON_TILE):
-                    actor = actors[i]  # now actor can be empty or it can consist of object MyActor...
 
                     valid_actions = [0] * ALL_ACTIONS_LEN
-                    for j, (action_str, action_int) in enumerate(ALL_ACTIONS.items()):
-                        valid_actions[j] = actor.can_execute_action(action_str, self)
-                    actors[i].append(valid_actions)
+                    if i < len(actors):
+                        actor: MyActor = actors[i]  # now actor can be empty or it can consist of object MyActor...
+
+                        for j, (action_str, action_int) in enumerate(ALL_ACTIONS.items()):
+                            if hasattr(actor, 'action_manager'):
+                                valid_actions[j] = actor.action_manager.can_execute_action(action_str, self)
+                            else:
+                                valid_actions[j] = 0
+                    actors_in_tile.append(valid_actions)
                 row.append(actors_in_tile)
             columns.append(row)
-        return columns
+        return np.asarray(columns)
 
     def display(self):
         if not self.verbose:
@@ -112,7 +94,11 @@ class Board:
             game_display, clock = init_visuals(self.width, self.height, self.verbose)
             update_graphics(self, game_display, clock, self.fps)
         else:
-            display_str = ["\n" + "".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n|"]
+            display_str = []
+            if MAX_ACTORS_ON_TILE == 1:
+                display_str.append("\n" + "".join(["-" * 8] * (self.width + 1)) + "-\n|")
+            else:
+                display_str.append("\n" + "".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n|")
             for y in range(self.height):
                 for x in range(self.width):
                     tile = self[x][y]
@@ -121,21 +107,25 @@ class Board:
                             display_str.append((("+" if actor.player == 1 else "-") if hasattr(actor, "player") else "*") + str(actor.numeric_value))
                         display_str.extend(["  "] * (MAX_ACTORS_ON_TILE - len(tile.actors)))
                     elif np.size(tile.actors) == 1:
-                        display_str.append(" " + (("+" if tile.actors[0].player == 1 else "-") if hasattr(tile.actors[0], "player") else " ") + tile.actors[0].short_name + "  ")
+                        if MAX_ACTORS_ON_TILE == 1:
+                            display_str.append(" " + (("+" if tile.actors[0].player == 1 else "-") if hasattr(tile.actors[0], "player") else " ") + tile.actors[0].short_name + "  ")
+                        else:
+                            display_str.append(" " + (("+" if tile.actors[0].player == 1 else "-") if hasattr(tile.actors[0], "player") else " ") + tile.actors[0].short_name + (" " * (MAX_ACTORS_ON_TILE * 2 - 6)))
                     else:
-                        display_str.append("  " * MAX_ACTORS_ON_TILE)
+                        if MAX_ACTORS_ON_TILE == 1:
+                            display_str.append(" " * 8)
+                        else:
+                            display_str.append("  " * MAX_ACTORS_ON_TILE)
                     display_str.append("|")
                 display_str.append("\n")
                 if y < self.height:
-                    display_str.append("".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n")
+                    if MAX_ACTORS_ON_TILE == 1:
+                        display_str.append("".join(["-" * 8] * (self.width + 1)) + "-\n")
+                    else:
+                        display_str.append("".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n")
                 if y < self.height - 1:
                     display_str.append("|")
             print("".join(display_str))
 
     def timeout(self) -> bool:
-
-        if self.iteration > TIMEOUT_TICKS:
-            # board has timeouted
-            return True
-
-        return False
+        return True if self.iteration > TIMEOUT_TICKS else False

@@ -1,6 +1,20 @@
 from math import sqrt, ceil
-from config_file import CANVAS_SCALE, BORDER
-import pygame
+
+from config_file import CANVAS_SCALE, BORDER, SHOW_PYGAME_WELCOME
+
+if SHOW_PYGAME_WELCOME:
+    import pygame
+else:
+    import os, sys
+
+    with open(os.devnull, 'w') as f:
+        # disable stdout
+        old_std_out = sys.stdout
+        sys.stdout = f
+        import pygame
+
+        # enable stdout
+        sys.stdout = old_std_out
 from numpy import size, clip
 
 
@@ -10,11 +24,6 @@ def message_display(game_display, text, position, text_size, color=(0, 0, 0)):
     text_rect = text_surf.get_rect()
     text_rect.center = position
     game_display.blit(text_surf, text_rect)
-
-
-def display_img(game_display, x, y):
-    car_img = pygame.image.load('..\\assets\\racecar.jpg')
-    game_display.blit(car_img, (x, y))
 
 
 def init_visuals(world_width: int, world_height: int, verbose=True):

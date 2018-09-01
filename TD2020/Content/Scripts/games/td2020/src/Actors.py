@@ -55,7 +55,6 @@ class BuildingMaster(MyActor):
 
     def __init__(self, player: int, x: int, y: int):
         # config variables
-
         super().__init__(player, x, y)
 
 
@@ -155,7 +154,7 @@ class NPC(Character):
         self.production_time: int = 10
         self.production_cost = 20
         self.value = 50
-        self.short_name = "NPC "
+        self.short_name = "Work"
         self.color = {"R": 0, "G": 165, "B": 208}
 
         self.health = self.max_health
@@ -171,7 +170,7 @@ class RifleInfantry(Character):
         self.production_time: int = 20
         self.production_cost = 60
         self.value = 30
-        self.short_name = "Rif "
+        self.short_name = "Rifl"
         self.color = {"R": 152, "G": 0, "B": 136}
         self.health = self.max_health
         self.current_production_time = self.production_time
@@ -193,7 +192,9 @@ class Granite(ResourcesMaster):
 
     def __init__(self, x: int, y: int):
         super().__init__(x, y)
-        self.short_name = "Gran"
+        self.short_name = "Gold"
         self.color = {"R": 230, "G": 0, "B": 50}
         self.gather_amount: int = 20
-        self.numeric_value = 0.0001
+        # self.numeric_value = 0.0001
+        self.numeric_value = 0
+

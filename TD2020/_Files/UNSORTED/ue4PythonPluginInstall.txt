@@ -1,8 +1,0 @@
-pip freeze > requirements.txt
-pip uninstall -r requirements.txt -y
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py
-pip install numpy
-pip install pandas
-pip install pygame
-pip install tensorflow

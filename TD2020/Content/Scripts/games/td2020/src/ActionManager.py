@@ -10,7 +10,7 @@ class ActionManager:
     def __init__(self, actor, actions):
         from games.td2020.src.Actors import MyActor
 
-        self.actions = actions
+        self.actions: list = actions
         self.actor: MyActor = actor
         self.enemy_actor: MyActor = None
 
@@ -42,7 +42,8 @@ class ActionManager:
 
         print("Attacking enemy " + str(type(self.enemy_actor)))
 
-        enemy = self.enemy_actor
+        from games.td2020.src.Actors import MyActor
+        enemy: MyActor = self.enemy_actor
         if enemy.health > 0:
             # print("DAMAGE " + str(self.actor.attack_component.damage))
             # print("enemy health ->" + str(enemy.health) + " of max " + str(enemy.max_health))
@@ -60,6 +61,8 @@ class ActionManager:
                 board[enemy.x][enemy.y].actors.remove(enemy)
 
             del enemy
+
+            self.enemy_actor = None
 
     def npc(self, board: Board):
 
@@ -104,11 +107,8 @@ class ActionManager:
         from games.td2020.src.Actors import ResourcesMaster
         resource: ResourcesMaster = get_nearest_instance_of_class(board, self.actor.x, self.actor.y, ResourcesMaster)
 
-
         resource.amount -= resource.gather_amount
         self.actor.gather_amount += resource.gather_amount
-
-
 
     def return_resources(self, board: Board):
 
@@ -147,10 +147,10 @@ class ActionManager:
             # print("checking if action " + action + " can be executed...")
             can_execute = eval("self.can_" + action + "(board)")
             # print("executed: " + str(can_execute))
-            return can_execute
+            return 1 if can_execute else 0
         else:
             print("cannot execute action - not constructed to max")
-            return False
+            return 0
 
     # noinspection PyUnusedLocal,PyMethodMayBeStatic
     def can_idle(self, board: Board):
@@ -183,7 +183,7 @@ class ActionManager:
 
         # find if there are any mines on this location
         resource_deposit_actor = None
-        for x,y in get_valid_nearby_coordinates(board, self.actor.x, self.actor.y):
+        for x, y in get_valid_nearby_coordinates(board, self.actor.x, self.actor.y):
             for actor in board[x][y].actors:
                 if hasattr(actor, 'resources_deposit_component'):
                     resource_deposit_actor = actor
@@ -275,7 +275,6 @@ class ActionManager:
 
         building: BuildingMaster = eval(name)(self.actor.player, self.actor.x, self.actor.y)
 
-        print("checking cost...")
         # check if we can pay for construction proxy
         # noinspection PyUnresolvedReferences
         return board.players[self.actor.player].money >= building.production_cost

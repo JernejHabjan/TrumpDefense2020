@@ -1,6 +1,6 @@
 from numpy import size
 
-from games.td2020.src.Board import Board as Grid
+from games.td2020.src.Board import Board
 from games.td2020.src.FunctionLibrary import can_add_unit
 
 
@@ -22,12 +22,12 @@ class UnitProductionComponent:
         self.producing_units: list = []
 
     # produces unit by index from array
-    def construct_unit(self, name, world: Grid):
+    def construct_unit(self, name, world: Board):
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import MyActor, NPC, RifleInfantry
 
         # print("started constructing unit " + name)
-        character: MyActor = eval(name)(self.parent.player, self.parent.x, self.parent.y)
+        character: MyActor = eval(name)(self.parent.player, self.parent.x, self.parent.y)  # temp assign parent x,y to unit even if field after construction might be full (case of 1 Actor per tile)
 
         # get production cost of this actor
 
@@ -35,14 +35,13 @@ class UnitProductionComponent:
         world.players[self.parent.player].money -= character.production_cost
         self.producing_units.append(character)
 
-    def update(self, world: Grid):
+    def update(self, world: Board):
         # print("running unit production component update")
         if size(self.producing_units) <= 0:
             return
 
         actor = self.producing_units[0]
 
-        # print("continuing constructing unit " + str(type(self.producing_units[0])) + " with construction time " + str( self.current_production_time) + " of " + str(self.producing_units[0].production_time))
         actor.current_production_time += 1
         if actor.current_production_time >= actor.production_time:
             # get actors on this tile check if we can spawn this unit here
@@ -51,8 +50,7 @@ class UnitProductionComponent:
                 # spawn character and reset timer
                 character = self.producing_units.pop()
                 character.current_production_time = character.production_time
-                character.spawn(world, self.parent.x, self.parent.y)
-                # print("new character spawned")
+                character.spawn(world, self.parent.x, self.parent.y)  # when spawning we are retrieving nearest free spot
 
 
 class ResourcesDepositComponent:

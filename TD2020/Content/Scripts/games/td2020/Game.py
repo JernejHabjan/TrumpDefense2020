@@ -3,8 +3,9 @@ import copy
 import sys
 import numpy as np
 
-from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS, ALL_ACTIONS_INT, PLAYER1WIN, PLAYER2WIN
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS_INT, PLAYER1WIN, PLAYER2WIN
 from games.td2020.src.Board import Board
+from games.td2020.src.FunctionLibrary import action_into_array
 
 from systems.utils import DotDict
 
@@ -28,52 +29,14 @@ class Game:
         return self.width * self.height * MAX_ACTORS_ON_TILE * ALL_ACTIONS_LEN
 
     @staticmethod
-    def actionIntoArr(board: Board, action: int) -> list:
-        # this parses action like "450" into position x,y and actor index on board and action int what action that is
-        index = 0
-        for y in range(board.height):
-            for x in range(board.width):
-                for actor_index in range(MAX_ACTORS_ON_TILE):
-                    for action_str, action_int in ALL_ACTIONS.items():
-                        if index == action:
-                            a = x
-                            b = y
-                            c = actor_index
-                            d = action_int
-                            return [a, b, c, d]
-                        index += 1
-        print("ERROR - action is not valid - too big number to exist in this grid")
-        return []
-
-    # noinspection PyUnusedLocal
-    @staticmethod
-    def _action_into_arr_modulo(board: Board, action: int) -> list:
-        # todo - optional
-        return []
-
-    @staticmethod
-    def arr_into_action(board: Board, action_array: list) -> int:
-        # to get from array like  ['1', '1', '0', '0', 'npc'] index of action like "25"
-        counter = 0
-        for y in range(board.height):
-            for x in range(board.width):
-                for actor_index in range(MAX_ACTORS_ON_TILE):
-                    for action_str, action_int in ALL_ACTIONS.items():
-                        if str(action_array[1]) == str(x) and str(action_array[2]) == str(y) and str(action_array[3]) == str(actor_index) and action_array[4] == action_str:
-                            return counter
-                        else:
-                            counter += 1
-        return -1
-
-    def getNextState(self, board: Board, player: int, action: int):
+    def getNextState(board: Board, player: int, action: int):
 
         # create copy of old world and execute actions on new one
         new_world: Board = copy.deepcopy(board)
 
         player = new_world.players[player]
 
-        # beware that first value is random prefix (number 1) to prevent from trimming leading 0 when x position is 0
-        action_into_arr_array = self.actionIntoArr(new_world, action)
+        action_into_arr_array = action_into_array(new_world, action)
         x = action_into_arr_array[0]
         y = action_into_arr_array[1]
         actor_index = action_into_arr_array[2]
@@ -114,10 +77,8 @@ class Game:
         # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
 
         if eval(PLAYER1WIN):
-
             return 1
         if eval(PLAYER2WIN):
-
             return -1
         if board.timeout():
             # print("Timeouted")
@@ -143,10 +104,10 @@ class Game:
                         actor = board[x][y].actors[actor_index]
 
                         if issubclass(type(board[x][y].actors[actor_index]), MyActor):
-                            board_row_actors.append(actor.player * actor.numeric_value)
+                            board_row_actors.append(actor.player * actor.numeric_value * player)
                         else:
                             # this is neutral unit
-                            board_row_actors.append(actor.numeric_value)  # TODO - neutral resources may look like they belong to player 1 - but minerals has value very small - 0.0001
+                            board_row_actors.append(actor.numeric_value)  # Minerals with numeric value 0
                     else:
                         # this is empty field
                         board_row_actors.append(0)
@@ -185,7 +146,3 @@ class Game:
     @staticmethod
     def getScore(board: Board, player: int) -> float:
         return board.players[player].calculate_score()
-
-
-def display(board: Board):
-    board.display()

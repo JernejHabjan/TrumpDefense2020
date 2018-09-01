@@ -1,9 +1,0 @@
-Download "graphviz-2.38.msi" from http://www.graphviz.org/Download_windows.php
-Execute the "graphviz-2.38.msi" file
-Add the graphviz bin folder to the PATH system environment variable (Example: "C:\Graphviz2.38\bin")
-Go to Anaconda Prompt using start menu (Make sure to right click and select "Run as Administrator". We may get permission issues if Prompt as not opened as Administrator)
-Execute the command: conda install graphviz
-Execute the command: pip install git+https://github.com/nlhepler/pydot.git
-Execute the command "conda list" and make sure pydot and graphviz modules are listed.
-
-RESTART PYCHARM OBVEZNO DA ZAZNA ENVIROMENTAL PATHE

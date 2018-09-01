@@ -7,12 +7,12 @@ from random import shuffle
 
 import numpy as np
 
-from games.td2020.Game import display
 from config_file import ALL_ACTIONS_INT
+from games.td2020.src.FunctionLibrary import action_into_array
 from systems.Arena import Arena
 from systems.MCTS import MCTS
-from systems.pytorch_classification.utils.misc import AverageMeter
-from systems.pytorch_classification.utils.progress.progress.bar import Bar
+from systems.misc.misc import AverageMeter
+from systems.misc.progress.bar import Bar
 
 
 class Coach:
@@ -28,9 +28,9 @@ class Coach:
         self.args = args
         self.mcts = MCTS(self.game, self.nnet, self.args)
         self.trainExamplesHistory = []  # history of examples from args.numItersForTrainExamplesHistory latest iterations
-        self.skipFirstSelfPlay = False  # can be overridden in loadTrainExamples()
+        self.skipFirstSelfPlay = False  # can be overridden in load_train_examples()
 
-    def __executeEpisode(self):
+    def __execute_episode(self):
         """
         This function executes one episode of self-play, starting with player 1.
         As the game is played, each turn is added as a training example to
@@ -63,10 +63,11 @@ class Coach:
             # print("this is one iteration here in coach")
             episode_step += 1
 
-            # sets temp var that is passed into MCTS getActionProb
+            # sets temp var that is passed into MCTS get_action_prob
             temp = int(episode_step < self.args.tempThreshold)
-            # returns probability from getActionProb
-            pi = self.mcts.getActionProb(board, self.curPlayer, temp=temp)
+
+            # returns probability from get_action_prob
+            pi = self.mcts.get_action_prob(board, self.curPlayer, temp=temp)
             # return symmetries - todo ? what are symmetries here
             canonical_board = self.game.getCanonicalForm(board, self.curPlayer)
             sym = self.game.getSymmetries(canonical_board, pi)
@@ -81,23 +82,15 @@ class Coach:
             # print("COACH.py printing pi", pi,"printing len pi",len(pi))
             action = np.random.choice(len(pi), p=pi)
 
-
-
-
             # apply action
 
-            action_arr = self.game.actionIntoArr(board, action)
+            action_arr = action_into_array(board, action)
             if self.args.verbose > 0:
                 pass
                 # print("----------")
                 # for i in range(len(self.game.getValidMoves(board, self.curPlayer))):
                 #     if self.game.getValidMoves(board, self.curPlayer)[i]:
-                #         action_into_arr_array = self.game.actionIntoArr(board, i)
-                #         x = action_into_arr_array[0]
-                #         y = action_into_arr_array[1]
-                #         actor_index = action_into_arr_array[2]
-                #         action_str = ALL_ACTIONS_INT[action_into_arr_array[3]]
-                #         print(x, y, actor_index, action_str)
+                #         action_into_array_print(board, i)
                 # print("----------")
                 print("Coach.py ", "player ", self.curPlayer, "getting new state with action", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
             board, self.curPlayer = self.game.getNextState(board, self.curPlayer, action)
@@ -112,10 +105,10 @@ class Coach:
                 # x[2] -> pi
                 if self.args.verbose == 3 or self.args.verbose == 5:
                     print("coach - episode ended with result:", r)
-                    display(board)
+                    board.display()
                 return [(x[0], x[2], r * ((-1) ** (x[1] != self.curPlayer))) for x in train_examples]
 
-    def learn(self):
+    def coach_learn(self):
         """
         Performs numIters iterations with numEps episodes of self-play in each
         iteration. After every iteration, it retrains neural network with
@@ -139,7 +132,7 @@ class Coach:
                     # print("executing mcts episode")
                     self.mcts = MCTS(self.game, self.nnet, self.args)  # reset search tree
 
-                    iteration_train_examples += self.__executeEpisode()
+                    iteration_train_examples += self.__execute_episode()
 
                     # print("printing shape of single iteration train examples", np.size(iteration_train_examples))
 
@@ -159,7 +152,7 @@ class Coach:
                 self.trainExamplesHistory.pop(0)
             # backup history to a file
             # NB! the examples were collected using the model from the previous iteration, so (i-1)
-            self.saveTrainExamples(i - 1)
+            self.save_train_examples(i - 1)
 
             # shuffle examples before training
             train_examples = []
@@ -170,9 +163,9 @@ class Coach:
 
             print("printing len of train examples: ", len(train_examples))
             # training new network, keeping a copy of the old one
-            self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
+            self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.args.checkpoint_file)
             # competitor network
-            self.pnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
+            self.pnet.load_checkpoint(folder=self.args.checkpoint, filename=self.args.checkpoint_file)
             # competitor mcts
             pmcts = MCTS(self.game, self.pnet, self.args)
 
@@ -183,38 +176,38 @@ class Coach:
 
             # create two new AI players that fight each other, each with different network - one with pnet and other with nnet
             def player1(x, player):
-                return np.argmax(pmcts.getActionProb(x, player, temp=0))
+                return np.argmax(pmcts.get_action_prob(x, player, temp=0))
 
             def player2(x, player):
-                return np.argmax(nmcts.getActionProb(x, player, temp=0))
+                return np.argmax(nmcts.get_action_prob(x, player, temp=0))
 
             arena = Arena(player1, player2, self.game)
             # returns wins for competitive network - pwins and wins for current network - nwins
-            pwins, nwins, draws = arena.playGames(self.args.arenaCompare, self.args.verbose)
+            pwins, nwins, draws = arena.play_games(self.args.arenaCompare, self.args.verbose)
 
             print('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
             print("New Wins", nwins, "Prev wins", pwins, "Draws", draws)
             if pwins + nwins > 0 and float(nwins) / (pwins + nwins) < self.args.updateThreshold:
                 print('REJECTING NEW MODEL')
-                self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
+                self.nnet.load_checkpoint(folder=self.args.checkpoint, filename=self.args.checkpoint_file)
             else:
                 print('ACCEPTING NEW MODEL')
-                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
-                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='best.pth.tar')
+                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.get_checkpoint_file(i))
+                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.args.best_file )
 
     @staticmethod
-    def getCheckpointFile(iteration):
+    def get_checkpoint_file(iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'
 
-    def saveTrainExamples(self, iteration):
+    def save_train_examples(self, iteration):
         folder = self.args.checkpoint
         if not os.path.exists(folder):
             os.makedirs(folder)
-        filename = os.path.join(folder, self.getCheckpointFile(iteration) + ".examples")
+        filename = os.path.join(folder, self.get_checkpoint_file(iteration) + ".examples")
         with open(filename, "wb+") as f:
             Pickler(f).dump(self.trainExamplesHistory)
 
-    def loadTrainExamples(self):
+    def load_train_examples(self):
         model_file = os.path.join(self.args.load_folder_file[0], self.args.load_folder_file[1])
         examples_file = model_file + ".examples"
         if not os.path.isfile(examples_file):

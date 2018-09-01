@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-
 echo Deleting Junk
 echo .
 echo ..
@@ -27,14 +26,10 @@ rm -rf ./TD2020/Debug/
 rm -rf ./TD2020/.vs/
 rm -rf ./TD2020/.git/
   
-
-
-
 rm -rf ./TD2020/Content/Scripts/alpha-zero-general/pretrained_models/*
 rm -rf ./TD2020/Content/Scripts/alpha-zero-general/temp/*
-
-
-
+rm -rf ./TD2020/Content/Scripts/_Files/models/*
+rm -rf ./TD2020/Content/Scripts/temp/*
 
 find . -name "*.log" -exec rm {} \;
 find . -name "*.sln" -exec rm {} \;

@@ -1,8 +1,8 @@
 import time
-from games.td2020.Game import display as game_display
 from config_file import *
-from systems.pytorch_classification.utils.misc import AverageMeter
-from systems.pytorch_classification.utils.progress.progress.bar import Bar
+from games.td2020.src.FunctionLibrary import action_into_array
+from systems.misc.misc import AverageMeter
+from systems.misc.progress.bar import Bar
 
 
 class Arena:
@@ -10,7 +10,7 @@ class Arena:
     An Arena class where any 2 agents can be pit against each other.
     """
 
-    def __init__(self, player1, player2, game, display=game_display):
+    def __init__(self, player1, player2, game):
         """
         Input:
             player 1,2: two functions that takes board as input, return action
@@ -27,9 +27,8 @@ class Arena:
         self.player2 = player2  # function
 
         self.game = game
-        self.display = display  # function
 
-    def __playGame(self, verbose:int=0):
+    def __play_game(self, verbose: int = 0):
         """
         Executes one episode of a game.
 
@@ -52,11 +51,10 @@ class Arena:
         # while game not ended
         while self.game.getGameEnded(board) == 0:
 
-
             it += 1
             # draw game
             if verbose == 3 or verbose == 5:
-                self.display(board)
+                board.display()
                 print("Turn", str(it), "Player ", str(cur_player))
 
             # function of player that takes board as input
@@ -70,37 +68,30 @@ class Arena:
             # print("arena.py", "printing funct", inspect.getsource(funct))
             # function like this
             # def player1(x, player):
-            #     return np.argmax(pmcts.getActionProb(x, self.curPlayer, temp=0))
+            #     return np.argmax(pmcts.get_action_prob(x, self.curPlayer, temp=0))
+
             action = funct(board, cur_player)
 
-
-
-
-            action_arr = self.game.actionIntoArr(board, action)
-            valids = self.game.getValidMoves(board, cur_player)
+            action_arr = action_into_array(board, action)
+            # valids = self.game.getValidMoves(board, cur_player)
 
             if verbose > 0:
                 print("Arena.py - action chosen", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
 
             # check if action is valid
-            if valids[action] == 0:
-                print("Arena", "ERROR ---- Action not in valids - algorithm may have chosen wrong side of board to play as his figures", action, "parsed action:", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
-
-
+            # if valids[action] == 0:
+            #    print("Arena", "ERROR ---- Action not in valids - algorithm may have chosen wrong side of board to play as his figures", action, "parsed action:", action_arr[0], action_arr[1], action_arr[2], ALL_ACTIONS_INT[action_arr[3]])
 
             # apply action
             board, cur_player = self.game.getNextState(board, cur_player, action)
 
-
-
         # draw game over
         if verbose > 1:
-            assert self.display
             print("Game over: Turn", str(it), "Result", str(self.game.getGameEnded(board)))
-            self.display(board)
+            board.display()
         return self.game.getGameEnded(board)
 
-    def playGames(self, num, verbose:int=0):
+    def play_games(self, num, verbose: int = 0):
         """
         Plays num games in which player1 starts num/2 games and player2 starts
         num/2 games.
@@ -113,7 +104,7 @@ class Arena:
         # speed meter
         eps_time = AverageMeter()
         # bar to display how many games have been played
-        bar = Bar('Arena.playGames', max=num)
+        bar = Bar('Arena.play_games', max=num)
         # another benchmark variable
         end = time.time()
         # num games
@@ -128,7 +119,7 @@ class Arena:
         # iterate through first half of games
         for _ in range(num):
             # play this single game
-            game_result = self.__playGame(verbose=verbose)
+            game_result = self.__play_game(verbose=verbose)
             print("Arena", "printing game result", game_result)
             # check who won - player 1 or 2
             if game_result == 1:
@@ -149,10 +140,10 @@ class Arena:
 
         # iterate through second half of games
         for _ in range(num):
-            game_result = self.__playGame(verbose=verbose)
+            game_result = self.__play_game(verbose=verbose)
             if game_result == 1:
                 one_won += 1
-            elif game_result == -1: # TODO - TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - TO JE PBLO PREJ LIH OBRNEN - PREJ NJE BLO if game_Result == -1: one_won +1
+            elif game_result == -1:
                 two_won += 1
             else:
                 draws += 1

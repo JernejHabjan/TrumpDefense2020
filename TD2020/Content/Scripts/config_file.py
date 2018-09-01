@@ -1,28 +1,33 @@
+import ctypes
 import os
 
 from systems.utils import DotDict
 
 MAX_ACTORS_ON_TILE = 1
-CANVAS_SCALE = 100  # for drawing
+GRID_WIDTH = 8
+GRID_HEIGHT = 8
+
+CANVAS_SCALE = int(ctypes.windll.user32.GetSystemMetrics(1) * (2/3) / GRID_HEIGHT) # for drawing - it takes 2 thirds of screen height
 BORDER = int(CANVAS_SCALE / 20)
-SHOW_TENSORFLOW_GPU = True
+SHOW_TENSORFLOW_GPU = False
+SHOW_PYGAME_WELCOME = False
 
 PATH = os.path.expanduser('~\\TD2020\\saved_models\\')
 # noinspection PyRedeclaration
 PATH = './temp/'
 
+EPS = 1e-8  # for calculating U value in MCTS
 
 # verbose: 0 - no output, 1 - basic learning output, 2 - output grid at end of game, 3 - output grid at end of each turn, 4 - output pygame at end of game, 5 - output pygame at end of each turn
 
 NNET_ARGS = DotDict({
     'lr': 0.001,
     'dropout': 0.3,
-    'epochs': 10,
-    'batch_size': 128,
-    'cuda': False,
+    'epochs': 5,
+    'batch_size': 32,
+    'cuda': True,
     'num_channels': 512,
 })
-
 
 LEARN_ARGS = DotDict({
     'numIters': 2,
@@ -30,25 +35,27 @@ LEARN_ARGS = DotDict({
     'tempThreshold': 5,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
-    'numMCTSSims': 10,
+    'numMCTSSims': 3,
     'arenaCompare': 2,
     'cpuct': 1,
 
     'checkpoint': './temp/',
+    'checkpoint_file': 'temp.pth.tar',
+    'best_file': 'best.pth.tar',
     'load_model': False,
-    'load_folder_file': ('./pretrained_models/othello/keras/', '6x6 checkpoint_145.pth.tar'),
+    'load_folder_file': ('./pretrained_models/td2020/', 'model.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
 
-    'width': 8,
-    'height': 8,
-    'verbose': 3,
+    'width': GRID_WIDTH,
+    'height': GRID_HEIGHT,
+    'verbose': 4,
     'fps': 300,
 
 })
 
 PIT_ARGS = DotDict({
-    'width': 8,
-    'height': 8,
+    'width': GRID_WIDTH,
+    'height': GRID_HEIGHT,
     'verbose': 4,
     'fps': 60,
 
@@ -57,8 +64,8 @@ PIT_ARGS = DotDict({
 })
 
 GET_ACTION_ARGS = DotDict({
-    'width': 8,
-    'height': 8,
+    'width': GRID_WIDTH,
+    'height': GRID_HEIGHT,
     'verbose': 0,
     'fps': 10000,
 
@@ -71,7 +78,7 @@ WIN_CONDITION = 1
 # 3 builders
 if WIN_CONDITION == 1:
     WIN_CONDITION_ARGS = DotDict({
-        'ALL_ACTIONS': {"npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
+        'ALL_ACTIONS': {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
         'TIMEOUT_TICKS': 25,
         'PLAYER1WIN': 'len(board.players[1].actors) >= 10',
         'PLAYER2WIN': 'len(board.players[-1].actors) >= 10'
@@ -79,7 +86,7 @@ if WIN_CONDITION == 1:
 # pick up minerals
 elif WIN_CONDITION == 2:
     WIN_CONDITION_ARGS = DotDict({
-        'ALL_ACTIONS': {"npc": 19, "up": 11, "down": 12, "right": 13, "left": 14,  "mine_resources": 15},
+        'ALL_ACTIONS': {"npc": 19, "up": 11, "down": 12, "right": 13, "left": 14, "mine_resources": 15},
         'TIMEOUT_TICKS': 200,
         'PLAYER1WIN': 'any([hasattr(actor, "gather_amount") and actor.gather_amount > 0 for actor in board.players[1].actors])',
         'PLAYER2WIN': 'any([hasattr(actor, "gather_amount") and actor.gather_amount > 0 for actor in board.players[-1].actors])',

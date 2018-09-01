@@ -1,9 +1,7 @@
 import math
 import numpy as np
 
-from config_file import ALL_ACTIONS_INT
-
-EPS = 1e-8
+from config_file import EPS
 
 
 class MCTS:
@@ -23,7 +21,7 @@ class MCTS:
         self.Es = {}  # stores game.getGameEnded ended for board s
         self.Vs = {}  # stores game.getValidMoves for board s
 
-    def getActionProb(self, board, player, temp=1):
+    def get_action_prob(self, board, player, temp=1):
 
         """
         This function performs numMCTSSims simulations of MCTS starting from
@@ -33,11 +31,9 @@ class MCTS:
             probs: a policy vector where the probability of the ith action is
                    proportional to Nsa[(s,a)]**(1./temp)
         """
-        # print("__________________________________ CALLED ACTION PROB ________________________________")
 
         # runs simulation multiple times
         for i in range(self.args.numMCTSSims):
-            # print("______________ EXECUTING ONE MCTS SIM _____________________")
             self.search(board, player)
 
         # get string representation of this board in canonical way - ugly string
@@ -103,21 +99,9 @@ class MCTS:
             #     v: a float in [-1,1] that gives the value of the current board
 
             self.Ps[s], v = self.nnet.predict(self.game.getCanonicalForm(board, player))
-            # self.PS[s]
 
-            """
-            [[0.02746242 0.02707437 0.02764788 0.02681001 0.02677481 0.02675962
-              0.0273278  0.02735244 0.02695592 0.02734742 0.02751813 0.02691889
-              0.02725385 0.02682924 0.0266784  0.0269696  0.02661146 0.02708981
-              0.02687783 0.02713573 0.02734824 0.02724144 0.02627023 0.02678316
-              0.02695782 0.02669897 0.02704076 0.02702231 0.02679938 0.02750883
-              0.0265832  0.02694086 0.02727489 0.02701169 0.02712642 0.02693347
-              0.02706279]]
-            """
-            # v
-            """
-            [[0.00579279]]
-            """
+            # self.Ps[s] = self.Ps[s] * board.getValidMoves().flatten()
+            # print("JERNEJ - Masking all invalid moves", "https://github.com/suragnair/alpha-zero-general/issues/77")
 
             valids = self.game.getValidMoves(board, player)
 
@@ -160,30 +144,28 @@ class MCTS:
                     # here is our formula
                     u = self.Qsa[(s, a)] + self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s]) / (1 + self.Nsa[(s, a)])
                 else:
-                    u = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ?
+                    u = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ? ####################### JERNEJ HABJAN 2018-09-01 to je blo before
+                    """
+                    next_s, next_player = self.game.getNextState(board, 1, a)
+                    next_s = self.game.getCanonicalForm(next_s, next_player)
+                    Q = self.nnet.predict(board)[next_s][1]
+                    u = Q + self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)
+                    """
+
                 # print("u ", u, "for current action", a)
                 if u > cur_best:
                     cur_best = u
                     best_act = a
 
-        action_into_arr_array = self.game.actionIntoArr(board, best_act)
-        x = action_into_arr_array[0]
-        y = action_into_arr_array[1]
-        actor_index = action_into_arr_array[2]
-        action_str = ALL_ACTIONS_INT[action_into_arr_array[3]]
-        # print("MTCS", "printing U for best action",cur_best, "------------- ACTION ----------------------------", x, y, actor_index, action_str)
-
-        # now we got best action
         a = best_act
         # apply this action to game - get full board and player
 
-        # print("mcts.py getting next state for action", self.game.actionIntoArr(board, a))
         next_s, next_player = self.game.getNextState(board, player, a)
 
         # calls recursively this search function again and returns terminal or leaf state in variable "v"
         v = self.search(next_s, next_player)
 
-        # print("recieved back terminal state from search", v)
+        # print("received back terminal state from search", v)
         if (s, a) in self.Qsa:
             # calculate new value for this Qsa
             # Num(state, action) * Value(state,action) + value / (Num(state,action) + 1)
