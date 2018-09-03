@@ -1,11 +1,13 @@
 from math import sqrt, ceil
+from typing import Any, Tuple, Optional
 
 from config_file import CANVAS_SCALE, BORDER, SHOW_PYGAME_WELCOME
 
 if SHOW_PYGAME_WELCOME:
     import pygame
 else:
-    import os, sys
+    import os
+    import sys
 
     with open(os.devnull, 'w') as f:
         # disable stdout
@@ -18,7 +20,7 @@ else:
 from numpy import size, clip
 
 
-def message_display(game_display, text, position, text_size, color=(0, 0, 0)):
+def _message_display(game_display, text, position, text_size, color=(0, 0, 0)) -> None:
     large_text = pygame.font.Font('games\\td2020\\assets\\Cyberbit.ttf', text_size)
     text_surf = large_text.render(text, True, color)
     text_rect = text_surf.get_rect()
@@ -26,7 +28,7 @@ def message_display(game_display, text, position, text_size, color=(0, 0, 0)):
     game_display.blit(text_surf, text_rect)
 
 
-def init_visuals(world_width: int, world_height: int, verbose=True):
+def init_visuals(world_width: int, world_height: int, verbose=True) -> Optional[Tuple[Any, Any]]:
     if verbose:
         pygame.init()
         # square
@@ -37,10 +39,9 @@ def init_visuals(world_width: int, world_height: int, verbose=True):
         clock = pygame.time.Clock()
 
         return game_display, clock
-    return None, None
 
 
-def update_graphics(board, game_display, clock, fps: int = 1):
+def update_graphics(board, game_display, clock, fps: int = 1) -> None:
     from games.td2020.src.Actors import GeneralActor
     # clear display
     global num_actors
@@ -95,12 +96,12 @@ def update_graphics(board, game_display, clock, fps: int = 1):
                     production_percent = clip(float(actor.current_production_time) / float(actor.production_time), 0, 1)  # value between 0 and 1
 
                     if production_percent == 1:
-                        message_display(game_display, u"" + actor.current_action, (x, int(y - actor_size / 2)), int(actor_size / 3))
+                        _message_display(game_display, u"" + actor.current_action, (x, int(y - actor_size / 2)), int(actor_size / 3))
                     else:
 
-                        message_display(game_display, u"" + str(production_percent * 100) + "%", (x, int(y - actor_size / 2)), int(actor_size / 3), (int(255 - 255 * production_percent), int(255 - 255 * production_percent), int(255 - 255 * production_percent)))
+                        _message_display(game_display, u"" + str(production_percent * 100) + "%", (x, int(y - actor_size / 2)), int(actor_size / 3), (int(255 - 255 * production_percent), int(255 - 255 * production_percent), int(255 - 255 * production_percent)))
 
-                message_display(game_display, u"" + actor.short_name, actor_location, actor_size)
+                _message_display(game_display, u"" + actor.short_name, actor_location, actor_size)
 
     pygame.display.update()
 

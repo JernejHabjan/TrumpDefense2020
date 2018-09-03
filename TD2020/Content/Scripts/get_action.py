@@ -3,16 +3,17 @@ import numpy as np
 from config_file import GET_ACTION_ARGS
 from games.td2020.Game import Game
 from games.td2020.keras.NNet import NNetWrapper as NNet
-from systems.MCTS import MCTS
+from games.td2020.src.Board import Board
+from systems.mcts import MCTS
 
 
-def create_board(board):
+def create_board(board: Board):
     # todo fill board here from UE4 for both players and assign this AI player as player 1
     return 1
 
 
 g = Game(GET_ACTION_ARGS)
-board = g.getInitBoard()
+board: Board = g.get_init_board()
 # board = create_board(board)
 
 # systems

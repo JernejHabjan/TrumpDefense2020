@@ -3,24 +3,23 @@ import os
 
 from systems.utils import DotDict
 
-MAX_ACTORS_ON_TILE = 1
-GRID_WIDTH = 8
-GRID_HEIGHT = 8
+MAX_ACTORS_ON_TILE: int = 1
+GRID_WIDTH: int = 8
+GRID_HEIGHT: int = 8
 
-CANVAS_SCALE = int(ctypes.windll.user32.GetSystemMetrics(1) * (2/3) / GRID_HEIGHT) # for drawing - it takes 2 thirds of screen height
-BORDER = int(CANVAS_SCALE / 20)
-SHOW_TENSORFLOW_GPU = False
-SHOW_PYGAME_WELCOME = False
+CANVAS_SCALE: int = int(ctypes.windll.user32.GetSystemMetrics(1) * (2 / 3) / GRID_HEIGHT)  # for drawing - it takes 2 thirds of screen height
+BORDER: int = int(CANVAS_SCALE / 20)
+SHOW_TENSORFLOW_GPU: bool = False
+SHOW_PYGAME_WELCOME: bool = False
 
-PATH = os.path.expanduser('~\\TD2020\\saved_models\\')
-# noinspection PyRedeclaration
-PATH = './temp/'
+# PATH: str = os.path.expanduser('~\\TD2020\\saved_models\\')
+PATH: str = './temp/'
 
-EPS = 1e-8  # for calculating U value in MCTS
+EPS: float = 1e-8  # for calculating U value in MCTS
 
 # verbose: 0 - no output, 1 - basic learning output, 2 - output grid at end of game, 3 - output grid at end of each turn, 4 - output pygame at end of game, 5 - output pygame at end of each turn
 
-NNET_ARGS = DotDict({
+NNET_ARGS: DotDict = DotDict({
     'lr': 0.001,
     'dropout': 0.3,
     'epochs': 5,
@@ -29,7 +28,7 @@ NNET_ARGS = DotDict({
     'num_channels': 512,
 })
 
-LEARN_ARGS = DotDict({
+LEARN_ARGS: DotDict = DotDict({
     'numIters': 2,
     'numEps': 2,
     'tempThreshold': 5,
@@ -53,7 +52,7 @@ LEARN_ARGS = DotDict({
 
 })
 
-PIT_ARGS = DotDict({
+PIT_ARGS: DotDict = DotDict({
     'width': GRID_WIDTH,
     'height': GRID_HEIGHT,
     'verbose': 4,
@@ -63,7 +62,7 @@ PIT_ARGS = DotDict({
     'cpuct': 1.0
 })
 
-GET_ACTION_ARGS = DotDict({
+GET_ACTION_ARGS: DotDict = DotDict({
     'width': GRID_WIDTH,
     'height': GRID_HEIGHT,
     'verbose': 0,
@@ -73,10 +72,10 @@ GET_ACTION_ARGS = DotDict({
     'cpuct': 1.0
 })
 
-WIN_CONDITION = 1
+_WIN_CONDITION: int = 1
 
 # 3 builders
-if WIN_CONDITION == 1:
+if _WIN_CONDITION == 1:
     WIN_CONDITION_ARGS = DotDict({
         'ALL_ACTIONS': {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
         'TIMEOUT_TICKS': 25,
@@ -84,7 +83,7 @@ if WIN_CONDITION == 1:
         'PLAYER2WIN': 'len(board.players[-1].actors) >= 10'
     })
 # pick up minerals
-elif WIN_CONDITION == 2:
+elif _WIN_CONDITION == 2:
     WIN_CONDITION_ARGS = DotDict({
         'ALL_ACTIONS': {"npc": 19, "up": 11, "down": 12, "right": 13, "left": 14, "mine_resources": 15},
         'TIMEOUT_TICKS': 200,
@@ -100,9 +99,12 @@ else:
         'PLAYER2WIN': 'len(board.players[1].actors) == 0'
     })
 
-ALL_ACTIONS = WIN_CONDITION_ARGS.ALL_ACTIONS
-ALL_ACTIONS_INT = dict((y, x) for x, y in ALL_ACTIONS.items())
-ALL_ACTIONS_LEN = len(ALL_ACTIONS)
-TIMEOUT_TICKS = WIN_CONDITION_ARGS.TIMEOUT_TICKS
+ALL_ACTIONS: dict = WIN_CONDITION_ARGS.ALL_ACTIONS
+ALL_ACTIONS_INT: dict = dict((y, x) for x, y in ALL_ACTIONS.items())
+ALL_ACTIONS_LEN: int = len(ALL_ACTIONS)
+TIMEOUT_TICKS: int = WIN_CONDITION_ARGS.TIMEOUT_TICKS
 PLAYER1WIN = WIN_CONDITION_ARGS.PLAYER1WIN
 PLAYER2WIN = WIN_CONDITION_ARGS.PLAYER2WIN
+
+if __name__ == '__main__':
+    pass

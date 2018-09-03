@@ -1,19 +1,28 @@
+from typing import Dict, List
+
 from games.td2020.src.FunctionLibrary import get_nearest_empty_spawn
 
 
 class GeneralActor:
+    """
+    This is an actor that exists in world
+    """
 
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         self.x: int = x
         self.y: int = y
 
         self.numeric_value: int  # value that is forwarded to neural network
-        self.color: dict
+        self.color: Dict[int, int, int]
         self.short_name: str
 
 
 class MyActor(GeneralActor):
-    def __init__(self, player: int, x: int, y: int):
+    """
+    This is an actor that player can use
+    """
+
+    def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(x, y)
 
         self.player: int = player
@@ -27,19 +36,15 @@ class MyActor(GeneralActor):
         self.current_production_time: int = 0  # amount that this building / character has been produced
 
         self.current_action: str = ""
-        self.actions = ["idle"]
+        self.actions: List[str] = ["idle"]
 
         from games.td2020.src.ActionManager import ActionManager
-        self.action_manager = ActionManager(self, self.actions)
+        self.action_manager: ActionManager = ActionManager(self, self.actions)
 
-    def update(self, world, action: str):
+    def update(self, world, action: str) -> None:
         self.action_manager.execute_action(action, world)
 
-    def __del__(self):
-        pass
-        # print("Actor destroyed")
-
-    def spawn(self, world, x_in: int, y_in: int):
+    def spawn(self, world, x_in: int, y_in: int) -> None:
         self.x, self.y = get_nearest_empty_spawn(world, x_in, y_in)
 
         # spawn character - by adding it to player
@@ -47,13 +52,10 @@ class MyActor(GeneralActor):
         # add to world tile
         world[self.x][self.y].actors.append(self)
 
-    def is_constructed(self):
-        return self.current_production_time == self.production_time
-
 
 class BuildingMaster(MyActor):
 
-    def __init__(self, player: int, x: int, y: int):
+    def __init__(self, player: int, x: int, y: int) -> None:
         # config variables
         super().__init__(player, x, y)
 
@@ -76,14 +78,13 @@ class TownHall(BuildingMaster):
         self.actions.extend(["npc"])
         self.numeric_value = 1
 
-    def update(self, world, action: str):
+    def update(self, world, action: str) -> None:
         MyActor.update(self, world, action)
         self.unit_production_component.update(world)
 
 
 class Barracks(BuildingMaster):
-
-    def __init__(self, player: int, x: int, y: int):
+    def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
         from games.td2020.src.Components import UnitProductionComponent
 
@@ -99,13 +100,13 @@ class Barracks(BuildingMaster):
         self.actions.extend(["rifle_infantry"])
         self.numeric_value = 2
 
-    def update(self, world, action: str):
+    def update(self, world, action: str) -> None:
         MyActor.update(self, world, action)
         self.unit_production_component.update(world)
 
 
 class MiningShack(BuildingMaster):
-    def __init__(self, player: int, x: int, y: int):
+    def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
         from games.td2020.src.Components import ResourcesDepositComponent
         self.resources_deposit_component = ResourcesDepositComponent()
@@ -120,7 +121,7 @@ class MiningShack(BuildingMaster):
 
 
 class Sentry(BuildingMaster):
-    def __init__(self, player: int, x: int, y: int):
+    def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
         from games.td2020.src.Components import AttackComponent
 
@@ -137,9 +138,7 @@ class Sentry(BuildingMaster):
 
 
 class Character(MyActor):
-    is_busy = False
-
-    def __init__(self, player: int, x: int, y: int):
+    def __init__(self, player: int, x: int, y: int) -> None:
         # set health to max after spawn
         super().__init__(player, x, y)
 
@@ -148,7 +147,7 @@ class NPC(Character):
     gather_amount = 0  # currently holding resources
     max_gather_amount = 20  # max of how much can hold resources
 
-    def __init__(self, player: int, x: int, y: int):
+    def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
         self.max_health = 20
         self.production_time: int = 10
@@ -164,7 +163,7 @@ class NPC(Character):
 
 
 class RifleInfantry(Character):
-    def __init__(self, player: int, x: int, y: int):
+    def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
         self.max_health = 35
         self.production_time: int = 20
@@ -183,18 +182,21 @@ class RifleInfantry(Character):
 
 
 class ResourcesMaster(GeneralActor):
-    def __init__(self, x: int, y: int, amount: int = 2000):
+    """
+    Child of general actor that represents some type of resource in world
+    """
+
+    def __init__(self, x: int, y: int, amount: int = 2000) -> None:
         super().__init__(x, y)
         self.amount = amount
 
 
 class Granite(ResourcesMaster):
 
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         super().__init__(x, y)
         self.short_name = "Gold"
         self.color = {"R": 230, "G": 0, "B": 50}
         self.gather_amount: int = 20
         # self.numeric_value = 0.0001
         self.numeric_value = 0
-

@@ -1,9 +1,10 @@
-class Player:
-    from games.td2020.src.Board import Board as Grid
+from games.td2020.src.Board import Board
 
-    def __init__(self, name: int, world: Grid, start_x: int, start_y: int):
-        from games.td2020.src.Board import Board as Grid
-        self.world: Grid = world
+
+class Player:
+
+    def __init__(self, name: int, world: Board, start_x: int, start_y: int) -> None:
+        self.world: Board = world
         self.name: int = name
         self.start_x: int = start_x
         self.start_y: int = start_y
@@ -12,20 +13,20 @@ class Player:
         self.money = 1000
         self.actors = []
 
-    def initial_spawn(self):
+    def initial_spawn(self) -> None:
         # self._character_initial_spawn("NPC", self.start_x, self.start_y)
         # self._character_initial_spawn("RifleInfantry", self.start_x, self.start_y)
         self._building_initial_spawn("TownHall", self.start_x, self.start_y)
 
         # self._building_initial_spawn("Barracks", self.start_x - 1, self.start_y)
 
-    def _character_initial_spawn(self, name: str, x: int, y: int):
+    def _character_initial_spawn(self, name: str, x: int, y: int) -> None:
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import RifleInfantry, NPC
         character = eval(name)(self.name, x, y)
         character.spawn(self.world, x, y)
 
-    def _building_initial_spawn(self, name: str, x: int, y: int):
+    def _building_initial_spawn(self, name: str, x: int, y: int) -> None:
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import TownHall, MiningShack, Barracks
         building = eval(name)(self.name, x, y)
@@ -33,7 +34,7 @@ class Player:
         building.current_production_time = building.production_time
         building.spawn(self.world, x, y)
 
-    def calculate_score(self):
+    def calculate_score(self) -> int:
         # for actor in self.actors:
         #    print("actor of type" + str(type(actor)))
         return sum(actor.value for actor in self.actors)

@@ -1,46 +1,63 @@
-from __future__ import print_function
 import copy
-import sys
+from typing import List, Tuple
+
 import numpy as np
 
-from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS_INT, PLAYER1WIN, PLAYER2WIN
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, PLAYER1WIN, PLAYER2WIN, TIMEOUT_TICKS
 from games.td2020.src.Board import Board
 from games.td2020.src.FunctionLibrary import action_into_array
-
-from systems.utils import DotDict
-
-sys.path.append('..')
+from systems.types import StateEncoding, StrPresentation, CanonicalBoard, ValidMoves
 
 
 class Game:
-    def __init__(self, args: DotDict):
+    def __init__(self, args) -> None:
         self.args = args
         self.width = args.width
         self.height = args.height
         self.fps = args.fps
 
-    def getInitBoard(self) -> Board:
+    def get_init_board(self) -> Board:
+        """
+        :return: game board of class Board
+        USED: Arena - init world
+              Learn - init world
+              Get Action - init world
+        """
         return Board(self.args)
 
-    def getBoardSize(self) -> tuple:
+    def get_board_size(self) -> Tuple[int, int, int]:
+        """
+        :return: width, height, max_actors_on_tile
+        USED:
+            keras
+                TD2020NNet- init - get board dimensions to build model
+            tensorflow
+                TD2020NNet - init - get board dimensions to build model
+                NNet -> to create tensorflow session
+
+        """
         return self.width, self.height, MAX_ACTORS_ON_TILE
 
-    def getActionSize(self) -> int:
+    def get_action_size(self) -> int:
+        """
+        :return:  width * height * max_actors_on_tile * all_actions
+        """
         return self.width * self.height * MAX_ACTORS_ON_TILE * ALL_ACTIONS_LEN
 
     @staticmethod
-    def getNextState(board: Board, player: int, action: int):
-
-        # create copy of old world and execute actions on new one
+    def get_next_state(board: Board, player: int, action: int) -> Tuple[Board, int]:
+        """
+        create copy of old world and execute actions on new one
+        :param board:
+        :param player:
+        :param action:
+        :return:
+        """
         new_world: Board = copy.deepcopy(board)
 
         player = new_world.players[player]
 
-        action_into_arr_array = action_into_array(new_world, action)
-        x = action_into_arr_array[0]
-        y = action_into_arr_array[1]
-        actor_index = action_into_arr_array[2]
-        action_str = ALL_ACTIONS_INT[action_into_arr_array[3]]
+        x, y, actor_index, action_int, action_str = action_into_array(new_world, action)
         # print("------------- ACTION ----------------------------", x, y, actor_index, action_str)
 
         actor = new_world[x][y].actors[actor_index]
@@ -52,13 +69,18 @@ class Game:
         return new_world, -player.name
 
     @staticmethod
-    def getValidMoves(board: Board, player: int) -> np.array:
-        # return a fixed size binary vector
+    def get_valid_moves(board: Board, player: int) -> ValidMoves:
+        """
+        :param board:
+        :param player:
+        :return: fixed size binary vector
+        # USED - MCTS - to mask all invalid moves
+        """
         from games.td2020.src.Actors import MyActor
-        valid_moves: list = []
+        valid_moves: List[int] = []
         for y in range(board.height):
             for x in range(board.width):
-                some_arr: list = []
+                some_arr: List[int] = []
                 for actor_index in range(MAX_ACTORS_ON_TILE):
                     # check if actor exists on this tile, if its of class MyActor and if its friendly
                     if actor_index < len(board[x][y].actors) and issubclass(type(board[x][y].actors[actor_index]), MyActor) and board[x][y].actors[actor_index].player == player:
@@ -73,31 +95,32 @@ class Game:
         return np.array(valid_moves)
 
     @staticmethod
-    def getGameEnded(board: Board) -> float:
-        # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
-
+    def get_game_ended(board: Board) -> float:
+        """
+        :param board:
+        :return: return 0 if not ended, 1 if player 1 won, -1 if player 1 lost, 1e-4 if timeout
+        """
         if eval(PLAYER1WIN):
             return 1
         if eval(PLAYER2WIN):
             return -1
-        if board.timeout():
+        if board.iteration > TIMEOUT_TICKS:
             # print("Timeouted")
             return 1e-4
-
         return 0
 
     @staticmethod
-    def getCanonicalForm(board: Board, player: int) -> np.ndarray:
+    def get_canonical_form(board: Board, player: int) -> CanonicalBoard:
         from games.td2020.src.Actors import MyActor
 
         # return state if player==1, else return -state if player==-1
-        numeric_board: list = []
+        numeric_board: List[List[List[int]]] = []
         # convert object board to numpy array
         for y in range(board.height):
 
-            board_row: list = []
+            board_row: List[List[int]] = []
             for x in range(board.width):
-                board_row_actors: list = []
+                board_row_actors: List[int] = []
                 for actor_index in range(MAX_ACTORS_ON_TILE):
                     if actor_index < len(board[x][y].actors):
 
@@ -120,29 +143,58 @@ class Game:
         return np.array(numeric_board)
 
     @staticmethod
-    def getSymmetries(canonical_board: np.ndarray, pi: np.array) -> np.ndarray:
+    def get_symmetries(canonical_board: CanonicalBoard, pi: np.array) -> List[Tuple[List[int], List[int]]]:
+        """
+        :param canonical_board: current board in numeric presentation
+        :param pi: TODO - DUNNO WHAT PI HERE IS
+        :return: 8 boards that are mirrored and rotated by 90 degrees
+         rot90 + fip,
+         rot90,
+         rot180 + flip
+         rot180,
+         rot270 + flip
+         rot270,
+         rot360 + flip
+         rot360
+        USED 1 PLACE - Coach - Execute episode - to get nnet_train examples
+        """
         # mirror, rotational
-        pi_board = np.reshape(pi, (canonical_board.shape[0], canonical_board.shape[1], MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))
+        # new_pi of shape (width, height, num_actors_per_tile, num_all_actions)
+        pi_board: List[List[List[List[int]]]] = np.reshape(pi, (canonical_board.shape[0], canonical_board.shape[1], MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))
 
-        l = []
+        l: List[Tuple[List[int], List[int]]] = []
 
         for i in range(1, 5):
             for j in [True, False]:
-                new_b = np.rot90(canonical_board, i)
-                new_pi = np.rot90(pi_board, i)
+                # new_b of shape (width, height, num_actors_per_tile)
+                new_b: StateEncoding = np.rot90(canonical_board, i)  # rotate i-times
+                # new_pi of shape (width, height, num_actors_per_tile, num_all_actions)
+
+                # ACTUALLY TODO StateEncoding
+                new_pi: np.array = np.rot90(pi_board, i)
                 if j:
-                    new_b = np.fliplr(new_b)
+                    new_b = np.fliplr(new_b)  # mirror that rotated board
 
                     new_pi = np.fliplr(new_pi)
-                l += [(new_b, list(new_pi.ravel()) + [pi[-1]])]
-
+                l += [(new_b, list(new_pi.ravel()) + [pi[-1]])]  # ravel is a contiguous flattened array
         return l
 
     @staticmethod
-    def stringRepresentation(canonical_board: np.ndarray) -> bytes:
-        # 8x8 numpy array (canonical board)
-        return np.array(canonical_board).tostring()
+    def string_representation(canonical_board: CanonicalBoard) -> StrPresentation:
+        """
+        :param canonical_board: 8x8 numpy array (canonical board)
+        :return: 8x8 numpy array (canonical board) string
+        USED: Coach - get action probability (get counts of each action in given state - which is now string)
+              MCTS - _search (to get state in string representation)
+        """
+        return canonical_board.tostring()
 
     @staticmethod
-    def getScore(board: Board, player: int) -> float:
+    def get_score(board: Board, player: int) -> float:
+        """
+        :param board: current board
+        :param player: current player
+        :return: calculated score
+        USED - by greedy player to get best score
+        """
         return board.players[player].calculate_score()

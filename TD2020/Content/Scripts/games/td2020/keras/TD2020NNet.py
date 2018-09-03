@@ -1,24 +1,21 @@
 import os
-import sys
+
 from tensorflow.python.keras import Input, Model
 from tensorflow.python.keras.layers import Conv2D, BatchNormalization, Activation, Reshape, Dense, Dropout, Flatten
 from tensorflow.python.keras.optimizers import Adam
-
 
 from config_file import SHOW_TENSORFLOW_GPU
 
 if not SHOW_TENSORFLOW_GPU:
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-sys.path.append('..')
-
 
 class TD2020NNet:
-    def __init__(self, game, args):
+    def __init__(self, game, args) -> None:
         # game params
-        self.board_x, self.board_y, self.max_actors_on_tile = game.getBoardSize()
+        self.board_x, self.board_y, self.max_actors_on_tile = game.get_board_size()
 
-        self.action_size = game.getActionSize()
+        self.action_size = game.get_action_size()
         self.args = args
 
         # Neural Net

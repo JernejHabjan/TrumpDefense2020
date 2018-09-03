@@ -11,25 +11,26 @@ from pygame.rect import Rect
 
 
 class RandomPlayer:
-    def __init__(self, game: Game):
+    def __init__(self, game: Game) -> None:
         self.game = game
 
     def play(self, board, player) -> int:
-        a = np.random.randint(self.game.getActionSize())
-        valids = self.game.getValidMoves(board, player)
+        action_size = self.game.get_action_size()
+        a = np.random.randint(action_size)
+        valids = self.game.get_valid_moves_board(board, player)
         while valids[a] != 1:
-            a = np.random.randint(self.game.getActionSize())
+            a = np.random.randint(action_size)
         return a
 
 
 class HumanPlayer:
-    def __init__(self, game: Game):
+    def __init__(self, game: Game) -> None:
         self.game = game
 
     def play(self, board: Board, player: int) -> int:
         # board.display()
         print("----------")
-        valid = self.game.getValidMoves(board, player)
+        valid = self.game.get_valid_moves_board(board, player)
         for i in range(len(valid)):
             if valid[i]:
                 action_into_array_print(board, i)
@@ -243,17 +244,18 @@ class HumanPlayer:
 
 
 class GreedyPlayer:
-    def __init__(self, game: Game):
+    def __init__(self, game: Game) -> None:
         self.game = game
 
     def play(self, board: Board, player: int) -> int:
-        valids = self.game.getValidMoves(board, player)
+        valids = self.game.get_valid_moves_board(board, player)
         candidates = []
-        for a in range(self.game.getActionSize()):
+        action_size = self.game.get_action_size()
+        for a in range(action_size):
             if valids[a] == 0:
                 continue
-            next_board, _ = self.game.getNextState(board, player, a)
-            score = self.game.getScore(next_board, player)
+            next_board, _ = self.game.get_next_state(board, player, a)
+            score = self.game.get_score(next_board, player)
             candidates += [(-score, a)]
         candidates.sort()
         return candidates[0][1]

@@ -1,24 +1,27 @@
 import json
+from typing import Tuple, List, Any
+
 import pandas as pd
 from pandas.io.json import json_normalize
 import numpy as np
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS
 
-from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS, ALL_ACTIONS_INT
 
-
-def friendly(actor1, actor2):
+def friendly(actor1, actor2) -> bool:
     return actor1.player == actor2.player
 
 
-def same_tile(actor1, actor2):
-    return actor1.x == actor2.x and actor1.y == actor2.y
-
-
-def dist(actor1, actor2):
+def dist(actor1, actor2) -> float:
     return np.sqrt((actor1.x - actor2.x) ** 2 + (actor1.y - actor2.y) ** 2)
 
 
-def retrieve_json(filename, row_name=None):
+def retrieve_json(filename, row_name=None) -> pd.DataFrame:
+    """
+    Used to retrieve shortcuts for human player from json arrays
+    :param filename:
+    :param row_name:
+    :return:
+    """
     with open('games\\td2020\\datatables\\' + filename + '.json') as f:
         dict_train = json.load(f)
     # noinspection PyTypeChecker
@@ -30,7 +33,13 @@ def retrieve_json(filename, row_name=None):
     return df
 
 
-def get_valid_nearby_coordinates(world, x: int, y: int) -> list:
+def get_valid_nearby_coordinates(world, x: int, y: int) -> List[Tuple[int, int]]:
+    """
+    :param world:
+    :param x:
+    :param y:
+    :return: nearest field where we can spawn character
+    """
     # this function is also handling decision what coordinates to return with correlation to MAX_ACTORS_ON_TILE
 
     if MAX_ACTORS_ON_TILE > 1:
@@ -60,7 +69,7 @@ def get_valid_nearby_coordinates(world, x: int, y: int) -> list:
     return coordinates
 
 
-def can_add_unit(world, x: int, y: int, is_building: bool = False):
+def can_add_unit(world, x: int, y: int, is_building: bool = False) -> bool:
     for x, y in get_valid_nearby_coordinates(world, x, y):
         if is_building:
             from games.td2020.src.Actors import BuildingMaster
@@ -82,7 +91,7 @@ def get_nearest_empty_spawn(world, x_in: int, y_in: int) -> tuple:
     return None, None
 
 
-def get_nearest_instance_of_class(world, x_in: int, y_in: int, class_name, opts: str = None):
+def get_nearest_instance_of_class(world, x_in: int, y_in: int, class_name, opts: str = None) -> Any:
     # noinspection PyUnresolvedReferences
     from games.td2020.src.Actors import ResourcesMaster, Granite, TownHall, MiningShack, Barracks, Sentry, Character
     for x, y in get_valid_nearby_coordinates(world, x_in, y_in):
@@ -96,37 +105,24 @@ def get_nearest_instance_of_class(world, x_in: int, y_in: int, class_name, opts:
     return None
 
 
-def action_into_array(board, action: int) -> list:
+def action_into_array(board, action: int) -> Tuple[int, int, int, int, str]:
     # this parses action like "450" into position x,y and actor index on board and action int what action that is
+    # possible improvement is to calculate action with modulo
     index = 0
     for y in range(board.height):
         for x in range(board.width):
             for actor_index in range(MAX_ACTORS_ON_TILE):
                 for action_str, action_int in ALL_ACTIONS.items():
                     if index == action:
-                        a = x
-                        b = y
-                        c = actor_index
-                        d = action_int
-                        return [a, b, c, d]
+                        return x, y, actor_index, action_int, action_str
                     index += 1
     print("ERROR - action is not valid - too big number to exist in this grid")
-    return []
+    return tuple()
 
 
-def action_into_array_print(board, action: int, print_prefix=""):
-    action_into_arr_array = action_into_array(board, action)
-    x = action_into_arr_array[0]
-    y = action_into_arr_array[1]
-    actor_index = action_into_arr_array[2]
-    action_str = ALL_ACTIONS_INT[action_into_arr_array[3]]
+def action_into_array_print(board, action: int, print_prefix="") -> None:
+    x, y, actor_index, action_int, action_str = action_into_array(board, action)
     print(print_prefix, x, y, actor_index, action_str)
-
-
-# noinspection PyUnusedLocal
-def _action_into_arr_modulo(board, action: int) -> list:
-    # todo - optional
-    return []
 
 
 def arr_into_action(board, action_array: list) -> int:

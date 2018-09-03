@@ -30,6 +30,9 @@ rm -rf ./TD2020/Content/Scripts/alpha-zero-general/pretrained_models/*
 rm -rf ./TD2020/Content/Scripts/alpha-zero-general/temp/*
 rm -rf ./TD2020/Content/Scripts/_Files/models/*
 rm -rf ./TD2020/Content/Scripts/temp/*
+rm -rf ./TD2020/Content/Scripts/.mypy_cache/
+
+
 
 find . -name "*.log" -exec rm {} \;
 find . -name "*.sln" -exec rm {} \;
