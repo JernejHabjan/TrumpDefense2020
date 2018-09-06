@@ -3,7 +3,7 @@ from systems.arena import Arena
 from systems.mcts import MCTS
 from games.td2020.Game import Game
 from games.td2020.Players import RandomPlayer, HumanPlayer, GreedyPlayer
-from games.td2020.tensorflow.NNet import NNetWrapper as NNet
+from games.td2020.keras.NNet import NNetWrapper as NNet
 
 import numpy as np
 
@@ -24,7 +24,7 @@ class PitWrapper:
 
         # systems
         self.n1 = NNet(self.game)
-        self.n1.load_checkpoint(PATH, LEARN_ARGS.checkpoint_file)
+        self.n1.load_checkpoint(LEARN_ARGS.checkpoint, LEARN_ARGS.checkpoint_file)
         self.mcts1 = MCTS(self.game, self.n1, PIT_ARGS)
 
         # nnet player

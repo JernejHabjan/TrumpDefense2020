@@ -25,12 +25,12 @@ class RandomPlayer:
 
 class HumanPlayer:
     def __init__(self, game: Game) -> None:
-        self.game = game
+        self.game: Game = game
 
     def play(self, board: Board, player: int) -> int:
         # board.display()
         print("----------")
-        valid = self.game.get_valid_moves_board(board, player)
+        valid = self.game.get_valid_moves(board, player)
         for i in range(len(valid)):
             if valid[i]:
                 action_into_array_print(board, i)

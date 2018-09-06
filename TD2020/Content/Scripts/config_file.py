@@ -12,8 +12,8 @@ BORDER: int = int(CANVAS_SCALE / 20)
 SHOW_TENSORFLOW_GPU: bool = False
 SHOW_PYGAME_WELCOME: bool = False
 
-# PATH: str = os.path.expanduser('~\\TD2020\\saved_models\\')
-PATH: str = './temp/'
+
+PATH: str = os.path.dirname(os.path.realpath(__file__))
 
 EPS: float = 1e-8  # for calculating U value in MCTS
 
@@ -38,7 +38,7 @@ LEARN_ARGS: DotDict = DotDict({
     'arenaCompare': 2,
     'cpuct': 1,
 
-    'checkpoint': './temp/',
+    'checkpoint': PATH + "\\temp\\",
     'checkpoint_file': 'temp.pth.tar',
     'best_file': 'best.pth.tar',
     'load_model': False,

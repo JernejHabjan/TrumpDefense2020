@@ -31,7 +31,7 @@ rm -rf ./TD2020/Content/Scripts/alpha-zero-general/temp/*
 rm -rf ./TD2020/Content/Scripts/_Files/models/*
 rm -rf ./TD2020/Content/Scripts/temp/*
 rm -rf ./TD2020/Content/Scripts/.mypy_cache/
-
+rm -rf ./TD2020/Content/Scripts/logs/*
 
 
 find . -name "*.log" -exec rm {} \;

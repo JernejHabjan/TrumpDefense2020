@@ -5,7 +5,7 @@ StrPresentation = array(List[List[List[bytes]]])
 StateEncoding = List[List[List[int]]]
 ActionEncoding = List[List[List[List[int]]]]
 
-NodeType = Dict[Tuple[StateEncoding, StrPresentation], int]
+# NodeType = Dict[Tuple[StateEncoding, StrPresentation], int]
 
 Pi = List[int]
 V = float

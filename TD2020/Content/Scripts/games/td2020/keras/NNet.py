@@ -2,6 +2,7 @@ import os
 from typing import List, Tuple
 
 import numpy as np
+from tensorflow.python.keras.backend import clear_session
 from tensorflow.python.keras.callbacks import TensorBoard
 from tensorflow.python.keras.utils import plot_model
 
@@ -20,7 +21,7 @@ class NNetWrapper(NNetWrapperParent):
         self.action_size :int= game.get_action_size()
 
         self.tensorboard:TensorBoard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0, write_graph=True, write_images=True)
-        plot_model(self.nnet.model, to_file='_Files\\models\\' + type(self.nnet).__name__ + '_model_plot.png', show_shapes=True, show_layer_names=True)
+        # plot_model(self.nnet.model, to_file='_Files\\models\\' + type(self.nnet).__name__ + '_model_plot.png', show_shapes=True, show_layer_names=True)
 
     def nnet_train(self, examples: List[CoachEpisode]) -> None:
         """
@@ -71,7 +72,6 @@ class NNetWrapper(NNetWrapperParent):
         #     raise ValueError("No model in path {}".format(filepath))
 
         print("NNet", "loading checkpoint", filepath)
-
         try:
             self.nnet.model.load_weights(filepath)
         except Exception as e:

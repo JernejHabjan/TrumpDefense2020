@@ -1,7 +1,7 @@
 from math import sqrt, ceil
 from typing import Any, Tuple, Optional
 
-from config_file import CANVAS_SCALE, BORDER, SHOW_PYGAME_WELCOME
+from config_file import CANVAS_SCALE, BORDER, SHOW_PYGAME_WELCOME, PATH
 
 if SHOW_PYGAME_WELCOME:
     import pygame
@@ -21,7 +21,7 @@ from numpy import size, clip
 
 
 def _message_display(game_display, text, position, text_size, color=(0, 0, 0)) -> None:
-    large_text = pygame.font.Font('games\\td2020\\assets\\Cyberbit.ttf', text_size)
+    large_text = pygame.font.Font(PATH + '\\games\\td2020\\assets\\Cyberbit.ttf', text_size)
     text_surf = large_text.render(text, True, color)
     text_rect = text_surf.get_rect()
     text_rect.center = position

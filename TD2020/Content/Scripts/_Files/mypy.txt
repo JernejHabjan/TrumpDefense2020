@@ -1,0 +1,7 @@
+mypy learn.py ampak samo tiste funkcije k majo return type definirane dela type ckecking
+
+mypy --strict-optional main.py
+
+reveal_type ---- nkamar ne importaš
+
+--ignore-missing-imports

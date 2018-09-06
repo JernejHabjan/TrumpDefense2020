@@ -17,7 +17,7 @@ from .TD2020NNet import TD2020NNet as ONNet
 sys.path.append('../../')
 
 
-class NNet(NNetWrapperParent):
+class NNetWrapper(NNetWrapperParent):
     def __init__(self, game: Game)->None:
 
         super().__init__(game)
@@ -125,6 +125,7 @@ class NNet(NNetWrapperParent):
     def load_checkpoint(self, folder, filename)->None:
         filepath = os.path.join(folder, filename)
         if not os.path.exists(filepath + '.meta'):
+
             raise Exception("No model in path {}".format(filepath))
         with self.nnet.graph.as_default():
             self.saver = tf.train.Saver()

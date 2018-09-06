@@ -1,6 +1,6 @@
 import numpy as np
 
-from config_file import GET_ACTION_ARGS
+from config_file import GET_ACTION_ARGS, LEARN_ARGS
 from games.td2020.Game import Game
 from games.td2020.keras.NNet import NNetWrapper as NNet
 from games.td2020.src.Board import Board
@@ -18,7 +18,7 @@ board: Board = g.get_init_board()
 
 # systems
 n1 = NNet(g)
-n1.load_checkpoint('./temp/', 'best.pth.tar')
+n1.load_checkpoint(LEARN_ARGS.checkpoint, 'best.pth.tar')
 mcts1 = MCTS(g, n1, GET_ACTION_ARGS)
 
 

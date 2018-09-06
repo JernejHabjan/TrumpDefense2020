@@ -4,7 +4,7 @@ from typing import Tuple, List, Any
 import pandas as pd
 from pandas.io.json import json_normalize
 import numpy as np
-from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS, PATH
 
 
 def friendly(actor1, actor2) -> bool:
@@ -22,7 +22,7 @@ def retrieve_json(filename, row_name=None) -> pd.DataFrame:
     :param row_name:
     :return:
     """
-    with open('games\\td2020\\datatables\\' + filename + '.json') as f:
+    with open(PATH + '\\games\\td2020\\datatables\\' + filename + '.json') as f:
         dict_train = json.load(f)
     # noinspection PyTypeChecker
     df = pd.DataFrame.from_dict(json_normalize(dict_train), orient='columns')

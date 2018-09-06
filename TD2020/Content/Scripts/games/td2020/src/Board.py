@@ -6,7 +6,7 @@ from games.td2020.src.Actors import Granite, MyActor
 from games.td2020.src.Graphics import init_visuals, update_graphics
 from numpy import asarray, size, array
 
-from systems.types import ActionEncoding
+#from systems.types import ActionEncoding # TODO TEMP COMMENTED
 
 
 class Tile:
@@ -66,7 +66,8 @@ class Board:
             returns binary flat vector of same length as get_action_size
         """
 
-        columns: ActionEncoding = []
+        # columns: ActionEncoding = [] # TODO TEMP COMMENTED
+        columns = []
         for y in range(self.height):
             row: List[List[List[int]]] = []
             for x in range(self.width):

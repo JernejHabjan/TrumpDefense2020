@@ -1,7 +1,6 @@
 import time
 from typing import Tuple
 
-from config_file import *
 from games.td2020.Game import Game
 from games.td2020.src.Board import Board
 from games.td2020.src.FunctionLibrary import action_into_array

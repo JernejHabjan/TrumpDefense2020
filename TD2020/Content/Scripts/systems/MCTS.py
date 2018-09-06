@@ -6,7 +6,7 @@ import numpy as np
 from config_file import EPS
 from games.td2020.Game import Game
 from games.td2020.src.Board import Board
-from systems.types import StrPresentation, ValidMoves, NodeType
+from systems.types import StrPresentation, ValidMoves#, NodeType # TODO TEMP NODE TYPE COMMENTED
 from systems.utils import DotDict
 
 
@@ -19,10 +19,15 @@ class MCTS:
         self.game: Game = game
         self.nnet = nnet
         self.args: DotDict = args
-        self.Qsa: NodeType = {}  # stores Q values for s,a (as defined in the paper)
-        self.Nsa: NodeType = {}  # stores #times edge s,a was visited
-        self.Ns: NodeType = {}  # stores #times board s was visited
-        self.Ps: NodeType = {}  # stores initial policy (returned by neural net)
+        #self.Qsa: NodeType = {}  # stores Q values for s,a (as defined in the paper)
+        #self.Nsa: NodeType = {}  # stores #times edge s,a was visited
+        #self.Ns: NodeType = {}  # stores #times board s was visited
+        #self.Ps: NodeType = {}  # stores initial policy (returned by neural net)
+
+        self.Qsa = {}  # stores Q values for s,a (as defined in the paper)
+        self.Nsa = {}  # stores #times edge s,a was visited
+        self.Ns = {}  # stores #times board s was visited
+        self.Ps = {}  # stores initial policy (returned by neural net)
 
         self.Es: Dict[StrPresentation, float] = {}  # stores game.get_game_ended ended for board s
         self.Vs: Dict[StrPresentation, float] = {}  # stores game.get_valid_moves_board for board s
