@@ -1,12 +1,12 @@
 import math
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import numpy as np
 
 from config_file import EPS
 from games.td2020.Game import Game
 from games.td2020.src.Board import Board
-from systems.types import StrPresentation, ValidMoves#, NodeType # TODO TEMP NODE TYPE COMMENTED
+from systems.types import StrPresentation, ValidMoves, Nsa, Ps, Ns, Action, Qsa, StateEncoding
 from systems.utils import DotDict
 
 
@@ -19,20 +19,15 @@ class MCTS:
         self.game: Game = game
         self.nnet = nnet
         self.args: DotDict = args
-        #self.Qsa: NodeType = {}  # stores Q values for s,a (as defined in the paper)
-        #self.Nsa: NodeType = {}  # stores #times edge s,a was visited
-        #self.Ns: NodeType = {}  # stores #times board s was visited
-        #self.Ps: NodeType = {}  # stores initial policy (returned by neural net)
-
-        self.Qsa = {}  # stores Q values for s,a (as defined in the paper)
-        self.Nsa = {}  # stores #times edge s,a was visited
-        self.Ns = {}  # stores #times board s was visited
-        self.Ps = {}  # stores initial policy (returned by neural net)
+        self.Qsa: Qsa = {}  # stores Q values for s,a (as defined in the paper)
+        self.Nsa: Nsa = {}  # stores #times edge s,a was visited
+        self.Ns: Ns = {}  # stores #times board s was visited
+        self.Ps: Ps = {}  # stores initial policy (returned by neural net)
 
         self.Es: Dict[StrPresentation, float] = {}  # stores game.get_game_ended ended for board s
-        self.Vs: Dict[StrPresentation, float] = {}  # stores game.get_valid_moves_board for board s
+        self.Vs: Dict[StrPresentation, ValidMoves] = {}  # stores game.get_valid_moves_board for board s
 
-    def get_action_prob(self, board, player, temp=1) -> List[int]:
+    def get_action_prob(self, board: Board, player: int, temp: int = 1) -> List[float]:
 
         """
         This function performs numMCTSSims simulations of MCTS starting from
@@ -50,7 +45,8 @@ class MCTS:
         # get string representation of this board in canonical way - ugly string
         s: StrPresentation = self.game.string_representation(self.game.get_canonical_form(board, player))
         # stores number of counts for each action in given state - state "s"
-        counts: List[int] = [self.Nsa[(s, a)] if (s, a) in self.Nsa else 0 for a in range(self.game.get_action_size())]
+
+        counts: List[int] = [self.Nsa[(s, a)] if (s, a) in self.Nsa else 0 for a in range(self.game.get_action_size)]
         if temp == 0:
             # get action with most counts in Nsa for this state
             best_a = np.argmax(counts)
@@ -60,8 +56,8 @@ class MCTS:
             probs[best_a] = 1
             return probs
 
-        counts = [x ** (1. / temp) for x in counts]
-        probs = [x / float(sum(counts)) for x in counts]
+        counts: List[int] = [x ** (1. / temp) for x in counts]
+        probs: List[float] = [x / float(sum(counts)) for x in counts]
         return probs
 
     def _search(self, board: Board, player: int) -> float:
@@ -119,7 +115,7 @@ class MCTS:
             # now self.Ps[s] contains only valid predictions
             # print("mcts.py","printing valid predictions", self.Ps[s])
 
-            sum_ps_s = np.sum(self.Ps[s])
+            sum_ps_s: float = np.sum(self.Ps[s])
             if sum_ps_s > 0:
                 self.Ps[s] /= sum_ps_s  # renormalize
             else:
@@ -140,20 +136,20 @@ class MCTS:
         # valids is valid moves for this state
         valids: ValidMoves = self.Vs[s]
         # best value
-        cur_best = -float('inf')
+        cur_best: float = -float('inf')
         # best action
-        best_act = -1
+        best_act: int = -1
 
         # pick the action with the highest upper confidence bound
         # loop through all actions
-        for a in range(self.game.get_action_size()):
+        for a in range(self.game.get_action_size):
             # if action in valid moves for this state
             if valids[a]:
                 if (s, a) in self.Qsa:
                     # here is our formula
-                    u = self.Qsa[(s, a)] + self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s]) / (1 + self.Nsa[(s, a)])
+                    u: float = self.Qsa[(s, a)] + self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s]) / (1 + self.Nsa[(s, a)])
                 else:
-                    u = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ? ####################### JERNEJ HABJAN 2018-09-01 to je blo before
+                    u: float = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ? ####################### JERNEJ HABJAN 2018-09-01 to je blo before
                     """
                     next_s, next_player = self.game.get_next_state(board, 1, a)
                     next_s = self.game.get_canonical_form(next_s, next_player)
@@ -166,10 +162,12 @@ class MCTS:
                     cur_best = u
                     best_act = a
 
-        a = best_act
+        a: int = best_act
         # apply this action to game - get full board and player
 
         next_s, next_player = self.game.get_next_state(board, player, a)
+        next_s: Board = next_s
+        next_player: int = next_player
 
         # calls recursively this _search function again and returns terminal or leaf state in variable "v"
         v: float = self._search(next_s, next_player)
@@ -178,7 +176,7 @@ class MCTS:
         if (s, a) in self.Qsa:
             # calculate new value for this Qsa
             # Num(state, action) * Value(state,action) + value / (Num(state,action) + 1)
-            self.Qsa[(s, a)] = (self.Nsa[(s, a)] * self.Qsa[(s, a)] + v) / (self.Nsa[(s, a)] + 1)
+            self.Qsa[(s, a)] = (self.Nsa[(s, a)] * self.Qsa[(s, a)] + v) / (self.Nsa[(s, a)] + 1)  # TODO - tle se je pomoje +v appendov kot list, ker je biv list[int] prej velikosti 1 predn sm dav v NNet.py v[0][0]
             # append num times visited
             self.Nsa[(s, a)] += 1
 

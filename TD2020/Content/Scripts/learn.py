@@ -6,8 +6,8 @@ from games.td2020.keras.NNet import NNetWrapper as NNet
 
 class CoachWrapper:
     def __init__(self) -> None:
-        self.game = Game(LEARN_ARGS)
-        self.nnet = NNet(self.game)
+        self.game:Game = Game(LEARN_ARGS)
+        self.nnet:NNet = NNet(self.game)
 
         self.load_model()
         self.coach()
@@ -26,3 +26,7 @@ class CoachWrapper:
             c.coach_learn()
         except RecursionError as e:
             raise Exception("Make sure you didn't set variable TIMEOUT_TICKS too high or chosen wrong config for learning -", e)
+
+
+if __name__ == '__main__':
+    CoachWrapper()

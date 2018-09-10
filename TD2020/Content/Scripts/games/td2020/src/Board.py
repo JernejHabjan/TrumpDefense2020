@@ -1,19 +1,17 @@
 from typing import List
 
-from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS
-# noinspection PyUnresolvedReferences
-from games.td2020.src.Actors import Granite, MyActor
-from games.td2020.src.Graphics import init_visuals, update_graphics
 from numpy import asarray, size, array
 
-#from systems.types import ActionEncoding # TODO TEMP COMMENTED
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, ALL_ACTIONS
+from games.td2020.src import Actors
+from systems.types import ActionEncoding
 
 
 class Tile:
     def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
-        self.actors = []
+        self.actors: List['Actors.GeneralActor'] = []
 
 
 class Board:
@@ -60,14 +58,14 @@ class Board:
         """
         return self.tiles[index]
 
-    def get_valid_moves_board(self) -> array(List[List[List[List[int]]]]): #cannot put here ActionEncoding but that's what it is
+    @property
+    def get_valid_moves_board(self) -> array(List[List[List[List[int]]]]):  # cannot put here ActionEncoding but that's what it is
         """
         :return: 1 if action is executable else 0, for every possible action and that for every actor and that for every field on grid.
             returns binary flat vector of same length as get_action_size
         """
 
-        # columns: ActionEncoding = [] # TODO TEMP COMMENTED
-        columns = []
+        columns: ActionEncoding = []
         for y in range(self.height):
             row: List[List[List[int]]] = []
             for x in range(self.width):
@@ -77,7 +75,7 @@ class Board:
 
                     valid_actions: List[int] = [0] * ALL_ACTIONS_LEN
                     if i < len(actors):
-                        actor: MyActor = actors[i]  # now actor can be empty or it can consist of object MyActor...
+                        actor: 'Actors.MyActor' = actors[i]  # now actor can be empty or it can consist of object MyActor...
 
                         for j, (action_str, action_int) in enumerate(ALL_ACTIONS.items()):
                             if hasattr(actor, 'action_manager'):
@@ -89,7 +87,9 @@ class Board:
             columns.append(row)
         return asarray(columns)
 
-    def display(self)->None:
+    def display(self) -> None:
+        from games.td2020.src.Graphics import init_visuals, update_graphics
+
         """
         prints current board state in console
         """
@@ -109,7 +109,7 @@ class Board:
                 display_str.append("\n" + "".join(["-" * (2 * MAX_ACTORS_ON_TILE + 1)] * self.width) + "-\n|")
             for y in range(self.height):
                 for x in range(self.width):
-                    tile = self[x][y]
+                    tile: Tile = self[x][y]
                     if size(tile.actors) > 1:
                         for actor in tile.actors:
                             display_str.append((("+" if actor.player == 1 else "-") if hasattr(actor, "player") else "*") + str(actor.numeric_value))

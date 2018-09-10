@@ -1,17 +1,20 @@
-from games.td2020.src.Board import Board
+from typing import List
+
+from games.td2020.src import Board
+from games.td2020.src import Actors
 
 
 class Player:
 
-    def __init__(self, name: int, world: Board, start_x: int, start_y: int) -> None:
-        self.world: Board = world
+    def __init__(self, name: int, world: 'Board.Board', start_x: int, start_y: int) -> None:
+        self.world: 'Board.Board' = world
         self.name: int = name
         self.start_x: int = start_x
         self.start_y: int = start_y
 
         # set variables
         self.money = 1000
-        self.actors = []
+        self.actors: List['Actors.MyActor'] = []
 
     def initial_spawn(self) -> None:
         # self._character_initial_spawn("NPC", self.start_x, self.start_y)
@@ -22,14 +25,14 @@ class Player:
 
     def _character_initial_spawn(self, name: str, x: int, y: int) -> None:
         # noinspection PyUnresolvedReferences
-        from games.td2020.src.Actors import RifleInfantry, NPC
-        character = eval(name)(self.name, x, y)
+        from games.td2020.src.Actors import RifleInfantry, NPC, Character
+        character: Character = eval(name)(self.name, x, y)
         character.spawn(self.world, x, y)
 
     def _building_initial_spawn(self, name: str, x: int, y: int) -> None:
         # noinspection PyUnresolvedReferences
-        from games.td2020.src.Actors import TownHall, MiningShack, Barracks
-        building = eval(name)(self.name, x, y)
+        from games.td2020.src.Actors import TownHall, MiningShack, Barracks, BuildingMaster, Sentry
+        building: BuildingMaster = eval(name)(self.name, x, y)
         building.health = building.max_health
         building.current_production_time = building.production_time
         building.spawn(self.world, x, y)

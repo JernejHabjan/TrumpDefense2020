@@ -1,6 +1,5 @@
 from typing import Dict, List
-
-from games.td2020.src.FunctionLibrary import get_nearest_empty_spawn
+from games.td2020.src.Components import AttackComponent, ResourcesDepositComponent, UnitProductionComponent
 
 
 class GeneralActor:
@@ -12,9 +11,9 @@ class GeneralActor:
         self.x: int = x
         self.y: int = y
 
-        self.numeric_value: int  # value that is forwarded to neural network
-        self.color: Dict[int, int, int]
-        self.short_name: str
+        self.numeric_value: int = None # value that is forwarded to neural network
+        self.color: Dict[int, int, int] = None
+        self.short_name: str = None
 
 
 class MyActor(GeneralActor):
@@ -28,14 +27,14 @@ class MyActor(GeneralActor):
         self.player: int = player
 
         # variables - used as reference but they are just temp
-        self.max_health: int
-        self.health: int
-        self.production_time: int
-        self.production_cost: int
-        self.value: int
+        self.max_health: int = None
+        self.health: int = None
+        self.production_time: int = None
+        self.production_cost: int = None
+        self.value: int = None
         self.current_production_time: int = 0  # amount that this building / character has been produced
 
-        self.current_action: str = ""
+        self.current_action: str = None
         self.actions: List[str] = ["idle"]
 
         from games.td2020.src.ActionManager import ActionManager
@@ -45,6 +44,8 @@ class MyActor(GeneralActor):
         self.action_manager.execute_action(action, world)
 
     def spawn(self, world, x_in: int, y_in: int) -> None:
+        from games.td2020.src.FunctionLibrary import get_nearest_empty_spawn
+
         self.x, self.y = get_nearest_empty_spawn(world, x_in, y_in)
 
         # spawn character - by adding it to player
@@ -65,12 +66,11 @@ class TownHall(BuildingMaster):
     def __init__(self, player: int, x: int, y: int):
         super().__init__(player, x, y)
 
-        from games.td2020.src.Components import UnitProductionComponent, ResourcesDepositComponent
         self.unit_production_component = UnitProductionComponent(self, ["NPC"])
         self.resources_deposit_component = ResourcesDepositComponent()
         self.max_health: int = 400
         self.production_time: int = 10
-        self.production_cost = 500
+        self.production_cost: int = 500
         self.value: int = 500
         self.short_name = "Hall"
         self.color: dict = {"R": 235, "G": 255, "B": 0}
@@ -86,9 +86,8 @@ class TownHall(BuildingMaster):
 class Barracks(BuildingMaster):
     def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
-        from games.td2020.src.Components import UnitProductionComponent
 
-        self.unit_production_component = UnitProductionComponent(self, ["RifleInfantry"])
+        self.unit_production_component:UnitProductionComponent = UnitProductionComponent(self, ["RifleInfantry"])
 
         self.max_health = 150
         self.production_time: int = 5
@@ -108,7 +107,6 @@ class Barracks(BuildingMaster):
 class MiningShack(BuildingMaster):
     def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
-        from games.td2020.src.Components import ResourcesDepositComponent
         self.resources_deposit_component = ResourcesDepositComponent()
         self.max_health = 150
         self.production_time: int = 2
@@ -123,7 +121,6 @@ class MiningShack(BuildingMaster):
 class Sentry(BuildingMaster):
     def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
-        from games.td2020.src.Components import AttackComponent
 
         self.attack_component = AttackComponent(10, 2)
         self.max_health = 200
@@ -144,8 +141,8 @@ class Character(MyActor):
 
 
 class NPC(Character):
-    gather_amount = 0  # currently holding resources
-    max_gather_amount = 20  # max of how much can hold resources
+    gather_amount:int = 0  # currently holding resources
+    max_gather_amount:int = 20  # max of how much can hold resources
 
     def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
@@ -174,7 +171,6 @@ class RifleInfantry(Character):
         self.health = self.max_health
         self.current_production_time = self.production_time
 
-        from games.td2020.src.Components import AttackComponent
         self.attack_component = AttackComponent(10, 2)
 
         self.actions.extend(["up", "down", "right", "left", "choose_enemy", "attack"])

@@ -1,9 +1,10 @@
 import json
 from typing import Tuple, List, Any
 
+import numpy as np
 import pandas as pd
 from pandas.io.json import json_normalize
-import numpy as np
+
 from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS, PATH
 
 

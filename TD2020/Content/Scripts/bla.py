@@ -2,32 +2,28 @@
 # mnist_softmax.py: https://github.com/tensorflow/tensorflow/blob/r1.1/tensorflow/examples/tutorials/mnist/mnist_softmax.py
 
 # Import data
-from tensorflow.examples.tutorials.mnist import input_data
 
-import tensorflow as tf
 import unreal_engine as ue
 from TFPluginAPI import TFPluginAPI
 
-import operator
 
 from tensorflow.python.keras.backend import clear_session
 
-from config_file import PATH, GET_ACTION_ARGS
-from games.td2020.Game import Game
 from games.td2020.src import Board
 import numpy as np
 
-from config_file import GET_ACTION_ARGS, LEARN_ARGS
+from config_file import GET_ACTION_ARGS, LEARN_ARGS,PATH
 from games.td2020.Game import Game
 from games.td2020.keras.NNet import NNetWrapper as NNet
 from games.td2020.src.Board import Board
 from systems.mcts import MCTS
 
+# noinspection PyUnresolvedReferences
 from pit import PitWrapper
+
 ue.print_string("bla")
 
-
-print("path is "+ PATH)
+print("path is " + PATH)
 
 
 class MnistSimple(TFPluginAPI):
@@ -60,7 +56,7 @@ class MnistSimple(TFPluginAPI):
         print(" TODOOOOOOOOOOOOOOOOOOOOOOOOOOOO - TEMP FIX COZ CRASHING ASYNC IN GAME")
         print(" ZARAD TEGA DELAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         g = Game(GET_ACTION_ARGS)
-        board: Board = g.get_init_board()
+        board:'Board.Board' = g.get_init_board
         # board = create_board(board)
 
         # systems
@@ -76,7 +72,8 @@ class MnistSimple(TFPluginAPI):
         ue.print_string("get_action.py", "printing best action:", best_action)
         # todo - do something with this best action
         return ''
-    def run(self,args):
+
+    def run(self, args):
         pass
         """g = Game(GET_ACTION_ARGS)
         board: Board = g.get_init_board()
@@ -95,6 +92,8 @@ class MnistSimple(TFPluginAPI):
         ue.print_string("get_action.py", "printing best action:", best_action)
         # todo - do something with this best action
         """
+
+
 # required function to get our api
 def getApi():
     # return CLASSNAME.getInstance()

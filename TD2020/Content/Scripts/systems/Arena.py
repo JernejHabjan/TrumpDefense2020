@@ -1,8 +1,8 @@
 import time
-from typing import Tuple
+from typing import Tuple, List
 
-from games.td2020.Game import Game
-from games.td2020.src.Board import Board
+from games.td2020 import Game
+from games.td2020.src import Board
 from games.td2020.src.FunctionLibrary import action_into_array
 from systems.misc.misc import AverageMeter
 from systems.misc.progress.bar import Bar
@@ -13,7 +13,7 @@ class Arena:
     An Arena class where any 2 agents can be pit against each other.
     """
 
-    def __init__(self, player1, player2, game: Game) -> None:
+    def __init__(self, player1: any, player2: any, game: 'Game.Game') -> None:  # cannot set player1, player2 function type
         """
         Input:
             player 1,2: two functions that takes board as input, return action
@@ -29,7 +29,7 @@ class Arena:
         self.player1: function = player1
         self.player2: function = player2
 
-        self.game: Game = game
+        self.game: 'Game.Game' = game
 
     def _play_game(self, verbose: int = 0) -> float:
         """
@@ -42,12 +42,12 @@ class Arena:
                 draw result returned from the game that is neither 1, -1, nor 0.
         """
 
-        players: list = [self.player2, None, self.player1]
+        players: List[function, None, function] = [self.player2, None, self.player1]
         # set current player
         cur_player: int = 1
 
         # init new board
-        board: Board = self.game.get_init_board()
+        board: 'Board.Board' = self.game.get_init_board
         # set iteration to 0
         it: int = 0
 
@@ -65,7 +65,7 @@ class Arena:
             # executes function or method that player represents
             # human player -> <bound method HumanPlayer.play of <othello.OthelloPlayers.HumanPlayer object at ...>>
             # nnet player -> <function n1p at ....>
-            funct = players[cur_player + 1]
+            funct: function = players[cur_player + 1]
             # retrieves action
 
             # import inspect
@@ -74,9 +74,15 @@ class Arena:
             # def player1(x, player):
             #     return np.argmax(pmcts.get_action_prob(x, self.curPlayer, temp=0))
 
-            action:int = funct(board, cur_player)
+            action: int = funct(board, cur_player)
 
             x, y, actor_index, action_int, action_str = action_into_array(board, action)
+            x: int = x
+            y: int = y
+            actor_index: int = actor_index
+            # noinspection PyUnusedLocal
+            action_int: int = action_int
+            action_str: str = action_str
             if verbose > 0:
                 print("arena.py - action chosen", x, y, actor_index, action_str)
 
@@ -87,7 +93,8 @@ class Arena:
 
             # apply action
             board, cur_player = self.game.get_next_state(board, cur_player, action)
-
+            board: 'Board.Board' = board
+            cur_player: int = cur_player
         # draw game over
         game_ended: float = self.game.get_game_ended(board)
         if verbose > 1:
@@ -95,7 +102,7 @@ class Arena:
             board.display()
         return game_ended
 
-    def play_games(self, num, verbose: int = 0) -> Tuple[int, int, int]:
+    def play_games(self, num: int, verbose: int = 0) -> Tuple[int, int, int]:
         """
         Plays num games in which player1 starts num/2 games and player2 starts
         num/2 games.
@@ -106,11 +113,11 @@ class Arena:
             draws:  games won by nobody
         """
         # speed meter
-        eps_time = AverageMeter()
+        eps_time: AverageMeter = AverageMeter()
         # bar to display how many games have been played
-        bar = Bar('Arena.play_games', max=num)
+        bar: Bar = Bar('Arena.play_games', max=num)
         # another benchmark variable
-        end = time.time()
+        end: time = time.time()
         # num games
         eps: int = 0
         # max num games
@@ -123,7 +130,7 @@ class Arena:
         # iterate through first half of games
         for _ in range(num):
             # play this single game
-            game_result = self._play_game(verbose=verbose)
+            game_result: float = self._play_game(verbose=verbose)
             print("Arena", "printing game result", game_result)
             # check who won - player 1 or 2
             if game_result == 1:
@@ -135,7 +142,7 @@ class Arena:
             # bookkeeping + plot progress
             eps += 1
             eps_time.update(time.time() - end)
-            end = time.time()
+            end: time = time.time()
             # update bar
             bar.suffix = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}\n'.format(eps=eps + 1, maxeps=maxeps, et=eps_time.avg, total=bar.elapsed_td, eta=bar.eta_td)
             bar.next()
@@ -144,7 +151,7 @@ class Arena:
 
         # iterate through second half of games
         for _ in range(num):
-            game_result = self._play_game(verbose=verbose)
+            game_result: float = self._play_game(verbose=verbose)
             if game_result == 1:
                 one_won += 1
             elif game_result == -1:
@@ -154,7 +161,7 @@ class Arena:
             # bookkeeping + plot progress
             eps += 1
             eps_time.update(time.time() - end)
-            end = time.time()
+            end: time = time.time()
             bar.suffix = '({eps}/{maxeps}) Eps Time: {et:.3f}s | Total: {total:} | ETA: {eta:}\n'.format(eps=eps + 1, maxeps=num, et=eps_time.avg, total=bar.elapsed_td, eta=bar.eta_td)
             bar.next()
 

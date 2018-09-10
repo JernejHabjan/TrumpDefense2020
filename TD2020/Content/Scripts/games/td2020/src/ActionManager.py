@@ -1,25 +1,27 @@
 from typing import List
 
 import numpy as np
-from games.td2020.src.Actors import MyActor
 from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS
 from games.td2020.src.FunctionLibrary import friendly, dist, get_nearest_instance_of_class, can_add_unit, get_valid_nearby_coordinates
-from games.td2020.src.Board import Board
+
+from games.td2020.src import Board
+from games.td2020.src import Actors
 
 
 class ActionManager:
 
-    def __init__(self, actor: MyActor, actions: List[str]) -> None:
+    def __init__(self, actor: 'Actors.MyActor', actions: List[str]) -> None:
 
         self.actions: List[str] = actions
-        self.actor: MyActor = actor
-        self.enemy_actor: MyActor = None
+        self.actor: 'Actors.MyActor' = actor
+        self.enemy_actor: 'Actors.MyActor' = None
 
         self.ATTACK_COMPONENT_PRIORITY = 1  # priority of attacking actor with attack component rather than one without attack component
 
     # ACTIONS
 
-    def _choose_enemy(self, board: Board) -> None:
+    def _choose_enemy(self, board: 'Board.Board') -> None:
+
         """
         choose nearest enemy, where priority are those with attack component by constant factor
         :param board:
@@ -27,11 +29,11 @@ class ActionManager:
         """
         print("choosing enemy")
 
-        nearest_enemy = None
-        nearest_enemy_dist = np.inf
+        nearest_enemy: 'Actors.MyActor' = None
+        nearest_enemy_dist: float = np.inf
         # negate player so we are choosing opponents enemies
         for actor in board.players[-self.actor.player].actors:
-            distance = dist(self.actor, actor)
+            distance: float = dist(self.actor, actor)
 
             if hasattr(actor, "attack_component"):
                 distance -= self.ATTACK_COMPONENT_PRIORITY
@@ -45,8 +47,7 @@ class ActionManager:
     def _attack(self, board: Board) -> None:
         print("Attacking enemy " + str(type(self.enemy_actor)))
 
-        from games.td2020.src.Actors import MyActor
-        enemy: MyActor = self.enemy_actor
+        enemy: 'Actors.MyActor' = self.enemy_actor
         if enemy.health > 0:
             # print("DAMAGE " + str(self.actor.attack_component.damage))
             # print("enemy health ->" + str(enemy.health) + " of max " + str(enemy.max_health))
@@ -102,7 +103,7 @@ class ActionManager:
 
     def _mine_resources(self, board: Board) -> None:
 
-        from games.td2020.src.Actors import ResourcesMaster
+        from games.td2020.src.Actors import ResourcesMaster  # this here is needed as is - i think - TODO CHECK ČE LAHKO DRGAČ DA DAŠ 'Actors.ResourcesMaster' TO NOTR v get_nearst_instance_of_class
         resource: ResourcesMaster = get_nearest_instance_of_class(board, self.actor.x, self.actor.y, ResourcesMaster)
 
         resource.amount -= resource.gather_amount
@@ -251,7 +252,7 @@ class ActionManager:
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import BuildingMaster, Barracks, TownHall, Sentry, MiningShack
         if self._can_spawn_here(board, name):
-            building = eval(name)(self.actor.player, self.actor.x, self.actor.y)
+            building: BuildingMaster = eval(name)(self.actor.player, self.actor.x, self.actor.y)
             # pay
             board.players[self.actor.player].money -= building.production_cost
 
@@ -289,8 +290,8 @@ class ActionManager:
 
     def _can_character_spawn(self, name: str, board: Board) -> bool:
         # noinspection PyUnresolvedReferences
-        from games.td2020.src.Actors import RifleInfantry, NPC
-        character_temp = eval(name)(0, 0, 0)
+        from games.td2020.src.Actors import RifleInfantry, NPC, Character
+        character_temp: Character = eval(name)(0, 0, 0)
 
         return hasattr(self.actor, 'unit_production_component') and name in self.actor.unit_production_component.unit_types and board.players[self.actor.player].money >= character_temp.production_cost and can_add_unit(board, self.actor.x, self.actor.y)
 

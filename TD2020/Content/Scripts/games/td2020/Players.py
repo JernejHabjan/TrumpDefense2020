@@ -11,23 +11,23 @@ from pygame.rect import Rect
 
 
 class RandomPlayer:
-    def __init__(self, game: Game) -> None:
-        self.game = game
+    def __init__(self, game: 'Game.Game') -> None:
+        self.game: 'Game.Game' = game
 
-    def play(self, board, player) -> int:
-        action_size = self.game.get_action_size()
+    def play(self, board: 'Board.Board', player: int) -> int:
+        action_size = self.game.get_action_size
         a = np.random.randint(action_size)
-        valids = self.game.get_valid_moves_board(board, player)
+        valids = self.game.get_valid_moves(board, player)
         while valids[a] != 1:
             a = np.random.randint(action_size)
         return a
 
 
 class HumanPlayer:
-    def __init__(self, game: Game) -> None:
-        self.game: Game = game
+    def __init__(self, game: 'Game.Game') -> None:
+        self.game: 'Game.Game' = game
 
-    def play(self, board: Board, player: int) -> int:
+    def play(self, board: 'Board.Board', player: int) -> int:
         # board.display()
         print("----------")
         valid = self.game.get_valid_moves(board, player)
@@ -54,7 +54,7 @@ class HumanPlayer:
         return a
 
     @staticmethod
-    def select_object(board: Board, click_location: tuple) -> tuple:
+    def select_object(board: 'Board.Board', click_location: tuple) -> tuple:
         # select object by clicking on it - you can select only your objects
 
         # draw objects
@@ -90,7 +90,7 @@ class HumanPlayer:
                         return [actor, actor_location, actor_size], [1, x, y, actor_index]  # has to have prefix number 1
         return [None] * 3, [None] * 4
 
-    def _manage_input(self, board: Board, player: int) -> list:
+    def _manage_input(self, board: 'Board.Board', player: int) -> list:
         # returns array like this [1, 7, 7, 0, "idle")
 
         from games.td2020.src.Graphics import init_visuals, update_graphics
@@ -244,13 +244,13 @@ class HumanPlayer:
 
 
 class GreedyPlayer:
-    def __init__(self, game: Game) -> None:
-        self.game = game
+    def __init__(self, game: 'Game.Game') -> None:
+        self.game: 'Game.Game' = game
 
     def play(self, board: Board, player: int) -> int:
-        valids = self.game.get_valid_moves_board(board, player)
+        valids = self.game.get_valid_moves(board, player)
         candidates = []
-        action_size = self.game.get_action_size()
+        action_size = self.game.get_action_size
         for a in range(action_size):
             if valids[a] == 0:
                 continue

@@ -5,3 +5,6 @@ mypy --strict-optional main.py
 reveal_type ---- nkamar ne importaš
 
 --ignore-missing-imports
+
+
+mypy --strict-optional --ignore-missing-imports __main__.py

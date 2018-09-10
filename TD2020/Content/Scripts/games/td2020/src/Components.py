@@ -1,6 +1,6 @@
 from numpy import size
-from games.td2020.src.Board import Board
-from games.td2020.src.FunctionLibrary import can_add_unit
+from games.td2020.src import Board
+from games.td2020.src import Actors
 
 
 class AttackComponent:
@@ -11,17 +11,15 @@ class AttackComponent:
 
 
 class UnitProductionComponent:
-    from games.td2020.src.Actors import BuildingMaster
 
-    def __init__(self, parent: BuildingMaster, unit_types: list) -> None:
-        from games.td2020.src.Actors import BuildingMaster
-        self.parent: BuildingMaster = parent
+    def __init__(self, parent: 'Actors.BuildingMaster', unit_types: list) -> None:
+        self.parent: 'Actors.BuildingMaster' = parent
         self.unit_types = unit_types
         self.current_production_time: int = 0  # production time of current unit
         self.producing_units: list = []
 
     # produces unit by index from array
-    def construct_unit(self, name, world: Board) -> None:
+    def construct_unit(self, name, world: 'Board.Board') -> None:
         # noinspection PyUnresolvedReferences
         from games.td2020.src.Actors import MyActor, NPC, RifleInfantry
 
@@ -34,14 +32,15 @@ class UnitProductionComponent:
         world.players[self.parent.player].money -= character.production_cost
         self.producing_units.append(character)
 
-    def update(self, world: Board) -> None:
-        from games.td2020.src.Actors import MyActor
+    def update(self, world: 'Board.Board') -> None:
+
+        from games.td2020.src.FunctionLibrary import can_add_unit
 
         # print("running unit production component update")
         if size(self.producing_units) <= 0:
             return
 
-        actor: MyActor = self.producing_units[0]
+        actor: 'Actors.MyActor' = self.producing_units[0]
 
         actor.current_production_time += 1
         if actor.current_production_time >= actor.production_time:

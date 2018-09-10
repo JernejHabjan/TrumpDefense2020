@@ -6,7 +6,7 @@ import numpy as np
 from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN, PLAYER1WIN, PLAYER2WIN, TIMEOUT_TICKS
 from games.td2020.src.Board import Board
 from games.td2020.src.FunctionLibrary import action_into_array
-from systems.types import StateEncoding, StrPresentation, CanonicalBoard, ValidMoves
+from systems.types import ValidMoves, CanonicalBoard, StrPresentation, StateEncoding, Pi, ActionEncoding
 
 
 class Game:
@@ -16,6 +16,7 @@ class Game:
         self.height = args.height
         self.fps = args.fps
 
+    @property
     def get_init_board(self) -> Board:
         """
         :return: game board of class Board
@@ -25,6 +26,7 @@ class Game:
         """
         return Board(self.args)
 
+    @property
     def get_board_size(self) -> Tuple[int, int, int]:
         """
         :return: width, height, max_actors_on_tile
@@ -38,6 +40,7 @@ class Game:
         """
         return self.width, self.height, MAX_ACTORS_ON_TILE
 
+    @property
     def get_action_size(self) -> int:
         """
         :return:  width * height * max_actors_on_tile * all_actions
@@ -143,10 +146,10 @@ class Game:
         return np.array(numeric_board)
 
     @staticmethod
-    def get_symmetries(canonical_board: CanonicalBoard, pi: np.array) -> List[Tuple[List[int], List[int]]]:
+    def get_symmetries(canonical_board: CanonicalBoard, pi: Pi) -> List[Tuple[StateEncoding, Pi]]:
         """
         :param canonical_board: current board in numeric presentation
-        :param pi: TODO - DUNNO WHAT PI HERE IS
+        :param pi: Pi - List[float] aka action probabilities
         :return: 8 boards that are mirrored and rotated by 90 degrees
          rot90 + fip,
          rot90,
@@ -158,11 +161,14 @@ class Game:
          rot360
         USED 1 PLACE - Coach - Execute episode - to get nnet_train examples
         """
+
+        # TODO - CHECK if symmetries can be added in some other way and if they are correctly applied !!! because of 4 DIM ARRAY!!
+
         # mirror, rotational
         # new_pi of shape (width, height, num_actors_per_tile, num_all_actions)
-        pi_board: List[List[List[List[int]]]] = np.reshape(pi, (canonical_board.shape[0], canonical_board.shape[1], MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))
+        pi_board: ActionEncoding = np.reshape(pi, (canonical_board.shape[0], canonical_board.shape[1], MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))
 
-        l: List[Tuple[List[int], List[int]]] = []
+        l: List[Tuple[StateEncoding, Pi]] = []
 
         for i in range(1, 5):
             for j in [True, False]:
@@ -170,13 +176,13 @@ class Game:
                 new_b: StateEncoding = np.rot90(canonical_board, i)  # rotate i-times
                 # new_pi of shape (width, height, num_actors_per_tile, num_all_actions)
 
-                # ACTUALLY TODO StateEncoding
-                new_pi: np.array = np.rot90(pi_board, i)
+                new_pi: ActionEncoding = np.rot90(pi_board, i)
                 if j:
-                    new_b = np.fliplr(new_b)  # mirror that rotated board
+                    new_b: StateEncoding = np.fliplr(new_b)  # mirror that rotated board
 
-                    new_pi = np.fliplr(new_pi)
-                l += [(new_b, list(new_pi.ravel()) + [pi[-1]])]  # ravel is a contiguous flattened array
+                    new_pi: ActionEncoding = np.fliplr(new_pi)
+                l += [(new_b, list(np.array(new_pi).ravel()))]  # TODO - this is new -LINE BELOW WAS RETURNING 385 instead of 384 - FIGURE IT OUT WHAT THAT +pi[-1] was
+                # l += [(new_b, list(new_pi.ravel()) + [pi[-1]])]  # ravel is a contiguous flattened array
         return l
 
     @staticmethod

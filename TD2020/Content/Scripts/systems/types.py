@@ -1,17 +1,36 @@
-from typing import List, Tuple, Dict
-from numpy import array
+from typing import List, Tuple, Dict, Deque
+from numpy import array, ndarray
 
-StrPresentation = array(List[List[List[bytes]]])
+# StrPresentation = array(List[List[List[bytes]]])
+
+Action = int
+
+
+StrPresentation = List[List[List[bytes]]]  # because if wrapped in array, NodeType doesnt accept it well
+
 StateEncoding = List[List[List[int]]]
-ActionEncoding = List[List[List[List[int]]]]
+ActionEncoding = List[List[List[List[Action]]]]
 
-# NodeType = Dict[Tuple[StateEncoding, StrPresentation], int]
 
-Pi = List[int]
+NodeType = Dict[Tuple[StateEncoding, StrPresentation], int]
+Nsa = Dict[Tuple[StrPresentation, int], int]
+Qsa =  Dict[Tuple[StrPresentation, Action],float]
+
+Pi = List[float]
 V = float
-CoachEpisode = List[Tuple[ActionEncoding, Pi, V]]
+Ps = Dict[StrPresentation, Pi]
+Ns = Ps
+
+
+
+#CoachEpisode = List[Tuple[ActionEncoding, Pi, V]]
+CoachEpisode=List[Tuple[ActionEncoding,Pi,V]]
 
 CanonicalBoard = array(StateEncoding)
 
+ValidMoves = array(List[int])
 
-ValidMoves =  array(List[int])
+TrainExamples = List[Tuple[ActionEncoding, int, List[int], None]]
+TrainExamplesHistory = List[Deque[CoachEpisode]]
+
+Sym=  List[Tuple[ActionEncoding, List[int]]]

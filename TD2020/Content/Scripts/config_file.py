@@ -1,5 +1,6 @@
 import ctypes
 import os
+from typing import Dict
 
 from systems.utils import DotDict
 
@@ -11,7 +12,6 @@ CANVAS_SCALE: int = int(ctypes.windll.user32.GetSystemMetrics(1) * (2 / 3) / GRI
 BORDER: int = int(CANVAS_SCALE / 20)
 SHOW_TENSORFLOW_GPU: bool = False
 SHOW_PYGAME_WELCOME: bool = False
-
 
 PATH: str = os.path.dirname(os.path.realpath(__file__))
 
@@ -47,7 +47,7 @@ LEARN_ARGS: DotDict = DotDict({
 
     'width': GRID_WIDTH,
     'height': GRID_HEIGHT,
-    'verbose': 4,
+    'verbose': 3,
     'fps': 300,
 
 })
@@ -55,7 +55,7 @@ LEARN_ARGS: DotDict = DotDict({
 PIT_ARGS: DotDict = DotDict({
     'width': GRID_WIDTH,
     'height': GRID_HEIGHT,
-    'verbose': 4,
+    'verbose': 3,
     'fps': 60,
 
     'numMCTSSims': 10,
@@ -78,7 +78,7 @@ _WIN_CONDITION: int = 1
 if _WIN_CONDITION == 1:
     WIN_CONDITION_ARGS = DotDict({
         'ALL_ACTIONS': {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
-        'TIMEOUT_TICKS': 25,
+        'TIMEOUT_TICKS': 4,
         'PLAYER1WIN': 'len(board.players[1].actors) >= 10',
         'PLAYER2WIN': 'len(board.players[-1].actors) >= 10'
     })
@@ -99,12 +99,12 @@ else:
         'PLAYER2WIN': 'len(board.players[1].actors) == 0'
     })
 
-ALL_ACTIONS: dict = WIN_CONDITION_ARGS.ALL_ACTIONS
-ALL_ACTIONS_INT: dict = dict((y, x) for x, y in ALL_ACTIONS.items())
+ALL_ACTIONS: Dict[str, int] = WIN_CONDITION_ARGS.ALL_ACTIONS
+ALL_ACTIONS_INT: Dict[int, str] = dict((y, x) for x, y in ALL_ACTIONS.items())
 ALL_ACTIONS_LEN: int = len(ALL_ACTIONS)
 TIMEOUT_TICKS: int = WIN_CONDITION_ARGS.TIMEOUT_TICKS
-PLAYER1WIN = WIN_CONDITION_ARGS.PLAYER1WIN
-PLAYER2WIN = WIN_CONDITION_ARGS.PLAYER2WIN
+PLAYER1WIN: str = WIN_CONDITION_ARGS.PLAYER1WIN
+PLAYER2WIN: str = WIN_CONDITION_ARGS.PLAYER2WIN
 
 if __name__ == '__main__':
     pass

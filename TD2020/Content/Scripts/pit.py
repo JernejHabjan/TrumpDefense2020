@@ -32,3 +32,7 @@ class PitWrapper:
 
         arena = Arena(self.hp, nnp, self.game)
         print(arena.play_games(2, PIT_ARGS.verbose))
+
+
+if __name__ == '__main__':
+    PitWrapper()
