@@ -85,10 +85,12 @@ class PitWrapper:
         draws = 0
         for i in res:
             # noinspection PyProtectedMember
-            if i._success:
-                result.append(i.get())
-            else:
-                print("multi pit not working - check # https://github.com/gigayaya/alpha-zero-general/blob/master/pit.py repo")
+            # if i._success:
+            #     result.append(i.get())
+            # else:
+            #    print("multi pit not working - check # https://github.com/gigayaya/alpha-zero-general/blob/master/pit.py repo")
+            result.append(i.get())
+
         for i in result:
             one_won += i[0]
             two_won += i[1]

@@ -62,7 +62,7 @@ PIT_ARGS: DotDict = DotDict({
     'cpuct': 1.0,
 
     'display_bar': True,
-    'parallel': False,
+    'parallel': True,
     'multiGPU': False,  # multiGPU only support 2 GPUs.
     'setGPU': '0',
     'numPlayGames': 4,  # total num should x2, because each process play 2 games.

@@ -5,42 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de1305a9-b4ca-4621-b185-83156568f1d4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Jernej.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Jernej.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_Files/Deep Learning Book/00 Deep Learning.html" beforeDir="false" afterPath="$PROJECT_DIR$/_Files/Deep Learning Book/00 Deep Learning.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bla.py" beforeDir="false" afterPath="$PROJECT_DIR$/bla.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bla_new.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bla_new.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/config_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/config_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/Players.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/Players.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/datatables/td_attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/datatables/td_attack.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/datatables/td_myactor.json" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/datatables/td_myactor.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/datatables/td_resource.json" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/datatables/td_resource.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/datatables/td_weapon.json" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/datatables/td_weapon.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/keras/NNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/keras/NNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/keras/TD2020NNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/keras/TD2020NNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/src/ActionManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/src/ActionManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/src/Actors.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/src/Actors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/src/Board.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/src/Board.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/src/Components.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/src/Components.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/src/Models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/src/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/src/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/tensorflow/NNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/tensorflow/NNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/tensorflow/NNet.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/td2020/tensorflow/TD2020NNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/games/td2020/tensorflow/TD2020NNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_action.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_action.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/learn.py" beforeDir="false" afterPath="$PROJECT_DIR$/learn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pit.py" beforeDir="false" afterPath="$PROJECT_DIR$/pit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/Arena.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/Arena.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/Coach.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/Coach.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/MCTS.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/MCTS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/NNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/nnet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/misc/misc.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/misc/misc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/misc/progress/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/misc/progress/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/misc/progress/bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/misc/progress/bar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/misc/progress/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/misc/progress/helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/systems/types.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/types.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ue_site.py" beforeDir="false" afterPath="$PROJECT_DIR$/ue_site.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/systems/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/systems/utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -62,7 +29,7 @@
     <SUITE FILE_PATH="coverage/Scripts$config_file.coverage" NAME="config_file Coverage Results" MODIFIED="1536000082954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$get_action.coverage" NAME="get_action Coverage Results" MODIFIED="1529674474900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$test.coverage" NAME="test Coverage Results" MODIFIED="1529783048204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Scripts$pit.coverage" NAME="pit Coverage Results" MODIFIED="1536772139898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Scripts$pit.coverage" NAME="pit Coverage Results" MODIFIED="1536781155240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$OthelloLogic.coverage" NAME="OthelloLogic Coverage Results" MODIFIED="1529315641147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games/td2020" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$OthelloNNet.coverage" NAME="OthelloNNet Coverage Results" MODIFIED="1527168981783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/othello/keras" />
     <SUITE FILE_PATH="coverage/alpha_zero_general$learn.coverage" NAME="learn Coverage Results" MODIFIED="1531054965516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -81,20 +48,53 @@
       <file leaf-file-name="Players.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/games/td2020/Players.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="133" column="72" lean-forward="true" selection-start-line="133" selection-start-column="72" selection-end-line="133" selection-end-column="72" />
+            <state relative-caret-position="2261">
+              <caret line="133" column="72" selection-start-line="133" selection-start-column="72" selection-end-line="133" selection-end-column="72" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Game.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/games/td2020/Game.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="802">
-              <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
+              <caret line="163" selection-start-line="163" selection-end-line="163" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pit.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="471">
+              <caret line="114" column="20" lean-forward="true" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config_file.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config_file.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="434">
+              <caret line="64" column="20" selection-start-line="64" selection-start-column="20" selection-end-line="64" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/systems/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="27" lean-forward="true" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -166,7 +166,6 @@
         <option value="$PROJECT_DIR$/systems/Coach.py" />
         <option value="$PROJECT_DIR$/systems/Arena.py" />
         <option value="$PROJECT_DIR$/systems/MCTS.py" />
-        <option value="$PROJECT_DIR$/systems/utils.py" />
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/system_tools/mcts.py" />
         <option value="$PROJECT_DIR$/system_tools/types.py" />
@@ -182,7 +181,6 @@
         <option value="$PROJECT_DIR$/_Files/mypy.txt" />
         <option value="$PROJECT_DIR$/games/td2020/Game.py" />
         <option value="$PROJECT_DIR$/games/td2020/tensorflow/TD2020NNet.py" />
-        <option value="$PROJECT_DIR$/config_file.py" />
         <option value="$PROJECT_DIR$/get_action.py" />
         <option value="$PROJECT_DIR$/learn.py" />
         <option value="$PROJECT_DIR$/systems/misc/progress/__init__.py" />
@@ -205,6 +203,8 @@
         <option value="$PROJECT_DIR$/systems/coach.py" />
         <option value="$PROJECT_DIR$/systems/misc/misc.py" />
         <option value="$PROJECT_DIR$/pit.py" />
+        <option value="$PROJECT_DIR$/systems/utils.py" />
+        <option value="$PROJECT_DIR$/config_file.py" />
       </list>
     </option>
   </component>
@@ -231,6 +231,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -251,19 +252,23 @@
             </path>
             <path>
               <item name="Scripts" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scripts" type="462c0819:PsiDirectoryNode" />
+              <item name="systems" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scripts" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="can_execu&#9;null&#9;null&#10;MAX_ACTORS_O&#9;null&#9;null&#10;getCano&#9;null&#9;null&#10;initial spawn&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Documents/GitHub/alpha-zero-general_multiPit" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -297,7 +302,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.learn">
+  <component name="RunManager" selected="Python.pit">
     <configuration name="NNet" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="alpha-zero-general" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -402,8 +407,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.learn" />
         <item itemvalue="Python.pit" />
+        <item itemvalue="Python.learn" />
         <item itemvalue="Python.__main__" />
         <item itemvalue="Python.config_file" />
         <item itemvalue="Python.NNet" />
@@ -439,25 +444,25 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32988048" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" weight="0.32942098" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" x="-1920" y="382" width="1920" height="1017" id="Run" order="2" weight="0.40814757" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.20983858" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32974634" />
-      <window_info anchor="bottom" x="-1920" y="382" width="1920" height="1017" id="Run" order="2" weight="0.40814757" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.15526518" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24453124" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.3289777" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3289777" />
       <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.07148437" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" x="-1867" y="373" width="1827" height="994" id="Debug" order="3" type="FLOATING" weight="0.52036893" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.3289777" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289777" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,16 +670,7 @@ bb</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bla_new.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-          <folding>
-            <element signature="e#223#281#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bla_new.py" />
     <entry file="file://$PROJECT_DIR$/systems/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -685,9 +681,6 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -702,9 +695,6 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="e#777#808#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -788,9 +778,6 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="55" column="21" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="21" />
-          <folding>
-            <element signature="e#224#250#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -808,26 +795,14 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
           <caret line="77" column="18" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="18" />
-          <folding>
-            <element signature="e#224#250#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/games/td2020/src/Models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/games/td2020/src/Models.py" />
     <entry file="file://$PROJECT_DIR$/systems/misc/progress/bar.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
           <caret line="83" column="35" lean-forward="true" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
-          <folding>
-            <element signature="e#802#841#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -850,13 +825,6 @@ bb</expression-string>
         <state split_layout="SPLIT">
           <first_editor />
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/systems/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
@@ -899,9 +867,6 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
           <caret line="196" column="12" selection-start-line="196" selection-start-column="12" selection-end-line="196" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -926,9 +891,6 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-668">
           <caret line="5" column="16" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -939,9 +901,6 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-          <folding>
-            <element signature="e#38#68#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -949,19 +908,6 @@ bb</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config_file.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="76" column="36" lean-forward="true" selection-start-line="76" selection-start-column="36" selection-end-line="76" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -979,33 +925,50 @@ bb</expression-string>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="74" column="67" lean-forward="true" selection-start-line="74" selection-start-column="67" selection-end-line="74" selection-end-column="67" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/games/td2020/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/games/td2020/Players.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="133" column="72" lean-forward="true" selection-start-line="133" selection-start-column="72" selection-end-line="133" selection-end-column="72" />
+        <state relative-caret-position="2261">
+          <caret line="133" column="72" selection-start-line="133" selection-start-column="72" selection-end-line="133" selection-end-column="72" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/games/td2020/Game.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="802">
-          <caret line="163" lean-forward="true" selection-start-line="163" selection-end-line="163" />
+          <caret line="163" selection-start-line="163" selection-end-line="163" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="471">
+          <caret line="114" column="20" lean-forward="true" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config_file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="64" column="20" selection-start-line="64" selection-start-column="20" selection-end-line="64" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/systems/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="27" lean-forward="true" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
         </state>
       </provider>
     </entry>
