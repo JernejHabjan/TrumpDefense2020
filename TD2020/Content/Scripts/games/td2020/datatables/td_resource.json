@@ -1,12 +1,11 @@
 [
-	{
-		"Name": "Granite",
-		"AmountPerGathering":
-		{
-			"BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 5
-		},
-		"Capacity": 20,
-		"Cooldown": 1,
-		"NeedsToDrain": true
-	}
+  {
+    "Name": "Granite",
+    "AmountPerGathering": {
+      "BlueprintGeneratedClass'/Game/TD2020/Blueprints/Resources/Granite.Granite_C'": 5
+    },
+    "Capacity": 20,
+    "Cooldown": 1,
+    "NeedsToDrain": true
+  }
 ]

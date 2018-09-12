@@ -11,7 +11,7 @@ import numpy as np
 from games.td2020.Game import Game
 from games.td2020.src.Board import Board
 from games.td2020.src.FunctionLibrary import action_into_array_print
-from systems.NNet import NNetWrapperParent
+from systems.nnet import NNetWrapperParent
 from systems.arena import Arena
 from systems.mcts import MCTS
 from systems.misc.misc import AverageMeter
@@ -193,7 +193,6 @@ class Coach:
             print('PITTING AGAINST PREVIOUS VERSION')
 
             # create two new AI players that fight each other, each with different network - one with pnet and other with nnet
-
 
             def player1(x: Board, player: int):
                 return np.argmax(pmcts.get_action_prob(x, player, temp=0))

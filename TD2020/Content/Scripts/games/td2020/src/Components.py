@@ -1,6 +1,7 @@
 from numpy import size
-from games.td2020.src import Board
+
 from games.td2020.src import Actors
+from games.td2020.src import Board
 
 
 class AttackComponent:

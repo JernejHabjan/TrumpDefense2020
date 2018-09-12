@@ -1,4 +1,5 @@
 from typing import Dict, List
+
 from games.td2020.src.Components import AttackComponent, ResourcesDepositComponent, UnitProductionComponent
 
 
@@ -11,7 +12,7 @@ class GeneralActor:
         self.x: int = x
         self.y: int = y
 
-        self.numeric_value: int = None # value that is forwarded to neural network
+        self.numeric_value: int = None  # value that is forwarded to neural network
         self.color: Dict[int, int, int] = None
         self.short_name: str = None
 
@@ -87,7 +88,7 @@ class Barracks(BuildingMaster):
     def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)
 
-        self.unit_production_component:UnitProductionComponent = UnitProductionComponent(self, ["RifleInfantry"])
+        self.unit_production_component: UnitProductionComponent = UnitProductionComponent(self, ["RifleInfantry"])
 
         self.max_health = 150
         self.production_time: int = 5
@@ -141,8 +142,8 @@ class Character(MyActor):
 
 
 class NPC(Character):
-    gather_amount:int = 0  # currently holding resources
-    max_gather_amount:int = 20  # max of how much can hold resources
+    gather_amount: int = 0  # currently holding resources
+    max_gather_amount: int = 20  # max of how much can hold resources
 
     def __init__(self, player: int, x: int, y: int) -> None:
         super().__init__(player, x, y)

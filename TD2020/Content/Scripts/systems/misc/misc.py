@@ -7,6 +7,7 @@
 __all__ = ['AverageMeter']
 
 
+# noinspection PyAttributeOutsideInit
 class AverageMeter(object):
     """Computes and stores the average and current value
        Imported from https://github.com/pytorch/examples/blob/master/imagenet/main.py#L247-L262

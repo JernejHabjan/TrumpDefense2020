@@ -1,13 +1,15 @@
 from math import sqrt, ceil
+
 import numpy as np
 import pandas as pd
+import pygame
 from numpy import size
+from pygame.rect import Rect
+
 from config_file import CANVAS_SCALE, BORDER
 from games.td2020 import Game
 from games.td2020.src import Board
 from games.td2020.src.FunctionLibrary import arr_into_action, action_into_array_print
-import pygame
-from pygame.rect import Rect
 
 
 class RandomPlayer:
@@ -131,7 +133,7 @@ class HumanPlayer:
                         actor_shortcut = td_my_actor["Shortcut"].values[0]
                         print("printing actor shortcut", actor_shortcut)
                         from games.td2020.src.Actors import TownHall, Barracks, NPC
-                        if type(clicked_actor) == TownHall:  # these if statements are hardcoded - todo (optinal) - use variable actor_shortcut
+                        if type(clicked_actor) == TownHall:  # these if statements are hardcoded - todo (optional) - use variable actor_shortcut
                             if event.key == pygame.K_q:
                                 clicked_actor_index_arr.append("npc")
                                 return clicked_actor_index_arr

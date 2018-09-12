@@ -1,44 +1,38 @@
 [
-	{
-		"Name": "BasicSword1",
-		"ProjectileInitialSpeed": 0,
-		"GravityScale": 0,
-		"Damage":
-		{
-			"Class'/Script/Engine.DamageType'": 20
-		},
-		"CriticalDamage":
-		{
-			"Class'/Script/Engine.DamageType'": 10
-		},
-		"ImpactParticleEffect": "ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"
-	},
-	{
-		"Name": "BasicRifleBullet",
-		"ProjectileInitialSpeed": 4000,
-		"GravityScale": 0.0099999997764825821,
-		"Damage":
-		{
-			"Class'/Script/Engine.DamageType'": 10
-		},
-		"CriticalDamage":
-		{
-			"Class'/Script/Engine.DamageType'": 2
-		},
-		"ImpactParticleEffect": "ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"
-	},
-	{
-		"Name": "BasicBowArrow",
-		"ProjectileInitialSpeed": 1000,
-		"GravityScale": 0,
-		"Damage":
-		{
-			"Class'/Script/Engine.DamageType'": 20
-		},
-		"CriticalDamage":
-		{
-			"Class'/Script/Engine.DamageType'": 2
-		},
-		"ImpactParticleEffect": "ParticleSystem'/Game/StarterContent/Particles/P_Smoke.P_Smoke'"
-	}
+  {
+    "Name": "BasicSword1",
+    "ProjectileInitialSpeed": 0,
+    "GravityScale": 0,
+    "Damage": {
+      "Class'/Script/Engine.DamageType'": 20
+    },
+    "CriticalDamage": {
+      "Class'/Script/Engine.DamageType'": 10
+    },
+    "ImpactParticleEffect": "ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"
+  },
+  {
+    "Name": "BasicRifleBullet",
+    "ProjectileInitialSpeed": 4000,
+    "GravityScale": 0.0099999997764825821,
+    "Damage": {
+      "Class'/Script/Engine.DamageType'": 10
+    },
+    "CriticalDamage": {
+      "Class'/Script/Engine.DamageType'": 2
+    },
+    "ImpactParticleEffect": "ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"
+  },
+  {
+    "Name": "BasicBowArrow",
+    "ProjectileInitialSpeed": 1000,
+    "GravityScale": 0,
+    "Damage": {
+      "Class'/Script/Engine.DamageType'": 20
+    },
+    "CriticalDamage": {
+      "Class'/Script/Engine.DamageType'": 2
+    },
+    "ImpactParticleEffect": "ParticleSystem'/Game/StarterContent/Particles/P_Smoke.P_Smoke'"
+  }
 ]

@@ -18,7 +18,7 @@ class Board:
 
     def __init__(self, args) -> None:
         """
-        inits world tiles, sets game iteration to 0, spawns minerals and actors for both players
+        initializes world tiles, sets game iteration to 0, spawns minerals and actors for both players
         :param args: DotDict of init game args
         """
         # get parameters

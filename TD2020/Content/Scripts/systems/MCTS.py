@@ -1,12 +1,12 @@
 import math
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 import numpy as np
 
 from config_file import EPS
 from games.td2020.Game import Game
 from games.td2020.src.Board import Board
-from systems.types import StrPresentation, ValidMoves, Nsa, Ps, Ns, Action, Qsa, StateEncoding
+from systems.types import StrPresentation, ValidMoves, Nsa, Ps, Ns, Qsa
 from systems.utils import DotDict
 
 
@@ -176,7 +176,7 @@ class MCTS:
         if (s, a) in self.Qsa:
             # calculate new value for this Qsa
             # Num(state, action) * Value(state,action) + value / (Num(state,action) + 1)
-            self.Qsa[(s, a)] = (self.Nsa[(s, a)] * self.Qsa[(s, a)] + v) / (self.Nsa[(s, a)] + 1)  # TODO - tle se je pomoje +v appendov kot list, ker je biv list[int] prej velikosti 1 predn sm dav v NNet.py v[0][0]
+            self.Qsa[(s, a)] = (self.Nsa[(s, a)] * self.Qsa[(s, a)] + v) / (self.Nsa[(s, a)] + 1)  # TODO - tle se je pomoje +v appendov kot list, ker je biv list[int] prej velikosti 1 predn sm dav v nnet.py v[0][0]
             # append num times visited
             self.Nsa[(s, a)] += 1
 

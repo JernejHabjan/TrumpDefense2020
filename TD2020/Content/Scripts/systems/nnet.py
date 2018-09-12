@@ -1,7 +1,6 @@
 from typing import List, Tuple
 
 from games.td2020 import Game
-
 from games.td2020.src import Board
 from systems.types import Pi, V, CoachEpisode
 

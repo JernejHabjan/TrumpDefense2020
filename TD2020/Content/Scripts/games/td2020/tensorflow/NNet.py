@@ -8,7 +8,7 @@ import tensorflow as tf
 
 from config_file import NNET_ARGS
 from games.td2020 import Game
-from systems.NNet import NNetWrapperParent
+from systems.nnet import NNetWrapperParent
 from systems.misc.misc import AverageMeter
 from systems.misc.progress.bar import Bar
 from systems.types import CanonicalBoard, Pi, V
@@ -22,8 +22,8 @@ class NNetWrapper(NNetWrapperParent):
 
         super().__init__(game)
         self.nnet: ONNet = ONNet(game, NNET_ARGS)
-        self.board_x, self.board_y, self.max_actors_on_tile = game.get_board_size()
-        self.action_size: int = game.get_action_size()
+        self.board_x, self.board_y, self.max_actors_on_tile = game.get_board_size
+        self.action_size: int = game.get_action_size
 
         self.sess = tf.Session(graph=self.nnet.graph)
         self.saver = None
@@ -102,7 +102,7 @@ class NNetWrapper(NNetWrapperParent):
 
         # print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
 
-        return prob[0], float(v[0][0])  # TODO  - THIS IS NEW - BEFORE IT WAS THE LINE BELOW - V SHOULD BE FOAT
+        return prob[0], float(v[0][0])  # TODO  - THIS IS NEW - BEFORE IT WAS THE LINE BELOW - V SHOULD BE FLOAT
         # return prob[0], v[0]
 
     def save_checkpoint(self, folder, filename) -> None:

@@ -1,7 +1,7 @@
 from typing import List
 
-from games.td2020.src import Board
 from games.td2020.src import Actors
+from games.td2020.src import Board
 
 
 class Player:

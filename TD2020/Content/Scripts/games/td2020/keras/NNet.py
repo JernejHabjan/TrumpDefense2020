@@ -8,7 +8,7 @@ from tensorflow.python.keras.utils import plot_model
 
 from config_file import NNET_ARGS
 from games.td2020.Game import Game
-from systems.NNet import NNetWrapperParent
+from systems.nnet import NNetWrapperParent
 from systems.types import CanonicalBoard, V, Pi, ActionEncoding, CoachEpisode
 from .TD2020NNet import TD2020NNet as ONNet
 
@@ -49,7 +49,7 @@ class NNetWrapper(NNetWrapperParent):
         v: List[List[V]] = v  # TODO - this is nested list - is this correct ? check against org models to see if he outputs nested list here instead of only single list
 
         # print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
-        return pi[0], float(v[0][0])  # TODO  - THIS IS NEW - BEFORE IT WAS THE LINE BELOW - V SHOULD BE FOAT
+        return pi[0], float(v[0][0])  # TODO  - THIS IS NEW - BEFORE IT WAS THE LINE BELOW - V SHOULD BE FLOAT
         # return pi[0], v[0]
 
     def save_checkpoint(self, folder, filename) -> None:
@@ -68,7 +68,8 @@ class NNetWrapper(NNetWrapperParent):
         #     raise ValueError("No model in path {}".format(filepath))
 
         print("NNet", "loading checkpoint", filepath)
+
         try:
             self.nnet.model.load_weights(filepath)
-        except Exception as e:
-            raise Exception("Value error occurred when loading checkpoint - make sure you didn't change grid dimensions or actors_on_tile or action size after learning model ->", e)
+        except (FileNotFoundError, Exception) as e:
+            raise Exception("Did you train your model with same dimensions as used for pit? Also does folder contain specified file? ->", e)

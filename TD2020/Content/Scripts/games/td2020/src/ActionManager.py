@@ -1,11 +1,11 @@
 from typing import List
 
 import numpy as np
-from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS
-from games.td2020.src.FunctionLibrary import friendly, dist, get_nearest_instance_of_class, can_add_unit, get_valid_nearby_coordinates
 
-from games.td2020.src import Board
+from config_file import MAX_ACTORS_ON_TILE, ALL_ACTIONS
 from games.td2020.src import Actors
+from games.td2020.src import Board
+from games.td2020.src.FunctionLibrary import friendly, dist, get_nearest_instance_of_class, can_add_unit, get_valid_nearby_coordinates
 
 
 class ActionManager:

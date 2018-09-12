@@ -31,7 +31,7 @@ class TD2020NNet:
         # print("shape of input", np.shape(self.input_boards), "x_image:", np.shape(x_image))
         # Conv2D layers need 4D inputs: (samples, width, height, input_channels), and will output (samples, modified_width, modified_height, filters)
 
-        # Todo - write that u addded use_bias to false, because of issue or commit - check it out
+        # Todo - write that u added use_bias to false, because of issue or commit - check it out
 
         # Tensor("activation/Relu:0", shape=(?, 8, 8, 512), dtype=float32)
         h_conv1: Tensor = Activation('relu')(BatchNormalization(axis=3)(Conv2D(args.num_channels, 3, padding='same', use_bias=False)(x_image)))  # batch_size  x board_x x board_y x num_channels

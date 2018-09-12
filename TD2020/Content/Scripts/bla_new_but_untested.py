@@ -3,21 +3,14 @@
 
 # Import data
 
-import numpy as np
 # noinspection PyUnresolvedReferences
 import unreal_engine as ue
 # noinspection PyUnresolvedReferences
 from TFPluginAPI import TFPluginAPI
 from tensorflow.python.keras.backend import clear_session
 
-from config_file import GET_ACTION_ARGS, LEARN_ARGS, PATH
-from games.td2020.Game import Game
-from games.td2020.keras.NNet import NNetWrapper as NNet
-from games.td2020.src import Board
-from games.td2020.src.Board import Board
-# noinspection PyUnresolvedReferences
-from pit import PitWrapper
-from systems.mcts import MCTS
+from config_file import PATH
+from get_action import get_action
 
 ue.print_string("bla")
 
@@ -54,22 +47,10 @@ class MnistSimple(TFPluginAPI):
         clear_session()
         print(" TODOOOOOOOOOOOOOOOOOOOOOOOOOOOO - TEMP FIX COZ CRASHING ASYNC IN GAME")
         print(" ZARAD TEGA DELAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-        g = Game(GET_ACTION_ARGS)
-        board: 'Board.Board' = g.get_init_board
-        # board = create_board(board)
 
-        # systems
-        n1 = NNet(g)
-        n1.load_checkpoint(LEARN_ARGS.checkpoint, 'best.pth.tar')
-        mcts1 = MCTS(g, n1, GET_ACTION_ARGS)
+        json_args = {}
+        get_action(json_args)
 
-        # nnet player
-        def nnp(x, player): return np.argmax(mcts1.get_action_prob(x, player, temp=0))
-
-        # get best action
-        best_action = nnp(board, 1)  # current player as player 1 - it depends on how you create board
-        ue.print_string("get_action.py", "printing best action:", best_action)
-        # todo - do something with this best action
         return ''
 
     def run(self, args):

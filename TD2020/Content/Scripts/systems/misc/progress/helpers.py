@@ -11,14 +11,13 @@
 # WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
 from __future__ import print_function
-
 
 HIDE_CURSOR = '\x1b[?25l'
 SHOW_CURSOR = '\x1b[?25h'
 
 
+# noinspection PyUnresolvedReferences
 class WriteMixin(object):
     hide_cursor = False
 
@@ -47,6 +46,7 @@ class WriteMixin(object):
             print(SHOW_CURSOR, end='', file=self.file)
 
 
+# noinspection PyUnresolvedReferences
 class WritelnMixin(object):
     hide_cursor = False
 
@@ -59,28 +59,29 @@ class WritelnMixin(object):
             print(HIDE_CURSOR, end='', file=self.file)
 
     def clearln(self):
-        #if self.file.isatty():
-            print('\r\x1b[K', end='', file=self.file)
+        # if self.file.isatty():
+        print('\r\x1b[K', end='', file=self.file)
 
-    def writeln(self, line): 
-        #if self.file.isatty():
-            self.clearln()
-            print(line, end='', file=self.file)
-            self.file.flush()
+    def writeln(self, line):
+        # if self.file.isatty():
+        self.clearln()
+        print(line, end='', file=self.file)
+        self.file.flush()
 
     def finish(self):
-        #if self.file.isatty(): - snair, to print to stderr logfile
-            print(file=self.file)
-            if self.hide_cursor:
-                print(SHOW_CURSOR, end='', file=self.file)
+        # if self.file.isatty(): - snair, to print to stderr logfile
+        print(file=self.file)
+        if self.hide_cursor:
+            print(SHOW_CURSOR, end='', file=self.file)
 
 
 from signal import signal, SIGINT
 from sys import exit
 
 
+# noinspection PyUnresolvedReferences,PyUnusedLocal
 class SigIntMixin(object):
-    """Registers a signal handler that calls finish on SIGINT"""
+    # Registers a signal handler that calls finish on SIGINT
 
     def __init__(self, *args, **kwargs):
         super(SigIntMixin, self).__init__(*args, **kwargs)

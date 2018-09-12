@@ -59,7 +59,19 @@ PIT_ARGS: DotDict = DotDict({
     'fps': 60,
 
     'numMCTSSims': 10,
-    'cpuct': 1.0
+    'cpuct': 1.0,
+
+    'display_bar': True,
+    'parallel': False,
+    'multiGPU': False,  # multiGPU only support 2 GPUs.
+    'setGPU': '0',
+    'numPlayGames': 4,  # total num should x2, because each process play 2 games.
+    'numPlayPool': 4,  # num of processes pool.
+
+    'model1Folder': PATH + "\\temp\\",
+    'model1FileName': 'temp.pth.tar',
+    'model2Folder': PATH + "\\temp\\",
+    'model2FileName': 'temp.pth.tar'
 })
 
 GET_ACTION_ARGS: DotDict = DotDict({
