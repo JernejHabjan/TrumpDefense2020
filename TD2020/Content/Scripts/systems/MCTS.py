@@ -10,19 +10,27 @@ from systems.types import StrPresentation, ValidMoves, Nsa, Ps, Ns, Qsa
 from systems.utils import DotDict
 
 
+# P -> probability vector for board state
+# V -> Value of the board state
+
+
 class MCTS:
     """
     This class handles the MCTS tree.
     """
 
     def __init__(self, game: Game, nnet, args) -> None:
+        self.called = 0
+
         self.game: Game = game
         self.nnet = nnet
         self.args: DotDict = args
         self.Qsa: Qsa = {}  # stores Q values for s,a (as defined in the paper)
+        # Qsa -> which is the expected reward for taking that action
         self.Nsa: Nsa = {}  # stores #times edge s,a was visited
         self.Ns: Ns = {}  # stores #times board s was visited
         self.Ps: Ps = {}  # stores initial policy (returned by neural net)
+        # Ps -> # prior probability of taking a particular action from state s according to the policy returned by our neural network.
 
         self.Es: Dict[StrPresentation, float] = {}  # stores game.get_game_ended ended for board s
         self.Vs: Dict[StrPresentation, ValidMoves] = {}  # stores game.get_valid_moves_board for board s
@@ -40,8 +48,9 @@ class MCTS:
 
         # runs simulation multiple times
         for i in range(self.args.numMCTSSims):
-            self._search(board, player)
-
+            self.called = 0
+            self._search(board, player, 0)
+            # print("called", self.called)
         # get string representation of this board in canonical way - ugly string
         s: StrPresentation = self.game.string_representation(self.game.get_canonical_form(board, player))
         # stores number of counts for each action in given state - state "s"
@@ -60,7 +69,8 @@ class MCTS:
         probs: List[float] = [x / float(sum(counts)) for x in counts]
         return probs
 
-    def _search(self, board: Board, player: int) -> float:
+    def _search(self, board: Board, player: int, iteration) -> float:
+
         """
         This function performs one iteration of MCTS. It is recursively called
         till a leaf node is found. The action chosen at each node is one that
@@ -79,6 +89,9 @@ class MCTS:
         Returns:
             v: the negative of the value of the current canonical_board (float)
         """
+        self.called += 1
+        # vali = self.game.get_valid_moves(board, player)
+        # print("valid", count(vali[vali>0]))
 
         # print("called mcts _search")
 
@@ -88,7 +101,9 @@ class MCTS:
         # check if game has finished in this node
         # have to check for gameEnded every _search because of timeout iteration even if board is always same
 
-        self.Es[s] = self.game.get_game_ended(board)
+        # if s not in self.Es:
+        #    self.Es[s] = self.game.get_game_ended(board)
+        self.Es[s] = self.game.get_game_ended(board,1)
 
         # print("mcts _search checking end condition", self.Es[s])
 
@@ -96,6 +111,10 @@ class MCTS:
         if self.Es[s] != 0:
             # terminal node - return this state back
             # print("received terminal state", self.Es[s])
+            if self.Es[s] == 1 or self.Es[s] == -1:
+                print("OK TERMINAL STATE", board.iteration)
+            else:
+                print("not ok")
             return -self.Es[s]
 
         # if state not yet in dictionary
@@ -135,6 +154,7 @@ class MCTS:
 
         # valids is valid moves for this state
         valids: ValidMoves = self.Vs[s]
+
         # best value
         cur_best: float = -float('inf')
         # best action
@@ -146,7 +166,7 @@ class MCTS:
             # if action in valid moves for this state
             if valids[a]:
                 if (s, a) in self.Qsa:
-                    # here is our formula
+                    # U -> , which is an upper confidence bound on the Q value of our edge.
                     u: float = self.Qsa[(s, a)] + self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s]) / (1 + self.Nsa[(s, a)])
                 else:
                     u: float = self.args.cpuct * self.Ps[s][a] * math.sqrt(self.Ns[s] + EPS)  # Q = 0 ? ####################### JERNEJ HABJAN 2018-09-01 to je blo before
@@ -161,8 +181,10 @@ class MCTS:
                 if u > cur_best:
                     cur_best = u
                     best_act = a
-
+        # At each step of our iteration, we calculate the action to take as the a which maximizes the upper confidence bound U(s, a).
         a: int = best_act
+        # action_into_array_print(board, a)
+
         # apply this action to game - get full board and player
 
         next_s, next_player = self.game.get_next_state(board, player, a)
@@ -170,19 +192,19 @@ class MCTS:
         next_player: int = next_player
 
         # calls recursively this _search function again and returns terminal or leaf state in variable "v"
-        v: float = self._search(next_s, next_player)
+        v: float = self._search(next_s, next_player, iteration + 1)
 
         # print("received back terminal state from _search", v)
         if (s, a) in self.Qsa:
             # calculate new value for this Qsa
-            # Num(state, action) * Value(state,action) + value / (Num(state,action) + 1)
-            self.Qsa[(s, a)] = (self.Nsa[(s, a)] * self.Qsa[(s, a)] + v) / (self.Nsa[(s, a)] + 1)  # TODO - tle se je pomoje +v appendov kot list, ker je biv list[int] prej velikosti 1 predn sm dav v nnet.py v[0][0]
+            # (Num times visited  *  expected reward + reward returned by nnet) / ( Num times visited + this time)
+            self.Qsa[(s, a)] = (self.Nsa[(s, a)] * self.Qsa[(s, a)] + v) / (self.Nsa[(s, a)] + 1)
             # append num times visited
             self.Nsa[(s, a)] += 1
 
         else:
             # we have not visited Qsa - set value of it as v
-            self.Qsa[(s, a)] = v
+            self.Qsa[(s, a)] = v  # Qsa[(s,a)] is now for example [-0.041]
             self.Nsa[(s, a)] = 1
 
         # visited this state +1 times

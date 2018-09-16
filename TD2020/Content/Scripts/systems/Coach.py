@@ -8,6 +8,7 @@ from typing import List, Tuple, Deque
 
 import numpy as np
 
+from config_file import TIMEOUT_TICKS
 from games.td2020.Game import Game
 from games.td2020.src.Board import Board
 from games.td2020.src.FunctionLibrary import action_into_array_print
@@ -33,7 +34,7 @@ class Coach:
         self.learn_args: DotDict = learn_args
         self.mcts: MCTS = MCTS(self.game, self.nnet, self.learn_args)
         self.train_examples_history: TrainExamplesHistory = []  # history of examples from args.numItersForTrainExamplesHistory latest iterations
-        self.skipFirstSelfPlay: bool = False  # can be overridden in load_train_examples()
+        self.skipFirstSelfPlay: bool = learn_args.skip_first_self_play  # can be overridden in load_train_examples()
 
     def _execute_episode(self) -> CoachEpisode:
         """
@@ -62,7 +63,7 @@ class Coach:
         # init board
         board: Board = self.game.get_init_board
         # set current player
-        self.curPlayer: int = 1
+        self.cur_player: int = 1
         # set episodes counter
         episode_step: int = 0
 
@@ -76,8 +77,8 @@ class Coach:
             # returns probability from get_action_prob
 
             # pi of size
-            pi: List[int] = self.mcts.get_action_prob(board, self.curPlayer, temp=temp)
-            canonical_board: CanonicalBoard = self.game.get_canonical_form(board, self.curPlayer)
+            pi: List[int] = self.mcts.get_action_prob(board, self.cur_player, temp=temp)
+            canonical_board: CanonicalBoard = self.game.get_canonical_form(board, self.cur_player)
 
             # sym size 8 (num of symmetries), ndarray(width,height,num_actors_tile), list(385) ## TODO - TUKEJ JE 385 namest 384(width,height,num_actors)
             sym: Sym = self.game.get_symmetries(canonical_board, pi)  # make nnet_train examples
@@ -87,7 +88,7 @@ class Coach:
                 p: List[int] = p
                 # appends board, player, pi, None
 
-                train_examples.append((b, self.curPlayer, p, None))
+                train_examples.append((b, self.cur_player, p, None))
 
             # random action probability
             # parameter p : how uniform this sample is -> https://goo.gl/3D6yrj
@@ -97,21 +98,30 @@ class Coach:
 
             # apply action
 
-            if self.learn_args.verbose > 0:
+            if self.learn_args.verbose > 2:
                 pass
-                action_into_array_print(board, action, "coach.py " + "player " + str(self.curPlayer) + "getting new state with action")
-            board, self.curPlayer = self.game.get_next_state(board, self.curPlayer, action)
+                if self.cur_player == 1:
+                    curr_player_str = '+1'
+                else:
+                    curr_player_str = '-1'
+                #action_into_array_print(board, action, "coach.py " + "player " + curr_player_str + " getting new state with action")
+            board, self.cur_player = self.game.get_next_state(board, self.cur_player, action)
             board: Board = board
             # get winning player in variable "r"
-            r: float = self.game.get_game_ended(board)
+            r: float = self.game.get_game_ended(board,self.cur_player)
+
+
+
 
             # if game has ended
-            if r != 0:
+            if r != 0 :
                 # x[0] -> board
                 # x[1] -> player
                 # x[2] -> pi
+                if self.learn_args.verbose == 2:
+                    print("coach - episode ended with result:", r, "ticks",board.iteration)
                 if self.learn_args.verbose == 3 or self.learn_args.verbose == 5:
-                    print("coach - episode ended with result:", r)
+                    print("coach - episode ended with result:", r, "ticks",board.iteration)
                     board.display()
 
                 # unpacked so it can be seen what variables are what
@@ -120,11 +130,11 @@ class Coach:
                     x: Tuple[ActionEncoding, int, List[int], None] = x
                     action_state: ActionEncoding = x[0]
                     pi: Pi = x[2]  # action probability like [0,0,0,0,0,...,0.5,0.5,...,0,0,0]
-                    v: V = r * ((-1) ** (x[1] != self.curPlayer))  # for example '-0.0001'
+                    v: V = r * ((-1) ** (x[1] != self.cur_player))  # for example '-0.0001'
                     coach_episode.append((action_state, pi, v))
                 return coach_episode
 
-                # return [(x[0], x[2], r * ((-1) ** (x[1] != self.curPlayer))) for x in train_examples]
+                # return [(x[0], x[2], r * ((-1) ** (x[1] != self.cur_player))) for x in train_examples]
 
     def coach_learn(self) -> None:
         """
@@ -152,7 +162,7 @@ class Coach:
                     # print("executing mcts episode")
                     self.mcts: MCTS = MCTS(self.game, self.nnet, self.learn_args)  # reset _search tree
 
-                    iteration_train_examples += self._execute_episode()  # do not try to append - because then it doesnt work
+                    iteration_train_examples += self._execute_episode()
 
                     # bookkeeping + plot progress
                     eps_time.update(time.time() - end)
@@ -200,6 +210,7 @@ class Coach:
             def player2(x: Board, player: int):
                 return np.argmax(nmcts.get_action_prob(x, player, temp=0))
 
+
             arena: Arena = Arena(player1, player2, self.game)
             # returns wins for competitive network - pwins and wins for current network - nwins
             pwins, nwins, draws = arena.play_games(self.learn_args.arenaCompare, self.learn_args.verbose)
@@ -209,7 +220,10 @@ class Coach:
 
             print('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
             print("New Wins", nwins, "Prev wins", pwins, "Draws", draws)
-            if pwins + nwins > 0 and float(nwins) / (pwins + nwins) < self.learn_args.updateThreshold:
+            if pwins + nwins == 0:
+                print('REJECTING NEW MODEL')
+                self.nnet.load_checkpoint(folder=self.learn_args.checkpoint, filename=self.learn_args.checkpoint_file)
+            elif pwins + nwins > 0 and float(nwins) / (pwins + nwins) < self.learn_args.updateThreshold:
                 print('REJECTING NEW MODEL')
                 self.nnet.load_checkpoint(folder=self.learn_args.checkpoint, filename=self.learn_args.checkpoint_file)
             else:

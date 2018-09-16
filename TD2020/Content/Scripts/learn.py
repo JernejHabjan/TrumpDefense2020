@@ -13,7 +13,6 @@ class CoachWrapper:
         self.coach()
 
     def load_model(self) -> None:
-
         if LEARN_ARGS.load_model:
             self.nnet.load_checkpoint(LEARN_ARGS.load_folder_file[0], LEARN_ARGS.load_folder_file[1])
 

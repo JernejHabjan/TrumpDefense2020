@@ -43,8 +43,8 @@ class Board:
 
         # spawn players on fixed positions (1,0 and width-1,height-1) and appends initial buildings to it
         from games.td2020.src.Player import Player
-        self.players[-1] = Player(-1, self, 1, 0)
-        self.players[1] = Player(1, self, self.width - 1, self.height - 1)
+        self.players[1] = Player(1, self, 1, 0)
+        self.players[-1] = Player(-1, self, self.width, self.height)
 
         # spawn after they are created, so buildings can add themselves to this world for this player
         self.players[-1].initial_spawn()

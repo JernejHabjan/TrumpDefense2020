@@ -21,7 +21,7 @@ class NNetWrapper(NNetWrapperParent):
         self.action_size: int = game.get_action_size
 
         self.tensorboard: TensorBoard = TensorBoard(log_dir='_Files\\models\\logs' + type(self.nnet).__name__, histogram_freq=0, write_graph=True, write_images=True)
-        # plot_model(self.nnet.model, to_file='_Files\\models\\' + type(self.nnet).__name__ + '_model_plot.png', show_shapes=True, show_layer_names=True)
+        plot_model(self.nnet.model, to_file='_Files\\models\\' + type(self.nnet).__name__ + '_model_plot.png', show_shapes=True, show_layer_names=True)
 
     def nnet_train(self, examples: List[CoachEpisode]) -> None:
         """
@@ -46,11 +46,11 @@ class NNetWrapper(NNetWrapperParent):
         canonical_board = canonical_board[np.newaxis, :, :]
         pi, v = self.nnet.model.predict(canonical_board)
         pi: List[Pi] = pi
-        v: List[List[V]] = v  # TODO - this is nested list - is this correct ? check against org models to see if he outputs nested list here instead of only single list
+        v: List[V] = v
 
         # print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
-        return pi[0], float(v[0][0])  # TODO  - THIS IS NEW - BEFORE IT WAS THE LINE BELOW - V SHOULD BE FLOAT
-        # return pi[0], v[0]
+        return pi[0], v[0]
+
 
     def save_checkpoint(self, folder, filename) -> None:
         filepath: str = os.path.join(folder, filename)

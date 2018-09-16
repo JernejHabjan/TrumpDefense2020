@@ -195,5 +195,4 @@ class Granite(ResourcesMaster):
         self.short_name = "Gold"
         self.color = {"R": 230, "G": 0, "B": 50}
         self.gather_amount: int = 20
-        # self.numeric_value = 0.0001
-        self.numeric_value = 0
+        self.numeric_value = 0.0001 # THEY MUST NOT HAVE VALUE OF 0 BECUASE THEN THEY LOOK INVISIBLE

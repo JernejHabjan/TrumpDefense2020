@@ -45,7 +45,8 @@ class Game:
         """
         :return:  width * height * max_actors_on_tile * all_actions
         """
-        return self.width * self.height * MAX_ACTORS_ON_TILE * ALL_ACTIONS_LEN
+        # return self.width * self.height * MAX_ACTORS_ON_TILE * ALL_ACTIONS_LEN
+        return self.width * self.height * MAX_ACTORS_ON_TILE * ALL_ACTIONS_LEN + 1  # IN ORG CODE HE ADDED + 1
 
     @staticmethod
     def get_next_state(board: Board, player: int, action: int) -> Tuple[Board, int]:
@@ -95,21 +96,33 @@ class Game:
                         some_arr.extend([0] * ALL_ACTIONS_LEN)
                 valid_moves.extend(some_arr)
         # print("printing valid moves", valid_moves)
+        valid_moves.append(0)  # TODO - added so because getNumActions returns +1 because he added it so "get_symmetries" can be returning + [pi[-1]]
         return np.array(valid_moves)
 
     @staticmethod
-    def get_game_ended(board: Board) -> float:
+    def get_game_ended(board: Board, player) -> float:
         """
         :param board:
         :return: return 0 if not ended, 1 if player 1 won, -1 if player 1 lost, 1e-4 if timeout
         """
-        if eval(PLAYER1WIN):
+
+        if len(board.players[player].actors) >= 10:
             return 1
-        if eval(PLAYER2WIN):
+        if len(board.players[-player].actors) >= 10:
             return -1
+
+        #if eval(PLAYER1WIN):
+        #    return 1
+        #if eval(PLAYER2WIN):
+        #    return -1
         if board.iteration > TIMEOUT_TICKS:
             # print("Timeouted")
-            return 1e-4
+            # TODO - NEW CODE - RETURN value for their benefit
+            if len(board.players[player].actors) > len(board.players[-player].actors):
+                return 0.0001
+            else:
+                return -0.0001
+        #    # return -0.00000001
         return 0
 
     @staticmethod
@@ -131,6 +144,7 @@ class Game:
 
                         if issubclass(type(board[x][y].actors[actor_index]), MyActor):
                             board_row_actors.append(actor.player * actor.numeric_value * player)
+
                         else:
                             # this is neutral unit
                             board_row_actors.append(actor.numeric_value)  # Minerals with numeric value 0
@@ -164,9 +178,10 @@ class Game:
 
         # TODO - CHECK if symmetries can be added in some other way and if they are correctly applied !!! because of 4 DIM ARRAY!!
 
+
         # mirror, rotational
         # new_pi of shape (width, height, num_actors_per_tile, num_all_actions)
-        pi_board: ActionEncoding = np.reshape(pi, (canonical_board.shape[0], canonical_board.shape[1], MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))
+        pi_board: ActionEncoding = np.reshape(pi[:-1], (canonical_board.shape[0], canonical_board.shape[1], MAX_ACTORS_ON_TILE, ALL_ACTIONS_LEN))
 
         l: List[Tuple[StateEncoding, Pi]] = []
 
@@ -181,8 +196,8 @@ class Game:
                     new_b: StateEncoding = np.fliplr(new_b)  # mirror that rotated board
 
                     new_pi: ActionEncoding = np.fliplr(new_pi)
-                l += [(new_b, list(np.array(new_pi).ravel()))]  # TODO - this is new -LINE BELOW WAS RETURNING 385 instead of 384 - FIGURE IT OUT WHAT THAT +pi[-1] was
-                # l += [(new_b, list(new_pi.ravel()) + [pi[-1]])]  # ravel is a contiguous flattened array
+                # l += [(new_b, list(np.array(new_pi).ravel()))]  # TODO - this is new -LINE BELOW WAS RETURNING 385 instead of 384 - FIGURE IT OUT WHAT THAT +pi[-1] was
+                l += [(new_b, list(new_pi.ravel()) + [pi[-1]])]  # ravel is a contiguous flattened array
         return l
 
     @staticmethod

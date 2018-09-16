@@ -101,9 +101,8 @@ class NNetWrapper(NNetWrapperParent):
         prob, v = self.sess.run([self.nnet.prob, self.nnet.v], feed_dict={self.nnet.input_boards: canonical_board, self.nnet.dropout: 0, self.nnet.isTraining: False})
 
         # print('PREDICTION TIME TAKEN : {0:03f}'.format(time.time()-start))
+        return prob[0], v[0]
 
-        return prob[0], float(v[0][0])  # TODO  - THIS IS NEW - BEFORE IT WAS THE LINE BELOW - V SHOULD BE FLOAT
-        # return prob[0], v[0]
 
     def save_checkpoint(self, folder, filename) -> None:
         filepath = os.path.join(folder, filename)

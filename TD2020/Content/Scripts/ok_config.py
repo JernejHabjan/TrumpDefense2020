@@ -33,7 +33,7 @@ NNET_ARGS: DotDict = DotDict({
 NNET_ARGS: DotDict = DotDict({
     'lr': 0.01,
     'dropout': 0.5,
-    'epochs': 10,
+    'epochs': 2,
     'batch_size': 32,
     'cuda': True,
     'num_channels': 64,
@@ -43,11 +43,11 @@ NNET_ARGS: DotDict = DotDict({
 
 LEARN_ARGS: DotDict = DotDict({
     'numIters': 20,
-    'numEps': 20,
+    'numEps': 5,
     'tempThreshold': 5,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 30000, # it was before 200k, but i am memory swapping at 93k
-    'numMCTSSims': 10,
+    'numMCTSSims': 50,
     'arenaCompare': 8,
     'cpuct': 1, #cpuct is a hyperparameter controlling the degree of exploration
 
@@ -61,7 +61,7 @@ LEARN_ARGS: DotDict = DotDict({
 
     'width': GRID_WIDTH,
     'height': GRID_HEIGHT,
-    'verbose': 2,
+    'verbose': 3,
     'fps': 300,
 
 })
@@ -76,7 +76,7 @@ PIT_ARGS: DotDict = DotDict({
     'cpuct': 1.0,
 
     'display_bar': True,
-    'parallel': False,
+    'parallel': True,
     'multiGPU': False,  # multiGPU only support 2 GPUs.
     'setGPU': '0',
     'numPlayGames': 4,  # total num should x2, because each process play 2 games.
@@ -103,8 +103,8 @@ _WIN_CONDITION: int = 1
 # 3 builders
 if _WIN_CONDITION == 1:
     WIN_CONDITION_ARGS = DotDict({
+        # 'ALL_ACTIONS': {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
         'ALL_ACTIONS': {"npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
-        #'ALL_ACTIONS': {"idle": 10, "npc": 19, "up": 11, "down": 12, "right": 13, "left": 14},
         'TIMEOUT_TICKS': 200,
         'PLAYER1WIN': 'len(board.players[1].actors) >= 10', # almost optimal for single player to have 10 actors is 25 moves (per player)
         'PLAYER2WIN': 'len(board.players[-1].actors) >= 10'

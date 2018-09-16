@@ -1,7 +1,7 @@
 import time
 from typing import Tuple, List
 
-from config_file import PIT_ARGS
+from config_file import PIT_ARGS, TIMEOUT_TICKS
 from games.td2020 import Game
 from games.td2020.src import Board
 from games.td2020.src.FunctionLibrary import action_into_array
@@ -54,9 +54,9 @@ class Arena:
 
         # while game not ended
 
-        while self.game.get_game_ended(board) == 0:
-
+        while self.game.get_game_ended(board, cur_player) == 0:
             it += 1
+
             # draw game
             if verbose == 3 or verbose == 5:
                 board.display()
@@ -73,7 +73,7 @@ class Arena:
             # print("arena.py", "printing funct", inspect.getsource(funct))
             # function like this
             # def player1(x, player):
-            #     return np.argmax(pmcts.get_action_prob(x, self.curPlayer, temp=0))
+            #     return np.argmax(pmcts.get_action_prob(x, self.cur_player, temp=0))
 
             action: int = funct(board, cur_player)
 
@@ -97,8 +97,12 @@ class Arena:
             board: 'Board.Board' = board
             cur_player: int = cur_player
         # draw game over
-        game_ended: float = self.game.get_game_ended(board)
+        game_ended: float = self.game.get_game_ended(board, 1)
         if verbose > 1:
+            f = open("demofile.txt", "a")
+
+            f.write("Game over: Turn " + str(it) + " Result " + str(game_ended) + '\n')
+            f.close()
             print("Game over: Turn", str(it), "Result", str(game_ended))
             board.display()
         return game_ended

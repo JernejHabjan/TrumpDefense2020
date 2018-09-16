@@ -18,8 +18,8 @@ any agent.
 """
 
 
-# TODO - https://github.com/gigayaya/alpha-zero-general/blob/master/pit.py
-# TODO - issue https://github.com/suragnair/alpha-zero-general/pull/82
+# - https://github.com/gigayaya/alpha-zero-general/blob/master/pit.py
+# - issue https://github.com/suragnair/alpha-zero-general/pull/82
 
 # noinspection PyUnusedLocal
 class PitWrapper:
@@ -56,10 +56,10 @@ class PitWrapper:
         def nnp2(x, player): return np.argmax(mcts1.get_action_prob(x, player, temp=0))
 
         # compare 2 models against each other
-        # arena = Arena(nnp1, nnp2, game)
+        arena = Arena(nnp1, nnp2, game)
 
         # play against learnt model
-        arena = Arena(hp, nnp1, game)
+        #arena = Arena(hp, nnp1, game)
         print(arena.play_games(2, PIT_ARGS.verbose))
 
     @staticmethod

@@ -133,7 +133,7 @@ class HumanPlayer:
                         actor_shortcut = td_my_actor["Shortcut"].values[0]
                         print("printing actor shortcut", actor_shortcut)
                         from games.td2020.src.Actors import TownHall, Barracks, NPC
-                        if type(clicked_actor) == TownHall:  # these if statements are hardcoded - todo (optional) - use variable actor_shortcut
+                        if type(clicked_actor) == TownHall:  # these if statements are hardcoded - (optional) - use variable actor_shortcut
                             if event.key == pygame.K_q:
                                 clicked_actor_index_arr.append("npc")
                                 return clicked_actor_index_arr

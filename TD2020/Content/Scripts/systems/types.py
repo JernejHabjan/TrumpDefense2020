@@ -16,7 +16,7 @@ Nsa = Dict[Tuple[StrPresentation, int], int]
 Qsa = Dict[Tuple[StrPresentation, Action], float]
 
 Pi = List[float]
-V = float
+V = List[float]
 Ps = Dict[StrPresentation, Pi]
 Ns = Ps
 

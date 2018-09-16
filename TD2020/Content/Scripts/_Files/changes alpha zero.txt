@@ -1,6 +1,0 @@
-Changes:
-
-v game.py sm v getCanonical form dav še *player
-
-
-minerals have numeric value of 0, where for example npc for player 1 has 10, and for -1 -> -10
