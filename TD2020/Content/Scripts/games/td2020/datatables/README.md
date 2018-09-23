@@ -1,1 +1,0 @@
-These files are still needed for shortcuts for Human Player
