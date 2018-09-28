@@ -9,6 +9,12 @@ import unreal_engine as ue
 from TFPluginAPI import TFPluginAPI
 from tensorflow.python.keras.backend import clear_session
 
+from MCTS import MCTS
+from td2020.TD2020Game import TD2020Game
+from td2020.keras.NNet import NNetWrapper as NNet
+from utils import dotdict
+import numpy as np
+
 ue.print_string("bla")
 
 
@@ -43,12 +49,7 @@ class MnistSimple(TFPluginAPI):
             )
         g = TD2020Game(8)
         g.setInitBoard(initial_board_config)
-        b = getInitialBoard()
-
-        # all players
-        rp = RandomPlayer(g).play
-        gp = GreedyTD2020Player(g).play
-        hp = HumanTD2020Player(g).play
+        b = g.getInitBoard()
 
         # nnet players
         n1 = NNet(g)
@@ -57,7 +58,7 @@ class MnistSimple(TFPluginAPI):
         mcts1 = MCTS(g, n1, args1)
         n1p = lambda x: np.argmax(mcts1.getActionProb(x, temp=0))
 
-        recommended_act = n1p(g.getCanonicalBoard(b))
+        recommended_act = n1p(g.getCanonicalForm(b))
 
         # self.jsonInput = encoded_actors
 
