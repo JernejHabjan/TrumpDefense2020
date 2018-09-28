@@ -43,3 +43,11 @@ TD2020/Saved/AutoScreenshot.png
 *.xcworkspace
 
 TD2020/Content/Scripts/demofile.txt
+
+TD2020/Plugins/socketio-client-ue4/
+
+TD2020/Plugins/tensorflow-ue4/
+
+TD2020/Plugins/UnrealEnginePython/
+
+TD2020/Saved/

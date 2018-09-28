@@ -3,14 +3,13 @@
 
 # Import data
 
-import numpy as np
 # noinspection PyUnresolvedReferences
 import unreal_engine as ue
 # noinspection PyUnresolvedReferences
 from TFPluginAPI import TFPluginAPI
 from tensorflow.python.keras.backend import clear_session
-ue.print_string("bla")
 
+ue.print_string("bla")
 
 
 # noinspection PyMethodMayBeStatic,PyPep8Naming,PyUnusedLocal
@@ -18,7 +17,51 @@ class MnistSimple(TFPluginAPI):
 
     # expected api: storedModel and session, json inputs
     def onJsonInput(self, jsonInput):
-        return jsonInput
+        ue.print_string("blabla")
+        ue.print_string(jsonInput)
+        # now parse this input:
+        encoded_actors = jsonInput['data']
+
+        ue.print_string(encoded_actors)
+
+
+        initial_board_config = []
+        for encoded_actor in encoded_actors:
+            ue.print_string(encoded_actor)
+            initial_board_config.append(
+                dotdict({
+                    'x': encoded_actor['x'],
+                    'y': encoded_actor['y'],
+                    'player': encoded_actor['player'],
+                    'a_type':encoded_actor['actorType'],
+                    'health': encoded_actor['health'],
+                    'carry': encoded_actor['carry'],
+                    'gold': encoded_actor['money'],
+                    'timeout': 100
+                }),
+                # TODO - TODO -THIS TIMEOUT IS HARDCODED
+            )
+        g = TD2020Game(8)
+        g.setInitBoard(initial_board_config)
+        b = getInitialBoard()
+
+        # all players
+        rp = RandomPlayer(g).play
+        gp = GreedyTD2020Player(g).play
+        hp = HumanTD2020Player(g).play
+
+        # nnet players
+        n1 = NNet(g)
+        n1.load_checkpoint('.\\..\\temp\\', 'temp.pth.tar')
+        args1 = dotdict({'numMCTSSims': 50, 'cpuct': 1.0})
+        mcts1 = MCTS(g, n1, args1)
+        n1p = lambda x: np.argmax(mcts1.getActionProb(x, temp=0))
+
+        recommended_act = n1p(g.getCanonicalBoard(b))
+
+        # self.jsonInput = encoded_actors
+
+        return recommended_act
 
     # expected api: no params forwarded for training? TBC
     def onBeginTraining(self):
@@ -41,20 +84,7 @@ class MnistSimple(TFPluginAPI):
         ue.print_string(sess.run(hello))
         PitWrapper()"""
         clear_session()
-        
-        
 
-
-
-
-
-
-
-
-
-
-        
-        
         # todo - do something with this best action
         return ''
 
