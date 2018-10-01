@@ -34,6 +34,7 @@ rm -rf ./TD2020/Content/Scripts/.mypy_cache/
 rm -rf ./TD2020/Content/Scripts/logs/*
 
 
+find ./TD2020/Content/Scripts/ -name "*.uasset" -exec rm {} \;
 find . -name "*.log" -exec rm {} \;
 find . -name "*.sln" -exec rm {} \;
 find . -name "*nul" -exec rm {} \;

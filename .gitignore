@@ -53,3 +53,11 @@ TD2020/Plugins/UnrealEnginePython/
 TD2020/Saved/
 
 TD2020/Content/Scripts/\.idea/
+
+TD2020/Content/Scripts/*.pyc
+TD2020/Content/Scripts/.DS_Store
+TD2020/Content/Scripts/temp/
+TD2020/Content/Scripts/.project
+TD2020/Content/Scripts/.pydevproject
+TD2020/Content/Scripts/*.uasset
+TD2020/Content/Scripts/alpha-zero-general/.idea/
