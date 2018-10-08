@@ -1,0 +1,50 @@
+08: Map building of buildings in ue4
+09: Todo: fix running ue4 python script tensorflow errors - connected to grid
+10: Helping @home
+11: Helping @home
+12: Helping @home
+13: Helping @home
+    Create widget to display remaining time and buttons that will order computer ai actions -> Human player component
+14: Link all other actions and test them via buttons up down left right, mine....
+################
+15: Time to polish actions linking in ue5
+16: Time to polish actions linking in ue4
+    Email mentors about completed visualizations
+17: Try building model and make sure you can run this script on work laptop to build model @work over night
+18: Figure out formula for destroying actors over time and how to prevent both players getting destroyed at same time
+19: implement formula for destroying actors (even if it destroys both players)
+20: Helping @home
+    Destroying actors with formula with their healing - implement healing and test it
+21: General overlook through scirpts and fix possible errors/ bugs  
+    Possible email to mentors about formula
+################
+22: Day off
+23: Test building model and check its results w and w/o one hot encoding
+    Leave computer at work over night to build model to test if building of model actually works
+24: Wrap "badly built model" in ue4 and run from ue4 with possibility of packaging
+25: Waste whole day with trying to package project
+26: Wrap py code up, cleanup comments, document everything
+27: Helping @home
+    Learning model configs, excluding idle state etc
+28: Learning model with other configs, encodings, testing results in pygame
+    Possible change of timeout formula to make it more strict..
+    Document changes made by changing parameters
+    Possible NN model change
+################ 
+29: Day off
+    Take a look at results and email mentors
+30: Wrapping of code and changing model according to mentors' proposition
+31: Changing of code accoring to proposition
+1: Leave computer at work over night to build model with preset config of iterations, sims etc.
+    Another round of code cleanup and finalizing connection to ue4
+    Document ue4 connection and wrap it in module
+2: Summing possible errors in prebuilt model
+3: Helping @home
+4: More error debugging 
+################
+5: Day off
+    Leave computer at work over night with different config
+6: Leave computer at work over night with fixed config and one hot encoding
+7: Leave computer at work over night with fixed config and w/o one hot encoding
+8: Evaluate best model in ue4 and start writing diploma thesis
+
