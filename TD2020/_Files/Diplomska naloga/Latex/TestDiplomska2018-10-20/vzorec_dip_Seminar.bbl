@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{chaslot2008monte}
+Guillaume Chaslot, Sander Bakkes, Istvan Szita, and Pieter Spronck.
+\newblock Monte-carlo tree search: A new framework for game ai.
+\newblock In {\em AIIDE}, 2008.
+
+\bibitem{ontanon2017combinatorial}
+Santiago Ontan{\'o}n.
+\newblock Combinatorial multi-armed bandits for real-time strategy games.
+\newblock {\em Journal of Artificial Intelligence Research}, 58:665--702, 2017.
+
+\bibitem{survey_real_time_strategy_ai_research_starcraft}
+Santiago Ontañon, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, and
+  David Churchill.
+\newblock A survey of real-time strategy game ai research and competition in
+  starcraft.
+\newblock IEEE Transactions on Computational Intelligence and AI in games, IEEE
+  Computational Intelligence Society, 2013.
+
+\end{thebibliography}
