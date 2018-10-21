@@ -12,29 +12,23 @@
 \contentsline {chapter}{\numberline {3}Predstavitev algoritma Alpha Zero}{7}{chapter.3}
 \contentsline {section}{\numberline {3.1}Zgodovina}{7}{section.3.1}
 \contentsline {section}{\numberline {3.2}Potek u\IeC {\v c}enja}{8}{section.3.2}
-\contentsline {section}{\numberline {3.3}Kon\IeC {\v c}no \IeC {\v s}tevilo potez}{8}{section.3.3}
-\contentsline {chapter}{\numberline {4}Definiranje pravil igre}{9}{chapter.4}
-\contentsline {section}{\numberline {4.1}Actors}{9}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Actor types}{9}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Actions}{10}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Tile Encoding}{10}{subsection.4.1.3}
-\contentsline {section}{\numberline {4.2}Akcije}{10}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Action checking sequence }{11}{subsection.4.2.1}
-\contentsline {section}{\numberline {4.3}Kodiranja}{12}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Deseti\IeC {\v s}ko kodiranje}{12}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}One Hot kodiranje}{13}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Konec igre}{13}{section.4.4}
-\contentsline {section}{\numberline {4.5}Izlu\IeC {\v s}\IeC {\v c}evanje u\IeC {\v c}nih primerov}{13}{section.4.5}
-\contentsline {section}{\numberline {4.6}Re\IeC {\v s}evanje problema neskon\IeC {\v c}nega \IeC {\v s}tevila potez}{13}{section.4.6}
-\contentsline {section}{\numberline {4.7}Initial board configuration}{14}{section.4.7}
-\contentsline {chapter}{\numberline {5}U\IeC {\v c}enje modela}{17}{chapter.5}
-\contentsline {section}{\numberline {5.1}TensorFlow}{17}{section.5.1}
-\contentsline {chapter}{\numberline {6}Vizualizacije}{19}{chapter.6}
-\contentsline {section}{\numberline {6.1}Pygame}{19}{section.6.1}
-\contentsline {section}{\numberline {6.2}Unreal Engine 4}{20}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Prenos stanja igre}{22}{subsection.6.2.1}
-\contentsline {chapter}{\numberline {7}Rezultati}{23}{chapter.7}
-\contentsline {section}{\numberline {7.1}U\IeC {\v c}enje s prekinitvijo \IeC {\v c}asa}{23}{section.7.1}
-\contentsline {section}{\numberline {7.2}U\IeC {\v c}enje z ranjujo\IeC {\v c}o funkcijo}{23}{section.7.2}
-\contentsline {chapter}{\numberline {8}Zaklju\IeC {\v c}ek}{25}{chapter.8}
-\contentsline {chapter}{Literatura}{27}{chapter.8}
+\contentsline {chapter}{\numberline {4}Definiranje pravil igre}{11}{chapter.4}
+\contentsline {section}{\numberline {4.1}Definiranje stanja igre}{11}{section.4.1}
+\contentsline {section}{\numberline {4.2}Akcije}{13}{section.4.2}
+\contentsline {section}{\numberline {4.3}Kodiranja}{15}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Deseti\IeC {\v s}ko kodiranje}{16}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}One Hot kodiranje}{16}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Konec igre}{17}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Re\IeC {\v s}evanje problema neskon\IeC {\v c}nega \IeC {\v s}tevila potez}{17}{subsection.4.4.1}
+\contentsline {chapter}{\numberline {5}U\IeC {\v c}enje modela}{21}{chapter.5}
+\contentsline {section}{\numberline {5.1}TensorFlow}{22}{section.5.1}
+\contentsline {section}{\numberline {5.2}Izbira parametrov}{22}{section.5.2}
+\contentsline {chapter}{\numberline {6}Vizualizacije}{23}{chapter.6}
+\contentsline {section}{\numberline {6.1}Pygame}{23}{section.6.1}
+\contentsline {section}{\numberline {6.2}Unreal Engine 4}{25}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Prenos stanja igre}{25}{subsection.6.2.1}
+\contentsline {chapter}{\numberline {7}Rezultati}{27}{chapter.7}
+\contentsline {section}{\numberline {7.1}Izbira ustavitvene funkcije}{27}{section.7.1}
+\contentsline {section}{\numberline {7.2}Izbira kodiranja}{27}{section.7.2}
+\contentsline {chapter}{\numberline {8}Zaklju\IeC {\v c}ek}{29}{chapter.8}
+\contentsline {chapter}{Literatura}{31}{chapter.8}

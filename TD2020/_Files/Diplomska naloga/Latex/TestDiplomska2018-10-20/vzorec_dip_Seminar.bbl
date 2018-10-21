@@ -5,6 +5,12 @@ Guillaume Chaslot, Sander Bakkes, Istvan Szita, and Pieter Spronck.
 \newblock Monte-carlo tree search: A new framework for game ai.
 \newblock In {\em AIIDE}, 2008.
 
+\bibitem{diploma2}
+Marko Kladnik.
+\newblock Primerjava igralnih pogonov unity in unreal engine.
+\newblock Diplomska naloga, Fakulteta za elektrotehniko in
+  ra\v{c}unalni\v{s}tvo, Univerza v Ljubljani, 2015.
+
 \bibitem{ontanon2017combinatorial}
 Santiago Ontan{\'o}n.
 \newblock Combinatorial multi-armed bandits for real-time strategy games.
@@ -17,5 +23,20 @@ Santiago Ontañon, Gabriel Synnaeve, Alberto Uriarte, Florian Richoux, and
   starcraft.
 \newblock IEEE Transactions on Computational Intelligence and AI in games, IEEE
   Computational Intelligence Society, 2013.
+
+\bibitem{silver2016mastering}
+David Silver, Aja Huang, Chris~J Maddison, Arthur Guez, Laurent Sifre, George
+  Van Den~Driessche, Julian Schrittwieser, Ioannis Antonoglou, Veda
+  Panneershelvam, Marc Lanctot, et~al.
+\newblock Mastering the game of go with deep neural networks and tree search.
+\newblock {\em nature}, 529(7587):484, 2016.
+
+\bibitem{silver2017mastering}
+David Silver, Thomas Hubert, Julian Schrittwieser, Ioannis Antonoglou, Matthew
+  Lai, Arthur Guez, Marc Lanctot, Laurent Sifre, Dharshan Kumaran, Thore
+  Graepel, et~al.
+\newblock Mastering chess and shogi by self-play with a general reinforcement
+  learning algorithm.
+\newblock {\em arXiv preprint arXiv:1712.01815}, 2017.
 
 \end{thebibliography}

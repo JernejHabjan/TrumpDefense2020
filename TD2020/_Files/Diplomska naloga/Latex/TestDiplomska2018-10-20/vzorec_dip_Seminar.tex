@@ -445,57 +445,38 @@ Planirani pristopi ponujajo večjo prilagodljivost kot direktno kodirani.
 Taktika spada pod direktnejši nadzor enot kakor strategija in je bolj osredotočena na kontrolo določenih točk na mapi, zmagi posameznih bitk in iskanje ožin, kjer je nasprotnik šibkejši. Taktika temelji na analizi terena, ki ga lahko razbijemo na kompozicijo ožin.
 
 \section{Abstrakcija prostora}
-tle napišeš kok je to komplex k maš strategije pa da rabš ful abstractat če bi hotu strategijo razbrat najbolšo, pa taktiko
-Pa če maš fog of war maš probleme
-Prav tako je pa tu problem, da je StarCraft le delno viden, kjer le del algoritmov deluje ob nevednosti nasprotnikovih akcij.
+Razbiranje strategije in taktike je za algoritme umetne inteligence težji, saj potrebuje višji nivo abstrakcije prostora, figur in akcij, kot za izbiro posameznih nizkonivojskih akcij.
 
-
+Prav tako problem nastane zaradi negotovosti, kjer ne vidimo nasprotnikovih enot in potez v vsakem trenutku. Predikcija nasprotnikovih potez je tako veliko težja, tako da vsi algoritmi s tako negotovostjo ne delujejo.
+Mi smo se za diplomsko nalogo odločili, da imata oba računalniška agenta popoln vpogled na stanje igre in nasprotnikove akcije.
 
 \chapter{Predstavitev algoritma Alpha Zero}
 \label{alphazero}
-Zakaj je dobr algoritem pa zakaj sem ga izbral za rts igro
 \section{Zgodovina}
-However, AlphaGo (Silver et al. 2016), which uses recent deep reinforcement learning and Monte Carlo Tree Search methods, managed to defeat the top human player, through extensive use of domain knowledge and training on the games played by top human players~cite{silver2016mastering}.
 
-Recently, however, AlphaGo Zero (Silver et al. 2017b) described an approach that used absolutely no expert knowledge and was trained entirely Stanford University CS238 Final Project Report through self-play. This new system, AlphaGo Zero, even outperforms the earlier AlphaGo model. This represents a very exciting result, that computers may be capable of superhuman performances entirely through self-learning, and without any guidance from humans~cite{silver2017mastering}.
+Igranje iger je popularno področje znotraj vede o umetni inteligenci. Eden izmed prvih programov je bil programski pogon Checkers (Samuel 2000), ki se je naučil igranja z medotami samo-igranja in strojnega učenja in ne z metodami, ki temeljijo na pravilih.
+Leta 2002 je Deep Blue premagal človeškega profesinalnega igralca šaha z nadčloveško sposobnostjo igranja. Pri teh igrah je faktor vejanja akcij še realativno majhen in je lažje oceniti končno pozicijo iz danega stanja.
+Rečeno je bilo, da igre kot npr Go, ki imajo toliko večji faktor vejanja $10^{171}$ v primerjavi s šahom, ki pa ima $10^{47}$, ne bo možno ugotoviti vrednost končnega stanja še nekaj desetletij.
 
+Ampak algoritem AlphaGo~\cite{silver2016mastering} je naredil preboj,s tem da uporablja metodo globokega spodbujevalnega učenja in algoritem Monte-Carlo drevesno preiskovanje. Oktobra 2016 je premagal profesionalnega Go igralca na podlagi učenjna na domenskem znanju iger, ki so bile odigrane od ekspertov.Te sistemi so temeljili na predznanju ekspertov za učenje in evaluacijo modela.
 
-Pa da je zdj alpha zero ker se uči sam prot seb. mogoče daš kšne reference z googla
+Leto za tem, je bil razvit algoritem AlphaGo Zero~\cite{silver2017mastering}, ki opisuje pristop k učenju brez domenskega znanja ekspertov, ampak uporablja metodo samo-igranja. Novi model je prav tako premagal AlphaGo algoritem, kar predstavlja odlične rezultate z vidika, da AlphaGo Zero ne potrebuje človeško usmerjanje pri učenju.
 
+Računalniki se lahko tako naučijo reševanje problema brez človeških ekspertov, ki delajo napake in nimajo takojšnega vpogleda na celotno učno množico, kot to imajo računalniki.
 
-TODO - napiš zakaj je pristop samostojnega učenja najprimernejši
+Za tem je bil razvit algoritem Alpha Zero, ki vzame ideje AlphaGo Zero kot temelj, ampak je model generaliziran za poljubne igre, kot na primer šah, Shogi, Go, kjer algoritem potrebuje samo pravila igre, ta pa se uči z globokimi nevronskimi mrežami in tabula rasa algoritmom za spodbujevalno učenje.
+Zaradi te generalizacije algoritma, lahko algoritem apliciramo na našo RTS igro, kjer moramo definirati pravila igre.
+AlphaZero je drugačen od AlphaGo Zero tako, da AlphaZero vrača rezultate, ki so lahko drugačni od zguba, poraz, kot tudi neodločeno.
+Prav tako se razlika pojavi v tem, da so se igre pri algoritmu AlphaGo Zero zgenerirale iz vsej prejšnih iteracij, in se je potem moč modela izračunala proti najboljšim igralcem, medtem ko AlphaZero samo hrani eno nevronsko mrežo, ki se stalno posodablja, namesto da čaga iteracijo da se konča.
 \section{Potek učenja}
-Napišeš da se uči sam prot seb, pa da uporabla mcts za iskanje. Napišeš mcts zato ker je preiskovalni prostor prevelik
 
-TOLE MAŠ REFERENCAN:
-https://arxiv.org/pdf/1712.01815.pdf \\
-
-AlphaZero learns these move probabilities and value estimates entirely from selfplay;
-these are then used to guide its search.
-Instead of an alpha-beta search with domain-specific enhancements, AlphaZero uses a generalpurpose
-Monte-Carlo tree search (MCTS) algorithm. Each search consists of a series of simulated
-games of self-play that traverse a tree from root sroot to leaf. Each simulation proceeds by
-selecting in each state s a move a with low visit count, high move probability and high value
-(averaged over the leaf states of simulations that selected a from s) according to the current
-neural network fo. The search returns a vector pi representing a probability distribution over
-moves, either proportionally or greedily with respect to the visit counts at the root state.
-The parameters o of the deep neural network in AlphaZero are trained by self-play reinforcement
-learning, starting from randomly initialised parameters o. Games are played by selecting
-moves for both players by MCTS, at ∼ rt
-. At the end of the game, the terminal position sT is
-scored according to the rules of the game to compute the game outcome z: −1 for a loss, 0 for
-a draw, and +1 for a win. The neural network parameters o are updated so as to minimise the
-error between the predicted outcome vt and the game outcome z, and to maximise the similarity
-of the policy vector pt
-to the search probabilities rt
-. Specifically, the parameters o are adjusted
-by gradient descent on a loss function l that sums over mean-squared error and cross-entropy
-losses respectively,
-
-
-
-\section{Končno število potez}
-Napišeš kok so igre na katerih dela to preproste - pa da so 2 barvi. pa pač da moj game
+AlphaZero se uči veretnosti in ocenitve končnega stanja izključno z igranjem proti samemu sebi. 
+Te potem uporabi pri preiskovanju z glavno namensko metodo Monte-Carlo drevesnim preiskovanjem, da razišče drevo stanj za akcijo.
+Drevo preišče prostor in vrne verjetnost zmage pri izbiri določene akcije iz trenutnega stanja imenovano Pi in oceno končnega stanja iz trenutnega stanja v, ki zavzema vrednosti -1 ali 1 (Poraz, zmaga).
+AlphaZero izvede več serij igranja iger proti svojim nasprotnikom, ki predstavlja zdajšni najboljši model igranja.
+Rezultat igranja igre je lahko -1 za poraz, +1 za zmago in 0 za neodločeno.
+Po vsaki seriji učenja, se izvede proces igranja Arena, kjer oba naučena modela igrata drug proti drugemu nekaj iger, in se na to določi zmagovalen model, ki sedaj postane najboljši model, če je razlika v številu zmag večja za nek faktor. V našem primeru je bil ta faktor 60%.
+Parametri nevronske mreže so za tem popravljeni, da minimizirajo napako med predikcijo stanja nevronske mreže in dejanskim rezultatom igre in da maksimizirajo podobnost predikcijo potez nevronske mreže z dejanskimi vrednostnimi akcij, ki jih je vrnil MCTS. Oziroma parametri se nastavijo z gradientnim spustom na funkcijo izgube, ki sešteje napako srednega korena (mean-squared error) in prečne entropije (cross entropy).Nevronska mreža sprejme učne množice stanja iger in vrne ravni vektor predikcije akcij v trenutnem stanju in predikcijo zmage.
 
 
 \chapter{Definiranje pravil igre}
@@ -504,65 +485,59 @@ Napišeš kok so igre na katerih dela to preproste - pa da so 2 barvi. pa pač d
 Igro smo definirali po Surag Nairjevi predlogi za Alpha Zero, ki je na voljo na (portalu?) Github (Insert reference here).
 Igra je dodana kot modul, ki vsebuje definicijo igre in njena pravila, igralce, vizualizacijo in izgradnjo modela
 
-
-
-
 Igra je definirana v kvadratni mreži 8x8, kjer polje lahko vsebuje največ eno figuro.
 Ostale igre, ki so napisane za to različico Alpha Zero izvedbe, kot na primer štiri v vrsto, gobang, othello, tri v vrsto, vsebujejo črno-bele figure.
 Zakodirane so lahko z eno številko: -1 za igralca -1, +1 za igralca +1 ali 0, če je polje prazno.
+Pri teh igrah je dimenzija kodiranja 2-dimenzionalna, kjer dimenzije predstavljajo višino in širino igralne plošče.
 Pri rts igrah pa moramo vedeti poleg igralca, komur ta figura pripada, tudi stanje te figure, na primer trenutno zdravje in tip figure.
-Zato je prostor kodiranja 3-dimenzionalen in ne 2. Več o kodiranju stanj v (insert section here)
+Zato je prostor kodiranja 3-dimenzionalen, kjer je tretja dimenzija zakodirano stanje figure.
+Če bi dovolili, da na posamezno polje spada več figur, se dimenzija ponovno poveča za 1.
 
-Board is presented as 3D integer array of dimensions width, height, 6 (which represents number of properties in Tile encoding)
+\section{Definiranje stanja igre}
+V tem razdelku smo opisali zapis posamezne figure, njihove akcije in kaj naredijo in tip kodiranja stanja igre, ki ga potem sprejme nevronska mreža.
 
-\section{Actors}
-\subsection{Actor types}
+Sprva moramo definirati figure, ki bodo imele določeno vlogo v igri. Nabor figur je majhen, saj nočemo, da preiskovalni prostor postane prehitro prevelik.
+\begin{itemize}
+	\item Zlato - Vir surovin, ki predstavljajo denar v igri, s katerim lahko igralec gradi nove stavbe in uri nove enote
+	\item Delavec - Figura namenjena gradnji hiš in nabiranju zlata
+	\item Vojašnica - Stavba namenjena urjenju vojaških enot
+	\item Vojak - Figura namenjena napadanju sovražnikovih enot
+	\item Glavna hiša - Stavba namenjena urjenju delavcev in vračanju surovin zlata.
+\end{itemize}
 
 
-Gold - Resource source unit
-Worker - Unit that can gather, return resources and build all types of buildings
-Barracks - Building that can build units of type Rifle Unit
-Rifle Unit - Units that can attack enemy units
-Town Hall - Building that produces Worker units
-
-\subsection{Actions}
-
-idle: Pass turn
-up: Move up 1 field if its empty
-down: Move down 1 field if its empty
-right: Move right 1 field if its empty
-left: Move left 1 field if its empty
-naberi zlato: Mine gold resources if standing nearby
-vrni zlato: Return gold resources if carrying gold to Town Hall
-attack: Attack nearby unit
-npc: Build worker character
-vojak: Build attack unit
-barracks: Build building that produces attacking units
-glavna hiša: Build building that produces workers and is resource deposit
-
-\subsection{Tile Encoding}
-Tile encoding
-
-Each actor is encoded using following 6 properties:
-
-Player Name: [-1,0,1] (player -1, empty field, player 1)
-Actor Type: [1-5] Numerically encoded Actor Type of written above
-Health: [1-31] Current actor health - when actor has 0 health, it gets destroyed
-Carry: [0,1] If Worker unit is carrying resources or not - it gets set when worker uses mine resources near resource source and gets removed when worker uses return resources near resources drain actor.
-Money: [0-*] Current amount of money that this player has at current time (When money updates, it updates on every players actor)
-Time: [*-0 or 0-8191] Countdown time that gets updated on every board tile when move gets executed. Also timer that increases, and special milestones, health is decreased for all units by formula.
-
+Realizirali smo atribute figur. Pomembno je, da so te atributi numerični, da lahko podamo stanje igre kot N-dimenzionalen vektor, ki ga nevronska mreža lahko sprejme in se iz teh numeričnih podakov uči.
+Prav tako je pomembno, da ima vsako polje na šahovnici enako število atributov, tudi če je to polje prazno.
+Vsako prazno polje ima vanj vpisan atribut čas igranja, ki je splošen za celo igro, vsa ostala polja pa imajo vrednost 0.
+\begin{itemize}
+	\item Ime igralca: Določa igralca, h kateremu ta figura pripada. Igralec lahko nadzoruje samo svoje figure, izvaja akcije na svojih enotah in napada sovražnikove enote.
+	\item Tip figure: Atribut predstavlja numerično predstavitev tipa figure kot naprimer zlato, delavec ipd. Stanje igre potrebuje zapise tipov figur na poljih, da program ve, katere akcije tem figuram pripadajo
+	\item Trenutno zdravje: Koliko zdravja ima trenutna figura. Zdravje se lahko povečuje do nekega maksimuma z akcijo zdravi in znižuje z napadom enote
+	\item Nosi zlato: Poseben atribut za delavce, ki predstavlja vrednost 1, če figura nosi zlato in 0, če ga ne nosi. To se upošteva pri nabiranju in vračanju zlata, kjer se ti dve akcije ne zgodita v roku ene poteze, ampak se mora stanje prenašati skozi več potez
+	\item Denar: Trenutna količina zbranega denarja za posameznega igralca. To polje se ob spremembi količine denarja spremeni v vseh figurah tega igralca
+	\item Čas igranja: To polje predstavlja koliko potez se je v trenutni igri že izvedlo. Atribut je prisoten v vseh poljih in se spremeni v vseh poljih šahovnice, ko se izvede nova akcija
+\end{itemize}
+Poseben primer je figura Zlato, ki ne pripada nobenemu igralcu v večini RTS igrah. V tem primeru pa sem podal vsakemu igralcu svoje polje zlata, da je igra simetrična in nevronska mreža ne interpretira prazno polje igralca kot prazno polje. Prav tako se figuri zlato ne spreminja atribut zdravja, saj jo ne moremo poškodovati. 
 
 \section{Akcije}
+Prav tako moramo definirati akcije, ki jih te figure lahko izvajajo. Vsaka figura ne more izvajati vseh akcij, kot naprimer stavbe se ne morejo premikati, same enote kot delavec in vojak pa ne morejo uriti novih enot ~\ref{tabelfigures}.
 
-Opišeš vse akcije, 
-opišeš da si idle removov, 
+\begin{itemize}
+	\item Nedejaven - Če igralec izbere akcijo nedejavnosti, se ne izvede nobena akcija in se poteza ta igralca zaključi 
+	\item Premik gor - Enoti vojak in delavec se lahko premakneta za eno polje proti zgornjemu robu šahovnice če je to mesto prazno
+	\item Premik dol  - Enoti vojak in delavec se lahko premakneta za eno polje proti spodnjemu robu šahovnice če je to mesto prazno
+	\item Premik levo - Enoti vojak in delavec se lahko premakneta za eno polje proti levem robu šahovnice če je to mesto prazno
+	\item Premik desno - Enoti vojak in delavec se lahko premakneta za eno polje proti desnem robu šahovnice če je to mesto prazno
+	\item Naberi zlato - Delavec lahko nabere zlato če je v neposredni bližini enote zlato in jih za trenuten čas drži pri sebi 
+	\item Vrni zlato - Delavec vrne zlato, ki jih drži pri sebi v glavno hišo, na kar se igralcu prišteje denar
+	\item Napadi - Vojak lahko napade sovražno enoto, če je ta v neposredni bližini in jo rani za določen faktor
+	\item Izuri delavca - Glavna hiša lahko izuri novo enoto delavec, če ima dovolj denarja, na kar se igralcu odšteje denar
+	\item Izuri vojaka - Vojašnica lahko izuri novo enoto vojak, če ima dovolj denarja, na kar se igralcu odšteje denar
+	\item Izgradi vojašnico - Delavec lahko izgradi vojašnico na prazno mesto zraven njega, na kar se igralcu odšteje denar
+	\item Izgradi glavno hišo - Delavec lahko izgradi glavno hišo na prazno mesto zraven njega, na kar se igralcu odšteje denar
+\end{itemize}
 
-
-
-\subsection{Action checking sequence}
-Following actions are checked and executed in some order:
-
+Naslednje akcije se izvedejo po nekem zaporedju:
 \begin{itemize}
 	\item naberi zlato
 	\item vrni zlato
@@ -584,34 +559,17 @@ coords = [(x - 1, y + 1),
 for n_x, n_y in coords:
     # check action condition or execute action
 \end{verbatim}
-When first tile is free in these coordinates, building or unit is spawned there.
-When first enemy in this tile sequence is chosen, it is attacked.
-This results in building units and buildings towards lower-left corner, as units progress towards x-1, y+1 as this tile is free, expanding towards upper-right corner only when all other options are used.
+Ko je doseženo prvo prazno polje v tem zaporedju, se tam izgradi nova hiša ali izuri nova enota.
+Ko je prva sovražna enota izbrana v tem zaporedju, je napadena.
+Rezultat tega je gradnja hiš in urjenja enot v spodnji levi kot šahovnice, saj so izbrana prva polja v zaporedju, kot naprimer x-1, y+1, in širjenje proti zgornjim desnim kotom, ko so vsa ostala polja zasedena, oziroma tam ni sovražnih enot.
 
-Fix for this would be to make actions for each of these coordinates for each of actions that use them, resulting in much higher action space
-
-
-
-
-
+Popravek za to bi bilo definiranje zgornjih navedenih akcij za vsako izmed teh polj, kar bi se prevedlo v veliko večji prostor akcij.
 
 \section{Kodiranja}
-opišeš za maxhealth, cost, .... lah nardiš tabelce pa use to notr vržeš
 
-
-
-Figuro zakodiram z naslednjimi stanji:
-\begin{itemize}
-	\item Ime igralca: 
-	\item Tip figure:
-	\item Trenutno zdravje figure:
-	\item Nosi zlato:
-	\item Denar:
-	\item Čas igranja:
-\end{itemize}
-
-
+Definirali smo figure, njihove atribute in akcije. Tu so še opisane figure z njihovimi akcijami in nastavljenimi atributi
 \begin{table}
+\label{tabelfigures}
 	\begin{center}
 		
 	\begin{tabular}{p{0.2\linewidth}|p{0.4\linewidth}|p{0.2\linewidth}|p{0.2\linewidth}}
@@ -629,48 +587,57 @@ Figuro zakodiram z naslednjimi stanji:
 	\label{tbl:1}
 \end{table}
 
+Definirali smo še začetno stanje vsake igre, kjer sta igralca postavljena v sredino mreže z njihovima glavnima hišama, zraven njiju pa ima vsak igralec svoje polje zlata. Vsakemu igralcu se doda na začetku določena količina denarja za izgradnjo začetnih delavcev. V našem primeru je bilo to 1, tako da je lahko izgradil samo enega delavca.
+
+Sedaj pa potrebujemo zakodirati to stanje igre, v numerični prikaz, ki ga bo nevronska mreža lahko interpretirala. To stanje lahko zakodiramo z desetiškim kodiranjem, vendar obstja možnost, da nevronska mreža sloni proti boljšim obravnavanjem pozitivnih števil za igralca +1, kot za igralca -1. Ravno iz tega razloga obstaja kodiranje One hot, ki spremeni desetiška števila v binarni vektor.
 
 \subsection{Desetiško kodiranje}
-Dimenzija zakodiranega prostora je tako 8x8x6
+Pri desetiškim kodiranjem, predstavimo vsak atribut figure z eno desetiško številko.
+Ker imamo figure s 6 atributi, lahko stanje zakodirane igre predstavimo z dimenzijami širina x višina x 6.
+
+Igralec predstavlja številko -1 za igralca -1, 1 za igralca 1 in 0 za prazno polje.
+
 
 \subsection{One Hot kodiranje}
 \begin{itemize}
-	\item Ime igralca: 2 bit - 00(neutral), 01(1) or 10(-1),
-	\item Tip figure: 4 bit,
-	\item Trenutno zdravje figure: 5 bit,
-	\item Nosi zlato: 1 bit,
-	\item Denar:  5 bits (32 aka 4 town halls or 32 workers) [every unit has the same for player]
-	\item Čas igranja: 2 na 13 8192(za total annihilation)
+	\item Ime igralca: 2 bita zaradi treh različnih možnosti: 00 predstavlja prazno polje, 01 predstavlja igralca 1 in 10 igralca -1,
+	\item Tip figure: 3 biti, saj imamo 5 različnih figur,
+	\item Trenutno zdravje figure: 5 bitov saj hočemo predstaviti večjo številko, zaradi odštevanja zdravja z ranjujočo funkcijo~\ref{destroy_formula_2018_10_20},
+	\item Nosi zlato: 1 bit, kjer vrednost lahko zajema vrednost nosi - 1 ali ne nosi - 0,
+	\item Denar: 5 bitov, kjer pustimo da igralec gradi ekonomijo in shranjuje denar, da ga potem lahko na hitro zapravi na enotah, ko ga ima dovolj za njihovo izgradnjo.
+	\item Čas igranja: $2^{11}$ = 2048, kar pusti igralcu dovolj časa da odkriva nove poteze, ampak ga dovolj hitro omeji, da se konča igra in začne nova
 \end{itemize}
-Dimenzija zakodiranega prostora je tako 8x8x13
+Dimenzija zakodiranega prostora je tako 8x8x22
 
 \section{Konec igre}
 
-Instance of game is finished in following conditions:
-
-One of players does not have any available moves left (board is populated or one player is surrounded),
-One players' actors get destroyed,
-When remaining time reaches 0
-
-
-\section{Izluščevanje učnih primerov}
-To nardiš z get symmetries
-\section{Reševanje problema neskončnega števila potez}
-Tukej napišeš za time killer krivulje ter heal funkcijo
+Konec igre se izvede pod določenimi pogoji:
+\begin{itemize}
+	\item Igralec nima za izvesti več nobene možne akcije
+	\item Vse figure igralca so uničene
+	\item Ko se čas izteče
+\end{itemize}
 
 
+\subsection{Reševanje problema neskončnega števila potez}
+Čakanje, da se čas igre izteče, je problematično, saj učenje modela poteka zelo počasi, še posebej ko MCTS raziskuje prostor.
+Za to smo razvili funkcijo, ki prisili model k izvajanju akcij v zgodnem času igre, drugače figure začnejo pridobivati preveč škode in so zato emilinirane s šahovnice.
 
-\section{Initial board configuration}
-Board gets setup with a town hall for each player in the middle, with 2 patches of resource source actor - Minerals. Each mineral patch is assigned its player (-1,1), because value 0 game recognises as unpopulated area. Each player then starts with some amount of gold (1 or 20 or 100...).
 
-Slika~\ref{destroy_formula_2018_10_20} je v {\tt .pdf} formatu.
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{destroy_formula_2018_10_20.pdf}
 	\end{center}
-	\caption{Herschelov graf, vektorska grafika. Os x ne prikazuje celotnega zajema časa igre (8192).}
+	\caption{Na grafu sta narisani dve funkciji, ki določata škodo, ki se pripeti figuram konec vsake poteze(modra) in število, koliko figur od trenutnega igralca naj se poškoduje(rdeča).}
 	\label{destroy_formula_2018_10_20}
 \end{figure}
+
+(((((((Modra krivulja predstavlja, koliko škode se obravnava v določeni enoti v danem času igre. Rdeča krivulja predstavlja, koliko igralcev je bilo poškodovanih v trenutnem časovnem okviru.
+
+Vidimo, da je krivulja škode veliko bolj stroga in se v igri začenja že zelo zgodaj. To je zato, ker želimo hitro odpraviti primere, ki ne delajo igralcev, in prednostnim nalogam tistih, ki zbirajo minerale in pridobivajo nove akterje. Vidimo tudi y osi od 0 do 64, kar je največje število igralcev za enega igralca, tako da bo v okolju ~ 8000 vsak igralec na krovu dobil smrtno poškodbo, zato časovni potek nikoli ni dosežen.
+
+Igralci se lahko med seboj zdravijo tudi z denarjem, tako da lahko podaljšajo svoje življenje.)))))))
+
 Blue curve represents how much damage is dealt to specific unit in given game time. Red curve represents how many actors have been damaged in current time frame.
 
 We can see that Damage curve is far more strict and is beginning to rise quite early in the game. That's because we want to quickly eliminate non-working player instances and prioritize those that are collecting minerals and spawning new actors. We can also see y axis span from 0 to 64, which is maximum total of actors for one player, so at round ~8000, every actor on board will recieve fatal damage, so timeout is never reached.
@@ -680,6 +647,16 @@ Actors can also heal each other using money, so they can prolong their life.
 
 \chapter{Učenje modela}
 \label{chucenjemodela}
+
+(((((Učenje te igre je zapleteno zaradi pogojev končne igre. Učiteljski ovitki pričakujejo, da se igra konča z uporabo simulacij MCTS, vendar pa lahko python zažene v največjo globino rekurzije, če je igralec večkrat ponovil isto potezo.
+To se lahko reši z uporabo časovnih omejitev, kjer se simulacija ustavi, ko zmanjkujemo preostalih premikov, vendar lahko povzroči netočno drevo MCTS, ker vozlišča niso pravilno ovrednotena med backpropagation.
+Treba je najti ustrezno končno stanje ali spremeniti vir, da izključite časovne omejitve, ker ne vrnejo najboljših rezultatov.
+
+
+Možna učna ideja
+Ideja je, da se s postopnim ucnim modelom spremeni stanje konca igre. Najprej začnite učiti model na preprost način končne igre, kot so izdelava delavcev in ko model uspešno ustvarja delavce, dodajte še en pogoj poleg tega že izvedenega modela.
+Možna težava se lahko pojavi zaradi velikosti modela
+)))))
 Learning of this game is complicated, because of end game conditions. Learning wrapper expects game to finish using MCTS simulations, but python might run into max recursion depth exceeded exception, because player is repeating same move multiple times.
 This can be solved using timeouts, as where simulation gets stopped when we run out of remaining moves, but can lead to inaccurate MCTS tree, because nodes do not get properly evaluated during backpropagation.
 Proper end condition must be found or change of source is needed in order to exclude timeouts, because they are not returning best resuts.
@@ -696,17 +673,21 @@ Possible problem might occur because of model size
 Keras je module tensorflowa
 
 
-formula po kateri računa
+
 
 \begin{izrek}
 	\label{iz:1}
-	Za vsako naravno število $n$ velja
+	formula po kateri računa verjetnost zmage pri določeni akciji v algoritmu MCTS
 	\begin{equation}
 	R(s,a) = Q(s,a) + cpuctP(s, a)\sqrt{\dfrac{\sum{b}*N(s,b)}{N(s,a)}}
 	\label{eq:1}
 	\end{equation}
 \end{izrek}
 
+\section{Izbira parametrov}
+Cpuct je parameter raziskovanja. V našem primeru je bil nastavljen na vrednost 1.
+
+Pri učenju smo uporabili 
 
 Opišeš parameter mcts sims in cpuct, arenacompare, numiters, numeps, 
 
@@ -719,25 +700,23 @@ Opišeš parameter mcts sims in cpuct, arenacompare, numiters, numeps,
 \label{chvizualizacija}
 
 \section{Pygame}
-napišeš daj to ez vizualizacija za pregled igre med kodiranjem, pa da če human igra lah interacta s keyboardom al pa miško
-Pa napišeš da prkazuješ v gridu s krogci, pa maš flage pa pozete k so možne
+To je preprosta vizualizacija s Python knjižnico Pygame, za pregled igre med samim razvijanjem. Šahovnica je označena s črtami, med katerimi so s krogi izrisane figure, kjer njihove barve predstavljajo svoj tip enote in obroba krogca igralca -1 ali +1.
+V krogcih je tudi napisano zdravje za to enoto in zastavica, ali delavec prenaša zlato.
+Zgoraj je izpisano, koliko denarja ima posamezen igralec in koliko potez sta igralca že odigrala. Prav tako so izpisane vse možne akcije, ki jih igralec lahko izvrši z določeno figuro.
 
-
-Pri vizualizaciji s Python knjižnico Pygame, lahko uporabnik nadzoruje svoje figure s tipkovnico in miško.
-
+Igralec lahko nadzoruje svoje figure s tipkovnico in miško.
 Uporabnik mora najprej izbrati figuro z levim miškinim klikom in potem izbrati določeno akcijo, ki je izpisana na zaslonu. Uporabnik lahko spremeni figuro, tako da jo odznači s klikom desnega miškinega gumba na prazno mesto.
 
+\begin{itemize}
+	\item Premikanje: igralec lahko premakne delavce in vojake za 1 kvadratek v vseh 4 smereh če so prazni s klikom na eno od 4 mest.
+	\item Napadanje: z izbrano vojaško enoto lahko uporabnik napade sovražne enote, ki so v dosegu.
+	\item Zbiranje in vračanje sredstev: z izbranim delavcem lahko uporabnik porabi sredstva, tako da klikne desno miškino tipko na polje zlata, če je v dosegu. To velja tudi za vračanje sredstev, vendar mora biti delavec v bližini mestne hiše.
+	\item Gradnja: Za gradbene enote in zgradbe mora uporabnik uporabiti eno od bližnjic na tipkovnici.
+	\item Nedejaven: igralec lahko z izbranim igralcem pritisne presledek za mirovanje.
+\end{itemize}
 
-Moving: User can move workers and infantry by 1 square in all 4 directions if they are empty by clicking on one of 4 corresponding tiles.
-Attacking: With selected infantry unit, user can attack enemy units that are in range.
-Gathering and returning resources: With worker selected, user can mine resources by clicking right mouse button on Gold actor if in range. This goes the same when returning resources, but worker must be nearby Town Hall actor.
-Building: For building units and buildings, user must use one of keyboard shortcuts written on canvas.
-Idle: User can press space to idle with selected actor.
+Prav tako lahko uporabnik igra igro s pisanjem akcij v konzolo.
 
-Console:
-Type one of listed commands seperated by space and press Enter.
-
-Slika~\ref{visualization_pygame} je v {\tt .pdf} formatu.
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{visualization_pygame.pdf}
@@ -759,8 +738,6 @@ Ta predstavitev omogoča tudi igranje dveh človeških igralcev enega proti drug
 Človeški igralec lahko igra tudi proti računalniškim igralcem, ki pa vsaki 2 sekundi zahteva za novo najboljšo akcijo.
 Lahko si pa ogledamo dva računalniška igralca igrati drug proti drugemu.
 
-
-Slika~\ref{visualization_ue4} je v {\tt .pdf} formatu.
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{visualization_ue4.pdf}
@@ -780,18 +757,23 @@ Opišeš parametre in čas učenja
 Opišeš rezultate pri različnih nastavitvah parametru igre - recmo bolj stroga krivulja, manj stroga, več denarja per mine, cenejši heal...
 Pa s kermu encodingom so bli bolši razultati
 Pa napišeš primerjava proti naključnim igralcem in greedy- kjer ima greedy player kriterij za število življenja maximize
-\section{Učenje s prekinitvijo časa}
-\section{Učenje z ranjujočo funkcijo}
+\section{Izbira ustavitvene funkcije}
+Pri izbiri funkcije za timeout smo zelo počasi prišli do dobrih rezultatov.
+Pri izbiri ranjujoče funkcije pa smo dobili naslednje rezultate.
+
+\section{Izbira kodiranja}
+Pri uporabi desetiškega kodiranja smo dobili naslednje rezultate.
+Pri One Hot kodiranju pa smo dobili naslednje rezultate.
 
 
 \chapter{Zaključek}
 \label{chzakljucek}
-Ali se to splača za moderni rts game- NE! :D
-kje je problem -> v prostoru, v pristopu z koncem igre
+V zaključku obrazložim ali se algoritem splača vpeljati za moderno RTS igro in kje so vsi problemi.
+Opišeš probleme kot so v balanciranju igre, da se nevronska mreža lahko prav nauči in z ugotavljanjem konca igre.
 
-
-Igra je na voljo na naslednjih repozitorijih:
-https://github.com/JernejHabjan/TrumpDefense2020
+Igra in AlphaZero algoritem je na voljo na naslednjih repozitorijih:\\
+https://github.com/JernejHabjan/TrumpDefense2020\\
+in \\ 
 https://github.com/JernejHabjan/alpha-zero-general
 
 
