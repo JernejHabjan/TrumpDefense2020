@@ -20,9 +20,9 @@
 \contentsline {subsection}{\numberline {4.3.2}One Hot kodiranje}{16}{subsection.4.3.2}
 \contentsline {section}{\numberline {4.4}Konec igre}{17}{section.4.4}
 \contentsline {subsection}{\numberline {4.4.1}Re\IeC {\v s}evanje problema neskon\IeC {\v c}nega \IeC {\v s}tevila potez}{17}{subsection.4.4.1}
-\contentsline {chapter}{\numberline {5}U\IeC {\v c}enje modela}{21}{chapter.5}
-\contentsline {section}{\numberline {5.1}TensorFlow}{22}{section.5.1}
-\contentsline {section}{\numberline {5.2}Izbira parametrov}{22}{section.5.2}
+\contentsline {chapter}{\numberline {5}U\IeC {\v c}enje modela}{19}{chapter.5}
+\contentsline {section}{\numberline {5.1}Zgradba modela nevronske mre\IeC {\v z}e}{20}{section.5.1}
+\contentsline {section}{\numberline {5.2}Izbira parametrov}{21}{section.5.2}
 \contentsline {chapter}{\numberline {6}Vizualizacije}{23}{chapter.6}
 \contentsline {section}{\numberline {6.1}Pygame}{23}{section.6.1}
 \contentsline {section}{\numberline {6.2}Unreal Engine 4}{25}{section.6.2}

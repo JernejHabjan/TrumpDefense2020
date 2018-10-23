@@ -427,8 +427,8 @@ Zdajšni izzivi:
 		\begin{center}
 			\includegraphics[width=0.6\textwidth]{RazdelitevNalog.pdf}
 		\end{center}
-		\caption{Razdelitev nalog.}
-		\label{pic1}
+		\caption{Razdelitev nalog glede na čas reakcije in abstrakcije nalog.}
+		\label{picRazdelitevNalog}
 	\end{figure}
 	
 	Pogosto razdelimo odločanje na dva dela:
@@ -567,9 +567,8 @@ Popravek za to bi bilo definiranje zgornjih navedenih akcij za vsako izmed teh p
 
 \section{Kodiranja}
 
-Definirali smo figure, njihove atribute in akcije. Tu so še opisane figure z njihovimi akcijami in nastavljenimi atributi
 \begin{table}
-\label{tabelfigures}
+
 	\begin{center}
 		
 	\begin{tabular}{p{0.2\linewidth}|p{0.4\linewidth}|p{0.2\linewidth}|p{0.2\linewidth}}
@@ -580,11 +579,9 @@ Definirali smo figure, njihove atribute in akcije. Tu so še opisane figure z nj
 		{\tt Vojak}   & gor, dol, levo, desno, napad, zdravi  & 20 & 2 \\
 		{\tt Glavna hiša}   & delavec, zdravi & 30  & 7 \\
 	\end{tabular}
-
-
 	\end{center}
-	\caption{}
-	\label{tbl:1}
+	\caption{Tu so še opisane figure z njihovimi akcijami in nastavljenimi atributi}
+	\label{tabelfigures}
 \end{table}
 
 Definirali smo še začetno stanje vsake igre, kjer sta igralca postavljena v sredino mreže z njihovima glavnima hišama, zraven njiju pa ima vsak igralec svoje polje zlata. Vsakemu igralcu se doda na začetku določena količina denarja za izgradnjo začetnih delavcev. V našem primeru je bilo to 1, tako da je lahko izgradil samo enega delavca.
@@ -596,8 +593,6 @@ Pri desetiškim kodiranjem, predstavimo vsak atribut figure z eno desetiško št
 Ker imamo figure s 6 atributi, lahko stanje zakodirane igre predstavimo z dimenzijami širina x višina x 6.
 
 Igralec predstavlja številko -1 za igralca -1, 1 za igralca 1 in 0 za prazno polje.
-
-
 \subsection{One Hot kodiranje}
 \begin{itemize}
 	\item Ime igralca: 2 bita zaradi treh različnih možnosti: 00 predstavlja prazno polje, 01 predstavlja igralca 1 in 10 igralca -1,
@@ -628,64 +623,61 @@ Za to smo razvili funkcijo, ki prisili model k izvajanju akcij v zgodnem času i
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{destroy_formula_2018_10_20.pdf}
 	\end{center}
-	\caption{Na grafu sta narisani dve funkciji, ki določata škodo, ki se pripeti figuram konec vsake poteze(modra) in število, koliko figur od trenutnega igralca naj se poškoduje(rdeča).}
+	\caption{Na grafu sta narisani dve funkciji, ki določata koliko škode se obravnava v določeni enoti v danem času igre(modra) in koliko igralcev je bilo poškodovanih v trenutnem časovnem okviru(rdeča).}
 	\label{destroy_formula_2018_10_20}
 \end{figure}
 
-(((((((Modra krivulja predstavlja, koliko škode se obravnava v določeni enoti v danem času igre. Rdeča krivulja predstavlja, koliko igralcev je bilo poškodovanih v trenutnem časovnem okviru.
 
-Vidimo, da je krivulja škode veliko bolj stroga in se v igri začenja že zelo zgodaj. To je zato, ker želimo hitro odpraviti primere, ki ne delajo igralcev, in prednostnim nalogam tistih, ki zbirajo minerale in pridobivajo nove akterje. Vidimo tudi y osi od 0 do 64, kar je največje število igralcev za enega igralca, tako da bo v okolju ~ 8000 vsak igralec na krovu dobil smrtno poškodbo, zato časovni potek nikoli ni dosežen.
+Vidimo, da je krivulja škode veliko bolj stroga in se v igri začenja že zelo zgodaj. To je zato, ker želimo hitro odpraviti nedejavnih igralcev in prioritiziramo tiste, ki zbirajo minerale in pridobivajo nove fugzre. Vidimo tudi y osi od 0 do 64, kar je največje število igralcev za enega igralca, tako da bo pri približno 2000 korakih vsaka figura dobil smrtno poškodbo, zato časovni potek nikoli ni dosežen.
 
-Igralci se lahko med seboj zdravijo tudi z denarjem, tako da lahko podaljšajo svoje življenje.)))))))
-
-Blue curve represents how much damage is dealt to specific unit in given game time. Red curve represents how many actors have been damaged in current time frame.
-
-We can see that Damage curve is far more strict and is beginning to rise quite early in the game. That's because we want to quickly eliminate non-working player instances and prioritize those that are collecting minerals and spawning new actors. We can also see y axis span from 0 to 64, which is maximum total of actors for one player, so at round ~8000, every actor on board will recieve fatal damage, so timeout is never reached.
-
-Actors can also heal each other using money, so they can prolong their life.
-
+Figure lahko tudi uporabijo akcijo zdravljenja, s čimer povečajo trenutno zdravje določene figure do največ njenega maksimuma.
 
 \chapter{Učenje modela}
 \label{chucenjemodela}
 
-(((((Učenje te igre je zapleteno zaradi pogojev končne igre. Učiteljski ovitki pričakujejo, da se igra konča z uporabo simulacij MCTS, vendar pa lahko python zažene v največjo globino rekurzije, če je igralec večkrat ponovil isto potezo.
-To se lahko reši z uporabo časovnih omejitev, kjer se simulacija ustavi, ko zmanjkujemo preostalih premikov, vendar lahko povzroči netočno drevo MCTS, ker vozlišča niso pravilno ovrednotena med backpropagation.
-Treba je najti ustrezno končno stanje ali spremeniti vir, da izključite časovne omejitve, ker ne vrnejo najboljših rezultatov.
+Učenje te igre je zapleteno zaradi pogojev konca igre. Algoritem pričakuje, da se igra konča z uporabo simulacij MCTS, vendar se pa lahko igra zacikla če igralec večkrat ponovil isto potezo, na kar Python javi napako zaradi prevelike globine rekurzije.
+To se lahko reši z uporabo časovnih omejitev, kjer se simulacija ustavi ko se izteče čas, vendar lahko povzroči netočno MCTS drevo, ker vozlišča niso pravilno ovrednotena med povratnim propagiranjem.
+Potrebno je najti ustrezno končno stanje ali spremeniti vir, da izključite časovne omejitve, ker ne vrnejo najboljših rezultatov.
 
-
+Prav tako se nam je porodila učna ideja o postopnim učenjem modela. Najprej bi začeli učiti model na preprostem končnem pogojem kot naprimer številu izdelanih delavcev. Ko bi model uspešno ustvarjal delavce, bi pogoj spremenili o naprimer nabiranju zlata, tako da bi model že vedel o gradnji delavcev, kar bi nadgradil še z nabiranjem zlata. Težava se pojavi zaradi kodiranja stanja, ki ni istih dimenzij kot prejšno stanje, kjer smo imeli drugi ustavitveni pogoj z drugačnim številom akcij pri figurah.
 Možna učna ideja
 Ideja je, da se s postopnim ucnim modelom spremeni stanje konca igre. Najprej začnite učiti model na preprost način končne igre, kot so izdelava delavcev in ko model uspešno ustvarja delavce, dodajte še en pogoj poleg tega že izvedenega modela.
 Možna težava se lahko pojavi zaradi velikosti modela
-)))))
-Learning of this game is complicated, because of end game conditions. Learning wrapper expects game to finish using MCTS simulations, but python might run into max recursion depth exceeded exception, because player is repeating same move multiple times.
-This can be solved using timeouts, as where simulation gets stopped when we run out of remaining moves, but can lead to inaccurate MCTS tree, because nodes do not get properly evaluated during backpropagation.
-Proper end condition must be found or change of source is needed in order to exclude timeouts, because they are not returning best resuts.
+
+\section{Zgradba modela nevronske mreže}
+
+Uporabili smo Keras modul znotraj TensorFlow knjižnice, za implementacijo modela nevronske mreže.
+
+Model za vhod vzame učne množice stanja iger dimenzije širina, višina, število kodirnikov.
+Potem gre ta učna množica skozi 4 konvolucijske nivoje, kjer je aktivator relu, tako da je izhod zadnjega konvolucijskega nivoja dimenzije velikost serije  x (širina-4) x (višina-4) x število kanalov
+
+Za tem se izhod konvolucije izravna v 1-dimenzionalni vektor in se poda dvema polno povezanima nivojema z aktivacijo relu in in Dropout funkcijo, ki prepreči prekomerno prileganje.
+Vsi zgoraj navedeni nivoji so normalizirani z BatchNormalization.
+
+Za tem je izgrajen polno povezan nivo Pi, ki ima toliko število izhodov, koliko je možno število akcij v igri za vsako celico, ki ima aktivacijsko funkcijo softmax,
+prav tako je pa izgrajen polno povezan nivo V, ki ima en izhod, ki predstavlja zmago ali poraz z tanh aktivacijsko funkcijo.
+Za izhod Pi se nastavi funkcija izgube kategorična prečna entropija, za izhod V pa srednja napaka korena (mean-squared error),
 
 
-Possible learning idea
-Idea is to incrementally learn model by changing end game condition. First start learning model on simple end game condition like producing workers and when model is successfully creating workers, add another condition on top of that already learnt model.
-Possible problem might occur because of model size
-
-
-
-\section{TensorFlow}
-
-Keras je module tensorflowa
-
-
-
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{vizualzacijaModela.pdf}
+	\end{center}
+	\caption{Predstavitev izgrajenega modela}
+	\label{vizualzacijaModela}
+\end{figure}
 
 \begin{izrek}
 	\label{iz:1}
 	formula po kateri računa verjetnost zmage pri določeni akciji v algoritmu MCTS
 	\begin{equation}
 	R(s,a) = Q(s,a) + cpuctP(s, a)\sqrt{\dfrac{\sum{b}*N(s,b)}{N(s,a)}}
-	\label{eq:1}
+	\label{eq:mctsFormula}
 	\end{equation}
 \end{izrek}
 
 \section{Izbira parametrov}
-Cpuct je parameter raziskovanja. V našem primeru je bil nastavljen na vrednost 1.
+Cpuct je parameter drevesnega raziskovanja. V našem primeru je bil nastavljen na vrednost 1.
 
 Pri učenju smo uporabili 
 
@@ -721,7 +713,7 @@ Prav tako lahko uporabnik igra igro s pisanjem akcij v konzolo.
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{visualization_pygame.pdf}
 	\end{center}
-	\caption{Herschelov graf, vektorska grafika.}
+	\caption{Na zgornji sliki človeški igralec igra izgrajeno strateško igro proti računalniškim nasprotnikom.}
 	\label{visualization_pygame}
 \end{figure}
 
@@ -732,7 +724,7 @@ Razliko med tema pogonoma je dobro predstavil Marko Kladnik \cite{diploma2}.\\
 Unreal Engine 4 omogoča hitro ustvarjanje iger s pomočjo posebnih diagramov (angl. blueprint) in hkrati podpira programski jezik C++, ki ga uporabimo za hitro izvedbo velikega števila matematičnih izrazov.\\
 
 Potrebno je bilo preslikati akcije in figure v urejevalnik Unreal Engine, da se tam enote primerno premikajo in izvajajo akcije.
-Potrebno je bilo mapirati animacije, efekte, da premikanje in napadanje zgleda dokaj realistično.
+Potrebno je bilo (mapirati) animacije, efekte, da premikanje in napadanje zgleda dokaj realistično.
 
 Ta predstavitev omogoča tudi igranje dveh človeških igralcev enega proti drugemu preko internetne mreže, kjer vsak igralec pridobiva priporočene ukaze iz modela.
 Človeški igralec lahko igra tudi proti računalniškim igralcem, ki pa vsaki 2 sekundi zahteva za novo najboljšo akcijo.
@@ -742,10 +734,9 @@ Lahko si pa ogledamo dva računalniška igralca igrati drug proti drugemu.
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{visualization_ue4.pdf}
 	\end{center}
-	\caption{Herschelov graf, vektorska grafika.}
+	\caption{Zgornja slika predstavlja igranje igre dveh računalniških nasprotnikov enega proti drugemu.}
 	\label{visualization_ue4}
 \end{figure}
-
 
 \subsection{Prenos stanja igre}
 napišeš kko encodaš game pa ga pošleš pythonu, tm pa dobiš best action pa pol nazaj...
@@ -754,12 +745,21 @@ napišeš kko encodaš game pa ga pošleš pythonu, tm pa dobiš best action pa 
 \chapter{Rezultati}
 \label{chrezultati}
 Opišeš parametre in čas učenja
-Opišeš rezultate pri različnih nastavitvah parametru igre - recmo bolj stroga krivulja, manj stroga, več denarja per mine, cenejši heal...
+Opišeš rezultate pri različnih nastavitvah parametru igre - recimo bolj stroga krivulja, manj stroga, več denarja per mine, cenejši heal...
 Pa s kermu encodingom so bli bolši razultati
 Pa napišeš primerjava proti naključnim igralcem in greedy- kjer ima greedy player kriterij za število življenja maximize
 \section{Izbira ustavitvene funkcije}
 Pri izbiri funkcije za timeout smo zelo počasi prišli do dobrih rezultatov.
 Pri izbiri ranjujoče funkcije pa smo dobili naslednje rezultate.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{vizualizacijaRezultatov.pdf}
+	\end{center}
+	\caption{Zgornja slika predstavlja vzorec, kako bo izgledal graf prikaza podatkov pri ustavitvenih funkcijah.}
+	\label{vizualizacijaRezultatov}
+\end{figure}
+
 
 \section{Izbira kodiranja}
 Pri uporabi desetiškega kodiranja smo dobili naslednje rezultate.
