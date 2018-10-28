@@ -378,7 +378,8 @@ Ob tem izhodu nevronska mreža nagradi svoje predikcije ob določenem stanju, al
 To je glavna ideja o implementaciji algoritma, ki jo pa vsebuje algoritem Alpha Zero, ki smo ga uporabili v tej diplomski nalogi.
 Algoritem se nauči igranja igre z igranjem iger sam proti sebi, kjer boljša različica algoritma napreduje v naslednji krog.
 Ko je model nevronske mreže naučen, ga lahko uporabimo, da nam priporoči akcijo v določenem stanju.
-Tako lahko implementiramo računalniškega igralca, ki pridobiva akcije od naučenega modela in jih izvršuje, kot tudi priporočilni sistem za akcije, ki jih prikazujemo človeškemu igralcu. Algoritem nam priporoči akcijo in ne tipa strategije, katerega naj izberemo, kar bi potrebovalo še bolj abstrakten pogled na igro. 
+Tako lahko implementiramo računalniškega igralca, ki pridobiva akcije od naučenega modela in jih izvršuje, kot tudi priporočilni sistem za akcije, ki jih prikazujemo človeškemu igralcu. 
+Algoritem nam priporoči akcijo in ne tipa strategije, katerega naj izberemo, kar bi potrebovalo še bolj abstrakten pogled na igro. 
 
 O strateških igrah, njihovih abstrakcijah in zakaj so tako zanimive za raziskovanje umetne inteligence bomo več spoznali v poglavju \ref{chrts}.
 V poglavju \ref{alphazero} bomo podrobneje pregledali sestavo Alpha Zero algoritma in zakaj je primeren za našo RTS igro.
@@ -631,6 +632,12 @@ Za to smo razvili funkcijo, ki prisili model k izvajanju akcij v zgodnem času i
 Vidimo, da je krivulja škode veliko bolj stroga in se v igri začenja že zelo zgodaj. To je zato, ker želimo hitro odpraviti nedejavnih igralcev in prioritiziramo tiste, ki zbirajo minerale in pridobivajo nove fugzre. Vidimo tudi y osi od 0 do 64, kar je največje število igralcev za enega igralca, tako da bo pri približno 2000 korakih vsaka figura dobil smrtno poškodbo, zato časovni potek nikoli ni dosežen.
 
 Figure lahko tudi uporabijo akcijo zdravljenja, s čimer povečajo trenutno zdravje določene figure do največ njenega maksimuma.
+
+(((( Opiši following problem:
+	problem je biv balancat krivuljo ter heal
+	ko sem nastavu heal cost na 1 in heal na 10, se je player nauču samo healat in pršu do runde 1000, potem sm ga pa ustavu
+	Nastavu sm še return mineral amount to 5 al neki, da ma vč možnosti za delat stvari, ker drgač je sam healov ai
+	))))
 
 \chapter{Učenje modela}
 \label{chucenjemodela}
