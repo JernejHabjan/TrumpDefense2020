@@ -479,6 +479,18 @@ Rezultat igranja igre je lahko -1 za poraz, +1 za zmago in 0 za neodločeno.
 Po vsaki seriji učenja, se izvede proces igranja Arena, kjer oba naučena modela igrata drug proti drugemu nekaj iger, in se na to določi zmagovalen model, ki sedaj postane najboljši model, če je razlika v številu zmag večja za nek faktor. V našem primeru je bil ta faktor 60%.
 Parametri nevronske mreže so za tem popravljeni, da minimizirajo napako med predikcijo stanja nevronske mreže in dejanskim rezultatom igre in da maksimizirajo podobnost predikcijo potez nevronske mreže z dejanskimi vrednostnimi akcij, ki jih je vrnil MCTS. Oziroma parametri se nastavijo z gradientnim spustom na funkcijo izgube, ki sešteje napako srednega korena (mean-squared error) in prečne entropije (cross entropy).Nevronska mreža sprejme učne množice stanja iger in vrne ravni vektor predikcije akcij v trenutnem stanju in predikcijo zmage.
 
+Uporaba algoritma MCTS je v tem algoritmu drugačna kakor v splošni uporabi.
+Število iteracij je namenjeno biti veliko manjši, kakor v njegovi klasični uporabi, kjer je število iteracij več sto tisoč. 
+MCTS pripomore k izboljšavi predikcije stanja, ki ga vrne nevronska mreža z raziskovanjem prostora.
+Algoritem ne uporablja simulacij za pridobitev končnega stanja igre, predikcijo stanja, ki ga vrne nevronska mreža samo izboljša.
+
+Vozlišče, ki še ni bilo obiskano, se inicializira s predikcijo nevronske mreže in za tem vzvratno propagira predikcija stanja
+Če je vozlišče končno stanje igre, vzvratno propagira končno stanje.
+MCTS v tem primeru prejme par sto iteracij (v mojem primeru 100) in ne več tisoč, kot smo govorili na sestanku.
+
+Glavno učenje algoritma poteka z igranjem iger, ki pa se za razliko od MCTS-ja odigrajo do konca in se dodajo v seznam učnih primerov.
+Konec vsake iteracije igranja epizod iger se nevronska mreža uči na podlagi teh učnih primerov.
+Za tem preveri moč novo naučenega modela z igranjem proti starejši različici modela in se shrani novi model samo če je boljši od starejšega za določen odstotek (v našem primeru 60%)
 
 \chapter{Definiranje pravil igre}
 \label{chpravilaigre}
@@ -499,15 +511,16 @@ V tem razdelku smo opisali zapis posamezne figure, njihove akcije in kaj naredij
 
 Sprva moramo definirati figure, ki bodo imele določeno vlogo v igri. Nabor figur je majhen, saj nočemo, da preiskovalni prostor postane prehitro prevelik.
 \begin{itemize}
-	\item Zlato - Vir surovin, ki predstavljajo denar v igri, s katerim lahko igralec gradi nove stavbe in uri nove enote
+	\item Zlato - Vir surovin, ki predstavljajo denar v igri, s katerim lahko igralec gradi nove stavbe in uri nove enote. Vir zlata je neomejen in ne mora biti uničen.
 	\item Delavec - Figura namenjena gradnji hiš in nabiranju zlata
 	\item Vojašnica - Stavba namenjena urjenju vojaških enot
 	\item Vojak - Figura namenjena napadanju sovražnikovih enot
 	\item Glavna hiša - Stavba namenjena urjenju delavcev in vračanju surovin zlata.
 \end{itemize}
 
+Na posameznem polju je lahko največ ena figura, tako da igralec ne more blokirati surovin zlata nasprotnemu igralcu, če to surovino ne obkoli v celoti.
 
-Realizirali smo atribute figur. Pomembno je, da so te atributi numerični, da lahko podamo stanje igre kot N-dimenzionalen vektor, ki ga nevronska mreža lahko sprejme in se iz teh numeričnih podakov uči.
+Realizirali smo atribute figur. Pomembno je, da so te atributi numerični, da lahko podamo stanje igre kot N-dimenzionalen vektor, ki ga nevronska mreža lahko sprejme in se iz teh numeričnih podatkov uči.
 Prav tako je pomembno, da ima vsako polje na šahovnici enako število atributov, tudi če je to polje prazno.
 Vsako prazno polje ima vanj vpisan atribut čas igranja, ki je splošen za celo igro, vsa ostala polja pa imajo vrednost 0.
 \begin{itemize}
@@ -518,27 +531,32 @@ Vsako prazno polje ima vanj vpisan atribut čas igranja, ki je splošen za celo 
 	\item Denar: Trenutna količina zbranega denarja za posameznega igralca. To polje se ob spremembi količine denarja spremeni v vseh figurah tega igralca
 	\item Čas igranja: To polje predstavlja koliko potez se je v trenutni igri že izvedlo. Atribut je prisoten v vseh poljih in se spremeni v vseh poljih šahovnice, ko se izvede nova akcija
 \end{itemize}
-Poseben primer je figura Zlato, ki ne pripada nobenemu igralcu v večini RTS igrah. V tem primeru pa sem podal vsakemu igralcu svoje polje zlata, da je igra simetrična in nevronska mreža ne interpretira prazno polje igralca kot prazno polje. Prav tako se figuri zlato ne spreminja atribut zdravja, saj jo ne moremo poškodovati. 
+Poseben primer je figura Zlato, ki ne pripada nobenemu igralcu v večini RTS igrah. 
+V tem primeru pa sem podal vsakemu igralcu svoje polje zlata, da je igra simetrična in nevronska mreža ne interpretira prazno polje igralca kot prazno polje.
+Prav tako se figuri zlato ne spreminja atribut zdravja, saj jo ne moremo poškodovati. 
+Zlata je neomejeno in ko igralec odloži zlato v glavno hišo, se vsem figuram tega igralca nastavi zlato na novo dobljeno vrednost. 
+Prav tako se pri izgradnji nove stavbe ali urjenju enote število zlatnikov zmanjša za vse figure tega igralca.
 
 \section{Akcije}
 Prav tako moramo definirati akcije, ki jih te figure lahko izvajajo. Vsaka figura ne more izvajati vseh akcij, kot naprimer stavbe se ne morejo premikati, same enote kot delavec in vojak pa ne morejo uriti novih enot ~\ref{tabelfigures}.
 
 \begin{itemize}
-	\item Nedejaven - Če igralec izbere akcijo nedejavnosti, se ne izvede nobena akcija in se poteza ta igralca zaključi 
-	\item Premik gor - Enoti vojak in delavec se lahko premakneta za eno polje proti zgornjemu robu šahovnice če je to mesto prazno
-	\item Premik dol  - Enoti vojak in delavec se lahko premakneta za eno polje proti spodnjemu robu šahovnice če je to mesto prazno
-	\item Premik levo - Enoti vojak in delavec se lahko premakneta za eno polje proti levem robu šahovnice če je to mesto prazno
-	\item Premik desno - Enoti vojak in delavec se lahko premakneta za eno polje proti desnem robu šahovnice če je to mesto prazno
+	\item Premiki (4 smeri) - Enoti vojak in delavec se lahko premakneta na sosednje polje na šahovnici, če je to mesto prazno
 	\item Naberi zlato - Delavec lahko nabere zlato če je v neposredni bližini enote zlato in jih za trenuten čas drži pri sebi 
-	\item Vrni zlato - Delavec vrne zlato, ki jih drži pri sebi v glavno hišo, na kar se igralcu prišteje denar
-	\item Napadi - Vojak lahko napade sovražno enoto, če je ta v neposredni bližini in jo rani za določen faktor
-	\item Izuri delavca - Glavna hiša lahko izuri novo enoto delavec, če ima dovolj denarja, na kar se igralcu odšteje denar
-	\item Izuri vojaka - Vojašnica lahko izuri novo enoto vojak, če ima dovolj denarja, na kar se igralcu odšteje denar
-	\item Izgradi vojašnico - Delavec lahko izgradi vojašnico na prazno mesto zraven njega, na kar se igralcu odšteje denar
-	\item Izgradi glavno hišo - Delavec lahko izgradi glavno hišo na prazno mesto zraven njega, na kar se igralcu odšteje denar
+	\item Vrni zlato - Delavec vrne zlato, ki jih drži pri sebi v glavno hišo, na kar se igralcu prišteje denar. 
+	\item Napadi (4 smeri)- Vojak lahko napade sovražno enoto, če je ta v neposredni bližini in jo rani za določen faktor
+	\item Izuri delavca (4 smeri)- Glavna hiša lahko izuri novo enoto delavec, če ima dovolj denarja, na kar se igralcu odšteje denar
+	\item Izuri vojaka (4 smeri)- Vojašnica lahko izuri novo enoto vojak, če ima dovolj denarja, na kar se igralcu odšteje denar
+	\item Izgradi vojašnico (4 smeri)- Delavec lahko izgradi vojašnico na prazno mesto zraven njega, na kar se igralcu odšteje denar
+	\item Izgradi glavno hišo (4 smeri)- Delavec lahko izgradi glavno hišo na prazno mesto zraven njega, na kar se igralcu odšteje denar
+	\item Zdravi (4 smeri) - Figura lahko zdravi sosednjo prijateljsko figuro, če ta nima polnega življenja, na kar se igralcu odšteje denar
 \end{itemize}
 
-Naslednje akcije se izvedejo po nekem zaporedju:
+Akcijo nedejavnosti smo izključili iz algoritma, ker ne prinaša nobene dodatne vrednosti igralcu ter zatovlja daljše iteracije igre.
+
+
+Sprva smo definirali nekatere izmed zgornjih akcij, na način izbire prvega mesta med sosednjimi polji, ki ustreza akciji. 
+Naslednje akcije so se izvajale po zaporedju:
 \begin{itemize}
 	\item naberi zlato
 	\item vrni zlato
@@ -547,6 +565,7 @@ Naslednje akcije se izvedejo po nekem zaporedju:
 	\item vojak, 
 	\item vojašnica
 	\item glavna hiša
+	\item zdravi
 \end{itemize}
 \begin{verbatim}
 coords = [(x - 1, y + 1),
@@ -563,6 +582,10 @@ for n_x, n_y in coords:
 Ko je doseženo prvo prazno polje v tem zaporedju, se tam izgradi nova hiša ali izuri nova enota.
 Ko je prva sovražna enota izbrana v tem zaporedju, je napadena.
 Rezultat tega je gradnja hiš in urjenja enot v spodnji levi kot šahovnice, saj so izbrana prva polja v zaporedju, kot naprimer x-1, y+1, in širjenje proti zgornjim desnim kotom, ko so vsa ostala polja zasedena, oziroma tam ni sovražnih enot.
+
+Algoritem smo popravili tako, da smo spremenili te akcije (razen naberi zlato in vrni zlato), da so posamezne akcije za vsako izmed štirih sosednjih polj.
+Za vpeljavo posameznih akcij smo se odločili, ker ne moramo izbrati polja po zgornjem zaporedju tako, da bi bilo za oba igralca enako.
+Sedaj je igra scela uravnovešena glede na igralca.
 
 Popravek za to bi bilo definiranje zgornjih navedenih akcij za vsako izmed teh polj, kar bi se prevedlo v veliko večji prostor akcij.
 
@@ -588,6 +611,8 @@ Popravek za to bi bilo definiranje zgornjih navedenih akcij za vsako izmed teh p
 Definirali smo še začetno stanje vsake igre, kjer sta igralca postavljena v sredino mreže z njihovima glavnima hišama, zraven njiju pa ima vsak igralec svoje polje zlata. Vsakemu igralcu se doda na začetku določena količina denarja za izgradnjo začetnih delavcev. V našem primeru je bilo to 1, tako da je lahko izgradil samo enega delavca.
 
 Sedaj pa potrebujemo zakodirati to stanje igre, v numerični prikaz, ki ga bo nevronska mreža lahko interpretirala. To stanje lahko zakodiramo z desetiškim kodiranjem, vendar obstja možnost, da nevronska mreža sloni proti boljšim obravnavanjem pozitivnih števil za igralca +1, kot za igralca -1. Ravno iz tega razloga obstaja kodiranje One hot, ki spremeni desetiška števila v binarni vektor.
+
+Akciji naberi zlato in vrni zlato, ostaneta še vedno po 1 akcijo, ker za delavca ni razlika, iz katerega sosednjega polja vzame zlato, kot ni razlike pri vračanju zlata.
 
 \subsection{Desetiško kodiranje}
 Pri desetiškim kodiranjem, predstavimo vsak atribut figure z eno desetiško številko.
@@ -642,13 +667,13 @@ Figure lahko tudi uporabijo akcijo zdravljenja, s čimer povečajo trenutno zdra
 \chapter{Učenje modela}
 \label{chucenjemodela}
 
-Učenje te igre je zapleteno zaradi pogojev konca igre. Algoritem pričakuje, da se igra konča z uporabo simulacij MCTS, vendar se pa lahko igra zacikla če igralec večkrat ponovil isto potezo, na kar Python javi napako zaradi prevelike globine rekurzije.
-To se lahko reši z uporabo časovnih omejitev, kjer se simulacija ustavi ko se izteče čas, vendar lahko povzroči netočno MCTS drevo, ker vozlišča niso pravilno ovrednotena med povratnim propagiranjem.
+Učenje te igre je zapleteno zaradi pogojev konca igre. Algoritem pričakuje, da se igra konča z uporabo MCTS, vendar se pa lahko igra zacikla če igralec večkrat ponovil isto potezo, na kar Python javi napako zaradi prevelike globine rekurzije.
+To se lahko reši z uporabo časovnih omejitev, kjer se MCTS ustavi ko se izteče čas, vendar lahko povzroči netočno MCTS drevo, ker vozlišča niso pravilno ovrednotena med povratnim propagiranjem.
 Potrebno je najti ustrezno končno stanje ali spremeniti vir, da izključite časovne omejitve, ker ne vrnejo najboljših rezultatov.
 
 Prav tako se nam je porodila učna ideja o postopnim učenjem modela. Najprej bi začeli učiti model na preprostem končnem pogojem kot naprimer številu izdelanih delavcev. Ko bi model uspešno ustvarjal delavce, bi pogoj spremenili o naprimer nabiranju zlata, tako da bi model že vedel o gradnji delavcev, kar bi nadgradil še z nabiranjem zlata. Težava se pojavi zaradi kodiranja stanja, ki ni istih dimenzij kot prejšno stanje, kjer smo imeli drugi ustavitveni pogoj z drugačnim številom akcij pri figurah.
 Možna učna ideja
-Ideja je, da se s postopnim ucnim modelom spremeni stanje konca igre. Najprej začnite učiti model na preprost način končne igre, kot so izdelava delavcev in ko model uspešno ustvarja delavce, dodajte še en pogoj poleg tega že izvedenega modela.
+Ideja je, da se s postopnim učnim modelom spremeni stanje konca igre. Najprej začnite učiti model na preprost način končne igre, kot so izdelava delavcev in ko model uspešno ustvarja delavce, dodajte še en pogoj poleg tega že izvedenega modela.
 Možna težava se lahko pojavi zaradi velikosti modela
 
 \section{Zgradba modela nevronske mreže}
@@ -711,7 +736,6 @@ Uporabnik mora najprej izbrati figuro z levim miškinim klikom in potem izbrati 
 	\item Napadanje: z izbrano vojaško enoto lahko uporabnik napade sovražne enote, ki so v dosegu.
 	\item Zbiranje in vračanje sredstev: z izbranim delavcem lahko uporabnik porabi sredstva, tako da klikne desno miškino tipko na polje zlata, če je v dosegu. To velja tudi za vračanje sredstev, vendar mora biti delavec v bližini mestne hiše.
 	\item Gradnja: Za gradbene enote in zgradbe mora uporabnik uporabiti eno od bližnjic na tipkovnici.
-	\item Nedejaven: igralec lahko z izbranim igralcem pritisne presledek za mirovanje.
 \end{itemize}
 
 Prav tako lahko uporabnik igra igro s pisanjem akcij v konzolo.
