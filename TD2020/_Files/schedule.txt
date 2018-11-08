@@ -1,0 +1,25 @@
+2018-11-03:
+    Ue4 connect with py
+    Make plan for learning
+    Chapters for diploma thesis
+2018-11-04:
+    Ue4 steam
+    Diploma thesis writeup
+
+Build time:
+From 10PM->5PM
+Gtx 1070
+Intel I7 4770k 
+16 gig ram
+
+2018-11-05:
+    Gathering only
+        1 npc, 1 town hall, no other
+2018-11-06:
+    Max Health only - no attack
+2018-11-07:
+    Max score - with all - attack - numeric encoder
+2018-11-08:
+    Max score - with all - attack - one hot encoder
+2018-11-09:
+    Improve best built model?
