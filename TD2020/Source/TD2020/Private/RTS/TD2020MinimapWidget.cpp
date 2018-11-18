@@ -201,11 +201,15 @@ void UTD2020MinimapWidget::DrawVision(FPaintContext& InContext) const
 {
 	if (!bDrawVision)
 	{
+		UE_LOG(LogTD2020, Warning, TEXT("No TD2020MinimapVolume found. Minimap won't be showing unit positions."));
+
 		return;
 	}
 
 	if (!VisionVolume || !VisionInfo)
 	{
+		UE_LOG(LogTD2020, Warning, TEXT("No TD2020MinimapVolume found. Minimap won't be showing unit positions."));
+
 		return;
 	}
 

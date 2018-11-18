@@ -9,18 +9,22 @@
 \BOOKMARK [1][-]{section.3.1}{Zgodovina}{chapter.3}% 9
 \BOOKMARK [1][-]{section.3.2}{Potek ucenja}{chapter.3}% 10
 \BOOKMARK [0][-]{chapter.4}{Definiranje pravil igre}{}% 11
-\BOOKMARK [1][-]{section.4.1}{Definiranje stanja igre}{chapter.4}% 12
+\BOOKMARK [1][-]{section.4.1}{Stanje igre}{chapter.4}% 12
 \BOOKMARK [1][-]{section.4.2}{Akcije}{chapter.4}% 13
 \BOOKMARK [1][-]{section.4.3}{Kodiranja}{chapter.4}% 14
 \BOOKMARK [1][-]{section.4.4}{Konec igre}{chapter.4}% 15
 \BOOKMARK [0][-]{chapter.5}{Ucenje modela}{}% 16
-\BOOKMARK [1][-]{section.5.1}{Zgradba modela nevronske mre\236e}{chapter.5}% 17
+\BOOKMARK [1][-]{section.5.1}{Zgradba nevronske mre\236e}{chapter.5}% 17
 \BOOKMARK [1][-]{section.5.2}{Izbira parametrov}{chapter.5}% 18
 \BOOKMARK [0][-]{chapter.6}{Vizualizacije}{}% 19
 \BOOKMARK [1][-]{section.6.1}{Pygame}{chapter.6}% 20
 \BOOKMARK [1][-]{section.6.2}{Unreal Engine 4}{chapter.6}% 21
 \BOOKMARK [0][-]{chapter.7}{Rezultati}{}% 22
-\BOOKMARK [1][-]{section.7.1}{Izbira ustavitvene funkcije}{chapter.7}% 23
-\BOOKMARK [1][-]{section.7.2}{Izbira kodiranja}{chapter.7}% 24
-\BOOKMARK [0][-]{chapter.8}{Zakljucek}{}% 25
-\BOOKMARK [0][-]{chapter.8}{Literatura}{}% 26
+\BOOKMARK [1][-]{section.7.1}{Ucenje z ustavitveno funkcijo s casovno omejitvijo 100}{chapter.7}% 23
+\BOOKMARK [1][-]{section.7.2}{Povecevanje casovne omejitve na 200}{chapter.7}% 24
+\BOOKMARK [1][-]{section.7.3}{Sprememba konfiguracij zlata}{chapter.7}% 25
+\BOOKMARK [1][-]{section.7.4}{Zmanj\235evanje velikosti \235ahovnice}{chapter.7}% 26
+\BOOKMARK [1][-]{section.7.5}{Vizualizacija rezultatov v Unreal Engine 4}{chapter.7}% 27
+\BOOKMARK [0][-]{chapter.8}{Diskusija}{}% 28
+\BOOKMARK [0][-]{chapter.9}{Zakljucek}{}% 29
+\BOOKMARK [0][-]{chapter.9}{Literatura}{}% 30
