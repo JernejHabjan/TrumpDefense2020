@@ -350,6 +350,11 @@ It's located in
 Add python36.dll (64 - bit) to 
 >YourProject/Publish/WindowsNoEditor/TD2020/Binaries/Win64/
 
+## Run tensorboard
+
+cd C:\Users\Jernej\venv\Scripts
+tensorboard --logdir=C:\TrumpDefense2020\TD2020\Content\Scripts\td2020\models\logsTD2020NNet
+
 # Sources:
 ## Plugins used
 - [Kantan charts](https://www.unrealengine.com/marketplace/kantan-charts)
