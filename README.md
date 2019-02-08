@@ -8,6 +8,16 @@
 - Učenje realno-časovne strateške igre z uporabo globokega spodbujevalnega učenja
 - Teaching of real-time strategy game using deep reinforcement learning
 
+# Versions
+- UE4 - 4.19.2
+- Tensorflow-ue4 v0.8.0 for UE4.19 https://github.com/getnamo/tensorflow-ue4/releases/tag/0.8.0
+- Python 3.6 64 bit
+- Tensorflow 1.9
+- cuda_9.0.176_win10
+- cuda_9.0.176.1_windows
+- cuda_9.0.176.2_windows
+- cuda_9.0.176.3_windows
+
 #Navigation
 - [Quick overview](#quick-overview)
     - [Features](#features)
