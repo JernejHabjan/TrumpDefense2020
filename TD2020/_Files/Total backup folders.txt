@@ -1,0 +1,196 @@
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 01_10_2017 18-46/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 01_10_2017 23-26/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 05_10_2017 07-49 - finished chat/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 05_10_2017 11-08 - finished networking - still bugs/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 07_9_2017 14-12/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 1.2.2018 14-18 - onto attack/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 1.2.2018 15-37/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 1_10_2017 09-16/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 1_10_2017 11-45/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 10.2.2018 16-56 - rebuilding teams/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 10.2.2018 17-13 - still rebuildingAI/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 10.2.2018 18-17 - rebuilding rally locations/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 10_12_2017 20-00/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 11.2.2018 17-08 - onto mine resources/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 11_10_2017 00-01/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 12.2.2018 15-00 - onto widgets on client/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 13.2.2018 00-19 - reworking widgets/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 13.2.2018 15-58 - onto minimap click/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 13_9_2017 21-36/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 14.2.2018 18-08 - added issues/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 15.2.2018 14-47 - trying to merge trees into one/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 15.2.2018 19-06 - merged NPC tree/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 15.2.2018 22-07 - attack mergetodo/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 15_10_2017 10-52/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 15_9_2017 11-48/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 15_9_2017 16-30/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 16.2.2018 00-13 - control groups/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 16.2.2018 10-44 - components/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 16.2.2018 12-10 - deletingSpecificBuildings/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 16.2.2018 22-53 - buildingComponents/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 17_12_2017 13-42/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 17_12_2017 20-00 - finished defensive buildings, onto mcts/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 18_12_2017 23-15 - have to define save game state/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 18_2_2018 22-26 -middle statsAdding/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 19_2_2018 22-53 - stats-ontoSquads/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 2.2.2018 19-06 working damage/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 2.2.2018 21-27 working on detection box/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-04-26 09-01/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-05-04 09-31/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-05-06 08-57/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-05-12 23-00/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-05-14 14-52/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-05-19 18-27 - on the verge maybe - problems with mcts state forwarding/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-05-25 09-54/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-05-27 17-11/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-05-27 21-30/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-05-31 15-04/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-05-31 15-45/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-05-31 17-51 -starting combining grids/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-05-31 20-22 - created some functions/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-06-04 12-56/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-06-07 15-19/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-06-08 13-02/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-06-09 15-03/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-06-16 16-57/
+drwxr-xr-x 1 Jernej 197121   0 Jun 16  2018 2018-06-16 20-39/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 2018-06-19 16-46/
+drwxr-xr-x 1 Jernej 197121   0 Jun 20  2018 2018-06-20 14-45/
+drwxr-xr-x 1 Jernej 197121   0 Jun 21  2018 2018-06-21 18-55 - reworking whole project to normal board/
+drwxr-xr-x 1 Jernej 197121   0 Jun 21  2018 2018-06-21 19-08 - last backup before reworking whole project to normal board/
+drwxr-xr-x 1 Jernej 197121   0 Jun 21  2018 2018-06-21 21-43 - Working learning - maybe bugs/
+drwxr-xr-x 1 Jernej 197121   0 Jun 22  2018 2018-06-22 14-24 - wrong display graphics/
+drwxr-xr-x 1 Jernej 197121   0 Jun 22  2018 2018-06-22 15-37 - onto pygame controller/
+drwxr-xr-x 1 Jernej 197121   0 Jun 22  2018 2018-06-22 20-32/
+drwxr-xr-x 1 Jernej 197121   0 Jun 23  2018 2018-06-23 00-02/
+drwxr-xr-x 1 Jernej 197121   0 Jun 23  2018 2018-06-23 17-38 - done human player/
+drwxr-xr-x 1 Jernej 197121   0 Jun 23  2018 2018-06-23 20-50 - gpu/
+drwxr-xr-x 1 Jernej 197121   0 Jun 25  2018 2018-06-25 12-45 - invariance/
+drwxr-xr-x 1 Jernej 197121   0 Jun 25  2018 2018-06-25 14-32 - trying - not working probs/
+drwxr-xr-x 1 Jernej 197121   0 Jun 25  2018 2018-06-25 16-32/
+drwxr-xr-x 1 Jernej 197121   0 Jun 25  2018 2018-06-25 20-00 - working 2 sided battle/
+drwxr-xr-x 1 Jernej 197121   0 Jun 25  2018 2018-06-25 23-18/
+drwxr-xr-x 1 Jernej 197121   0 Jun 27  2018 2018-06-27 16-39 - act 2 - ue4 to python connecting/
+drwxr-xr-x 1 Jernej 197121   0 Jun 28  2018 2018-06-28 11-36 - last one with unrealpython plugin/
+drwxr-xr-x 1 Jernej 197121   0 Jun 29  2018 2018-06-29 07-53 - this has ue4 tensorflow plugin/
+drwxr-xr-x 1 Jernej 197121   0 Jun 29  2018 2018-06-29 20-25 - changing resources to rts ones/
+drwxr-xr-x 1 Jernej 197121   0 Jun 29  2018 2018-06-29 22-59/
+drwxr-xr-x 1 Jernej 197121   0 Jun 30  2018 2018-06-30 21-14 - fixing rts selection frame mouse lock/
+drwxr-xr-x 1 Jernej 197121   0 Jul  1  2018 2018-07-01 18-39/
+drwxr-xr-x 1 Jernej 197121   0 Jul  2  2018 2018-07-02 22-04/
+drwxr-xr-x 1 Jernej 197121   0 Jul  3  2018 2018-07-03 20-14/
+drwxr-xr-x 1 Jernej 197121   0 Jul  4 19:31 2018-07-04 19-31/
+drwxr-xr-x 1 Jernej 197121   0 Jul  6 21:12 2018-07-06 21-12/
+drwxr-xr-x 1 Jernej 197121   0 Jul  6 21:31 2018-07-06 21-31 - first one with passing game state not game state actions to nnet/
+drwxr-xr-x 1 Jernej 197121   0 Jul  8 08:00 2018-07-08 08-00/
+drwxr-xr-x 1 Jernej 197121   0 Jul  8 17:23 2018-07-08 17-23/
+drwxr-xr-x 1 Jernej 197121   0 Jul  8 23:00 2018-07-08 23-00/
+drwxr-xr-x 1 Jernej 197121   0 Jul 21 15:21 2018-07-21 15-20/
+drwxr-xr-x 1 Jernej 197121   0 Jul 21 18:55 2018-07-21 18-54 - working tensorflow in ue4 and get action/
+drwxr-xr-x 1 Jernej 197121   0 Jul 26 06:51 2018-07-23 06-51 - submodules/
+drwxr-xr-x 1 Jernej 197121   0 Jul 23 20:55 2018-07-23 20-55 - working package/
+drwxr-xr-x 1 Jernej 197121   0 Jul 29 18:44 2018-07-29 18-44/
+drwxr-xr-x 1 Jernej 197121   0 Jul 30 18:29 2018-07-30 18-21 - fixing remote dekstop bugs/
+drwxr-xr-x 1 Jernej 197121   0 Jul 31 16:46 2018-07-31 16-46 - removing python/
+drwxr-xr-x 1 Jernej 197121   0 Jul 31 16:50 2018-07-31 16-49 - stripped/
+drwxr-xr-x 1 Jernej 197121   0 Jul 31 21:35 2018-07-31 21-35 - copy rtsGatherData struct/
+drwxr-xr-x 1 Jernej 197121   0 Jul 31 22:58 2018-07-31 22-57 - pointers/
+drwxr-xr-x 1 Jernej 197121   0 Aug  1 00:25 2018-08-01 00-25 - trying fixing/
+drwxr-xr-x 1 Jernej 197121   0 Aug  1 00:41 2018-08-01 00-41 - still resourceType error/
+drwxr-xr-x 1 Jernej 197121   0 Aug  1 01:45 2018-08-01 01-45 - it builds but td2020.cpp commented/
+drwxr-xr-x 1 Jernej 197121   0 Aug  4 13:12 2018-08-04 12-14 - errors in editor/
+drwxr-xr-x 1 Jernej 197121   0 Aug  6 21:39 2018-08-04 13-14 stripped old/
+drwxr-xr-x 1 Jernej 197121   0 Aug  6 21:39 2018-08-04 14-17 light fix, plugin off/
+drwxr-xr-x 1 Jernej 197121   0 Aug  6 21:41 2018-08-04 14-18/
+drwxr-xr-x 1 Jernej 197121   0 Aug  6 21:46 2018-08-04 16-32/
+drwxr-xr-x 1 Jernej 197121   0 Aug  6 21:36 2018-08-06 19-33/
+drwxr-xr-x 1 Jernej 197121   0 Aug  7 16:42 2018-08-07 16-42/
+drwxr-xr-x 1 Jernej 197121   0 Aug  7 21:41 2018-08-07 21-41 - combined rts and td2020/
+drwxr-xr-x 1 Jernej 197121   0 Aug  7 22:43 2018-08-07 22-42 -todo reparent and remove plugin/
+drwxr-xr-x 1 Jernej 197121   0 Aug 18 07:01 2018-08-18 07-01/
+drwxr-xr-x 1 Jernej 197121   0 Aug 18 09:25 2018-08-18 09-25 - reparenting/
+drwxr-xr-x 1 Jernej 197121   0 Aug 18 12:56 2018-08-18 12-56/
+drwxr-xr-x 1 Jernej 197121   0 Aug 18 14:17 2018-08-18 14-17 - last one before removing plugin/
+drwxr-xr-x 1 Jernej 197121   0 Aug 18 15:35 2018-08-18 15-34 - removed rts, some minor bugs/
+drwxr-xr-x 1 Jernej 197121   0 Aug 18 19:39 2018-08-18 19-39/
+drwxr-xr-x 1 Jernej 197121   0 Aug 18 22:43 2018-08-18 22-43 - crashing on new wins - look sticky note/
+drwxr-xr-x 1 Jernej 197121   0 Aug 19 16:20 2018-08-19 16-19 - remove pyActor for it to work -crash on client/
+drwxr-xr-x 1 Jernej 197121   0 Aug 19 18:59 2018-08-19 19-00 - added py packages to embeded/
+drwxr-xr-x 1 Jernej 197121   0 Aug 19 20:33 2018-08-19 20-32 - non executing script outside of pie/
+drwxr-xr-x 1 Jernej 197121   0 Aug 25 16:30 2018-08-21 20-32 - backup to reformat main disk/
+drwxr-xr-x 1 Jernej 197121   0 Aug 31 19:03 2018-08-31 19-02 - tensorflow ue4 in editor working/
+drwxr-xr-x 1 Jernej 197121   0 Sep  1 07:36 2018-09-01 07-39 - adding org ue4py/
+drwxr-xr-x 1 Jernej 197121   0 Sep  1 18:44 2018-09-01 12-53/
+drwxr-xr-x 1 Jernej 197121   0 Sep 12 21:24 2018-09-12 21-24/
+drwxr-xr-x 1 Jernej 197121   0 Sep 22 12:07 2018-09-16 09-08/
+drwxr-xr-x 1 Jernej 197121   0 Sep 22 12:06 2018-09-16 11-58/
+drwxr-xr-x 1 Jernej 197121   0 Sep 22 12:07 2018-09-16 16-26/
+drwxr-xr-x 1 Jernej 197121   0 Sep 22 12:07 2018-09-16 18-54/
+drwxr-xr-x 1 Jernej 197121   0 Sep 22 10:02 2018-09-22 10-02 - pygame grid left/
+drwxr-xr-x 1 Jernej 197121   0 Sep 23 12:42 2018-09-23 12-43 - engine backup/
+drwxr-xr-x 1 Jernej 197121   0 Oct 28 08:57 2018-10-28 08-54/
+drwxr-xr-x 1 Jernej 197121   0 Oct 28 10:57 2018-10-28 10-53/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 21_10_2017 15-05 _ last before starting rework/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 21_10_2017 19-38 - finished camera vid but still have pawn problems/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 21_10_2017 23-52 - finished camera vid - fixed pawn/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 21_2_2018 00-41 - fixed groups/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 22_10_2017 09-46 - fixed pawn movement - moving to RTSBuildings/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 22_10_2017 12-22 - done gui - proceeding to ghost building/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 22_10_2017 13-13/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 22_10_2017 14-47/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 22_10_2017 18-55/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 22_12_2017 15-46/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 24_12_2017 20-50 - going on unitsCreation vid/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 24_2_2018 22-59 - starting agent/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 24_9_2017 14-50/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 24_9_2017 19-53/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 25_12_2017 15-00 - starting drag selection/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 25_12_2017 19-49 - starting drag selection/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 25_2_2018 16-00 - working threading/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 25_8_2017 21-06/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 26_12_2017 08-55/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 26_12_2017 10-42/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 26_12_2017 13-09/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 26_12_2017 16-00/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 27_12_2017 10-42/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 27_12_2017 19-03/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 27_8_2017 20-15/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 28_10_2017 23-24 - moved most things to pawn, still errors/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 28_12_2017 00-52/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 28_12_2017 17-29 - going on eqs/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 28_12_2017 23-04 - looping eqs/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 3.2.2018 16-45 working ranged/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 3.2.2018 22-32 finished unitcombat vid/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 30_9_2017 20-41/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 30_9_2017 21-19/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 30_9_2017 22-24/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 31_10_2017 07-38 - starting remaping animations/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 31_10_2017 07-56 - retarget NPCBP to 0Base/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 31_10_2017 10-12/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 31_10_2017 17-08 - ended lobby/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 31_10_2017 22-30/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 5.2.2018 15-37 going on lobby/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 5.2.2018 17-43/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 5.2.2018 22-09 - finished vids/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 6.2.2018 14-40 - going to make minimap/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 6.2.2018 22-26 - fail behavior tree doesnt work/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 6_10_2017 23-37/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 7.2.2018  00-03 - onto rmb rework - have to backup more/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 7.2.2018 22-31/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 8.2.2018 08-45 -my last - implementin rts plugin/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 8.2.2018 09-55 - implementing plugin - onto character/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 8.2.2018 18-35 - middle of implementin/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 8_10_2017 12-13/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 8_10_2017 20-47/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 9.2.2018 17-11 - implementing -nonworkingAiController/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 9.2.2018 18-16 - figuring why no aiController/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 9.2.2018 21-12 -still no ai controller - other stuff fixed/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 9.2.2018 23-03 - finally - theresAI on server/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 src copy 08_25 - 19.5.2018/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 src copy 10_30 - 19.5.2018/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 src copy 13_17 - 17.5.2018/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 src copy 19_37 - 17.5.2018/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 src copy 19_52 - 17.5.2018/
+drwxr-xr-x 1 Jernej 197121   0 Jun 26  2018 src copy 23_25 - 17.5.2018/
+drwxr-xr-x 1 Jernej 197121   0 Mar  4  2018 TD2020Test17_9_2017/
+drwxr-xr-x 1 Jernej 197121   0 Jun 19  2018 TEMP_BACKUP/
