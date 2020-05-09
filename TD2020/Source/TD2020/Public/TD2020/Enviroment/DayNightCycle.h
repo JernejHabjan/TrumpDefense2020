@@ -16,219 +16,218 @@ class UCurveLinearColor;
 UCLASS()
 class TD2020_API ADayNightCycle : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Components
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	USceneComponent *Scene;
+    GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	UStaticMeshComponent *Moon;
+public:
+    // Components
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+    USceneComponent* Scene;
 
-	// references
-	UPROPERTY(EditAnywhere, Category = "References")
-	ADirectionalLight* SunLight;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+    UStaticMeshComponent* Moon;
 
-	UPROPERTY(EditAnywhere, Category = "References")
-	ADirectionalLight* MoonLight;
+    // references
+    UPROPERTY(EditAnywhere, Category = "References")
+    ADirectionalLight* SunLight;
 
-	UPROPERTY(EditAnywhere, Category = "References")
-	AMySkySphere* SkySphere;
+    UPROPERTY(EditAnywhere, Category = "References")
+    ADirectionalLight* MoonLight;
 
-	// properties
+    UPROPERTY(EditAnywhere, Category = "References")
+    AMySkySphere* SkySphere;
 
-	// 3600 in hours
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties)
-	float TimeUnit;
+    // properties
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	int SunDays;
+    // 3600 in hours
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Properties)
+    float TimeUnit;
 
-	// The hour of sun position
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float SunDrive;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    int SunDays;
 
-	// Default to 24h
-	UPROPERTY(EditAnywhere, Category = "Sun")
-	float SunDayDuration;
+    // The hour of sun position
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float SunDrive;
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
-	float Clockwork;
+    // Default to 24h
+    UPROPERTY(EditAnywhere, Category = "Sun")
+    float SunDayDuration;
 
-	// default to 365.25
-	UPROPERTY(EditAnywhere, Category = "Sun")
-	float SunYearDuration;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
+    float Clockwork;
 
-	// Defaults to -23.5f -> value of Sun max declination
-	UPROPERTY(EditAnywhere, Category = "Sun")
-	float MaxDeclination;
+    // default to 365.25
+    UPROPERTY(EditAnywhere, Category = "Sun")
+    float SunYearDuration;
 
-	// Current sun declination - if positive - Summer
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float SunDeclination;
+    // Defaults to -23.5f -> value of Sun max declination
+    UPROPERTY(EditAnywhere, Category = "Sun")
+    float MaxDeclination;
 
-	// Current latitude (Ljubljana is at 46)
-	UPROPERTY(EditAnywhere, Category = "Sun")
-	float Latitude;
+    // Current sun declination - if positive - Summer
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float SunDeclination;
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float SunHalfDayLight;
+    // Current latitude (Ljubljana is at 46)
+    UPROPERTY(EditAnywhere, Category = "Sun")
+    float Latitude;
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float SunHalfNight;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float SunHalfDayLight;
 
-	// Highpoint of x^2 graph will be ((at midnight or midnoon)
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float Shift;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float SunHalfNight;
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float Length;
+    // Highpoint of x^2 graph will be ((at midnight or midnoon)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float Shift;
 
-	// Default to -1.0f -> 1 or 0 if day or night
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float DayNightFlip;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float Length;
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float SunPitch;
+    // Default to -1.0f -> 1 or 0 if day or night
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float DayNightFlip;
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float SunYaw;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float SunPitch;
 
-	// todo comment
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float SunDeclinationDrive;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float SunYaw;
 
-	// switch to turn off day night cycle
-	UPROPERTY(EditAnywhere, Category = Properties)
-	bool UseDayNightCycle;
+    // todo comment
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float SunDeclinationDrive;
 
-	// Is -1 if on southern hemisphere or 1 on northern
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
-	float EquatorFlip;
+    // switch to turn off day night cycle
+    UPROPERTY(EditAnywhere, Category = Properties)
+    bool UseDayNightCycle;
 
-	// toggle if want to use polar day and polar night
-	UPROPERTY(EditAnywhere, Category = "Sun")
-	bool SunPolar;
+    // Is -1 if on southern hemisphere or 1 on northern
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
+    float EquatorFlip;
 
-	UPROPERTY(EditAnywhere, Category = "Time")
-	int Seconds;
+    // toggle if want to use polar day and polar night
+    UPROPERTY(EditAnywhere, Category = "Sun")
+    bool SunPolar;
 
-	UPROPERTY(EditAnywhere, Category = "Time")
-	int Minutes;
+    UPROPERTY(EditAnywhere, Category = "Time")
+    int Seconds;
 
-	UPROPERTY(EditAnywhere, Category = "Time")
-	int Hours;
+    UPROPERTY(EditAnywhere, Category = "Time")
+    int Minutes;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Time")
-	TArray<int> GameTime;
+    UPROPERTY(EditAnywhere, Category = "Time")
+    int Hours;
 
-	// every time (for one tick) this will be 1
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
-	int DayTick;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Time")
+    TArray<int> GameTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Calendar")
-	TArray<int> GameDate;
+    // every time (for one tick) this will be 1
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Properties)
+    int DayTick;
 
-	UPROPERTY(EditAnywhere, Category = "Time")
-	bool UseSystemTime;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Calendar")
+    TArray<int> GameDate;
 
-	UPROPERTY(EditAnywhere, Category = "Calendar", meta = (UIMin = "1", UIMax = "31"))
-	int Day;
+    UPROPERTY(EditAnywhere, Category = "Time")
+    bool UseSystemTime;
 
-	UPROPERTY(EditAnywhere, Category = "Calendar", meta = (UIMin = "1", UIMax = "12"))
-	int Month;
+    UPROPERTY(EditAnywhere, Category = "Calendar", meta = (UIMin = "1", UIMax = "31"))
+    int Day;
 
-	UPROPERTY(EditAnywhere, Category = "Calendar", meta = (UIMin = "1"))
-	int Year;
+    UPROPERTY(EditAnywhere, Category = "Calendar", meta = (UIMin = "1", UIMax = "12"))
+    int Month;
 
-	UPROPERTY(EditAnywhere, Category = "Calendar")
-	bool UseSystemDate;
+    UPROPERTY(EditAnywhere, Category = "Calendar", meta = (UIMin = "1"))
+    int Year;
 
-	UPROPERTY(EditAnywhere, Category = Properties)
-	bool EarthLike;
+    UPROPERTY(EditAnywhere, Category = "Calendar")
+    bool UseSystemDate;
 
-	UPROPERTY(EditAnywhere, Category = "Moon")
-	float MoonDayDuration;
+    UPROPERTY(EditAnywhere, Category = Properties)
+    bool EarthLike;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonDeclination;
+    UPROPERTY(EditAnywhere, Category = "Moon")
+    float MoonDayDuration;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonDeclinationDrive;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonDeclination;
 
-	// Time between two full moons
-	UPROPERTY(EditAnywhere, Category = "Moon")
-	float MoonYearDuration;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonDeclinationDrive;
 
-	// plane that moon rotates on - tilted by 5 degrees
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonInclination;
+    // Time between two full moons
+    UPROPERTY(EditAnywhere, Category = "Moon")
+    float MoonYearDuration;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonEquatorFlip;
+    // plane that moon rotates on - tilted by 5 degrees
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonInclination;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonDrive;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonEquatorFlip;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonHalfDayLight;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonDrive;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonHalfNight;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonHalfDayLight;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonDayNightFlip;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonHalfNight;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonShift;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonDayNightFlip;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonLength;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonShift;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonPitch;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonLength;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
-	float MoonYaw;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonPitch;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moon")
-	UMaterialInstanceDynamic* MoonMaterialInstance;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Moon")
+    float MoonYaw;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moon")
-	UMaterial *MoonMaterial;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moon")
+    UMaterialInstanceDynamic* MoonMaterialInstance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moon")
-	UCurveLinearColor* SkyColor;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moon")
+    UMaterial* MoonMaterial;
 
-	// Sets default values for this actor's properties
-	ADayNightCycle();
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moon")
+    UCurveLinearColor* SkyColor;
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-	virtual void OnConstruction(const FTransform& Transform) override;
+    // Sets default values for this actor's properties
+    ADayNightCycle();
+
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
+    virtual void OnConstruction(const FTransform& Transform) override;
 
 protected:
-	// Called when the game staTD2020 or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game staTD2020 or when spawned
+    virtual void BeginPlay() override;
 
 
 private:
-	// if init is valid
-	bool Valid;
+    // if init is valid
+    bool Valid;
 
 
-
-	void SunTrajectory();
-	void MoonTrajectory();
-	void Clock();
-	void Calendar();
-	bool Validate();
+    void SunTrajectory();
+    void MoonTrajectory();
+    void Clock();
+    void Calendar();
+    bool Validate();
 };

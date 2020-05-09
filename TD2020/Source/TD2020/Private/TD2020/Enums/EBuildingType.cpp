@@ -2,6 +2,4 @@
 #include "TD2020.h"
 
 
-
-
 #include "EBuildingType.h"

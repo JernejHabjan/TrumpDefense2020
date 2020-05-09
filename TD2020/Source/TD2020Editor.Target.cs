@@ -1,14 +1,13 @@
 // No copyright - copy as you please
 
 using UnrealBuildTool;
-using System.Collections.Generic;
 
 public class TD2020EditorTarget : TargetRules
 {
-	public TD2020EditorTarget(TargetInfo Target) : base(Target)
-	{
-		Type = TargetType.Editor;
+    public TD2020EditorTarget(TargetInfo target) : base(target)
+    {
+        Type = TargetType.Editor;
 
-		ExtraModuleNames.AddRange( new string[] { "TD2020" } );
-	}
+        ExtraModuleNames.AddRange(new string[] {"TD2020"});
+    }
 }

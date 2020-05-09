@@ -10,9 +10,4 @@
 #define COLLISION_BUILDING		ECC_GameTraceChannel2
 
 
-
 DECLARE_LOG_CATEGORY_EXTERN(LogTD2020, Log, All);
-
-
-
-

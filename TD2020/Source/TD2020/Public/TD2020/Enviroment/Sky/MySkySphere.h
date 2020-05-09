@@ -16,123 +16,121 @@ class AActor;
 UCLASS()
 class TD2020_API AMySkySphere : public AActor
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
 protected:
-	// Called when the game staTD2020 or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game staTD2020 or when spawned
+    virtual void BeginPlay() override;
 
-public:	
+public:
 
-	// PROPERTIES
+    // PROPERTIES
 
-	// Skydome
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Skydome)
-	USceneComponent *Scene;
+    // Skydome
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Skydome)
+    USceneComponent* Scene;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Skydome)
-	UStaticMeshComponent* SkySphereMesh;
-
-
-	// Override settings
-	
-	// If no directional light is assigned, this value determines the height of the sun - Slider range -> -1 to 1
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
-	float SunHeight;
-
-	// Affects the size of the gradient from zenith color to horizon color
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
-	float HorizonFalloff;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Skydome)
+    UStaticMeshComponent* SkySphereMesh;
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
-	FLinearColor ZenithColor;
+    // Override settings
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
-	FLinearColor HorizonColor;
+    // If no directional light is assigned, this value determines the height of the sun - Slider range -> -1 to 1
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
+    float SunHeight;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
-	FLinearColor CloudColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
-	FLinearColor OverallColor;
+    // Affects the size of the gradient from zenith color to horizon color
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
+    float HorizonFalloff;
 
 
-	// Other properties
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UMaterialInstanceDynamic* SkyMaterialInstance;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
+    FLinearColor ZenithColor;
 
-	//Use this to update the sky material after moving  a directional light
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool RefreshMaterial;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
+    FLinearColor HorizonColor;
 
-	//Assign your level's directional light actor to this variable to  match the sky's sun position and color
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	ADirectionalLight *DirectionalLightActor;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
+    FLinearColor CloudColor;
 
-	//If enabled, sky colors will change according to the sun's position
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool ColorsDeterminedBySunPosition;
-
-	//Brightness multiplier for the sun disk
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float SunBrightness;
-
-	//Panning speed for the clouds
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float CloudSpeed;
-
-	//Opacity of the panning clouds
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintReadWrite)
-	float CloudOpacity;
-
-	//Multiplier for the brightness of the stars when the sun is below the horizon
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float StarsBrightness;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UCurveLinearColor* HorizonColorCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UCurveLinearColor* ZenithColorCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UCurveLinearColor* CloudColorCurve;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UMaterial *SkyMaterial;
-
-	
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Override Settings")
+    FLinearColor OverallColor;
 
 
-	// FUNCTIONS
+    // Other properties
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UMaterialInstanceDynamic* SkyMaterialInstance;
 
-	// Sets default values for this actor's properties
-	AMySkySphere();
+    //Use this to update the sky material after moving  a directional light
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool RefreshMaterial;
 
-	AMySkySphere(const FObjectInitializer & ObjectInitializer);
+    //Assign your level's directional light actor to this variable to  match the sky's sun position and color
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    ADirectionalLight* DirectionalLightActor;
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+    //If enabled, sky colors will change according to the sun's position
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool ColorsDeterminedBySunPosition;
 
-	// Called by DayNightCycle class object
-	UFUNCTION(Category = SunDirection, BlueprintCallable)
-	bool UpdateSunDirection();
+    //Brightness multiplier for the sun disk
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float SunBrightness;
 
-	UFUNCTION(Category = Clouds, BlueprintCallable)
-	void SetCloudSpeed(float CloudSpeedIn);
+    //Panning speed for the clouds
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float CloudSpeed;
 
-	// Construction script
-	virtual void OnConstruction(const FTransform& Transform) override;
+    //Opacity of the panning clouds
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintReadWrite)
+    float CloudOpacity;
+
+    //Multiplier for the brightness of the stars when the sun is below the horizon
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float StarsBrightness;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UCurveLinearColor* HorizonColorCurve;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UCurveLinearColor* ZenithColorCurve;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UCurveLinearColor* CloudColorCurve;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UMaterial* SkyMaterial;
+
+
+    // FUNCTIONS
+
+    // Sets default values for this actor's properties
+    AMySkySphere();
+
+    AMySkySphere(const FObjectInitializer& ObjectInitializer);
+
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
+
+    // Called by DayNightCycle class object
+    UFUNCTION(Category = SunDirection, BlueprintCallable)
+    bool UpdateSunDirection();
+
+    UFUNCTION(Category = Clouds, BlueprintCallable)
+    void SetCloudSpeed(float CloudSpeedIn);
+
+    // Construction script
+    virtual void OnConstruction(const FTransform& Transform) override;
 
 
 private:
-	// if init is valid
-	bool Valid;
+    // if init is valid
+    bool Valid;
 
-	// FUNCTIONS
+    // FUNCTIONS
 
 
-	// validates if all assets are properly loaded and not null
-	bool Validate();
+    // validates if all assets are properly loaded and not null
+    bool Validate();
 };

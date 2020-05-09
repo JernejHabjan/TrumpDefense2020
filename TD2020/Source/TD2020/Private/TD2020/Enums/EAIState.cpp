@@ -2,6 +2,3 @@
 #include "TD2020.h"
 
 #include "EAIState.h"
-
-
-
