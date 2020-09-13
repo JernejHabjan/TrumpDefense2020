@@ -70,7 +70,7 @@ public:
 	void IssueStopOrder();
 
 protected:
-	virtual void OnPossess(APawn* InPawn) override;
+	virtual void Possess(APawn* InPawn) override;
 
 private:
 	UTD2020AttackComponent* AttackComponent;
