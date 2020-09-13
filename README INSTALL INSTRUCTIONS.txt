@@ -7,6 +7,9 @@ FOR UE4 4.21
         5. download release https://github.com/getnamo/tensorflow-ue4/releases/tag/0.11.0 and folder 'Plugins' add it to TrumpDefense2020/TD2020
         - reenable CmpTensorflow component in Py folder in plugins - check for
             "REENABLE THIS WHEN PARENT IS TEMSORFLOW COMPONENT"
+    - Add rts plugin:
+        (latest 4.21 plugin)
+        https://github.com/npruehs/ue4-rts/commit/fdcb8ae4b3810b5a9c4dbae00084404815845797
 FOR UE4 4.22
     4. Install UE4 4.22.3
     5. download release https://github.com/getnamo/tensorflow-ue4/releases/tag/0.13.0 and folder 'Plugins' add it to TrumpDefense2020/TD2020
