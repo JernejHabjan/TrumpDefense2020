@@ -278,7 +278,7 @@ bool ATD2020PlayerAIController::StartProduction(TSubclassOf<APawn> PawnClass)
     return false;
 }
 
-void ATD2020PlayerAIController::Possess(APawn* InPawn)
+void ATD2020PlayerAIController::OnPossess(APawn* InPawn)
 {
     Super::Possess(InPawn);
 

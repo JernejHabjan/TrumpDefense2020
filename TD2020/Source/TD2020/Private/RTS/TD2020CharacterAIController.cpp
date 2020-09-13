@@ -13,7 +13,7 @@
 #include "TD2020OwnerComponent.h"
 
 
-void ATD2020CharacterAIController::Possess(APawn* InPawn)
+void ATD2020CharacterAIController::OnPossess(APawn* InPawn)
 {
     Super::Possess(InPawn);
 
