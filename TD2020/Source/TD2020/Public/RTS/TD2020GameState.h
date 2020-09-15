@@ -6,7 +6,6 @@
 #include "TD2020GameState.generated.h"
 
 
-class ATD2020TeamInfo;
 
 
 /**
@@ -17,8 +16,4 @@ class TD2020_API ATD2020GameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
-public:
-	/** Teams of the current match. */
-	UPROPERTY(BlueprintReadOnly, Category = "Team")
-	TArray<ATD2020TeamInfo*> Teams;
 };

@@ -13,9 +13,4 @@ UCLASS(meta = (BlueprintSpawnableComponent))
 class TD2020_API UTD2020NameComponent : public UActorComponent
 {
     GENERATED_BODY()
-
-public:
-    /** Name of the actor. */
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "TD2020")
-    FText Name;
 };
