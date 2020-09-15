@@ -236,15 +236,7 @@ void ATD2020HUD::DrawHealthBars()
 		DrawHealthBar(HoveredActor);
 	}
 
-	// Draw health bars for selected actors.
-	if (bShowSelectionHealthBars)
-	{
-		for (int32 i = 0; i < PlayerController->GetSelectedActors().Num(); ++i)
-		{
-			AActor* SelectedActor = PlayerController->GetSelectedActors()[i];
-			DrawHealthBar(SelectedActor);
-		}
-	}
+
 }
 
 void ATD2020HUD::DrawHealthBar(AActor* Actor)
@@ -313,15 +305,7 @@ void ATD2020HUD::DrawConstructionProgressBars()
 		DrawConstructionProgressBar(HoveredActor);
 	}
 
-	// Draw progress bars for selected actors.
-	if (bShowSelectionConstructionProgressBars)
-	{
-		for (int32 i = 0; i < PlayerController->GetSelectedActors().Num(); ++i)
-		{
-			AActor* SelectedActor = PlayerController->GetSelectedActors()[i];
-			DrawConstructionProgressBar(SelectedActor);
-		}
-	}
+
 }
 
 void ATD2020HUD::DrawConstructionProgressBar(AActor* Actor)
@@ -415,15 +399,7 @@ void ATD2020HUD::DrawProductionProgressBars()
 		DrawProductionProgressBar(HoveredActor);
 	}
 
-	// Draw progress bars for selected actors.
-	if (bShowSelectionProductionProgressBars)
-	{
-		for (int32 i = 0; i < PlayerController->GetSelectedActors().Num(); ++i)
-		{
-			AActor* SelectedActor = PlayerController->GetSelectedActors()[i];
-			DrawProductionProgressBar(SelectedActor);
-		}
-	}
+
 }
 
 void ATD2020HUD::DrawProductionProgressBar(AActor* Actor)

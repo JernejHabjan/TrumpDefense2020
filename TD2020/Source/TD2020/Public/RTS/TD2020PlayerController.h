@@ -51,9 +51,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	ATD2020PlayerState* GetPlayerState();
 
-	/** Gets the list of units currently selected by this player. */
-	UFUNCTION(BlueprintCallable)
-	TArray<AActor*> GetSelectedActors();
 
 	/** Casts a ray from the specified screen position and collects the results. */
 	bool GetObjectsAtScreenPosition(FVector2D ScreenPosition, TArray<FHitResult>& OutHitResults);
