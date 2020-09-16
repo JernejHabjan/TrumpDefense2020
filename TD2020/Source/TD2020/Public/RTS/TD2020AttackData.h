@@ -1,9 +1,5 @@
 #pragma once
-#include "Templates/SubclassOf.h"
 #include "TD2020AttackData.generated.h"
-
-
-class ATD2020Projectile;
 
 
 USTRUCT(BlueprintType)

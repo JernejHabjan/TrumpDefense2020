@@ -2,10 +2,7 @@
 
 
 #include "GameFramework/CheatManager.h"
-//#include "TD2020ResourceType.h"
 #include "TD2020CheatManager.generated.h"
-
-
 
 
 UCLASS(Blueprintable, Within = PlayerController)

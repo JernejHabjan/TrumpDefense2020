@@ -1,13 +1,6 @@
 #pragma once
-#include "Templates/SubclassOf.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "TD2020Utilities.generated.h"
-
-
-class AActor;
-class UWorld;
-class UShapeComponent;
-
 
 /**
 * Various utility functions.

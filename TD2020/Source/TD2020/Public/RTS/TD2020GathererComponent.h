@@ -3,9 +3,6 @@
 
 
 #include "Components/ActorComponent.h"
-
-#include "TD2020GatherData.h"
-#include "TD2020ResourceType.h"
 #include "TD2020GathererComponent.generated.h"
 
 

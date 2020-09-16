@@ -1,7 +1,5 @@
 #pragma once
 #include "Components/ActorComponent.h"
-#include "Templates/SubclassOf.h"
-//#include "TD2020ResourceType.h" // NEW
 #include "TD2020ResourceSourceComponent.generated.h"
 
 

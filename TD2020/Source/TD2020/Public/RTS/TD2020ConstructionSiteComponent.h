@@ -1,13 +1,7 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "TD2020ConstructionState.h"
-#include "TD2020ProductionCostType.h"
-#include "TD2020ResourceType.h"
 #include "TD2020ConstructionSiteComponent.generated.h"
-
-
-
 
 
 /** Allows constructing the actor over time. */

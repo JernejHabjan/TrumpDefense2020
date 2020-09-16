@@ -3,9 +3,6 @@
 
 
 #include "Components/ActorComponent.h"
-
-#include "TD2020OrderType.h"
-
 #include "TD2020CharacterAIEventComponent.generated.h"
 
 

@@ -2,15 +2,7 @@
 
 
 #include "GameFramework/Info.h"
-
-#include "TD2020VisionState.h"
-
 #include "TD2020VisionInfo.generated.h"
-
-
-class UWorld;
-
-class ATD2020VisionVolume;
 
 
 /**

@@ -2,9 +2,6 @@
 
 
 #include "Components/ActorComponent.h"
-
-#include "TD2020FloatingCombatTextData.h"
-
 #include "TD2020FloatingCombatTextComponent.generated.h"
 
 
