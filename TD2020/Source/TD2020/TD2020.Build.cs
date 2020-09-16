@@ -17,7 +17,7 @@ public class TD2020 : ModuleRules
                 "InputCore",
                 "RHI",
                 "UMG", "Slate", "SlateCore", "RealTimeStrategy", // "UnrealEnginePython", "TensorFlow", "SocketIOClient",
-                "RenderCore", "ShaderCore","Landscape"
+                "RenderCore", "Landscape"
             }
         );
         
