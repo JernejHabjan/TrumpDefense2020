@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameFramework/PlayerController.h"
-#include "TD2020ResourceType.h"
 #include "TD2020PlayerController.generated.h"
 
 
