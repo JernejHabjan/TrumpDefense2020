@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalDependencies">
+    <plugin id="Git4Idea" />
+    <plugin id="org.jetbrains.plugins.github" />
+    <plugin id="unreal-link" />
+  </component>
+</project>
