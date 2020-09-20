@@ -3,14 +3,12 @@ using UnrealBuildTool;
 
 public class TD2020 : ModuleRules
 {
-	public TD2020(ReadOnlyTargetRules Target) : base(Target)
+	public TD2020(ReadOnlyTargetRules target) : base(target)
 	{
         
-        MinFilesUsingPrecompiledHeaderOverride = 1;
-        bFasterWithoutUnity = true;
-        
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         PublicDependencyModuleNames.AddRange(
-            new string[] { 
+            new[] { 
                 "Core",
                 "CoreUObject",
                 "Engine",
@@ -21,7 +19,7 @@ public class TD2020 : ModuleRules
             }
         );
         
-        PublicDependencyModuleNames.AddRange(new string[] { 
+        PublicDependencyModuleNames.AddRange(new[] { 
             "OnlineSubsystem",
             "OnlineSubsystemUtils"
         });

@@ -33,5 +33,20 @@ FOR UE4 4.22
                 if (!PlayerResourcesComponent || !PlayerResourcesComponent->IsValidLowLevel()) {
                     return;
                 }
+FOR UE4 4.25
+    4. Install UE4 4.25.3
+    Tensorflow not supported in this version yet
+        https://github.com/getnamo/tensorflow-ue4/issues/56
+    6. use ue4-rts plugin:
+        (One of first 4.25 plugins - hand picked - TODO UPGRADE MANUALLY)
+        https://github.com/npruehs/ue4-rts/commit/89a3d12ef86ebf6d3d91c29c160da72435afa83e
+        - Add this code to RTSPlayerController.cpp:
+            void ARTSPlayerController::BeginPlay()
+            {
+                Super::BeginPlay();
+                if (!PlayerResourcesComponent || !PlayerResourcesComponent->IsValidLowLevel()) {
+                    return;
+                }          
 7. Use VS 2019 with "Game development with C++"
-8. run
+8. Download also VS 2017 with "Game development with C++"
+9. run

@@ -1,6 +1,6 @@
 // No copyright - copy as you please
-#include "TD2020.h"
 #include "DayNightCycle.h"
+#include "TD2020.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Math/Color.h"
@@ -31,7 +31,7 @@ ADayNightCycle::ADayNightCycle()
     {
         Moon->SetStaticMesh(MoonAsset.Object);
         Moon->SetRelativeLocation(FVector(-200000.0f, 0.0f, 0.0f));
-        Moon->RelativeRotation = FRotator(0.0f, 0.0f, 0.0f);
+        Moon->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
         Moon->SetWorldScale3D(FVector(100.0f));
     }
     Moon->SetupAttachment(RootComponent);
