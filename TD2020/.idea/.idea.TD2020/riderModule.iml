@@ -33,6 +33,7 @@
     <content url="file://D:/UE4/Versions/UE_4.24/Engine/Plugins/Developer/PerforceSourceControl" />
     <content url="file://D:/UE4/Versions/UE_4.24/Engine/Plugins/Developer/PlasticSourceControl" />
     <content url="file://D:/UE4/Versions/UE_4.24/Engine/Plugins/Developer/RenderDocPlugin" />
+    <content url="file://D:/UE4/Versions/UE_4.24/Engine/Plugins/Developer/RiderLink" />
     <content url="file://D:/UE4/Versions/UE_4.24/Engine/Plugins/Developer/SubversionSourceControl" />
     <content url="file://D:/UE4/Versions/UE_4.24/Engine/Plugins/Developer/UObjectPlugin" />
     <content url="file://D:/UE4/Versions/UE_4.24/Engine/Plugins/Developer/VisualStudioCodeSourceCodeAccess" />
