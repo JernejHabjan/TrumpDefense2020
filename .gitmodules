@@ -1,3 +1,6 @@
 [submodule "TD2020/Content/Scripts"]
 	path = TD2020/Content/Scripts
 	url = https://github.com/JernejHabjan/alpha-zero-general
+[submodule "ue4-rts"]
+	path = ue4-rts
+	url = https://github.com/JernejHabjan/ue4-rts
