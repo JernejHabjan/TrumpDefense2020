@@ -46,7 +46,11 @@ echo ...
 # find . -name "*.xcodeproj" -exec rm {} \;
 # find . -name "*.xcworkspace" -exec rm {} \;
 
-git clean -d -x -f
+git clean -xfd
+git submodule foreach --recursive git clean -xfd
+git reset --hard
+git submodule foreach --recursive git reset --hard
+git submodule update --init --recursive
 
 echo ...
 echo ..
