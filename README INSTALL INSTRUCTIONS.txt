@@ -12,6 +12,8 @@
 5. Fix Plugin symlink - go to TrumpDefense2020 folder and open cmd:
     git config core.symlinks true
     Then delete RealTimeStrategy in TrumpDefense2020/TD2020/Plugins if file (it should be folder) and check it out again
+    If that fails use this command in TD2020/Plugins folder:
+        mklink /D "RealTimeStrategy" "..\..\ue4-rts\Source\RTSProject\Plugins\RealTimeStrategy" (open cmd as admin)
 6. Install UE4 4.25.3
     Tensorflow not supported in this version yet
         https://github.com/getnamo/tensorflow-ue4/issues/56
