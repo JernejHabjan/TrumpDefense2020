@@ -1,8 +1,7 @@
 // No copyright - copy as you please
 
 #pragma once
-#include "TD2020.h"
-#include "GameFramework/Actor.h"
+#include <GameFramework/Actor.h>
 #include "GhostBuilding.generated.h"
 
 UCLASS()

@@ -1,9 +1,8 @@
 // No copyright - copy as you please
 
 #pragma once
-#include "TD2020.h"
-#include "CoreMinimal.h"
-#include "Engine/UserDefinedEnum.h"
+#include <CoreMinimal.h>
+#include <Engine/UserDefinedEnum.h>
 #include "EBuildingType.generated.h"
 
 

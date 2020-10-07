@@ -1,9 +1,9 @@
 // No copyright - copy as you please
 
 #pragma once
-#include "TD2020.h"
-#include "CoreMinimal.h"
-#include "Kismet/BlueprintFunctionLibrary.h"
+#include "TD2020/TD2020.h"
+#include <CoreMinimal.h>
+#include <Kismet/BlueprintFunctionLibrary.h>
 #include "FunctionLibrary.generated.h"
 
 class ACameraPawnController;
@@ -46,7 +46,7 @@ public:
     // IN int GridSize
     // OUT float AxisOut
     UFUNCTION(Category = FunctionLibrary, BlueprintPure)
-    static void GridSnap(const float Axis, const int GridSize, float& AxisOut);
+    static void GridSnap(float Axis, int GridSize, float& AxisOut);
 
     // todo comment
     // Parameters
@@ -56,7 +56,7 @@ public:
     // OUT float Clockwork
     // OUT int Day Tick
     UFUNCTION(Category = FunctionLibrary, BlueprintPure)
-    static void SetClockwork(const float DeltaSeconds, const float TimeUnit, const float ClockworkIn,
+    static void SetClockwork(float DeltaSeconds, float TimeUnit, float ClockworkIn,
                              float& ClockworkOut, int& DayTick);
 
     // Returns if Actor is placed on slope terrain
@@ -65,7 +65,7 @@ public:
     // IN FVector Extent
     // OUT bool BadLocation
     UFUNCTION(Category = FunctionLibrary, BlueprintCallable)
-    static void CalculateSlope(AActor* Actor, const FVector Extent, bool& BadLocation);
+    static void CalculateSlope(AActor* Actor, FVector Extent, bool& BadLocation);
 
     // Returns location, forward vector and right vector
     // Parameters
@@ -82,7 +82,7 @@ public:
     // IN FVector TraceLocation
     // OUT float Difference
     UFUNCTION(Category = FunctionLibrary, BlueprintCallable)
-    static void SlopeTrace(const AActor* Actor, const FVector TraceLocation, float& Difference);
+    static void SlopeTrace(const AActor* Actor, FVector TraceLocation, float& Difference);
 
     // Lerps from current location to destination by speed
     // Parameters
@@ -91,7 +91,7 @@ public:
     // IN float Speed
     // OUT FVector NewLocation
     UFUNCTION(Category = FunctionLibrary, BlueprintPure)
-    static void HUD_LerpLocation(const FVector CurrentLocation, const FVector DestinationLocation, const float Speed,
+    static void HUD_LerpLocation(FVector CurrentLocation, FVector DestinationLocation, float Speed,
                                  FVector& NewLocation);
 
     // Sets location of Entrance

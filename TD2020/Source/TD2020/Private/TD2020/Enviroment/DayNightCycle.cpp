@@ -1,18 +1,10 @@
 // No copyright - copy as you please
-#include "DayNightCycle.h"
-#include "TD2020.h"
-#include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "Math/Color.h"
-#include "Sky/MySkySphere.h"
-#include "Kismet/GameplayStatics.h"
+#include "TD2020/Enviroment/DayNightCycle.h"
+
+
 #include "Kismet/KismetMathLibrary.h"
-#include "Engine/DirectionalLight.h"
-#include "Components/SceneComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "Materials/Material.h"
-#include "Curves/CurveLinearColor.h"
-#include "ConstructorHelpers.h"
+#include "TD2020/Enviroment/Sky/MySkySphere.h"
+
 
 
 // Sets default values
@@ -106,7 +98,7 @@ ADayNightCycle::ADayNightCycle()
 void ADayNightCycle::OnConstruction(const FTransform& Transform)
 {
     // Create Material instance
-    MoonMaterialInstance = UMaterialInstanceDynamic::Create(MoonMaterial, NULL);
+    MoonMaterialInstance = UMaterialInstanceDynamic::Create(MoonMaterial, nullptr);
     Moon->SetMaterial(0, MoonMaterialInstance);
 
 
@@ -120,7 +112,7 @@ void ADayNightCycle::OnConstruction(const FTransform& Transform)
 
     // Else ROCK ON!
 
-    MoonDayDuration = (SunDayDuration / 24.0f) * 24.833f;
+    MoonDayDuration = SunDayDuration / 24.0f * 24.833f;
 
 
     // DATE
@@ -160,11 +152,11 @@ void ADayNightCycle::OnConstruction(const FTransform& Transform)
     {
         FDateTime Now = UKismetMathLibrary::Now();
         //exits also UKismetMathLibrary::GetHour12()
-        Clockwork = (float)(Now.GetHour() + Now.GetMinute() / 60.0f + Now.GetSecond() / 3600.0f);
+        Clockwork = static_cast<float>(Now.GetHour() + Now.GetMinute() / 60.0f + Now.GetSecond() / 3600.0f);
     }
     else
     {
-        Clockwork = (float)(Hours + Minutes / 60.0f + Seconds / 3600.0f);
+        Clockwork = static_cast<float>(Hours + Minutes / 60.0f + Seconds / 3600.0f);
     }
 
     // SunDeclinationDrive and SunDrive
@@ -329,7 +321,7 @@ void ADayNightCycle::SunTrajectory()
         if (SunDrive <= SunDayDuration * 0.25f)
         {
             // Night
-            DayNightFlip = -1.0f;;
+            DayNightFlip = -1.0f;
             Shift = 0.0f;
         }
         else
@@ -374,7 +366,7 @@ void ADayNightCycle::SunTrajectory()
         if (SunDrive <= SunHalfNight)
         {
             // Night
-            DayNightFlip = -1.0f;;
+            DayNightFlip = -1.0f;
             Shift = 0.0f;
             Length = SunHalfNight;
         }
@@ -437,14 +429,14 @@ void ADayNightCycle::MoonTrajectory()
     if (MoonDrive <= MoonHalfNight)
     {
         // Night
-        MoonDayNightFlip = -1.0f;;
+        MoonDayNightFlip = -1.0f;
         MoonShift = 0.0f;
         MoonLength = MoonHalfNight;
     }
     else
     {
         //if sunrise to sunset
-        if ((MoonDrive > MoonHalfNight) && (MoonDrive <= (MoonHalfNight + 2 * MoonHalfDayLight)))
+        if (MoonDrive > MoonHalfNight && MoonDrive <= MoonHalfNight + 2 * MoonHalfDayLight)
         {
             MoonDayNightFlip = 1.0f;
             MoonShift = MoonDayDuration / 2.0f;
@@ -480,11 +472,11 @@ void ADayNightCycle::Clock()
     Seconds = UKismetMathLibrary::FFloor(Remainder);
 
     // set minutes
-    ReturnValue = UKismetMathLibrary::FMod((float)ReturnValue, 60.0f, Remainder);
+    ReturnValue = UKismetMathLibrary::FMod(static_cast<float>(ReturnValue), 60.0f, Remainder);
     Minutes = UKismetMathLibrary::FFloor(Remainder);
 
     // set hours
-    UKismetMathLibrary::FMod((float)ReturnValue, 24.0f, Remainder);
+    UKismetMathLibrary::FMod(static_cast<float>(ReturnValue), 24.0f, Remainder);
     Hours = UKismetMathLibrary::FFloor(Remainder);
 
     GameTime = {Seconds, Minutes, Hours};

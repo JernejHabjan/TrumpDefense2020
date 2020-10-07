@@ -8,7 +8,10 @@ public class TD2020Target : TargetRules
     {
         Type = TargetType.Game;
         bUsesSteam = true;
+        bUseUnityBuild = false;
+        bUsePCHFiles = false;
 
-        ExtraModuleNames.AddRange(new string[] {"TD2020"});
+        ExtraModuleNames.AddRange(new[] {"TD2020"});
+        DefaultBuildSettings = BuildSettingsVersion.V2;
     }
 }

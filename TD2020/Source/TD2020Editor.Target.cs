@@ -7,7 +7,9 @@ public class TD2020EditorTarget : TargetRules
     public TD2020EditorTarget(TargetInfo target) : base(target)
     {
         Type = TargetType.Editor;
-
-        ExtraModuleNames.AddRange(new string[] {"TD2020"});
+        bUseUnityBuild = false;
+        bUsePCHFiles = false;
+        ExtraModuleNames.AddRange(new[] {"TD2020"});
+        DefaultBuildSettings = BuildSettingsVersion.V2;
     }
 }

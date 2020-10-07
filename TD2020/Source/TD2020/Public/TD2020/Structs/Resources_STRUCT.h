@@ -1,10 +1,9 @@
 // No copyright - copy as you please
 
 #pragma once
-#include "TD2020.h"
-#include "Engine/UserDefinedStruct.h"
-#include "Enums/EProximityType.h"
-#include "Engine/DataTable.h"
+#include <Engine/UserDefinedStruct.h>
+#include "TD2020/Enums/EProximityType.h"
+#include <Engine/DataTable.h>
 #include "Resources_STRUCT.generated.h"
 
 class UTexture2D;

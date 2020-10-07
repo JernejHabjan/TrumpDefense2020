@@ -1,6 +1,5 @@
 // No copyright - copy as you please
-#include "ConstructionManager.h"
-#include "TD2020.h"
+#include "TD2020/Construction/ConstructionManager.h"
 
 
 // Sets default values

@@ -1,18 +1,17 @@
 // No copyright - copy as you please
 #pragma once
-#include "MySkySphere.h"
-#include "TD2020.h"
-#include "Materials/MaterialInstanceDynamic.h"
-#include "Components/SceneComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "ConstructorHelpers.h"
-#include "Math/Color.h"
-#include "Engine/DirectionalLight.h"
-#include "Curves/CurveLinearColor.h"
-#include "Materials/Material.h"
-#include "Engine.h"
-#include "Kismet/KismetSystemLibrary.h"
-#include "Kismet/KismetMathLibrary.h"
+#include "TD2020/Enviroment/Sky/MySkySphere.h"
+#include <Materials/MaterialInstanceDynamic.h>
+#include <Components/SceneComponent.h>
+#include <Components/StaticMeshComponent.h>
+#include <UObject/ConstructorHelpers.h>
+#include <Math/Color.h>
+#include <Engine/DirectionalLight.h>
+#include <Curves/CurveLinearColor.h>
+#include <Materials/Material.h>
+#include <Engine.h>
+#include <Kismet/KismetSystemLibrary.h>
+#include <Kismet/KismetMathLibrary.h>
 
 // Sets default values
 AMySkySphere::AMySkySphere(const FObjectInitializer& ObjectInitializer)
@@ -80,7 +79,7 @@ void AMySkySphere::OnConstruction(const FTransform& Transform)
     RefreshMaterial = false;
 
     // Create Material instance
-    SkyMaterialInstance = UMaterialInstanceDynamic::Create(SkyMaterial, NULL);
+    SkyMaterialInstance = UMaterialInstanceDynamic::Create(SkyMaterial, nullptr);
     SkySphereMesh->SetMaterial(0, SkyMaterialInstance);
 
     //Has a directional light been assigned?

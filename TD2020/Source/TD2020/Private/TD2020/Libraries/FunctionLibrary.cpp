@@ -1,19 +1,12 @@
 // No copyright - copy as you please
 #pragma once
-#include "Libraries/FunctionLibrary.h"
-#include "TD2020.h"
-
-//#include "Camera/CameraPawn.h"
-//#include "Camera/CameraPawnController.h"
-#include "GameFramework/PlayerController.h"
-#include "Kismet/KismetSystemLibrary.h"
-#include "Kismet/KismetMathLibrary.h"
-#include "Kismet/KismetArrayLibrary.h"
-#include "Components/StaticMeshComponent.h"
-#include "Kismet/KismetStringLibrary.h"
-#include "Components/BoxComponent.h"
-#include "Engine/World.h"
-#include "TD2020.h"
+#include "TD2020/Libraries/FunctionLibrary.h"
+#include "TD2020/TD2020.h"
+#include <Kismet/KismetSystemLibrary.h>
+#include <Kismet/KismetMathLibrary.h>
+#include <Components/StaticMeshComponent.h>
+#include <Components/BoxComponent.h>
+#include <Engine/World.h>
 
 /*
 void UFunctionLibrary::SetCursorWorldPosition(const ACameraPawnController* CameraPawnController, const float SightDistance, FVector &Location) 

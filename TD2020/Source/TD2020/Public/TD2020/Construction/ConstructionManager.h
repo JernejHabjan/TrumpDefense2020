@@ -1,9 +1,8 @@
 // No copyright - copy as you please
 
 #pragma once
-#include "TD2020.h"
-#include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include <CoreMinimal.h>
+#include <GameFramework/Actor.h>
 #include "ConstructionManager.generated.h"
 
 UCLASS()

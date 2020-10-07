@@ -1,6 +1,5 @@
 // No copyright - copy as you please
-#include "GhostBuilding.h"
-#include "TD2020.h"
+#include "TD2020/Buildings/GhostBuilding.h"
 
 // Sets default values
 AGhostBuilding::AGhostBuilding()

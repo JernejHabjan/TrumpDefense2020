@@ -1,8 +1,7 @@
 // No copyright - copy as you please
 
 #pragma once
-#include "TD2020.h"
-#include "Engine.h"
+#include "GameFramework/Actor.h"
 #include "DayNightCycle.generated.h"
 
 class ADirectionalLight;
