@@ -81,7 +81,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
     float SunHalfNight;
 
-    // Highpoint of x^2 graph will be ((at midnight or midnoon)
+    // Highpoint of x^2 graph will be ((at midnight or mid-noon)
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sun")
     float Shift;
 

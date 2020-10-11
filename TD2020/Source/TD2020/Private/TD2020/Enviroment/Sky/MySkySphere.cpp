@@ -13,6 +13,10 @@
 #include <Kismet/KismetSystemLibrary.h>
 #include <Kismet/KismetMathLibrary.h>
 
+AMySkySphere::AMySkySphere()
+{
+}
+
 // Sets default values
 AMySkySphere::AMySkySphere(const FObjectInitializer& ObjectInitializer)
 {
@@ -63,7 +67,8 @@ void AMySkySphere::BeginPlay()
 {
     Super::BeginPlay();
 
-    // call of OnConstruction function - Has to be called because only editor calls onConstruction on its own - Deployed game doesn't
+    // call of OnConstruction function - Has to be called because only editor calls onConstruction on its own -
+    // Deployed game doesn't
     OnConstruction(FTransform());
 }
 
@@ -97,7 +102,12 @@ void AMySkySphere::OnConstruction(const FTransform& Transform)
     }
     else
     {
-        //SkyMaterialInstance->SetVectorParameterValue("Light direction", FLinearColor(UKismetMathLibrary::Conv_RotatorToVector(UKismetMathLibrary::MakeRotator(0.0f, UKismetMathLibrary::MapRangeUnclamped(SunHeight, -1.0f, 1.0f, 90.0f, -90.0f), DirectionalLightActor->GetActorRotation().Yaw))));
+        // SkyMaterialInstance->SetVectorParameterValue("Light direction",
+        //                                              FLinearColor(UKismetMathLibrary::Conv_RotatorToVector(
+        //                                                  UKismetMathLibrary::MakeRotator(
+        //                                                      0.0f, UKismetMathLibrary::MapRangeUnclamped(
+        //                                                          SunHeight, -1.0f, 1.0f, 90.0f, -90.0f),
+        //                                                      DirectionalLightActor->GetActorRotation().Yaw))));
         SkyMaterialInstance->SetVectorParameterValue("Sun color",
                                                      UKismetMathLibrary::LinearColorLerp(
                                                          FLinearColor(1.0f, 0.221f, 0.04f, 1.0f),
@@ -137,7 +147,7 @@ void AMySkySphere::OnConstruction(const FTransform& Transform)
     Valid = Validate();
 }
 
-bool AMySkySphere::Validate()
+bool AMySkySphere::Validate() const
 {
     // if everything is valid -> return true, else return false
     return (

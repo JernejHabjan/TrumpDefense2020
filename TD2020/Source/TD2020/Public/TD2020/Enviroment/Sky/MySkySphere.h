@@ -1,7 +1,7 @@
 // No copyright - copy as you please
 
 #pragma once
-#include <Engine.h>
+#include "GameFramework/Actor.h"
 #include "MySkySphere.generated.h"
 
 class USceneComponent;
@@ -25,7 +25,7 @@ public:
 
     // PROPERTIES
 
-    // Skydome
+    // Sky-dome
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Skydome)
     USceneComponent* Scene;
 
@@ -107,7 +107,7 @@ public:
     // Sets default values for this actor's properties
     AMySkySphere();
 
-    AMySkySphere(const FObjectInitializer& ObjectInitializer);
+    explicit AMySkySphere(const FObjectInitializer& ObjectInitializer);
 
     // Called every frame
     virtual void Tick(float DeltaTime) override;
@@ -131,5 +131,5 @@ private:
 
 
     // validates if all assets are properly loaded and not null
-    bool Validate();
+    bool Validate() const;
 };

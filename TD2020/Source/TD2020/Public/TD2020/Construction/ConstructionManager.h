@@ -1,7 +1,6 @@
 // No copyright - copy as you please
 
 #pragma once
-#include <CoreMinimal.h>
 #include <GameFramework/Actor.h>
 #include "ConstructionManager.generated.h"
 

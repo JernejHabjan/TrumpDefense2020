@@ -1,8 +1,6 @@
 // No copyright - copy as you please
 
 #pragma once
-#include "TD2020/TD2020.h"
-#include <CoreMinimal.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
 #include "FunctionLibrary.generated.h"
 
@@ -26,10 +24,11 @@ public:
     // IN float Sight Distance
     // OUT FVector Location
     //UFUNCTION(Category = FunctionLibrary, BlueprintPure)
-    //static void SetCursorWorldPosition(const ACameraPawnController* CameraPawnController, const float SightDistance, FVector &Location);
+    // static void SetCursorWorldPosition(const ACameraPawnController* CameraPawnController, const float SightDistance,
+    //                                    FVector& Location);
 
 
-    // Controlls camera pan around pawn
+    // Controls camera pan around pawn
     // Parameters
     // IN Camera Pawn
     // IN float Min Pan Y - set to -180 if don't want to use it
@@ -38,7 +37,8 @@ public:
     // IN float Camera X - Mouse X movement [0 - 1]
     // IN float Camera Y - Mouse Y movement [0 - 1]
     //UFUNCTION(Category = FunctionLibrary, BlueprintCallable)
-    //static void Pan(const ACameraPawn* PawnRef, const float MinPanY, const float MaxPanY, const float Sensitivity, const float CameraX, const float CameraY);
+    // static void Pan(const ACameraPawn* PawnRef, const float MinPanY, const float MaxPanY, const float Sensitivity,
+    //                 const float CameraX, const float CameraY);
 
     // Makes mouse snap on grid in block increments
     // Parameters

@@ -36,12 +36,12 @@ struct FResources_Struct : public FTableRowBase
     float HarvestTime;
 
     // defaults 
-    FResources_Struct(
+    explicit FResources_Struct(
         UStaticMesh* ResourceMesh = nullptr,
         UTexture2D* ResourcesThumbnail = nullptr,
-        FString ProperResourceName = TEXT("Resource"),
-        EProximityType_Enum ProximityType = EProximityType_Enum::None,
-        float HarvestTime = 1.0f
+        const FString ProperResourceName = TEXT("Resource"),
+        const EProximityType_Enum ProximityType = EProximityType_Enum::None,
+        const float HarvestTime = 1.0f
     )
     {
         this->ResourceMesh = ResourceMesh;

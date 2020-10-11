@@ -1,7 +1,6 @@
 // No copyright - copy as you please
 
 #pragma once
-#include <CoreMinimal.h>
 #include <Engine/UserDefinedEnum.h>
 #include "EProximityType.generated.h"
 

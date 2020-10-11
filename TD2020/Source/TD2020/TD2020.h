@@ -1,7 +1,5 @@
-// No copyright - copy as you please
-
 #pragma once
-#include <CoreMinimal.h>
+#include "Logging/LogMacros.h"
 
 
 /** when you modify this, please note that this information can be saved with instances

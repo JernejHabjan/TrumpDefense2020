@@ -1,10 +1,16 @@
 // No copyright - copy as you please
 #include "TD2020/Enviroment/DayNightCycle.h"
 
-
+#include "Components/StaticMeshComponent.h"
+#include "Curves/CurveLinearColor.h"
+#include "Engine/DirectionalLight.h"
+#include "Engine/GameEngine.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "TD2020/Enviroment/Sky/MySkySphere.h"
-
+#include "UObject/ConstructorHelpers.h"
+#include "Engine/StaticMesh.h"
 
 
 // Sets default values
@@ -198,7 +204,8 @@ void ADayNightCycle::OnConstruction(const FTransform& Transform)
     // on end of construction script it checks if assets are valid
     if (Valid)
     {
-        // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+        // Set this actor to call Tick() every frame.
+        // You can turn this off to improve performance if you don't need it.
         PrimaryActorTick.bCanEverTick = true;
         Moon->SetVisibility(true);
     }
@@ -215,7 +222,8 @@ void ADayNightCycle::BeginPlay()
 {
     Super::BeginPlay();
 
-    // call of OnConstruction function - Has to be called because only editor calls onConstruction on its own - Deployed game doesn't
+    // call of OnConstruction function -
+    // Has to be called because only editor calls onConstruction on its own - Deployed game doesn't
     OnConstruction(FTransform());
 }
 

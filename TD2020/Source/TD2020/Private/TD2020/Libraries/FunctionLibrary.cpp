@@ -8,34 +8,36 @@
 #include <Components/BoxComponent.h>
 #include <Engine/World.h>
 
-/*
-void UFunctionLibrary::SetCursorWorldPosition(const ACameraPawnController* CameraPawnController, const float SightDistance, FVector &Location) 
-{
-	
-	// get world location and world direction from camera pawn controller
-	FVector WorldLocation, WorldDirection;
-	CameraPawnController->DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
 
-	FHitResult OutHit;
-	UKismetSystemLibrary::LineTraceSingle(nullptr, WorldLocation, WorldDirection * SightDistance + WorldLocation, UEngineTypes::ConvertToTraceType(COLLISION_LANDSCAPE), false, TArray<AActor*>(), EDrawDebugTrace::None, OutHit, true, FLinearColor::Red, FLinearColor::Green, 5.0f);
-	
-	if (OutHit.Actor != nullptr)
-		Location = OutHit.Location;
-	
-}*/
+// void UFunctionLibrary::SetCursorWorldPosition(const ACameraPawnController* CameraPawnController,
+//                                               const float SightDistance, FVector& Location)
+// {
+//     // get world location and world direction from camera pawn controller
+//     FVector WorldLocation, WorldDirection;
+//     CameraPawnController->DeprojectMousePositionToWorld(WorldLocation, WorldDirection);
+// 
+//     FHitResult OutHit;
+//     UKismetSystemLibrary::LineTraceSingle(nullptr, WorldLocation, WorldDirection * SightDistance + WorldLocation,
+//                                           UEngineTypes::ConvertToTraceType(COLLISION_LANDSCAPE), false,
+//                                           TArray<AActor*>(), EDrawDebugTrace::None, OutHit, true, FLinearColor::Red,
+//                                           FLinearColor::Green, 5.0f);
+// 
+//     if (OutHit.Actor != nullptr)
+//         Location = OutHit.Location;
+// }
 
-/*
-void UFunctionLibrary::Pan(const ACameraPawn* PawnRef, const float MinPanY, const float MaxPanY, const float Sensitivity, const float CameraX, const float CameraY)
-{
-	FRotator ActorRotation = PawnRef->GetActorRotation(); // Roll - x, Pitch - y, Yaw - z
-
-	float TempRoll = ActorRotation.Roll;
-	float TempPitch = UKismetMathLibrary::FClamp(Sensitivity * CameraY + ActorRotation.Roll, MinPanY, MaxPanY);
-	float TempYaw = Sensitivity * CameraX + ActorRotation.Yaw;
-
-	//PawnRef->SetActorRotation(FRotator(TempRoll, TempPitch, TempYaw)); /////////////////////////////////////////////////// TODO
-
-}*/
+// void UFunctionLibrary::Pan(const ACameraPawn* PawnRef, const float MinPanY, const float MaxPanY,
+//                            const float Sensitivity, const float CameraX, const float CameraY)
+// {
+//     FRotator ActorRotation = PawnRef->GetActorRotation(); // Roll - x, Pitch - y, Yaw - z
+// 
+//     float TempRoll = ActorRotation.Roll;
+//     float TempPitch = UKismetMathLibrary::FClamp(Sensitivity * CameraY + ActorRotation.Roll, MinPanY, MaxPanY);
+//     float TempYaw = Sensitivity * CameraX + ActorRotation.Yaw;
+// 
+//     /////////////////////////////////////////////////// TODO
+//     //PawnRef->SetActorRotation(FRotator(TempRoll, TempPitch, TempYaw)); 
+// }
 
 void UFunctionLibrary::GridSnap(const float Axis, const int GridSize, float& AxisOut)
 {
@@ -153,7 +155,7 @@ void UFunctionLibrary::SlopeTrace(const AActor* Actor, const FVector TraceLocati
 void UFunctionLibrary::HUD_LerpLocation(const FVector CurrentLocation, const FVector DestinationLocation,
                                         const float Speed, FVector& NewLocation)
 {
-    FVector LerpVector = UKismetMathLibrary::VLerp(CurrentLocation, DestinationLocation, Speed);
+    const FVector LerpVector = UKismetMathLibrary::VLerp(CurrentLocation, DestinationLocation, Speed);
     NewLocation = FVector(LerpVector.X, LerpVector.Y, CurrentLocation.Z);
 }
 
@@ -161,7 +163,7 @@ void UFunctionLibrary::SetBuildingEntrance(USceneComponent* Entrance, const USta
 {
     //Variables
     //distance from how far up front entrance is going to be - dont make it too close to building for NPC to enter
-    float EntranceDistance = 0.0f;
+    const float EntranceDistance = 0.0f;
 
     FVector Min, Max;
     Mesh->GetLocalBounds(Min, Max);
@@ -170,9 +172,9 @@ void UFunctionLibrary::SetBuildingEntrance(USceneComponent* Entrance, const USta
 
 void UFunctionLibrary::SetBuildingCollisionBox(UBoxComponent* Collision, const UStaticMeshComponent* Mesh)
 {
-    float DisplaceX = 20.0f;
-    float DisplaceY = 98.0f;
-    float DisplaceZ = 10.0f;
+    const float DisplaceX = 20.0f;
+    const float DisplaceY = 98.0f;
+    const float DisplaceZ = 10.0f;
     FVector Min, Max;
     Mesh->GetLocalBounds(Min, Max);
 
