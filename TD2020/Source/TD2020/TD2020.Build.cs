@@ -7,6 +7,7 @@ public class TD2020 : ModuleRules
     public TD2020(ReadOnlyTargetRules target) : base(target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+        bEnforceIWYU = true;
         PublicDependencyModuleNames.AddRange(
             new[]
             {
